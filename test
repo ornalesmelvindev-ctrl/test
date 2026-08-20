@@ -1,0 +1,670 @@
+look, currently, I have this implementation
+admin@artesyn-shelf:~# cat /etc/systemd/network/80-wired.network.d/80-wired.conf
+[Match]
+Name=eth0
+
+[Network]
+DNS=192.168.0.122 192.168.0.124
+# Enable Both IPv4 and IPv6
+DHCP=ipv4
+
+# --- IPv4 Static ---
+#Address=192.168.0.120/24
+#Gateway=192.168.0.1
+
+# --- IPv6 Static ---
+#Address=fd12:3456:789a::120/64
+#Gateway=fd12:3456:789a::1
+
+LinkLocalAddressing=ipv6
+IPv6AcceptRA=no
+
+[DHCP]
+RouteMetric=200
+UseMTU=true
+VendorClassIdentifier=Artesyn_700_015496_0000
+
+currently, I have this
+meta-osal/
+└── recipes-osal/
+    └── osal-network/
+        ├── osal-network.bb
+        └── files/
+            ├── CMakeLists.txt
+            ├── include/
+            │   └── osal_network.h
+            └── src/
+                ├── main.c
+                ├── ip.c
+                ├── netlink.c
+                ├── wired_conf.c
+                ├── wired_conf.h
+                └── netlink.h
+				
+osal-network.bb
+DESCRIPTION = "OSAL Network Library"
+LICENSE = "MIT"
+
+SRC_URI = "\
+    file://CMakeLists.txt \
+    file://include/osal_network.h \
+    file://src/main.c \
+    file://src/ip.c \
+    file://src/netlink.c \
+    file://src/netlink.h \
+    file://src/wired_conf.c \
+    file://src/wired_conf.h \
+"
+
+S = "${WORKDIR}"
+
+inherit cmake
+
+FILES:${PN} += "${bindir}/osal_cli"
+FILES:${PN} += "${libdir}/libosal_network.so"
+
+CMakeLists.txt
+cmake_minimum_required(VERSION 3.10)
+
+project(osal_network C)
+
+set(CMAKE_C_STANDARD 99)
+
+include_directories(
+    include
+    src
+)
+
+add_library(osal_network SHARED
+    src/ip.c
+    src/netlink.c
+    src/wired_conf.c
+)
+
+add_executable(osal_cli
+    src/main.c
+)
+
+target_link_libraries(osal_cli
+    osal_network
+)
+
+install(TARGETS osal_network
+        LIBRARY DESTINATION lib)
+
+install(TARGETS osal_cli
+        RUNTIME DESTINATION bin)
+
+install(FILES include/osal_network.h
+        DESTINATION include)
+
+osal_network.h
+#ifndef OSAL_NETWORK_H
+#define OSAL_NETWORK_H
+
+#define OSAL_STR_LEN 128
+
+typedef struct
+{
+    int dhcp_enabled;
+
+    char dns[OSAL_STR_LEN];
+
+    char ipv4_addr[OSAL_STR_LEN];
+    char ipv4_gateway[OSAL_STR_LEN];
+
+    char ipv6_addr[OSAL_STR_LEN];
+    char ipv6_gateway[OSAL_STR_LEN];
+
+    int ipv6_accept_ra;
+
+} osal_net_config_t;
+
+typedef struct
+{
+    char ip[64];
+    char gateway[64];
+} osal_runtime_ipv4_t;
+
+int osal_get_network_config(
+        osal_net_config_t *cfg);
+
+int osal_set_network_config(
+        const osal_net_config_t *cfg);
+
+int osal_get_runtime_ipv4(
+        osal_runtime_ipv4_t *cfg);
+
+int osal_get_dhcp_status(
+        int *enabled);
+
+#endif
+
+wired_conf.h
+#ifndef WIRED_CONF_H
+#define WIRED_CONF_H
+
+#include "osal_network.h"
+
+int wired_conf_read(
+        osal_net_config_t *cfg);
+
+int wired_conf_write(
+        const osal_net_config_t *cfg);
+
+#endif
+
+netlink.h
+#ifndef NETLINK_H
+#define NETLINK_H
+
+#include <stddef.h>
+
+int netlink_get_ipv4(
+        const char *ifname,
+        char *ip,
+        size_t ip_len,
+        int *prefix);
+
+int netlink_get_gateway(
+        char *gateway,
+        size_t len);
+
+#endif
+
+wired_conf.c
+#include <stdio.h>
+#include <string.h>
+
+#include "wired_conf.h"
+
+#define WIRED_CONF_FILE \
+"/etc/systemd/network/80-wired.network.d/80-wired.conf"
+
+static void trim_newline(char *s)
+{
+    s[strcspn(s, "\r\n")] = 0;
+}
+
+int wired_conf_read(
+        osal_net_config_t *cfg)
+{
+    FILE *fp;
+    char line[256];
+
+    memset(cfg, 0, sizeof(*cfg));
+
+    fp = fopen(WIRED_CONF_FILE, "r");
+    if (!fp)
+        return -1;
+
+    while (fgets(line, sizeof(line), fp))
+    {
+        trim_newline(line);
+
+        if (!strncmp(line, "DNS=", 4))
+        {
+            strcpy(cfg->dns, line + 4);
+        }
+        else if (!strncmp(line, "DHCP=", 5))
+        {
+            if (!strcmp(line + 5, "ipv4") ||
+                !strcmp(line + 5, "yes"))
+            {
+                cfg->dhcp_enabled = 1;
+            }
+        }
+        else if (!strncmp(line, "Address=", 8))
+        {
+            strcpy(cfg->ipv4_addr,
+                   line + 8);
+        }
+        else if (!strncmp(line, "Gateway=", 8))
+        {
+            strcpy(cfg->ipv4_gateway,
+                   line + 8);
+        }
+        else if (!strncmp(line,
+                 "#Address=", 9))
+        {
+            if (strchr(line + 9, '.'))
+            {
+                strcpy(
+                    cfg->ipv4_addr,
+                    line + 9);
+            }
+            else if (strchr(line + 9, ':'))
+            {
+                strcpy(
+                    cfg->ipv6_addr,
+                    line + 9);
+            }
+        }
+        else if (!strncmp(line,
+                 "#Gateway=", 9))
+        {
+            if (strchr(line + 9, '.'))
+            {
+                strcpy(
+                    cfg->ipv4_gateway,
+                    line + 9);
+            }
+            else if (strchr(line + 9, ':'))
+            {
+                strcpy(
+                    cfg->ipv6_gateway,
+                    line + 9);
+            }
+        }
+        else if (!strncmp(line,
+                 "IPv6AcceptRA=", 13))
+        {
+            if (!strcmp(line + 13,
+                        "yes"))
+            {
+                cfg->ipv6_accept_ra = 1;
+            }
+        }
+    }
+
+    fclose(fp);
+
+    return 0;
+}
+
+int wired_conf_write(
+        const osal_net_config_t *cfg)
+{
+    FILE *fp;
+
+    fp = fopen(WIRED_CONF_FILE, "w");
+
+    if (!fp)
+        return -1;
+
+    fprintf(fp,
+        "[Match]\n"
+        "Name=eth0\n\n");
+
+    fprintf(fp,
+        "[Network]\n");
+
+    fprintf(fp,
+        "DNS=%s\n",
+        cfg->dns);
+
+    fprintf(fp,
+        "# Enable Both IPv4 and IPv6\n");
+
+    fprintf(fp,
+        "DHCP=%s\n\n",
+        cfg->dhcp_enabled ?
+        "ipv4" :
+        "no");
+
+    fprintf(fp,
+        "# --- IPv4 Static ---\n");
+
+    if (cfg->dhcp_enabled)
+    {
+        fprintf(fp,
+            "#Address=%s\n",
+            cfg->ipv4_addr);
+
+        fprintf(fp,
+            "#Gateway=%s\n",
+            cfg->ipv4_gateway);
+    }
+    else
+    {
+        fprintf(fp,
+            "Address=%s\n",
+            cfg->ipv4_addr);
+
+        fprintf(fp,
+            "Gateway=%s\n",
+            cfg->ipv4_gateway);
+    }
+
+    fprintf(fp,
+        "\n# --- IPv6 Static ---\n");
+
+    fprintf(fp,
+        "#Address=%s\n",
+        cfg->ipv6_addr);
+
+    fprintf(fp,
+        "#Gateway=%s\n",
+        cfg->ipv6_gateway);
+
+    fprintf(fp,
+        "\n");
+
+    fprintf(fp,
+        "LinkLocalAddressing=ipv6\n");
+
+    fprintf(fp,
+        "IPv6AcceptRA=%s\n\n",
+        cfg->ipv6_accept_ra ?
+        "yes" :
+        "no");
+
+    fprintf(fp,
+        "[DHCP]\n"
+        "RouteMetric=200\n"
+        "UseMTU=true\n"
+        "VendorClassIdentifier="
+        "Artesyn_700_015496_0000\n");
+
+    fclose(fp);
+
+    return system(
+        "systemctl restart "
+        "systemd-networkd");
+}
+
+netlink.c
+#include <arpa/inet.h>
+#include <ifaddrs.h>
+#include <stdio.h>
+#include <string.h>
+
+#include "netlink.h"
+
+int netlink_get_ipv4(
+        const char *ifname,
+        char *ip,
+        size_t len,
+        int *prefix)
+{
+    struct ifaddrs *ifaddr;
+    struct ifaddrs *ifa;
+
+    if (getifaddrs(&ifaddr))
+        return -1;
+
+    for (ifa = ifaddr;
+         ifa;
+         ifa = ifa->ifa_next)
+    {
+        if (!ifa->ifa_addr)
+            continue;
+
+        if (strcmp(
+                ifa->ifa_name,
+                ifname))
+            continue;
+
+        if (ifa->ifa_addr->sa_family
+            == AF_INET)
+        {
+            struct sockaddr_in *sa =
+                (struct sockaddr_in *)
+                ifa->ifa_addr;
+
+            inet_ntop(
+                AF_INET,
+                &sa->sin_addr,
+                ip,
+                len);
+
+            *prefix = 24;
+
+            freeifaddrs(ifaddr);
+            return 0;
+        }
+    }
+
+    freeifaddrs(ifaddr);
+
+    return -1;
+}
+
+int netlink_get_gateway(
+        char *gateway,
+        size_t len)
+{
+    FILE *fp;
+    char line[256];
+
+    fp = fopen("/proc/net/route",
+               "r");
+
+    if (!fp)
+        return -1;
+
+    fgets(line,
+          sizeof(line),
+          fp);
+
+    while (fgets(line,
+                 sizeof(line),
+                 fp))
+    {
+        char iface[32];
+        unsigned long dest;
+        unsigned long gw;
+
+        if (sscanf(
+                line,
+                "%31s %lx %lx",
+                iface,
+                &dest,
+                &gw) == 3)
+        {
+            if (dest == 0)
+            {
+                struct in_addr addr;
+
+                addr.s_addr = gw;
+
+                snprintf(
+                    gateway,
+                    len,
+                    "%s",
+                    inet_ntoa(addr));
+
+                fclose(fp);
+
+                return 0;
+            }
+        }
+    }
+
+    fclose(fp);
+
+    return -1;
+}
+
+ip.c
+#include <string.h>
+
+#include "osal_network.h"
+#include "wired_conf.h"
+#include "netlink.h"
+
+int osal_get_network_config(
+        osal_net_config_t *cfg)
+{
+    return wired_conf_read(cfg);
+}
+
+int osal_set_network_config(
+        const osal_net_config_t *cfg)
+{
+    return wired_conf_write(cfg);
+}
+
+int osal_get_dhcp_status(
+        int *enabled)
+{
+    osal_net_config_t cfg;
+
+    if (osal_get_network_config(
+            &cfg))
+        return -1;
+
+    *enabled =
+        cfg.dhcp_enabled;
+
+    return 0;
+}
+
+int osal_get_runtime_ipv4(
+        osal_runtime_ipv4_t *cfg)
+{
+    int prefix;
+    char ip[64];
+
+    if (netlink_get_ipv4(
+            "eth0",
+            ip,
+            sizeof(ip),
+            &prefix))
+    {
+        return -1;
+    }
+
+    snprintf(
+        cfg->ip,
+        sizeof(cfg->ip),
+        "%s/%d",
+        ip,
+        prefix);
+
+    netlink_get_gateway(
+        cfg->gateway,
+        sizeof(cfg->gateway));
+
+    return 0;
+}
+
+main.c
+#include <stdio.h>
+#include <string.h>
+
+#include "osal_network.h"
+
+static int get_static_ip(void)
+{
+    osal_net_config_t cfg;
+
+    osal_get_network_config(&cfg);
+
+    printf("ip: %s,\n",
+           cfg.ipv4_addr);
+
+    printf("gateway: %s,\n",
+           cfg.ipv4_gateway);
+
+    printf("status: %s\n",
+           cfg.dhcp_enabled ?
+           "disabled" :
+           "enabled");
+
+    return 0;
+}
+
+static int get_dynamic_ip(void)
+{
+    osal_runtime_ipv4_t cfg;
+
+    osal_get_runtime_ipv4(&cfg);
+
+    printf("ip: %s,\n",
+           cfg.ip);
+
+    printf("gateway: %s\n",
+           cfg.gateway);
+
+    return 0;
+}
+
+static int get_dhcp(void)
+{
+    int enabled;
+
+    osal_get_dhcp_status(
+        &enabled);
+
+    printf(
+        "status: %s\n",
+        enabled ?
+        "enabled" :
+        "disabled");
+
+    return 0;
+}
+
+int main(
+        int argc,
+        char **argv)
+{
+    if (argc < 2)
+        return -1;
+
+    if (!strcmp(
+            argv[1],
+            "--get_static_ip"))
+    {
+        return get_static_ip();
+    }
+
+    if (!strcmp(
+            argv[1],
+            "--get_dynamic_ip"))
+    {
+        return get_dynamic_ip();
+    }
+
+    if (!strcmp(
+            argv[1],
+            "--get_dhcp_status"))
+    {
+        return get_dhcp();
+    }
+
+    return -1;
+}
+
+
+
+
+But I want to improve it, like for example in the wired_conf.c, why do these things
+    while (fgets(line, sizeof(line), fp))
+    {
+        trim_newline(line);
+
+        if (!strncmp(line, "DNS=", 4))
+        {
+            strcpy(cfg->dns, line + 4);
+        }
+        else if (!strncmp(line, "DHCP=", 5))
+        {
+            if (!strcmp(line + 5, "ipv4") ||
+                !strcmp(line + 5, "yes"))
+            {
+                cfg->dhcp_enabled = 1;
+            }
+        }
+when we can just create a static struct table for that, including the length or whatsoever needed
+
+then in the main.c, why
+    if (!strcmp(
+            argv[1],
+            "--get_static_ip"))
+    {
+        return get_static_ip();
+    }
+	
+use getopt
+
+improve all things needed to be improved, with that, give me the full implementation, full as in 
+all the files with the improvement(whole as in whole main.c for example, not just the one to modify or add)
+or simply, give me the whole implementation, starting from the bb file upto the last c file
+
+also, in the getting of gateway, why use popen? no other library functions to get that?
+
+also in the 80-wired.conf, I think it is better to have a const char template for that????
+
+Or do you have better approach? if so give me the whole implementaion
