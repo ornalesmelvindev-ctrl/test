@@ -1,0 +1,1259 @@
+index.hmtl
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-solid:#10151a;
+    --panel:#1a2129;
+    --panel-2:#1f2830;
+    --border:#2a333c;
+    --border-soft:#232b33;
+    --text:#e7ebee;
+    --text-dim:#8c98a3;
+    --text-faint:#5c6873;
+    --amber:#e8a548;
+    --amber-dim:#8a6a3a;
+    --cyan:#5fb8c9;
+    --green:#5fbf82;
+    --blue:#4a9deb;
+    --radius:3px;
+    --mono:'IBM Plex Mono', ui-monospace, monospace;
+    --sans:'IBM Plex Sans', system-ui, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 1px 1px, #ffffff08 1px, transparent 1px) 0 0/28px 28px,
+      var(--bg-solid);
+    color:var(--text);
+    font-family:var(--sans);
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+  a,button{color:inherit;text-decoration:none;}
+  button{font-family:inherit; background:none; border:none; cursor:pointer;}
+
+  /* ---------- topbar ---------- */
+  .topbar{
+    border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg,#141a20,#10151a);
+    padding:22px 36px 20px;
+    position:sticky; top:0; z-index:20;
+    backdrop-filter:blur(6px);
+  }
+  .topbar-inner{
+    max-width:1180px; margin:0 auto;
+    display:flex; align-items:flex-end; justify-content:space-between;
+    gap:24px; flex-wrap:wrap;
+  }
+  .brand{display:flex; align-items:center; gap:12px;}
+  .brand-mark{
+    width:34px;height:34px;
+    border:1px solid var(--amber-dim);
+    border-radius:4px;
+    display:grid; place-items:center;
+    font-family:var(--mono); font-size:11px; color:var(--amber);
+    background:#1c1710; flex-shrink:0;
+  }
+  .brand h1{font-size:19px; font-weight:600; margin:0; letter-spacing:0.2px;}
+  .brand p{margin:2px 0 0; font-size:12.5px; color:var(--text-dim); font-family:var(--mono);}
+  .top-right{display:flex; align-items:center; gap:18px;}
+  #clock{font-family:var(--mono); font-size:13px; color:var(--text-dim); text-align:right; line-height:1.4;}
+  #clock .date{color:var(--text-faint); font-size:11.5px;}
+  .search-wrap{position:relative;}
+  #search{
+    background:var(--panel); border:1px solid var(--border); color:var(--text);
+    font-family:var(--sans); font-size:13.5px; padding:9px 12px 9px 32px;
+    border-radius:var(--radius); width:220px; outline:none;
+    transition:border-color .15s ease;
+  }
+  #search:focus{border-color:var(--amber-dim);}
+  #search::placeholder{color:var(--text-faint);}
+  .search-wrap svg{position:absolute; left:10px; top:50%; transform:translateY(-50%); width:14px;height:14px; stroke:var(--text-faint); pointer-events:none;}
+
+  /* ---------- layout ---------- */
+  main{max-width:1180px; margin:0 auto; padding:38px 36px 0;}
+  section{margin-bottom:44px;}
+  .section-head{display:flex; align-items:baseline; gap:10px; margin-bottom:16px; padding-bottom:10px; border-bottom:1px solid var(--border-soft);}
+  .section-head h2{font-size:14px; font-weight:600; margin:0; letter-spacing:0.3px;}
+  .section-head .count{font-family:var(--mono); font-size:11.5px; color:var(--text-faint);}
+  .section-head .rule{flex:1; height:1px; background:var(--border-soft);}
+
+  .group-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(258px,1fr));
+    gap:14px;
+    align-items:start;
+  }
+
+  .group-card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    overflow:hidden;
+    transition:border-color .15s ease;
+  }
+  .group-card:hover{border-color:#3a4550;}
+  .group-title{
+    font-family:var(--mono);
+    font-size:13.5px;
+    font-weight:600;
+    letter-spacing:0.4px;
+    color:var(--amber);
+    padding:11px 14px;
+    border-bottom:1px solid var(--border-soft);
+    background:var(--panel-2);
+    display:flex; align-items:center; gap:8px;
+  }
+  .group-title .status-dot{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 6px #5fbf8299;
+    flex-shrink:0;
+  }
+  .item-row{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:7px 8px 7px 14px;
+    font-size:13px;
+    border-bottom:1px solid var(--border-soft);
+    position:relative;
+  }
+  .item-row:last-child{border-bottom:none;}
+  .item-row:hover{background:var(--panel-2);}
+  .item-name{
+    color:var(--text); font-weight:500;
+    flex:1; padding:5px 0;
+  }
+  .item-actions{display:flex; align-items:center; gap:2px; flex-shrink:0;}
+  .mini-btn{
+    width:26px; height:26px;
+    display:grid; place-items:center;
+    border-radius:2px;
+    color:var(--text-faint);
+    border:1px solid transparent;
+  }
+  .mini-btn:hover{color:var(--cyan); border-color:var(--border);}
+  .mini-btn.wsl:hover{color:var(--blue);}
+  .mini-btn svg{width:13px;height:13px;}
+
+  #links-section .group-title{color:var(--cyan);}
+
+  .empty{color:var(--text-faint); font-family:var(--mono); font-size:12.5px; padding:20px 4px;}
+
+  /* toast for "copied" confirmation */
+  #toast{
+    position:fixed; bottom:22px; left:50%; transform:translateX(-50%) translateY(12px);
+    background:var(--panel-2); border:1px solid var(--border);
+    color:var(--text); font-family:var(--mono); font-size:12.5px;
+    padding:10px 16px; border-radius:var(--radius);
+    box-shadow:0 8px 24px #0009;
+    opacity:0; pointer-events:none;
+    transition:opacity .18s ease, transform .18s ease;
+    z-index:50;
+    display:flex; align-items:center; gap:8px;
+  }
+  #toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+  #toast svg{width:14px;height:14px; stroke:var(--green); flex-shrink:0;}
+
+  footer{
+    max-width:1180px; margin:20px auto 0; padding:16px 36px 0;
+    color:var(--text-faint); font-family:var(--mono); font-size:11px; line-height:1.6;
+    border-top:1px solid var(--border-soft);
+  }
+
+  @media (max-width:640px){
+    .topbar{padding:18px 18px;}
+    main{padding:28px 18px 0;}
+    footer{padding:16px 18px 0;}
+    #search{width:150px;}
+    .top-right{gap:10px;}
+  }
+.pmc-table{
+    width:100%;
+    border-collapse:collapse;
+    background:var(--panel);
+    border:1px solid var(--border);
+}
+
+.pmc-table th,
+.pmc-table td{
+    padding:10px;
+    border-bottom:1px solid var(--border-soft);
+    text-align:left;
+    font-size:13px;
+}
+
+.pmc-table th{
+    background:var(--panel-2);
+    font-family:var(--mono);
+}
+
+.pmc-action{
+    padding:5px 10px;
+    border:1px solid var(--border);
+    background:var(--panel-2);
+    cursor:pointer;
+    color:var(--text);
+    margin-right:4px;
+}
+
+.pmc-action:hover{
+    border-color:var(--cyan);
+}
+
+.pmc-free{
+    color:var(--green);
+}
+
+.pmc-busy{
+    color:#ff6b6b;
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-mark">&gt_</div>
+      <div>
+        <h1>Console</h1>
+        <p>repos · tools · quick access</p>
+      </div>
+    </div>
+    <div class="top-right">
+      <div id="clock"></div>
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="search" type="text" placeholder="Filter..." autocomplete="off">
+      </div>
+    </div>
+  </div>
+</div>
+
+<main>
+  <section id="repo-section">
+    <div class="section-head">
+      <h2>Bitbucket Repositories</h2>
+      <span class="count" id="repo-count"></span>
+      <div class="rule"></div>
+    </div>
+    <div class="group-grid" id="repo-grid"></div>
+  </section>
+
+<section id="pmc-section">
+
+  <div class="section-head">
+    <h2>PMC Monitor</h2>
+    <span class="count" id="pmc-count">0</span>
+    <div class="rule"></div>
+  </div>
+
+  <div style="margin-bottom:12px;display:flex;gap:10px;align-items:center;">
+
+    <button
+      id="scan-pmc-btn"
+      style="
+      border:1px solid var(--border);
+      background:var(--panel);
+      color:var(--text);
+      padding:8px 14px;">
+      Refresh
+    </button>
+
+    <select
+      id="pmc-refresh"
+      style="
+      background:var(--panel);
+      color:var(--text);
+      border:1px solid var(--border);
+      padding:8px;">
+
+      <option value="0">Manual</option>
+      <option value="20">20 sec</option>
+      <option value="30" selected>30 sec</option>
+      <option value="60">60 sec</option>
+
+    </select>
+
+    <span
+      id="pmc-last-scan"
+      style="font-family:var(--mono);color:var(--text-faint);">
+      Never scanned
+    </span>
+
+  </div>
+
+  <div id="pmc-grid"></div>
+
+</section>
+  
+  <section id="links-section">
+    <div class="section-head">
+      <h2>Work Links &amp; Apps</h2>
+      <span class="count" id="links-count"></span>
+      <div class="rule"></div>
+    </div>
+    <div class="group-grid" id="links-grid"></div>
+  </section>
+</main>
+
+<!-- <footer>
+  Edit REPO_DATA / LINKS_DATA and WSL_BASE_PATH in the &lt;script&gt; section to customize.<br>
+  Repo rows: the link icon opens the repo in the browser. The WSL icon copies a one-line command to your clipboard —
+  paste it into PowerShell and press Enter. It creates the repos folder if needed, clones the repo if it isn't
+  there yet, and opens it in VS Code via WSL. No admin rights or registry changes required.
+</footer> -->
+
+<div id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span id="toast-text">Command copied</span></div>
+
+<script>
+/* ============================================================
+   EDIT YOUR LINKS HERE. This is the only part you need to touch.
+
+   Format (for both blocks below):
+
+     GROUP TITLE
+     item name | https://link-for-that-item
+     item name | https://link-for-that-item
+
+   - A blank line starts a new group.
+   - The first line of a group is its title (e.g. "PMC").
+   - Every line after that is "name | link".
+   - For REPO_DATA, use the repo's clone/browse URL — the WSL
+     command is derived from it automatically.
+   ============================================================ */
+
+/* ============================================================
+   Parsing + rendering — no need to edit below this line.
+   ============================================================ */
+
+function parseData(raw){
+  return raw
+    .split(/\n\s*\n/)
+    .map(block => block.trim())
+    .filter(Boolean)
+    .map(block => {
+      const lines = block.split('\n').map(l => l.trim()).filter(Boolean);
+      const title = lines[0];
+      const items = lines.slice(1).map(line => {
+        const idx = line.indexOf('|');
+        if (idx === -1) return null;
+        return { name: line.slice(0, idx).trim(), url: line.slice(idx + 1).trim() };
+      }).filter(Boolean);
+      return { title, items };
+    })
+    .filter(g => g.items.length > 0);
+}
+
+function icons(){
+  return {
+    external:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>',
+    wsl:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3"/><path d="M12 15h5"/></svg>'
+  };
+}
+
+function renderGroups(groups, gridEl, countEl, withWsl){
+  const total = groups.reduce((n, g) => n + g.items.length, 0);
+  countEl.textContent = total;
+  if (!groups.length){
+    gridEl.innerHTML = '<div class="empty">No matches.</div>';
+    return;
+  }
+  const ic = icons();
+  gridEl.innerHTML = groups.map(g => `
+    <div class="group-card">
+      <div class="group-title"><span class="status-dot"></span>${g.title}</div>
+      ${g.items.map(it => `
+        <div class="item-row">
+          <a class="item-name" href="${it.url}" target="_blank" rel="noopener">${it.name}</a>
+          <div class="item-actions">
+            <a class="mini-btn" href="${it.url}" target="_blank" rel="noopener" title="Open repo">${ic.external}</a>
+            ${withWsl ? `<button class="mini-btn wsl" type="button" data-repo-url="${encodeURIComponent(it.url)}" title="Open in VS Code">${ic.wsl}</button>` : ''}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+}
+
+let repoGroups = [];
+let linkGroups = [];
+
+async function loadConfiguration() {
+
+    const config =
+        await window.electronAPI.getConfig();
+
+    repoGroups =
+        parseData(
+            config.repos
+        );
+
+    linkGroups =
+        parseData(
+            config.links
+        );
+
+    applyFilter('');
+}
+
+function applyFilter(q){
+  q = q.trim().toLowerCase();
+  const filterGroups = groups => !q ? groups : groups
+    .map(g => ({ title: g.title, items: g.items.filter(it => it.name.toLowerCase().includes(q) || g.title.toLowerCase().includes(q)) }))
+    .filter(g => g.items.length > 0);
+
+  renderGroups(filterGroups(repoGroups), document.getElementById('repo-grid'), document.getElementById('repo-count'), true);
+  renderGroups(filterGroups(linkGroups), document.getElementById('links-grid'), document.getElementById('links-count'), false);
+}
+
+document.getElementById('search').addEventListener('input', e => applyFilter(e.target.value));
+
+/* copy-to-clipboard, with fallback for non-HTTPS origins */
+function copyText(text){
+  if (navigator.clipboard && window.isSecureContext){
+    return navigator.clipboard.writeText(text);
+  }
+  return new Promise((resolve, reject) => {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try{
+      document.execCommand('copy');
+      resolve();
+    }catch(err){
+      reject(err);
+    }finally{
+      document.body.removeChild(ta);
+    }
+  });
+}
+
+function showToast(text){
+  const toast = document.getElementById('toast');
+  document.getElementById('toast-text').textContent = text;
+  toast.classList.add('show');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => toast.classList.remove('show'), 2200);
+}
+
+document.addEventListener('click', async (e) => {
+
+    const sshBtn =
+        e.target.closest(
+            '[data-ssh-ip]'
+        );
+
+    if (sshBtn) {
+
+        const ip =
+            sshBtn.dataset.sshIp;
+
+        try {
+
+            await window
+                .electronAPI
+                .sshPmc(ip);
+
+            showToast(
+                `Connecting to ${ip}...`
+            );
+
+        }
+        catch (err) {
+
+            console.error(err);
+
+            showToast(
+                'Failed to launch SSH session'
+            );
+        }
+
+        return;
+    }
+
+    const webuiBtn =
+        e.target.closest(
+            '[data-webui-ip]'
+        );
+
+    if (webuiBtn) {
+
+        const ip =
+            webuiBtn.dataset.webuiIp;
+
+        try {
+
+            await window
+                .electronAPI
+                .openWebUI(ip);
+
+            showToast(
+                `Opening WebUI for ${ip}`
+            );
+
+        }
+        catch (err) {
+
+            console.error(err);
+
+            showToast(
+                'Failed to open WebUI'
+            );
+        }
+
+        return;
+    }
+
+    const btn =
+        e.target.closest(
+            '[data-repo-url]'
+        );
+
+    if (!btn)
+        return;
+
+    const url =
+        decodeURIComponent(
+            btn.dataset.repoUrl
+        );
+
+    try {
+
+        await window
+            .electronAPI
+            .openRepo(url);
+
+        showToast(
+            'Opening in VSCode...'
+        );
+
+    }
+    catch (err) {
+
+        console.error(err);
+
+        showToast(
+            'Failed to launch repository'
+        );
+    }
+});
+
+function tickClock(){
+  const now = new Date();
+  const time = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+  const date = now.toLocaleDateString([], {weekday:'short', year:'numeric', month:'short', day:'numeric'});
+  document.getElementById('clock').innerHTML = `${time}<div class="date">${date}</div>`;
+}
+tickClock();
+setInterval(tickClock, 1000);
+
+let pmcRefreshTimer = null;
+function renderPmcs(devices){
+
+    document.getElementById(
+        'pmc-count'
+    ).textContent =
+        devices.length;
+
+    const html =
+        `
+        <table class="pmc-table">
+
+            <thead>
+                <tr>
+                    <th>IP</th>
+                    <th>Variant</th>
+                    <th>User</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            ${
+                devices.map(device => `
+
+                <tr>
+
+                    <td>${device.ip}</td>
+
+                    <td>${device.variant}</td>
+
+                    <td>${device.users}</td>
+
+                    <td>
+                        ${
+                            device.occupied
+                            ? '<span class="pmc-busy">🔴 In Use</span>'
+                            : '<span class="pmc-free">🟢 Available</span>'
+                        }
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="pmc-action"
+                            data-ssh-ip="${device.ip}">
+                            SSH
+                        </button>
+
+                        <button
+                            class="pmc-action"
+                            data-webui-ip="${device.ip}">
+                            WebUI
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                `).join('')
+            }
+
+            </tbody>
+
+        </table>
+        `;
+
+    document.getElementById(
+        'pmc-grid'
+    ).innerHTML =
+        html;
+}
+
+let pmcScanRunning =
+    false;
+
+async function scanPmcs(){
+
+    if (pmcScanRunning)
+        return;
+
+    pmcScanRunning =
+        true;
+
+    try {
+
+        const devices =
+            await window
+                .electronAPI
+                .scanPmcs();
+
+        renderPmcs(
+            devices
+        );
+
+        document
+            .getElementById(
+                'pmc-last-scan'
+            )
+            .textContent =
+            `Last Scan: ${new Date().toLocaleTimeString()}`;
+
+    }
+    catch(err){
+
+        console.error(
+            err
+        );
+
+        showToast(
+            'PMC scan failed'
+        );
+    }
+    finally {
+
+        pmcScanRunning =
+            false;
+    }
+}
+
+document
+    .getElementById(
+        'scan-pmc-btn'
+    )
+    .addEventListener(
+        'click',
+        scanPmcs
+    );
+
+document
+    .getElementById(
+        'pmc-refresh'
+    )
+    .addEventListener(
+        'change',
+        e => {
+
+            clearInterval(
+                pmcRefreshTimer
+            );
+
+            const seconds =
+                Number(
+                    e.target.value
+                );
+
+            if (seconds > 0) {
+
+                pmcRefreshTimer =
+                    setInterval(
+                        scanPmcs,
+                        seconds * 1000
+                    );
+            }
+        }
+    );
+
+loadConfiguration();
+
+scanPmcs();
+
+document
+    .getElementById('pmc-refresh')
+    .dispatchEvent(
+        new Event('change')
+    );
+</script>
+</body>
+</html>
+
+renderer.js
+document.addEventListener(
+    'click',
+    async (e) => {
+
+        const sshBtn =
+            e.target.closest(
+                '[data-ssh-ip]'
+            );
+
+        if (sshBtn) {
+
+            const ip =
+                sshBtn.dataset.sshIp;
+
+            try {
+
+                await window
+                    .electronAPI
+                    .sshPmc(ip);
+
+            }
+            catch (err) {
+
+                console.error(err);
+
+            }
+
+            return;
+        }
+
+        const webuiBtn =
+            e.target.closest(
+                '[data-webui-ip]'
+            );
+
+        if (webuiBtn) {
+
+            const ip =
+                webuiBtn.dataset.webuiIp;
+
+            try {
+
+                await window
+                    .electronAPI
+                    .openWebUI(ip);
+
+            }
+            catch (err) {
+
+                console.error(err);
+
+            }
+
+            return;
+        }
+
+        const btn =
+            e.target.closest(
+                '[data-repo-url]'
+            );
+
+        if (!btn)
+            return;
+
+        const url =
+            decodeURIComponent(
+                btn.dataset.repoUrl
+            );
+
+        try {
+
+            await window
+                .electronAPI
+                .openRepo(url);
+
+        }
+        catch (err) {
+
+            console.error(err);
+
+        }
+    }
+);
+
+preload.js
+const {
+    contextBridge,
+    ipcRenderer
+} = require('electron');
+
+contextBridge.exposeInMainWorld(
+    'electronAPI',
+    {
+        openRepo: (url) =>
+            ipcRenderer.invoke(
+                'open-repo',
+                url
+            ),
+
+        getConfig: () =>
+            ipcRenderer.invoke(
+                'get-config'
+            ),
+
+        scanPmcs: () =>
+            ipcRenderer.invoke(
+                'scan-pmcs'
+            ),
+
+        sshPmc: (ip) =>
+            ipcRenderer.invoke(
+                'ssh-pmc',
+                ip
+            ),
+
+        openWebUI: (ip) =>
+            ipcRenderer.invoke(
+                'open-webui',
+                ip
+            )
+    }
+);
+main.js
+const {
+    app,
+    BrowserWindow,
+    ipcMain,
+    shell
+} = require('electron');
+
+const {
+    exec
+} = require('child_process');
+
+const path = require('path');
+const fs = require('fs');
+const os = require('os');
+
+process.on(
+    'uncaughtException',
+    err => {
+
+        console.error(
+            'UNCAUGHT EXCEPTION'
+        );
+
+        console.error(err);
+    }
+);
+
+process.on(
+    'unhandledRejection',
+    err => {
+
+        console.error(
+            'UNHANDLED REJECTION'
+        );
+
+        console.error(err);
+    }
+);
+
+function createWindow() {
+
+    const win = new BrowserWindow({
+        width: 1500,
+        height: 900,
+
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js'),
+            contextIsolation: true,
+            nodeIntegration: false
+        }
+    });
+
+    win.loadFile('index.html');
+
+    /*
+     * Open ALL external links in default browser.
+     * Prevent Electron from opening them internally.
+     */
+    win.webContents.setWindowOpenHandler(({ url }) => {
+
+        shell.openExternal(url);
+
+        return {
+            action: 'deny'
+        };
+    });
+
+    /*
+     * Handle normal navigation attempts too.
+     */
+    win.webContents.on('will-navigate', (event, url) => {
+
+        const currentUrl = win.webContents.getURL();
+
+        if (url !== currentUrl) {
+
+            event.preventDefault();
+
+            shell.openExternal(url);
+        }
+    });
+}
+
+function loadConfig() {
+
+    const configPath =
+        path.join(
+            process.cwd(),
+            'config.js'
+        );
+
+    delete require.cache[
+        require.resolve(configPath)
+    ];
+
+    return require(configPath);
+}
+
+function hasWSL() {
+
+    try {
+
+        require('child_process')
+            .execSync(
+                'wsl --status',
+                {
+                    stdio: 'ignore'
+                }
+            );
+
+        return true;
+    }
+    catch {
+
+        return false;
+    }
+}
+
+ipcMain.handle(
+    'get-config',
+    () => loadConfig()
+);
+
+app.whenReady().then(createWindow);
+
+app.on('window-all-closed', () => {
+
+    if (process.platform !== 'darwin')
+        app.quit();
+});
+
+ipcMain.handle(
+    'open-repo',
+    async (_, repoUrl) => {
+
+        /*
+         * Example:
+         * https://bitbucket.org/advenergy/ewd-orv3-pmc-datamanager
+         *
+         * becomes:
+         *
+         * git@bitbucket.org:advenergy/ewd-orv3-pmc-datamanager.git
+         */
+
+        const repoPath =
+            repoUrl
+                .replace('https://bitbucket.org/', '')
+                .replace(/\/$/, '');
+
+        const repoName =
+            repoPath
+                .split('/')
+                .pop();
+
+        const cloneUrl =
+            `git@bitbucket.org:${repoPath}.git`;
+
+        const windowsPath =
+            path.join(
+                os.homedir(),
+                'Documents',
+                'Training',
+                'repositories'
+            );
+
+        let cmd;
+        if (hasWSL()) {
+
+            const wslBasePath =
+                windowsPath
+                    .replace(/\\/g, '/')
+                    .replace(/^C:/i, '/mnt/c');
+
+            cmd =
+                `wsl.exe -e bash -lc "mkdir -p '${wslBasePath}' && cd '${wslBasePath}' && ([ -d '${repoName}' ] || git clone '${cloneUrl}' '${repoName}') && code '${repoName}'"`;
+
+        }
+        else {
+
+            cmd =
+                `powershell.exe -NoProfile -Command "
+                if (!(Test-Path '${windowsPath}')) {
+                    New-Item -ItemType Directory -Force -Path '${windowsPath}' | Out-Null
+                }
+
+                Set-Location '${windowsPath}'
+
+                if (!(Test-Path '${repoName}')) {
+                    git clone '${cloneUrl}' '${repoName}'
+                }
+
+                code '${repoName}'
+                "`;
+
+        }
+
+        console.log('');
+        console.log('===========================================');
+        console.log('Launch command:');
+        console.log(cmd);
+        console.log('===========================================');
+        console.log('');
+
+        exec(
+            cmd,
+            (err, stdout, stderr) => {
+
+                if (stdout)
+                    console.log(stdout);
+
+                if (stderr)
+                    console.log(stderr);
+
+                if (err)
+                    console.error(err);
+            }
+        );
+
+        return true;
+    }
+);
+
+ipcMain.handle(
+    'scan-pmcs',
+    async () => {
+
+        console.log(
+            'PMC SCAN START',
+            new Date()
+        );
+
+        const cmd =
+            `sshpass -p "clear12" ssh melvin@ecpsabuild -- '/usr/local/bin/super_connect.sh'`;
+
+        return new Promise(
+            (
+                resolve,
+                reject
+            ) => {
+
+                exec(
+                    cmd,
+                    (
+                        err,
+                        stdout,
+                        stderr
+                    ) => {
+
+                        console.log(
+                            'PMC SCAN END',
+                            new Date()
+                        );
+
+                        if (err) {
+
+                            reject(
+                                stderr ||
+                                err.message
+                            );
+
+                            return;
+                        }
+
+                        const devices =
+                            [];
+
+                        stdout
+                            .split('\n')
+                            .forEach(line => {
+
+                                const match =
+                                    line.match(
+                                        /^\|\s*([\d.]+)\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|$/
+                                    );
+
+                                if (!match)
+                                    return;
+
+                                devices.push({
+                                    ip: match[1].trim(),
+                                    variant: match[2].trim(),
+                                    users: match[3].trim(),
+                                    occupied:
+                                        match[3]
+                                            .trim()
+                                            .toLowerCase() !== 'none'
+                                });
+
+                            });
+
+                        resolve(
+                            devices
+                        );
+                    }
+                );
+            }
+        );
+    }
+);
+
+ipcMain.handle(
+    'open-webui',
+    async (_, ip) => {
+
+        shell.openExternal(
+            `https://${ip}`
+        );
+
+        return true;
+    }
+);
+
+ipcMain.handle(
+    'ssh-pmc',
+    async (_, ip) => {
+
+        const cmd =
+            `start powershell.exe -NoExit -Command "sshpass -p 'gEd2Be&v' ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ServerAliveInterval=15 -o ServerAliveCountMax=3 root@${ip}"`;
+
+        exec(cmd);
+
+        return true;
+    }
+);
+
+
+config.js
+module.exports = {
+
+    repoBasePath: "",
+
+    repos: `
+PMC
+config | https://bitbucket.org/advenergy/ewd-orv3-pmc-config-manager
+poll | https://bitbucket.org/advenergy/ewd-orv3-pmc-poll-manager
+data | https://bitbucket.org/advenergy/ewd-orv3-pmc-datamanager
+
+PSU
+config | https://bitbucket.org/advenergy/ewd-orv3-psu-config-manager
+poll | https://bitbucket.org/advenergy/ewd-orv3-psu-poll-manager
+data | https://bitbucket.org/advenergy/ewd-orv3-psu-datamanager
+
+FRU
+config | https://bitbucket.org/advenergy/ewd-orv3-fru-config-manager
+poll | https://bitbucket.org/advenergy/ewd-orv3-fru-poll-manager
+data | https://bitbucket.org/advenergy/ewd-orv3-fru-datamanager
+
+REDFISH
+redfish | https://bitbucket.org/advenergy/ewd-orv3-redfish
+openapi-2025 | https://bitbucket.org/advenergy/ewd-aei-redfish-openapi-2025
+
+ARTESYN
+meta-artesyn | https://bitbucket.org/advenergy/ewd-meta-artesyn
+meta-orv3-artesyn | https://bitbucket.org/advenergy/ewd-meta-orv3-artesyn
+
+OTHERS
+osal-script | https://bitbucket.org/advenergy/ewd-osal-scripts
+modbus-service | https://bitbucket.org/advenergy/ewd-modbus-service
+blackbox-manager | https://bitbucket.org/advenergy/ewd-orv3-blackbox-manager
+`,
+
+    links: `
+Work Apps
+Jira | https://YOUR_ORG.atlassian.net/jira
+Confluence | https://YOUR_ORG.atlassian.net/wiki
+Outlook | https://outlook.office.com
+Teams | https://teams.microsoft.com
+`
+};
+
+package.json
+{
+  "name": "repo-dashboard",
+  "version": "1.0.0",
+  "description": "Dashboard for repositories",
+  "author": "Melvin Ornales",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "build": {
+    "appId": "com.melvin.repodashboard",
+    "productName": "Repo Dashboard",
+    "files": [
+      "**/*",
+      "!config.js"
+    ],
+    "extraFiles": [
+      "config.js"
+    ],
+    "win": {
+      "target": "portable"
+    }
+  },
+  "devDependencies": {
+    "electron": "^37.10.3",
+    "electron-builder": "^26.15.3"
+  }
+}
+
