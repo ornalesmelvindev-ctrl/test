@@ -1,0 +1,16 @@
+device powershell(working)
+[launchInteractiveSsh] start wt.exe -w 0 nt --title "10.152.12.43" powershell.exe -NoExit -EncodedCommand JgAgACcAcwBzAGgAcABhAHMAcwAnACAALQBwACAAJwBnAEUAZAAyAEIAZQAmAHYAJwAgAHMAcwBoACAALQBvACAAUwB0AHIAaQBjAHQASABvAHMAdABLAGUAeQBDAGgAZQBjAGsAaQBuAGcAPQBuAG8AIAAtAG8AIABVAHMAZQByAEsAbgBvAHcAbgBIAG8AcwB0AHMARgBpAGwAZQA9AC8AZABlAHYALwBuAHUAbABsACAALQBvACAATABvAGcATABlAHYAZQBsAD0ARQBSAFIATwBSACAALQBvACAAUwBlAHIAdgBlAHIAQQBsAGkAdgBlAEkAbgB0AGUAcgB2AGEAbAA9ADEANQAgAC0AbwAgAFMAZQByAHYAZQByAEEAbABpAHYAZQBDAG8AdQBuAHQATQBhAHgAPQAzACAAJwByAG8AbwB0AEAAMQAwAC4AMQA1ADIALgAxADIALgA0ADMAJwA=
+[scan-pmcs] start 2026-09-05T23:38:22.767Z
+[scan-pmcs] done 2026-09-05T23:38:31.189Z 2 devices
+build server powershell
+[launchInteractiveSsh] start wt.exe -w 0 nt --title "ecpsabuild" powershell.exe -NoExit -EncodedCommand JgAgACcAcwBzAGgAcABhAHMAcwAnACAALQBwACAAJwBjAGwAZQBhAHIAMQAyACcAIABzAHMAaAAgAC0AbwAgAFMAdAByAGkAYwB0AEgAbwBzAHQASwBlAHkAQwBoAGUAYwBrAGkAbgBnAD0AbgBvACAALQBvACAAVQBzAGUAcgBLAG4AbwB3AG4ASABvAHMAdABzAEYAaQBsAGUAPQAvAGQAZQB2AC8AbgB1AGwAbAAgAC0AbwAgAEwAbwBnAEwAZQB2AGUAbAA9AEUAUgBSAE8AUgAgAC0AbwAgAFMAZQByAHYAZQByAEEAbABpAHYAZQBJAG4AdABlAHIAdgBhAGwAPQAxADUAIAAtAG8AIABTAGUAcgB2AGUAcgBBAGwAaQB2AGUAQwBvAHUAbgB0AE0AYQB4AD0AMwAgACcAbQBlAGwAdgBpAG4AQABlAGMAcABzAGEAYgB1AGkAbABkACcA
+[scan-pmcs] start 2026-09-05T23:38:53.176Z
+[scan-pmcs] done 2026-09-05T23:39:01.146Z 2 devices
+[scan-pmcs] start 2026-09-05T23:39:23.174Z
+[scan-pmcs] failed: Command timed out
+Error occurred in handler for 'scan-pmcs': Error: Command timed out
+    at C:\Users\melvin.ornales\Downloads\super-repo-dash\SYSAPPS Dashboard\SYSAPPS Dashboard\main.js:383:11
+    at async Session.<anonymous> (node:electron/js2c/browser_init:2:107253)
+build wsl(working)
+[launchInteractiveSsh] start wt.exe -w 0 nt --title "ecpsabuild" wsl.exe -e bash -c "eval $(echo c3NocGFzcyAtcCAnY2xlYXIxMicgc3NoIC1vIFN0cmljdEhvc3RLZXlDaGVja2luZz1ubyAtbyBVc2VyS25vd25Ib3N0c0ZpbGU9L2Rldi9udWxsIC1vIExvZ0xldmVsPUVSUk9SIC1vIFNlcnZlckFsaXZlSW50ZXJ2YWw9MTUgLW8gU2VydmVyQWxpdmVDb3VudE1heD0zICdtZWx2aW5AZWNwc2FidWlsZCc= | base64 -d)"
+[scan-pmcs] start 2026-09-05T23:39:52.779Z
