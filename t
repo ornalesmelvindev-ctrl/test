@@ -239,6 +239,13 @@ like for example, currently, I am just getting these
 what if I add other field? so the UI must dynamically adjust, like the fields being displayed by yhe script must also be the fields be 
 shown in the app.
 
+well you can change the ouput of the script, so it can be easily me dynamic, like if you dont need these, just dont add on the print
+🔍 Scanning Devices...
+
+Devices Found : 2
+✅ Scan complete.
+
+
 like totally isolate our app, so this can be standalone, also like template where I can add script that will show something, then dyanmically
 create in the app? Is it possible? if so may you please
 
