@@ -230,7 +230,8 @@ fi
 rm -f "$TEMP_FILE"
 
 What I want is what if not use this build server scripts instead create local one, like const cmd or just create our own bash script, to be exe
-cuteed at the build server? if possible, totally remove the super_combined.sh
+cuteed at the build server? if possible, totally remove the super_combined.sh, I mean I think our local const cmd or bash script can be like just 1 script right?
+Also, take note that writing on /etc required sudo so sshpass is needed there
 
 also, I want the script to be dynamic, as well as the one being shown in the app
 like for example, currently, I am just getting these
@@ -240,3 +241,7 @@ shown in the app.
 
 like totally isolate our app, so this can be standalone, also like template where I can add script that will show something, then dyanmically
 create in the app? Is it possible? if so may you please
+
+wait, in the autosuggestion(in the build server part), if I typed just '/', nothing is being dropdown suggested like if /etc, or /usr, or /home,
+then when I type just /ho, no dropdown is suggested like /home, can it be fixed? if so, include this as well, but if this will create too much
+overhead on the app, just ignore
