@@ -1,0 +1,5 @@
+[launchDetached] Command failed: wsl.exe -e bash -lc "eval $(echo bWtkaXIgLXAgfi8uc3lzYXBwcy1kYXNoYm9hcmQKY2F0ID4gfi8uc3lzYXBwcy1kYXNoYm9hcmQvYXNrcGFzcy5zaCA8PCdBU0tQQVNTX0VPRicKIyEvYmluL3NoCnByaW50ZiAnJXMnICdjbGVhcjEyJwpBU0tQQVNTX0VPRgpjaG1vZCA3MDAgfi8uc3lzYXBwcy1kYXNoYm9hcmQvYXNrcGFzcy5zaApleHBvcnQgU1NIX0FTS1BBU1M9fi8uc3lzYXBwcy1kYXNoYm9hcmQvYXNrcGFzcy5zaApleHBvcnQgU1NIX0FTS1BBU1NfUkVRVUlSRT1mb3JjZQpjb2RlIC0tcmVtb3RlICdzc2gtcmVtb3RlK21lbHZpbkBlY3BzYWJ1aWxkJyAnL2hvbWUvbWVsdmluL3RmdHBfZGlyLyc= | base64 -d)"
+bash: line 1: warning: here-document at line 1 delimited by end-of-file (wanted `ASKPASS_EOF')
+bash: line 1: /home/melvin/.sysapps-dashboard/askpass.sh: No such file or directory
+
+look, not working  the open in vscode via wsl
