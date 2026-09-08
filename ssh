@@ -19,3 +19,23 @@ admin@artesyn-shelf:~# ^C
 admin@artesyn-shelf:~# ^C
 admin@artesyn-shelf:~#
 
+also, this is the current .ssh/config of the powershell
+Host 11.152.12.147
+  HostName 10.152.12.147
+  User root
+
+Host ecpsabuild
+  HostName ecpsabuild
+  User melvin
+
+Host *
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
+
+my problem is, after some time of being idle, this happeens in powerhell but not in wsl
+Last login: Mon Sep  7 14:48:59 2026 from 10.152.40.148
+admin@artesyn-shelf:~#
+[process exited with code 3221225506 (0xc0000022)]
+You can now close this terminal with Ctrl+D, or press Enter to restart.
+
+fix it too, make sure it is fixed
