@@ -1,0 +1,21 @@
+Look in hjere, when I just do sshpass ...
+ MELVIN.ORNALES    ~   3.885s⠀   sshpass -p 'gEd2Be&v' ssh root@10.152.12.40
+
+Last login: Tue Sep  8 01:26:20 2026 from 10.152.40.148
+admin@artesyn-shelf:~#
+when I do ctrl + c, I am being exit(like ctrl + d behaviour)
+ MELVIN.ORNALES    ~   1.74s⠀   [Console]::TreatControlCAsInput = $true; sshpass -p 'gEd2Be&v' ssh root@10.152.12.40; [Console]::TreatControlCAsInput = $false
+but when I do this in powershell, I am not being exited? maybe add this? or do you have anny fix?
+Last login: Tue Sep  8 01:26:44 2026 from 10.152.40.148
+admin@artesyn-shelf:~# ^C
+admin@artesyn-shelf:~# ^C
+admin@artesyn-shelf:~# ^C
+admin@artesyn-shelf:~# ^C
+admin@artesyn-shelf:~# ^C
+admin@artesyn-shelf:~# ^C
+admin@artesyn-shelf:~# ^C
+admin@artesyn-shelf:~# ^C
+admin@artesyn-shelf:~# ^C
+admin@artesyn-shelf:~# ^C
+admin@artesyn-shelf:~#
+
