@@ -1,3 +1,42 @@
+admin@artesyn-shelf:~# cat watch.sh
+watch -n 1 '
+BUS=15
+
+printf "%-4s %-4s %8s %8s %7s %7s %7s %7s\n" \
+"ADC" "REG" "RAWHEX" "RAWDEC" "UNHEX" "UNDEC" "SWHEX" "SWDEC"
+
+printf "%-4s %-4s %8s %8s %7s %7s %7s %7s\n" \
+"----" "----" "--------" "--------" "-------" "-------" "-------" "-------"
+
+for ADDR in 0x1d 0x35
+do
+    for REG in 0x21 0x22 0x23 0x24 0x25
+    do
+        RAW=$(i2cget -y $BUS $ADDR $REG w)
+        RAW_DEC=$((RAW))
+
+        LOW=$((RAW_DEC & 0xFF))
+        HIGH=$((RAW_DEC >> 8))
+
+        UNSWAP_12=$((RAW_DEC >> 4))
+
+        SWAP=$(((LOW << 8) | HIGH))
+        SWAP_12=$((SWAP >> 4))
+
+        printf "%4s %4s %8s %8d %7s %7d %7s %7d\n" \
+            "$ADDR" \
+            "$REG" \
+            "$(printf "0x%04X" $RAW_DEC)" \
+            "$RAW_DEC" \
+            "$(printf "0x%03X" $UNSWAP_12)" \
+            "$UNSWAP_12" \
+            "$(printf "0x%03X" $SWAP_12)" \
+            "$SWAP_12"
+    done
+done
+'
+
+# resistor connected at usb -c port 1 at the left
 Every 1.0s:                                                                                                                                    ...  artesyn-shelf: Thu Sep 10 01:48:52 2026
 
 ADC  REG    RAWHEX   RAWDEC   UNHEX   UNDEC   SWHEX   SWDEC
@@ -31,7 +70,7 @@ ADC  REG    RAWHEX   RAWDEC   UNHEX   UNDEC   SWHEX   SWDEC
 0x35 0x24   0xE0D4    57556   0xE0D    3597   0xD4E    3406
 0x35 0x25   0xD0D4    53460   0xD0D    3341   0xD4D    3405
 
-Also take note to disregard the previous formula used, this is the real one
+Formula given by the hardware team to calculate temperature
 		Min ADC	Max ADC
 	<SW Approx	340	2159
 	>SW Approx	1739	3973
