@@ -14,3 +14,44 @@ ADC  REG    RAWHEX   RAWDEC   UNHEX   UNDEC   SWHEX   SWDEC
 0x35 0x23   0xD0D4    53460   0xD0D    3341   0xD4D    3405
 0x35 0x24   0x70FF    28927   0x70F    1807   0xFF7    4087
 0x35 0x25   0x70FF    28927   0x70F    1807   0xFF7    4087
+
+# port 2 at the left
+Every 1.0s:                                                                                         ...  artesyn-shelf: Thu Sep 10 02:44:48 2026
+
+ADC  REG    RAWHEX   RAWDEC   UNHEX   UNDEC   SWHEX   SWDEC
+---- ---- -------- -------- ------- ------- ------- -------
+0x1d 0x21   0x80FF    33023   0x80F    2063   0xFF8    4088
+0x1d 0x22   0x80FF    33023   0x80F    2063   0xFF8    4088
+0x1d 0x23   0x80FF    33023   0x80F    2063   0xFF8    4088
+0x1d 0x24   0x80FF    33023   0x80F    2063   0xFF8    4088
+0x1d 0x25   0xD0D4    53460   0xD0D    3341   0xD4D    3405
+0x35 0x21   0x70FF    28927   0x70F    1807   0xFF7    4087
+0x35 0x22   0x70FF    28927   0x70F    1807   0xFF7    4087
+0x35 0x23   0x70FF    28927   0x70F    1807   0xFF7    4087
+0x35 0x24   0xE0D4    57556   0xE0D    3597   0xD4E    3406
+0x35 0x25   0xD0D4    53460   0xD0D    3341   0xD4D    3405
+
+Also take note to disregard the previous formula used, this is the real one
+		Min ADC	Max ADC
+	<SW Approx	340	2159
+	>SW Approx	1739	3973
+		340	4086
+			
+Linear			
+	0.000190931	-4.553531484	15180.66161
+			
+Quadratic Linear Approx Scaled Real			
+	A2	A1	A0
+<SW	0.001952904	-9.197841108	17442.05859
+>SW	-0.001033657	2.446258999	5952.964761
+			
+	y = A2*x^2 + A1*x + A0		
+			
+SWITCHPOINT			
+			
+	ADC value	1980	
+			
+			
+	A2 (Q0.31)	A1 (Q16.15)	A0 (INT32)
+<SW LOW	4193828.82	-301394.8574	17442.05859
+>SW HIGH	-2219762.251	80159.01489	5952.964761
