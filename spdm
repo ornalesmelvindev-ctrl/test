@@ -1,0 +1,50 @@
+Can you help me start the implementation of spdm?
+
+I mean I now have a device PMC(PowerManagermentController), that reads and writes config for the PSUs,
+like set fan speed, vin vout, reads status, etc.
+
+admin@artesyn-shelf:~# ifconfig
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500  metric 1
+        inet 10.152.12.95  netmask 255.255.254.0  broadcast 10.152.13.255
+        inet6 fe80::bb:e3ff:fec2:6969  prefixlen 64  scopeid 0x20<link>
+        ether 02:bb:e3:c2:69:69  txqueuelen 1000  (Ethernet)
+        RX packets 7604136  bytes 655451299 (625.0 MiB)
+        RX errors 0  dropped 12  overruns 0  frame 0
+        TX packets 2777110  bytes 1369474687 (1.2 GiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+        device interrupt 41
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536  metric 1
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 2568084  bytes 699528895 (667.1 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 2568084  bytes 699528895 (667.1 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+admin@artesyn-shelf:~# cat /etc/os-release
+ID=artesyn-poky
+NAME="artesyn-poky (Yocto Project Reference Distro)"
+VERSION="v06.05.01-ib3"
+VERSION_ID=v06.05.01-ib3
+PRETTY_NAME="artesyn-poky (Yocto Project Reference Distro) v06.05.01-ib3"
+BUILD_ID="20260828075925"
+ARTESYN_BUILD_ID="v06.05.01-ib3-dirty"
+ARTESYN_TARGET_MACHINE="artesyn-shelf"
+admin@artesyn-shelf:~# lsb_release -a
+LSB Version:    n/a
+Distributor ID: artesyn-poky
+Description:    artesyn-poky (Yocto Project Reference Distro) 3.1.8
+Release:        3.1.8
+Codename:       dunfell
+
+
+What I want you to do is to used the dmtf libspdm (currently, our yocto builder doesnt have libspdm)
+
+Like create me bb recipe to fetch that library,
+
+then create me recipe as well (app to use spdm for start up), like requestor -> responder
+get_version, get_capabilities, etc. just a simple start up but make sure, this will be supported and run smoothly on our PMC.
+
+Like now, I dont even have a single idea on how to implement it, or can it be supported by outr device
