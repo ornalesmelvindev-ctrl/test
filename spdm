@@ -1,50 +1,277 @@
-Can you help me start the implementation of spdm?
+bb file
+SUMMARY = "DMTF libspdm - SPDM (Security Protocol and Data Model) reference implementation"
+DESCRIPTION = "Requester/Responder library implementing DSP0274 SPDM, DSP0277 secured \
+messages and DSP0275 SPDM-over-MCTP. Built here as static libs + headers for use by \
+spdm-startup-app."
+HOMEPAGE = "https://github.com/DMTF/libspdm"
+LICENSE = "BSD-3-Clause"
+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=REPLACE_ME_AFTER_FIRST_FETCH"
 
-I mean I now have a device PMC(PowerManagermentController), that reads and writes config for the PSUs,
-like set fan speed, vin vout, reads status, etc.
+# gitsm:// (not git://) so bitbake pulls the mbedtls/cmocka submodules too.
+# Pin SRCREV to a real commit before this goes anywhere near production;
+# AUTOREV is only here so you can do a first successful fetch+build.
+SRC_URI = "gitsm://github.com/DMTF/libspdm.git;protocol=https;branch=main"
+SRCREV = "${AUTOREV}"
+PV = "3.6.0+git${SRCPV}"
 
-admin@artesyn-shelf:~# ifconfig
-eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500  metric 1
-        inet 10.152.12.95  netmask 255.255.254.0  broadcast 10.152.13.255
-        inet6 fe80::bb:e3ff:fec2:6969  prefixlen 64  scopeid 0x20<link>
-        ether 02:bb:e3:c2:69:69  txqueuelen 1000  (Ethernet)
-        RX packets 7604136  bytes 655451299 (625.0 MiB)
-        RX errors 0  dropped 12  overruns 0  frame 0
-        TX packets 2777110  bytes 1369474687 (1.2 GiB)
-        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-        device interrupt 41
+S = "${WORKDIR}/git"
+B = "${WORKDIR}/build"
 
-lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536  metric 1
-        inet 127.0.0.1  netmask 255.0.0.0
-        inet6 ::1  prefixlen 128  scopeid 0x10<host>
-        loop  txqueuelen 1000  (Local Loopback)
-        RX packets 2568084  bytes 699528895 (667.1 MiB)
-        RX errors 0  dropped 0  overruns 0  frame 0
-        TX packets 2568084  bytes 699528895 (667.1 MiB)
-        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+DEPENDS = "openssl"
 
-admin@artesyn-shelf:~# cat /etc/os-release
-ID=artesyn-poky
-NAME="artesyn-poky (Yocto Project Reference Distro)"
-VERSION="v06.05.01-ib3"
-VERSION_ID=v06.05.01-ib3
-PRETTY_NAME="artesyn-poky (Yocto Project Reference Distro) v06.05.01-ib3"
-BUILD_ID="20260828075925"
-ARTESYN_BUILD_ID="v06.05.01-ib3-dirty"
-ARTESYN_TARGET_MACHINE="artesyn-shelf"
-admin@artesyn-shelf:~# lsb_release -a
-LSB Version:    n/a
-Distributor ID: artesyn-poky
-Description:    artesyn-poky (Yocto Project Reference Distro) 3.1.8
-Release:        3.1.8
-Codename:       dunfell
+# Deliberately NOT inheriting cmake.bbclass: libspdm's own CMakeLists selects a
+# toolchain file per -DTOOLCHAIN=<name> that hardcodes upstream GNU cross-compiler
+# binary names (e.g. arm-none-linux-gnueabihf-gcc / aarch64-none-linux-gnu-gcc).
+# Those don't exist in a Yocto sysroot (ours are *-poky-linux-*). Rather than patch
+# libspdm's CMakeLists (fragile across upstream bumps), we drop wrapper scripts with
+# the exact names libspdm expects onto PATH, each just exec'ing our real cross tools.
+
+def libspdm_arch(d):
+    ta = d.getVar('TARGET_ARCH')
+    if ta == 'aarch64':
+        return ('aarch64', 'aarch64-none-linux-gnu')
+    elif ta.startswith('arm'):
+        return ('arm', 'arm-none-linux-gnueabihf')
+    else:
+        bb.fatal('libspdm recipe: unmapped TARGET_ARCH "%s" - add it to libspdm_arch()' % ta)
+
+do_configure() {
+    rm -rf ${WORKDIR}/toolchain-wrappers
+    mkdir -p ${WORKDIR}/toolchain-wrappers
+
+    # ${LIBSPDM_TOOLCHAIN_PREFIX} is computed below in do_configure:prepend via
+    # inline python, exported as LIBSPDM_WRAP_PREFIX.
+    for pair in "gcc:${CC}" "g++:${CXX}" "ar:${AR}" "ranlib:${RANLIB}" \
+                "ld:${LD}" "as:${AS}" "objcopy:${OBJCOPY}" "objdump:${OBJDUMP}" "strip:${STRIP}"; do
+        tool="${pair%%:*}"
+        real="${pair#*:}"
+        wrapper="${WORKDIR}/toolchain-wrappers/${LIBSPDM_WRAP_PREFIX}-${tool}"
+        cat > "${wrapper}" <<EOF
+#!/bin/sh
+exec ${real} "\$@"
+EOF
+        chmod +x "${wrapper}"
+    done
+
+    rm -rf ${B}
+    mkdir -p ${B}
+    cd ${B}
+    PATH="${WORKDIR}/toolchain-wrappers:${PATH}" \
+        cmake -G"Unix Makefiles" \
+            -DARCH=${LIBSPDM_ARCH} \
+            -DTOOLCHAIN=ARM_GNU \
+            -DTARGET=Release \
+            -DCRYPTO=mbedtls \
+            ${S}
+}
+
+python () {
+    arch, prefix = libspdm_arch(d)
+    d.setVar('LIBSPDM_ARCH', arch)
+    d.setVar('LIBSPDM_WRAP_PREFIX', prefix)
+}
+
+do_configure[dirs] += "${B}"
+
+do_compile() {
+    cd ${B}
+    PATH="${WORKDIR}/toolchain-wrappers:${PATH}" oe_runmake copy_sample_key
+    PATH="${WORKDIR}/toolchain-wrappers:${PATH}" oe_runmake -j "${@oe.utils.parallel_make(d)}"
+}
+
+do_install() {
+    install -d ${D}${includedir}/libspdm
+    cp -r ${S}/include/* ${D}${includedir}/libspdm/
+
+    install -d ${D}${libdir}
+    find ${B}/lib -name '*.a' -exec install -m 0644 {} ${D}${libdir}/ \;
+}
+
+FILES_${PN} = "${libdir}/*.a"
+FILES_${PN}-dev = "${includedir}/libspdm"
+
+# Static libs only right now - nothing to put in a runtime/staticdev split debate yet.
+INSANE_SKIP_${PN} += "staticdev"
+
+BBCLASSEXTEND = ""
+
+ take note to use '_' instead of ':' in like FILES_${PN}
+
+bitbake libspdm
+Initialising tasks: 100% |#######################################################################################################################################################################################################################| Time: 0:00:02
+WARNING: /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/poky/bitbake/lib/bb/fetch2/wget.py:143: ResourceWarning: unclosed <socket.socket fd=57, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 44562), raddr=('127.0.1.1', 21)>
+  def do_open(self, http_class, req):
+
+WARNING: /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/poky/bitbake/lib/bb/COW.py:39: ResourceWarning: unclosed <socket.socket fd=51, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 44656), raddr=('127.0.1.1', 21)>
+  class C(cls):
+
+Sstate summary: Wanted 99 Found 92 Missed 7 Current 508 (92% match, 98% complete)
+NOTE: Executing Tasks
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_patch, the basehash value changed from fd848d3a2bfbe5131f9d61f39aed15f02ec12421e0a05c689f591fc61f0ff443 to 56723d6c5bc77e829338813ee7bfa5012e039917e938ade1d3e274c92e572516. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_patch -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_patch -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_populate_sysroot, the basehash value changed from f9844eade5d1bb1bca18defc57a10b109b6de4498875ce1d229ab2f855131bde to b5b040802c4043b8252d1606bec7e3748528f729eb5ad5ecfcf63ca13cf09296. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_populate_sysroot -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_populate_sysroot -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_fetch, the basehash value changed from dcba49ea5129123915d3a6eb64eefded81f92845de2d711dcb463ac1b49bfb71 to 356941c4f847f1c5d9fb201cfabf8de98fea1984c5c7337846988fc472700994. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_fetch -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_fetch -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_configure, the basehash value changed from 97a291adb6d7be2daf3bebd65a0e6ff7f790375c8cc84a5cce39275604893514 to 4fc1368388fd1311212d9aeeff41a81a5f9b7acf5d952fcbb720e8d703c0f843. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_configure -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_configure -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_compile, the basehash value changed from 2e7cb84e0605882963e6e5ad51b38146375e45079a57434f221ac417fb94c22c to fb49bd880ff2bc94ae44bd918c0bfafcf819061c7ebfd3a7e6112665dc77e2e0. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_compile -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_compile -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_install, the basehash value changed from d1444201ea898db2160e62aab6862eb67e8f9c8a061d9a8473d534a0a19e9624 to cfd305a3e5e1293bdfb40156f626344f559dc2f7d3677272a4dc2ce15759187d. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_install -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_install -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_build, the basehash value changed from a53ee7beb5c4220bd6744b2791937c15cc4e23253ea57c0bf3ca98d5a1b68342 to 714cbd1fe62c03853b4887aec9eaf78529e9b92f3b8bb35a39069bd505107da2. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_build -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_build -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_deploy_source_date_epoch, the basehash value changed from d4c527bac8e2e01595ba314f52ce12419179c946a0f46b46e47342f7b977fd61 to 451a49d23f7a2cf4adc29c73ccd9a7352fbe940970dba3b98b76608d9a7e6774. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_deploy_source_date_epoch -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_deploy_source_date_epoch -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_package_qa, the basehash value changed from ce61c58f1ba9ab2c08469103e01fc8bf9c6362b876046e4cc095c812308969bf to 42be2af7f13a711c73f3505a7a62da62855a153b66a5152d3dded22b70ce3806. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_package_qa -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_package_qa -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_package, the basehash value changed from ecfd9b3a132b06c3518b293466fa94d066240ab91646f8cddde3b38a579b385c to 0e78b871afa9a888f8cd93739f644b102f7a389529f1514df035d6588f5dfe20. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_package -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_package -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_packagedata, the basehash value changed from f20384df8656e4d01ce542ce08e4dfc2efb7af2547fd4a56f88ae0179035edd8 to 347b56e10088b1ff0af8a370399a7e1bf694120068b2d91fb4479287d82d1478. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_packagedata -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_packagedata -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_package_write_rpm, the basehash value changed from 0fa854cd827181e13acb25a0c748cdf5d1a4c9e46f8b392ede9046efff867033 to 292c1b83f832f5e3baf8c6f746ce2c41b53c030ea84aa01f5aac4f46b458d474. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_package_write_rpm -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_package_write_rpm -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_populate_lic, the basehash value changed from d5ef4f2220544d6007e9dc4a8d60a10c26ce320e41cac0079d606aa1c345b164 to b24ffc64b98f07a1b7c2a16d380e474fe859e0c6a28041f0917d830b1f76ed24. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_populate_lic -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_populate_lic -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_patch, the basehash value changed from fd848d3a2bfbe5131f9d61f39aed15f02ec12421e0a05c689f591fc61f0ff443 to 56723d6c5bc77e829338813ee7bfa5012e039917e938ade1d3e274c92e572516. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_patch -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_patch -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_populate_sysroot, the basehash value changed from f9844eade5d1bb1bca18defc57a10b109b6de4498875ce1d229ab2f855131bde to b5b040802c4043b8252d1606bec7e3748528f729eb5ad5ecfcf63ca13cf09296. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_populate_sysroot -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_populate_sysroot -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_fetch, the basehash value changed from dcba49ea5129123915d3a6eb64eefded81f92845de2d711dcb463ac1b49bfb71 to 356941c4f847f1c5d9fb201cfabf8de98fea1984c5c7337846988fc472700994. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_fetch -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_fetch -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_configure, the basehash value changed from 97a291adb6d7be2daf3bebd65a0e6ff7f790375c8cc84a5cce39275604893514 to 4fc1368388fd1311212d9aeeff41a81a5f9b7acf5d952fcbb720e8d703c0f843. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_configure -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_configure -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_compile, the basehash value changed from 2e7cb84e0605882963e6e5ad51b38146375e45079a57434f221ac417fb94c22c to fb49bd880ff2bc94ae44bd918c0bfafcf819061c7ebfd3a7e6112665dc77e2e0. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_compile -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_compile -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_install, the basehash value changed from d1444201ea898db2160e62aab6862eb67e8f9c8a061d9a8473d534a0a19e9624 to cfd305a3e5e1293bdfb40156f626344f559dc2f7d3677272a4dc2ce15759187d. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_install -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_install -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_build, the basehash value changed from a53ee7beb5c4220bd6744b2791937c15cc4e23253ea57c0bf3ca98d5a1b68342 to 714cbd1fe62c03853b4887aec9eaf78529e9b92f3b8bb35a39069bd505107da2. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_build -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_build -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_deploy_source_date_epoch, the basehash value changed from d4c527bac8e2e01595ba314f52ce12419179c946a0f46b46e47342f7b977fd61 to 451a49d23f7a2cf4adc29c73ccd9a7352fbe940970dba3b98b76608d9a7e6774. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_deploy_source_date_epoch -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_deploy_source_date_epoch -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_package_qa, the basehash value changed from ce61c58f1ba9ab2c08469103e01fc8bf9c6362b876046e4cc095c812308969bf to 42be2af7f13a711c73f3505a7a62da62855a153b66a5152d3dded22b70ce3806. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_package_qa -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_package_qa -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_package, the basehash value changed from ecfd9b3a132b06c3518b293466fa94d066240ab91646f8cddde3b38a579b385c to 0e78b871afa9a888f8cd93739f644b102f7a389529f1514df035d6588f5dfe20. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_package -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_package -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_packagedata, the basehash value changed from f20384df8656e4d01ce542ce08e4dfc2efb7af2547fd4a56f88ae0179035edd8 to 347b56e10088b1ff0af8a370399a7e1bf694120068b2d91fb4479287d82d1478. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_packagedata -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_packagedata -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_package_write_rpm, the basehash value changed from 0fa854cd827181e13acb25a0c748cdf5d1a4c9e46f8b392ede9046efff867033 to 292c1b83f832f5e3baf8c6f746ce2c41b53c030ea84aa01f5aac4f46b458d474. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_package_write_rpm -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_package_write_rpm -Sprintdiff
+
+ERROR: When reparsing /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_populate_lic, the basehash value changed from d5ef4f2220544d6007e9dc4a8d60a10c26ce320e41cac0079d606aa1c345b164 to b24ffc64b98f07a1b7c2a16d380e474fe859e0c6a28041f0917d830b1f76ed24. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake libspdm -cdo_populate_lic -Snone
+ERROR: Then:
+ERROR: $ bitbake libspdm -cdo_populate_lic -Sprintdiff
+
+ERROR: libspdm-3.6.0+gitAUTOINC+36ed0ccc85-r0 do_unpack: Unpack failure for URL: 'gitsm://github.com/DMTF/libspdm.git;protocol=https;branch=main'. No up to date source found: clone directory not available or not up to date: /home/melvin/.yocto_downloads//git2/github.com.DMTF.libspdm.git; shallow clone not enabled
+ERROR: Logfile of failure stored in: /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+36ed0ccc85-r0/temp/log.do_unpack.1922695
+ERROR: Task (/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_unpack) failed with exit code '1'
+NOTE: Tasks Summary: Attempted 1948 tasks of which 1945 didn't need to be rerun and 1 failed.
+
+Summary: 1 task failed:
+  /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_unpack
+Summary: There were 2 WARNING messages shown.
+Summary: There were 131 ERROR messages shown, returning a non-zero exit code.
 
 
-What I want you to do is to used the dmtf libspdm (currently, our yocto builder doesnt have libspdm)
-
-Like create me bb recipe to fetch that library,
-
-then create me recipe as well (app to use spdm for start up), like requestor -> responder
-get_version, get_capabilities, etc. just a simple start up but make sure, this will be supported and run smoothly on our PMC.
-
-Like now, I dont even have a single idea on how to implement it, or can it be supported by outr device
+also make sure later on that the app will also work
