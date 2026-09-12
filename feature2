@@ -1,0 +1,2 @@
+=== Sourcing Yocto build environment ===
+/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/poky/oe-init-build-env: line 29: BBSERVER: unbound variable
