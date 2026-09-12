@@ -1,0 +1,341 @@
+I mean on the logs, dont show it on live, the building process took so long, I mean just store it somewhere
+then after the build is compiling/ building/deploying were finished, just display like success or error, then there a button to
+show logs, because I dont know if because of this, the building is too slow... also in the device to deploy, make it a selection, 
+like all the available devices.
+
+also, why are the processes like being duplicated??
+ps aux | grep melvin | grep bitbake
+melvin   2861723  0.0  0.5 11546884 180668 ?     Sl   07:58   0:01 /home/melvin/.vscode-server/cli/servers/Stable-41dd792b5e652393e7787322889ed5fdc58bd75b/server/node /home/melvin/.vscode-server/extensions/yocto-project.yocto-bitbake-2.10.0/server/out/server.js --node-ipc --clientProcessId=2861313
+melvin   2934234  0.2  0.0 113268 28816 ?        Ssl  08:28   0:00 python3 /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/poky/bitbake/binbitbake pmc-config-manager
+melvin   2939896  3.9  0.8 437632 278136 ?       Sl   08:29   0:06 python3 /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/poky/bitbake/binbitbake pmc-config-manager
+melvin   2939897  0.0  0.1  76544 60364 ?        S    08:29   0:00 python3 /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/poky/bitbake/binbitbake pmc-config-manager
+melvin   2942842  0.7  0.3 208376 124160 ?       Sl   08:30   0:00 python3 /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/poky/bitbake/binbitbake-worker decafbad
+melvin   2946061  0.0  0.0   5108   556 ?        S    08:31   0:00 /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/sysroots-components/x86_64/pseudo-native/usr/bin/pseudo bitbake-worker decafbadbeef
+melvin   2946062  1.2  0.3 190304 105760 ?       Sl   08:31   0:00 python3 /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/poky/bitbake/binbitbake-worker decafbadbeef
+melvin   2946390  2.4  0.3 195336 109036 ?       Ss   08:31   0:00 python3 /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/poky/bitbake/binbitbake-worker decafbadbeef
+melvin   2949137  0.0  0.0   9032   660 pts/23   S+   08:32   0:00 grep --color=auto --exclude-dir=.bzr --exclude-dir=CVS --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=.tox --exclude-dir=.venv --exclude-dir=venv bitbake
+
+ps aux | grep melvin | grep devtool
+melvin   2952472  1.2  0.0 115256 30628 ?        Ssl  08:33   0:00 python3 /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/poky/scripts/devtool deploy-target pmc-config-manager root@10.152.12.40
+melvin   2952571  6.7  0.5 252252 165000 ?       R    08:34   0:00 python3 /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/poky/scripts/devtool deploy-target pmc-config-manager root@10.152.12.40
+melvin   2952572  0.0  0.1 151956 61544 ?        S    08:34   0:00 python3 /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/poky/scripts/devtool deploy-target pmc-config-manager root@10.152.12.40
+melvin   2952593  0.0  0.0   9032   724 pts/23   S+   08:34   0:00 grep --color=auto --exclude-dir=.bzr --exclude-dir=CVS --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=.tox --exclude-dir=.venv --exclude-dir=venv devtool
+
+
+I mean make the building process faster because whats the sense of building all in my app if building is slower?
+
+also to avoid bitbake error, maybe just delete everytime in the build dir, the bitbake*(like bitbake.lock)
+
+also, deploy isnt working
+Deploying pmc-config-manager to 10.152.12.40 (devtool deploy-target)…
+NOTE: Starting bitbake server...
+NOTE: Bitbake server didn't start within 5 seconds, waiting for 90
+Loading cache...
+done.
+Loaded 3240 entries from dependency cache.
+Parsing recipes...
+done.
+Parsing of 2175 .bb files complete (2135 cached, 40 parsed). 3280 targets, 347 skipped, 0 masked, 0 errors.
+lost connection
+ERROR: Failed to copy script to root@10.152.12.40 - rerun with -s to get a complete error message
+
+[exited with code 1]
+
+And as I said in the logs, highlight the error or warning or whatever, like if I click in the logs what cause the error, I will 
+auto locate in that error? I mean is that even possible? if so please do
+
+Also, whats the best move in here? because for example, currently I am building, then I close the session, when I click again
+the devtool icon in the repo, All is being reset, so maybe disable the close button while doing something or do you have any in mind like retain previous state
+
+
+Or I think istaed of using deploy-target, you can just refer in here, like finding in the image or sysroot-destdir
+Also, do you prefer to create those building/devtool method in script(like that of pmc-scan.sh) or just do the current?
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# ---------------------------------------------------------
+# Argument Validation
+# ---------------------------------------------------------
+if [ -z "${1:-}" ] || [ -z "${2:-}" ]; then
+	echo "Usage: $0 <recipe_name> <target_device_ip> [deploy|builddeploy]"
+	echo ""
+	echo "Examples:"
+	echo "  $0 pmc-poll-manager 192.168.0.120 deploy"
+	echo "  $0 pmc-poll-manager 192.168.0.120 builddeploy"
+	exit 1
+fi
+
+RECIPE="$1"
+DEVICE_IP="$2"
+MODE="${3:-builddeploy}"
+
+case "$MODE" in
+deploy | builddeploy) ;;
+*)
+	echo "[-] Invalid mode: $MODE"
+	echo "Allowed modes: deploy, builddeploy"
+	exit 1
+	;;
+esac
+
+# ---------------------------------------------------------
+# Target Device Credentials
+# ---------------------------------------------------------
+DEVICE_USER="root"
+DEVICE_PASS="gEd2Be&v"
+
+# ---------------------------------------------------------
+# Jump Host Credentials
+# ---------------------------------------------------------
+GATEWAY_USER="melvin"
+GATEWAY_IP="$(awk -F= '/^melvin=/{print $2}' /etc/users_ip)"
+GATEWAY_PASS="clear12"
+
+# ---------------------------------------------------------
+# Build Paths
+# ---------------------------------------------------------
+BASE_PATH="/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi"
+
+# ---------------------------------------------------------
+# SSH Options
+# ---------------------------------------------------------
+SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=5"
+
+# ---------------------------------------------------------
+# Connectivity Detection
+# ---------------------------------------------------------
+DIRECT_MODE=false
+
+echo "[+] Pre-check: Testing direct connectivity to Target Device (${DEVICE_IP})..."
+
+if ping -c 1 -W 2 "${DEVICE_IP}" >/dev/null 2>&1; then
+
+	echo "[+] Target Device is directly reachable."
+	DIRECT_MODE=true
+
+	echo "[+] Verifying SSH access to Target Device..."
+
+	if ! sshpass -p "$DEVICE_PASS" \
+		ssh $SSH_OPTS "${DEVICE_USER}@${DEVICE_IP}" true >/dev/null 2>&1; then
+		echo "[-] Error: Device is pingable but SSH access failed."
+		exit 1
+	fi
+
+else
+
+	echo "[*] Target Device is not directly reachable. Falling back to Jump Host."
+
+	echo "[+] Pre-check: Testing network connectivity to Jump Host (${GATEWAY_IP})..."
+
+	if ! sshpass -p "$GATEWAY_PASS" \
+		ssh $SSH_OPTS "${GATEWAY_USER}@${GATEWAY_IP}" true >/dev/null 2>&1; then
+		echo "[-] Error: Cannot connect to Jump Host (${GATEWAY_IP})."
+		exit 1
+	fi
+fi
+
+if [ "$DIRECT_MODE" = false ]; then
+
+	echo "[+] Pre-check: Testing Jump Host to Target Device (${DEVICE_IP}) connectivity..."
+
+	if ! sshpass -p "$GATEWAY_PASS" \
+		ssh $SSH_OPTS "${GATEWAY_USER}@${GATEWAY_IP}" \
+		"sshpass -p '$DEVICE_PASS' ssh $SSH_OPTS ${DEVICE_USER}@${DEVICE_IP} true" \
+		>/dev/null 2>&1; then
+
+		echo "[-] Error: Jump Host authentication to Target Device failed."
+		exit 1
+	fi
+fi
+
+# ---------------------------------------------------------
+# Build Stage
+# ---------------------------------------------------------
+if [[ "$MODE" == "builddeploy" ]]; then
+
+	echo "=== Cleaning $RECIPE ==="
+
+	if ! bitbake -c clean "$RECIPE"; then
+		echo "[-] Error: Bitbake clean failed."
+		exit 1
+	fi
+
+	echo "=== Building $RECIPE ==="
+
+	if ! bitbake "$RECIPE"; then
+		echo "[-] Error: Bitbake build failed."
+		exit 1
+	fi
+
+	echo ""
+	# read -rp "Do you want to deploy the build files to the device? (y/n): " CONFIRM
+	#
+	# if [[ ! "$CONFIRM" =~ ^[Yy]$ ]]; then
+	# 	echo "[*] Deployment cancelled by user."
+	# 	exit 0
+	# fi
+fi
+
+# ---------------------------------------------------------
+# Deploy Stage
+# ---------------------------------------------------------
+if [[ "$MODE" == "deploy" || "$MODE" == "builddeploy" ]]; then
+
+	echo "=== Locating deployment source directory ==="
+
+	if [ ! -d "$BASE_PATH/$RECIPE" ]; then
+		echo "[-] Error: Recipe directory not found at $BASE_PATH/$RECIPE."
+		exit 1
+	fi
+
+	IMAGE_DIR=$(find "$BASE_PATH/$RECIPE" -type d -path "*/image" | head -n 1)
+
+	if [ -z "$IMAGE_DIR" ]; then
+		echo "[*] image/ directory not found. Falling back to sysroot-destdir..."
+		IMAGE_DIR=$(find "$BASE_PATH/$RECIPE" -type d -path "*/sysroot-destdir" | head -n 1)
+	fi
+
+	if [ -z "$IMAGE_DIR" ] || [ ! -d "$IMAGE_DIR" ]; then
+		echo "[-] Error: Could not find either 'image/' or 'sysroot-destdir/' for '$RECIPE'."
+		exit 1
+	fi
+
+	echo "[+] Using deployment source: $IMAGE_DIR"
+
+	BINARY_PATH=$(
+		find \
+			"$IMAGE_DIR/usr/bin" \
+			"$IMAGE_DIR/usr/sbin" \
+			"$IMAGE_DIR/usr/libexec" \
+			-type f 2>/dev/null | head -n 1 || true
+	)
+
+	if [ -n "$BINARY_PATH" ]; then
+		BINARY_NAME=$(basename "$BINARY_PATH")
+	else
+		BINARY_NAME="$RECIPE"
+	fi
+
+	echo "[+] Service/Binary Name: $BINARY_NAME"
+
+	TAR_BALL="/tmp/${RECIPE}_deploy.tar.gz"
+
+	echo "[+] Archiving image folder to $TAR_BALL..."
+
+	tar -czf "$TAR_BALL" -C "$IMAGE_DIR" .
+
+	echo "=== Managing deployment to Target Device ($DEVICE_IP) ==="
+
+	echo "[+] Stopping service: $BINARY_NAME"
+
+	if [ "$DIRECT_MODE" = true ]; then
+
+		sshpass -p "$DEVICE_PASS" \
+			ssh $SSH_OPTS "${DEVICE_USER}@${DEVICE_IP}" \
+			"systemctl stop ${BINARY_NAME} || true"
+
+	else
+
+		sshpass -p "$GATEWAY_PASS" \
+			ssh $SSH_OPTS "${GATEWAY_USER}@${GATEWAY_IP}" \
+			"sshpass -p '$DEVICE_PASS' ssh $SSH_OPTS ${DEVICE_USER}@${DEVICE_IP} 'systemctl stop ${BINARY_NAME} || true'"
+	fi
+
+	if [ "$DIRECT_MODE" = true ]; then
+
+		echo "[+] Deploying archive directly to Target Device..."
+
+		if ! sshpass -p "$DEVICE_PASS" \
+			scp $SSH_OPTS \
+			"$TAR_BALL" \
+			"${DEVICE_USER}@${DEVICE_IP}:/tmp/"; then
+
+			echo "[-] Error: Direct SCP deployment failed."
+			rm -f "$TAR_BALL"
+			exit 1
+		fi
+
+		echo "[+] Extracting image contents..."
+
+		sshpass -p "$DEVICE_PASS" \
+			ssh $SSH_OPTS "${DEVICE_USER}@${DEVICE_IP}" "
+                tar -xzf /tmp/$(basename "$TAR_BALL") -C /
+                rm -f /tmp/$(basename "$TAR_BALL")
+                systemctl daemon-reload || true
+                ldconfig || true
+            "
+
+	else
+
+		echo "[+] Copying archive to Jump Host..."
+
+		if ! sshpass -p "$GATEWAY_PASS" \
+			scp $SSH_OPTS \
+			"$TAR_BALL" \
+			"${GATEWAY_USER}@${GATEWAY_IP}:/tmp/"; then
+
+			echo "[-] Error: Failed to copy archive to Jump Host."
+			rm -f "$TAR_BALL"
+			exit 1
+		fi
+
+		echo "[+] Copying archive from Jump Host to Target Device..."
+
+		if ! sshpass -p "$GATEWAY_PASS" \
+			ssh $SSH_OPTS "${GATEWAY_USER}@${GATEWAY_IP}" "
+                set -e
+
+                sshpass -p '$DEVICE_PASS' \
+                scp $SSH_OPTS \
+                /tmp/$(basename "$TAR_BALL") \
+                ${DEVICE_USER}@${DEVICE_IP}:/tmp/
+
+                sshpass -p '$DEVICE_PASS' \
+                ssh $SSH_OPTS ${DEVICE_USER}@${DEVICE_IP} '
+                    tar -xzf /tmp/$(basename "$TAR_BALL") -C /
+                    rm -f /tmp/$(basename "$TAR_BALL")
+                    systemctl daemon-reload || true
+                    ldconfig || true
+                '
+
+                rm -f /tmp/$(basename "$TAR_BALL")
+            "; then
+
+			echo "[-] Error: Target deployment copy/extraction failed."
+			rm -f "$TAR_BALL"
+			exit 1
+		fi
+	fi
+
+	rm -f "$TAR_BALL"
+
+	echo "[+] Restarting service: $BINARY_NAME"
+
+	if [ "$DIRECT_MODE" = true ]; then
+
+		sshpass -p "$DEVICE_PASS" \
+			ssh $SSH_OPTS "${DEVICE_USER}@${DEVICE_IP}" "
+                systemctl daemon-reload || true
+                systemctl restart ${BINARY_NAME}
+                systemctl status ${BINARY_NAME} --no-pager -l || true
+            "
+
+	else
+
+		sshpass -p "$GATEWAY_PASS" \
+			ssh $SSH_OPTS "${GATEWAY_USER}@${GATEWAY_IP}" "
+                sshpass -p '$DEVICE_PASS' \
+                ssh $SSH_OPTS ${DEVICE_USER}@${DEVICE_IP} '
+                    systemctl daemon-reload || true
+                    systemctl restart ${BINARY_NAME}
+                    systemctl status ${BINARY_NAME} --no-pager -l || true
+                '
+            "
+	fi
+
+	echo ""
+	echo "======================================="
+	echo "      DEPLOYMENT SUCCESSFUL"
+	echo "======================================="
+fi
