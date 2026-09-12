@@ -1,0 +1,18 @@
+wait, you're just searching for these errors
+
+| ERROR: Execution of '/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/pmc-poll-manager/1.0+git999-r0/temp/run.do_compile.3099149' failed with exit code 1:
+
+and warnings
+| WARNING: /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/pmc-poll-manager/1.0+git999-r0/temp/run.do_compile.3099149:1 exit 1 from 'eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/pmc-poll-manager/1.0+git999-r0/pmc-poll-manager-1.0+git999/' "$@" -- ${EXTRA_OECMAKE_BUILD}'
+
+but thats not what I want, these kind of errors
+manager/src/poll-manager.c: In function 'main':
+| /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/pmc-poll-manager/src/poll-manager.c:174:34: error: 'yeahhers' undeclared (first use in this function)
+|   174 |     ERROR_PRINT("POLL SUPER\n"); yeahhers
+|       |
+
+and corresponding warnings or othert bugs that maade the building fail
+
+also in the current progress part, can you put like 
+cleaning <recipe>.... then when the bar became 100, hide already then later on, show
+building <recipe> .... then the progree bar again
