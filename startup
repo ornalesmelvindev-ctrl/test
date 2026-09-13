@@ -1,45 +1,33 @@
-admin@artesyn-shelf:~# cd /
-admin@artesyn-shelf:/# tar xzf /tmp/libspdm.tar.gz
-admin@artesyn-shelf:/# spdm-startup-app
-Segmentation fault
-admin@artesyn-shelf:/# ldd /usr/bin/sp
-spdm-startup-app  split             split.coreutils   sprof
-admin@artesyn-shelf:/# ldd /usr/bin/spdm-startup-app
-        linux-vdso.so.1 (0x7eb47000)
-        libgcc_s.so.1 => /lib/libgcc_s.so.1 (0x76e5c000)
-        libpthread.so.0 => /lib/libpthread.so.0 (0x76e32000)
-        libc.so.6 => /lib/libc.so.6 (0x76cee000)
-        /lib/ld-linux-armhf.so.3 (0x76f41000)
-admin@artesyn-shelf:/# spdm-startup-app
-Segmentation fault
-admin@artesyn-shelf:/# ls /usr/lib/libs
-libsanitizer.spec                      libspdm_device_secret_lib_sample.a     libspdm_transport_test_lib.a
-libsolv.so.1                           libspdm_requester_lib.a                libsqlite3.so.0
-libsolvext.so.1                        libspdm_responder_lib.a                libsqlite3.so.0.8.6
-libspdm_cert_verify_callback_sample.a  libspdm_secured_message_lib.a          libssl.so.1.1
-libspdm_common_lib.a                   libspdm_transport_mctp_lib.a           libstdc++.so
-libspdm_crypt_ext_lib.a                libspdm_transport_pcidoe_lib.a         libstdc++.so.6
-libspdm_crypt_lib.a                    libspdm_transport_storage_lib.a        libstdc++.so.6.0.28
-libspdm_device_secret_lib_null.a       libspdm_transport_tcp_lib.a
-admin@artesyn-shelf:/# ls /usr/lib/libs
-libsanitizer.spec                      libspdm_device_secret_lib_sample.a     libspdm_transport_test_lib.a
-libsolv.so.1                           libspdm_requester_lib.a                libsqlite3.so.0
-libsolvext.so.1                        libspdm_responder_lib.a                libsqlite3.so.0.8.6
-libspdm_cert_verify_callback_sample.a  libspdm_secured_message_lib.a          libssl.so.1.1
-libspdm_common_lib.a                   libspdm_transport_mctp_lib.a           libstdc++.so
-libspdm_crypt_ext_lib.a                libspdm_transport_pcidoe_lib.a         libstdc++.so.6
-libspdm_crypt_lib.a                    libspdm_transport_storage_lib.a        libstdc++.so.6.0.28
-libspdm_device_secret_lib_null.a       libspdm_transport_tcp_lib.a
-admin@artesyn-shelf:/# ls /usr/lib/libspdm_
-libspdm_cert_verify_callback_sample.a  libspdm_device_secret_lib_sample.a     libspdm_transport_pcidoe_lib.a
-libspdm_common_lib.a                   libspdm_requester_lib.a                libspdm_transport_storage_lib.a
-libspdm_crypt_ext_lib.a                libspdm_responder_lib.a                libspdm_transport_tcp_lib.a
-libspdm_crypt_lib.a                    libspdm_secured_message_lib.a          libspdm_transport_test_lib.a
-libspdm_device_secret_lib_null.a       libspdm_transport_mctp_lib.a
-admin@artesyn-shelf:/# ls /usr/lib/libspdm*
-/usr/lib/libspdm_cert_verify_callback_sample.a  /usr/lib/libspdm_device_secret_lib_sample.a  /usr/lib/libspdm_transport_pcidoe_lib.a
-/usr/lib/libspdm_common_lib.a                   /usr/lib/libspdm_requester_lib.a             /usr/lib/libspdm_transport_storage_lib.a
-/usr/lib/libspdm_crypt_ext_lib.a                /usr/lib/libspdm_responder_lib.a             /usr/lib/libspdm_transport_tcp_lib.a
-/usr/lib/libspdm_crypt_lib.a                    /usr/lib/libspdm_secured_message_lib.a       /usr/lib/libspdm_transport_test_lib.a
-/usr/lib/libspdm_device_secret_lib_null.a       /usr/lib/libspdm_transport_mctp_lib.a
+fd '.*gdb.*bb$'
+meta-openembedded/meta-oe/recipes-devtools/cgdb/cgdb_0.7.1.bb
+poky/meta/recipes-devtools/gdb/gdb-cross-canadian_9.1.bb
+poky/meta/recipes-devtools/gdb/gdb-cross_9.1.bb
+poky/meta/recipes-devtools/gdb/gdb_9.1.bb
+poky/meta/recipes-kernel/wireless-regdb/wireless-regdb_2021.04.21.bb
+poky/meta/recipes-support/gdbm/gdbm_1.18.1.bb
 
+ls build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/gdb/9.1-r0/
+deploy-rpms/                              sstate-install-deploy_source_date_epoch/  sstate-install-populate_sysroot/
+deploy-source-date-epoch/                 sstate-install-packagedata/               sysroot-destdir/
+license-destdir/                          sstate-install-package_qa/                temp/
+pkgdata-pdata-input/                      sstate-install-package_write_rpm/
+source-date-epoch/                        sstate-install-populate_lic/
+
+ls build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/gdb/9.1-r0/sysroot-destdir
+sysroot-providers  usr
+╭─░▒▓ ~/dev/project/ewd-orv3-pmc/artesyn-shelf  develop *1 ?2 ······································ ✔  melvin@ewdsabuild  01:26:26 PM ▓▒░
+╰─ ls build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/gdb/9.1-r0/sysroot-destdir/usr
+share
+╭─░▒▓ ~/dev/project/ewd-orv3-pmc/artesyn-shelf  develop *1 ?2 ······································ ✔  melvin@ewdsabuild  01:26:29 PM ▓▒░
+╰─ ls build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/gdb/9.1-r0/sysroot-destdir/usr/share
+gdb
+╭─░▒▓ ~/dev/project/ewd-orv3-pmc/artesyn-shelf  develop *1 ?2 ······································ ✔  melvin@ewdsabuild  01:26:31 PM ▓▒░
+╰─ ls build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/gdb/9.1-r0/sysroot-destdir/usr/share/gdb
+syscalls  system-gdbinit
+╭─░▒▓ ~/dev/project/ewd-orv3-pmc/artesyn-shelf  develop *1 ?2 ······································ ✔  melvin@ewdsabuild  01:26:33 PM ▓▒░
+╰─ ls build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/gdb/9.1-r0/sysroot-destdir/usr/share/gdb/syscalls
+aarch64-linux.xml  arm-linux.xml  gdb-syscalls.dtd  mips-n32-linux.xml  mips-o32-linux.xml  ppc-linux.xml   s390x-linux.xml    sparc-linux.xml
+amd64-linux.xml    freebsd.xml    i386-linux.xml    mips-n64-linux.xml  ppc64-linux.xml     s390-linux.xml  sparc64-linux.xml
+╭─░▒▓ ~/dev/project/ewd-orv3-pmc/artesyn-shelf  develop *1 ?2 ······································ ✔  melvin@ewdsabuild  01:26:37 PM ▓▒░
+╰─ ls build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/gdb/9.1-r0/sysroot-destdir/usr/share/gdb/system-gdbinit
+elinos.py  wrs-linux.py
