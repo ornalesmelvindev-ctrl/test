@@ -1,0 +1,61 @@
+Take note that of all the repos, 
+redfish(https://bitbucket.org/advenergy/ewd-orv3-redfish)
+and
+openbmc-webui(https://bitbucket.org/advenergy/ewd-openbmc-webui)
+are the special cases, because they dont need to be sync( or to use devtool modify)
+because they can be tested without building the actual app,
+
+heres the thing, firstly
+redfish:
+so here what I want, same thing like when opening redfish in vscode, stash, checkout, pull, pop, etc.
+then when deploying to the actual device, device ip and the service are needed as well, then the deploy thing,
+I mean you can do git status as well to determine the modifed files in redfish,
+like
+no changes added to commit (use "git add" and/or "git commit -a")
+╭─░▒▓    /mnt/c/U/me/Doc/T/repositories/ewd-orv3-redfish    develop *1 !1 ······ ✔  system   08:31:51 PM  ▓▒░
+╰─ gst
+On branch develop
+Your branch is up to date with 'origin/develop'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   src/redfish-object-models/model-psu.js
+        modified:   src/redfish-orm-service/orm-psu.js
+
+then what you will do now is to deploy in the device right?
+because the path in this repo and the actual path in the device is slightly different, so what you will do
+is for example model-psu.js, you fill first find it in /usr/lib/node_modules/redfish
+like
+admin@artesyn-shelf:~# find /usr/lib/node_modules/redfish/ -name model-psu.js
+/usr/lib/node_modules/redfish/redfish-object-models/model-psu.js
+see, slightly different
+same to the other files
+
+then after copying, restart the service
+
+next one is openbmc-webui
+─░▒▓    /mnt/c/Users/melvin.ornales/Documents/Training/repositories/ewd-openbmc-webui    develop ···················· ✔  system   08:37:07 PM  ▓▒░
+╰─ ls                          
+README.md  bitbucket-pipelines.yml  config  doc  package-lock.json  script  src  test  tools
+╭─░▒▓    /mnt/c/Users/melvin.ornales/Documents/Training/repositories/ewd-openbmc-webui    develop ···················· ✔  system   08:37:11 PM  ▓▒░
+╰─ ls src                 
+CONTRIBUTING.md  OWNERS     babel.config.js  jest.config.js       package.json       public  server.js  tests          web.config
+LICENSE          README.md  format-code.sh   npm-shrinkwrap.json  postcss.config.js  run-ci  src        vue.config.js
+
+because to compile this, need to cd src, then npm install, then npm run PMC to build
+then, the compiled app.js will be located at 
+ewd-openbmc-webui\build\js
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----         9/11/2026   3:45 PM        2996256 app.js
+-a----         9/11/2026   3:45 PM        6221614 chunk-vendors.js
+
+so the app.js is the one needed to be deployed in the device, and it is located at
+admin@artesyn-shelf:~# ls /usr/lib/node_modules/webui/js/app.js
+/usr/lib/node_modules/webui/js/app.js
+
+in here, only the device ip is needed because I dont need to restart any service
+up to you how will you implement it
