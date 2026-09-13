@@ -59,3 +59,34 @@ admin@artesyn-shelf:~# ls /usr/lib/node_modules/webui/js/app.js
 
 in here, only the device ip is needed because I dont need to restart any service
 up to you how will you implement it
+also if you can add feature like checkbox as well? like create a backup of the file in the device? also ofcourse, there a button to like
+reset to default(which is the existing one, then restart redfish as well) for example model-psu.js, you will do like model-psu.js.bak
+then copy the new model-psu.js, then if reset to default files, alkl the .bak files will be bring back to orig name
+
+Then another repo is this
+osal-script
+https://bitbucket.org/advenergy/ewd-osal-scripts
+
+ls    
+80-wired.conf              enable_dns.sh             get_psc_temperature.sh        replace_ntp_servers.sh
+README.md                  enable_http.sh            get_ssh_status.sh             script
+apply_htps_cert.sh         enable_ntp.sh             get_static_ip.sh              set_hostname.sh
+bitbucket-pipelines.yml    enable_ssh.sh             get_static_ipv6.sh            set_mac_address.sh
+cancel_psc_reset.sh        enable_static_network.sh  get_static_network_status.sh  set_persistent_config.sh
+configurations             fru-tool.sh               get_time.sh                   set_ssh_credential.sh
+delete_redfish_users.sh    get_busbar_temp.sh        get_versions.sh               set_static_ip.sh
+design                     get_dhcp_status.sh        patch_dns_servers.sh          set_static_ipv6.sh
+disable_dhcp.sh            get_dns_status.sh         patch_ntp_servers.sh          set_time.sh
+disable_dns.sh             get_dynamic_ip.sh         psc_reset.sh                  sonar-project.properties
+disable_http.sh            get_dynamic_ipv6.sh       read_dns_servers.sh           spec
+disable_ntp.sh             get_hostname.sh           read_https_cert_info.sh       test
+disable_ssh.sh             get_http_status.sh        read_ntp_servers.sh           tools
+disable_static_network.sh  get_mac_address.sh        replace_dns_servers.sh        use_default_https_cert.sh
+enable_dhcp.sh             get_ntp_status.sh         replace_network_config.sh
+
+like if I modify sonething there, it will be deployed in the device, inside the /usr/bin, no need to restart anything since these 
+are all just executables
+
+Also, take note for osal-scripts and redfish, if the file is added(not modified) in the git status, there will be additional
+input, like the destination path of the file, for example I added like my_custom.js, ofcourse it is not yet present in the device,
+so I will manually enter its path in the device, like /usr/lib/node_modules/redfish/.../...
