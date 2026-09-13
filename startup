@@ -1,33 +1,17 @@
-fd '.*gdb.*bb$'
-meta-openembedded/meta-oe/recipes-devtools/cgdb/cgdb_0.7.1.bb
-poky/meta/recipes-devtools/gdb/gdb-cross-canadian_9.1.bb
-poky/meta/recipes-devtools/gdb/gdb-cross_9.1.bb
-poky/meta/recipes-devtools/gdb/gdb_9.1.bb
-poky/meta/recipes-kernel/wireless-regdb/wireless-regdb_2021.04.21.bb
-poky/meta/recipes-support/gdbm/gdbm_1.18.1.bb
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from spdm-startup-app...
+(gdb) run
+Starting program: /usr/bin/spdm-startup-app
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/libthread_db.so.1".
 
-ls build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/gdb/9.1-r0/
-deploy-rpms/                              sstate-install-deploy_source_date_epoch/  sstate-install-populate_sysroot/
-deploy-source-date-epoch/                 sstate-install-packagedata/               sysroot-destdir/
-license-destdir/                          sstate-install-package_qa/                temp/
-pkgdata-pdata-input/                      sstate-install-package_write_rpm/
-source-date-epoch/                        sstate-install-populate_lic/
-
-ls build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/gdb/9.1-r0/sysroot-destdir
-sysroot-providers  usr
-╭─░▒▓ ~/dev/project/ewd-orv3-pmc/artesyn-shelf  develop *1 ?2 ······································ ✔  melvin@ewdsabuild  01:26:26 PM ▓▒░
-╰─ ls build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/gdb/9.1-r0/sysroot-destdir/usr
-share
-╭─░▒▓ ~/dev/project/ewd-orv3-pmc/artesyn-shelf  develop *1 ?2 ······································ ✔  melvin@ewdsabuild  01:26:29 PM ▓▒░
-╰─ ls build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/gdb/9.1-r0/sysroot-destdir/usr/share
-gdb
-╭─░▒▓ ~/dev/project/ewd-orv3-pmc/artesyn-shelf  develop *1 ?2 ······································ ✔  melvin@ewdsabuild  01:26:31 PM ▓▒░
-╰─ ls build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/gdb/9.1-r0/sysroot-destdir/usr/share/gdb
-syscalls  system-gdbinit
-╭─░▒▓ ~/dev/project/ewd-orv3-pmc/artesyn-shelf  develop *1 ?2 ······································ ✔  melvin@ewdsabuild  01:26:33 PM ▓▒░
-╰─ ls build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/gdb/9.1-r0/sysroot-destdir/usr/share/gdb/syscalls
-aarch64-linux.xml  arm-linux.xml  gdb-syscalls.dtd  mips-n32-linux.xml  mips-o32-linux.xml  ppc-linux.xml   s390x-linux.xml    sparc-linux.xml
-amd64-linux.xml    freebsd.xml    i386-linux.xml    mips-n64-linux.xml  ppc64-linux.xml     s390-linux.xml  sparc64-linux.xml
-╭─░▒▓ ~/dev/project/ewd-orv3-pmc/artesyn-shelf  develop *1 ?2 ······································ ✔  melvin@ewdsabuild  01:26:37 PM ▓▒░
-╰─ ls build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/gdb/9.1-r0/sysroot-destdir/usr/share/gdb/system-gdbinit
-elinos.py  wrs-linux.py
+Program received signal SIGSEGV, Segmentation fault.
+0x004077d4 in __libc_start_main (main=0x1, argc=0, argv=0x7efffd64, init=0x407f78 <__libc_csu_init>, fini=0x408028 <__libc_csu_fini>,
+    rtld_fini=0x76fddc18 <_dl_fini>, stack_end=0x7efffd64) at libc-start.c:152
+152     libc-start.c: No such file or directory.
+(gdb) bt
+#0  0x004077d4 in __libc_start_main (main=0x1, argc=0, argv=0x7efffd64, init=0x407f78 <__libc_csu_init>, fini=0x408028 <__libc_csu_fini>,
+    rtld_fini=0x76fddc18 <_dl_fini>, stack_end=0x7efffd64) at libc-start.c:152
+#1  0x00407570 in _start () at start.S:112
+Backtrace stopped: previous frame identical to this frame (corrupt stack?)
