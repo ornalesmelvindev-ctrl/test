@@ -15,4 +15,5 @@ modbus-service_git.bbappend    pmc-poll-manager_git.bbappend    shelf-datamanage
 
 should the psu-poll-manager be in the appends?? I mean because I noticed my changes in pmpsu is not applying
 
+or do I have really to run devtool modify all the time? but i think it's not necessary eh
 also, make sure all the functions were working propperly, optimized and saves time okay?
