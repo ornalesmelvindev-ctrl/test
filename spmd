@@ -1,0 +1,373 @@
+:if(TOOLCHAIN STREQUAL "KLEE")
+31:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_encap_request/CMakeLists.txt
+18:if(TOOLCHAIN STREQUAL "KLEE")
+33:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_encap_challenge_auth/CMakeLists.txt
+18:if(TOOLCHAIN STREQUAL "KLEE")
+33:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_get_key_pair_info/CMakeLists.txt
+15:if(TOOLCHAIN STREQUAL "KLEE")
+30:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_get_version/CMakeLists.txt
+15:if(TOOLCHAIN STREQUAL "KLEE")
+29:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_get_capabilities/CMakeLists.txt
+15:if(TOOLCHAIN STREQUAL "KLEE")
+29:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_key_exchange/CMakeLists.txt
+16:if(TOOLCHAIN STREQUAL "KLEE")
+31:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_get_measurements/CMakeLists.txt
+16:if(TOOLCHAIN STREQUAL "KLEE")
+31:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_get_event_types/CMakeLists.txt
+16:if(TOOLCHAIN STREQUAL "KLEE")
+31:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_end_session/CMakeLists.txt
+18:if(TOOLCHAIN STREQUAL "KLEE")
+33:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_encap_certificate/CMakeLists.txt
+18:if(TOOLCHAIN STREQUAL "KLEE")
+33:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_encap_key_update/CMakeLists.txt
+18:if(TOOLCHAIN STREQUAL "KLEE")
+33:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_negotiate_algorithms/CMakeLists.txt
+16:if(TOOLCHAIN STREQUAL "KLEE")
+31:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_chunk_send/CMakeLists.txt
+18:if(TOOLCHAIN STREQUAL "KLEE")
+33:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_get_certificate/CMakeLists.txt
+16:if(TOOLCHAIN STREQUAL "KLEE")
+31:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_psk_exchange/CMakeLists.txt
+16:if(TOOLCHAIN STREQUAL "KLEE")
+31:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_set_certificate/CMakeLists.txt
+16:if(TOOLCHAIN STREQUAL "KLEE")
+31:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_vendor_cmds/CMakeLists.txt
+16:if(TOOLCHAIN STREQUAL "KLEE")
+31:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_challenge/CMakeLists.txt
+18:if(TOOLCHAIN STREQUAL "KLEE")
+33:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_chunk_get/CMakeLists.txt
+18:if(TOOLCHAIN STREQUAL "KLEE")
+33:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_encap_digests/CMakeLists.txt
+18:if(TOOLCHAIN STREQUAL "KLEE")
+33:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_key_update/CMakeLists.txt
+16:if(TOOLCHAIN STREQUAL "KLEE")
+31:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_heartbeat/CMakeLists.txt
+16:if(TOOLCHAIN STREQUAL "KLEE")
+31:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_finish/CMakeLists.txt
+16:if(TOOLCHAIN STREQUAL "KLEE")
+31:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_psk_finish/CMakeLists.txt
+16:if(TOOLCHAIN STREQUAL "KLEE")
+31:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_get_measurement_extension_log/CMakeLists.txt
+15:if(TOOLCHAIN STREQUAL "KLEE")
+30:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_requester/test_spdm_requester_set_key_pair_info/CMakeLists.txt
+15:if(TOOLCHAIN STREQUAL "KLEE")
+30:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_spdm_crypt/test_x509_certificate_check/CMakeLists.txt
+14:if(TOOLCHAIN STREQUAL "KLEE")
+28:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_secured_message/test_spdm_decode_secured_message/CMakeLists.txt
+15:if(TOOLCHAIN STREQUAL "KLEE")
+30:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_secured_message/test_spdm_encode_secured_message/CMakeLists.txt
+15:if(TOOLCHAIN STREQUAL "KLEE")
+30:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_responder/test_spdm_responder_set_certificate/CMakeLists.txt
+18:if(TOOLCHAIN STREQUAL "KLEE")
+33:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_responder/test_spdm_responder_encap_key_update/CMakeLists.txt
+18:if(TOOLCHAIN STREQUAL "KLEE")
+33:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/unit_test/fuzzing/test_spdm_common/test_process_opaque_data/CMakeLists.txt
+14:if(TOOLCHAIN STREQUAL "KLEE")
+28:if((TOOLCHAIN STREQUAL "KLEE") OR (TOOLCHAIN STREQUAL "CBMC"))
+╭─░▒▓ ~/de/p/ewd-orv3-pmc/a/b/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm  develop *1 ?2 · ✔  melvin@ewdsabuild  12:10:28 PM ▓▒░
+╰─ rg TOOLCHAIN 3.6.0+gitAUTOINC+dd39ad4798-r0/git --glob='CMakeLists.txt'
+╭─░▒▓ ~/de/p/ewd-orv3-pmc/a/b/t/work/arm/libspdm  develop *1 ?2 ································ INT ✘  melvin@ewdsabuild  12:10:34 PM ▓▒░
+╰─ rg arm-none-linux 3.6.0+gitAUTOINC+dd39ad4798-r0/git --glob='CMakeLists.txt'
+3.6.0+gitAUTOINC+dd39ad4798-r0/git/CMakeLists.txt
+380:            set(CMAKE_C_COMPILER arm-none-linux-gnueabihf-gcc)
+381:            set(CMAKE_AR arm-none-linux-gnueabihf-gcc-ar)
+382:            set(CMAKE_LINKER arm-none-linux-gnueabihf-gcc)
+
+
+why not just inherit cmake? cant?
+SUMMARY = "DMTF libspdm - SPDM (Security Protocol and Data Model) reference implementation"
+DESCRIPTION = "Requester/Responder library implementing DSP0274 SPDM, DSP0277 secured \
+messages and DSP0275 SPDM-over-MCTP. Built here as static libs + headers for use by \
+spdm-startup-app."
+HOMEPAGE = "https://github.com/DMTF/libspdm"
+LICENSE = "BSD-3-Clause"
+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=ed4cfe4688e1ac2cc2e6748766571949"
+
+# gitsm:// (not git://) so bitbake pulls the mbedtls/cmocka submodules too.
+#
+# SRCREV MUST be a real pinned commit, not AUTOREV. AUTOREV re-resolves on
+# every parse, which is exactly what produces "the metadata is not
+# deterministic" basehash errors and can leave do_fetch/do_unpack in an
+# inconsistent state (clone dir not matching what unpack expects). Get a
+# real commit with:
+#     git ls-remote https://github.com/DMTF/libspdm.git main
+# and paste the 40-char hash below. Update it deliberately when you want to
+# rebase, don't let it float.
+SRCREV = "dd39ad4798ae627eb4421bec96cd80a4122c25a7"
+SRC_URI = "gitsm://github.com/DMTF/libspdm.git;protocol=https;branch=main"
+PV = "3.6.0+git${SRCPV}"
+
+S = "${WORKDIR}/git"
+B = "${WORKDIR}/build"
+
+DEPENDS = "openssl"
+
+# Deliberately NOT inheriting cmake.bbclass: libspdm's own CMakeLists selects a
+# toolchain file per -DTOOLCHAIN=<name> that hardcodes upstream GNU cross-compiler
+# binary names (e.g. arm-none-linux-gnueabihf-gcc / aarch64-none-linux-gnu-gcc).
+# Those don't exist in a Yocto sysroot (ours are *-poky-linux-*). Rather than patch
+# libspdm's CMakeLists (fragile across upstream bumps), we drop wrapper scripts with
+# the exact names libspdm expects onto PATH, each just exec'ing our real cross tools.
+
+def libspdm_arch(d):
+    ta = d.getVar('TARGET_ARCH')
+    if ta == 'aarch64':
+        return ('aarch64', 'aarch64-none-linux-gnu')
+    elif ta.startswith('arm'):
+        return ('arm', 'arm-none-linux-gnueabihf')
+    else:
+        bb.fatal('libspdm recipe: unmapped TARGET_ARCH "%s" - add it to libspdm_arch()' % ta)
+
+do_configure() {
+    rm -rf ${WORKDIR}/toolchain-wrappers
+    mkdir -p ${WORKDIR}/toolchain-wrappers
+
+    # ${LIBSPDM_TOOLCHAIN_PREFIX} is computed below in do_configure:prepend via
+    # inline python, exported as LIBSPDM_WRAP_PREFIX.
+    for pair in "gcc:${CC}" "g++:${CXX}" "ar:${AR}" "ranlib:${RANLIB}" \
+                "ld:${LD}" "as:${AS}" "objcopy:${OBJCOPY}" "objdump:${OBJDUMP}" "strip:${STRIP}"; do
+        tool="${pair%%:*}"
+        real="${pair#*:}"
+        wrapper="${WORKDIR}/toolchain-wrappers/${LIBSPDM_WRAP_PREFIX}-${tool}"
+        cat > "${wrapper}" <<EOF
+#!/bin/sh
+exec ${real} "\$@"
+EOF
+        chmod +x "${wrapper}"
+    done
+
+    rm -rf ${B}
+    mkdir -p ${B}
+    cd ${B}
+    PATH="${WORKDIR}/toolchain-wrappers:${PATH}" \
+        cmake -G"Unix Makefiles" \
+            -DARCH=${LIBSPDM_ARCH} \
+            -DTOOLCHAIN=ARM_GNU \
+            -DTARGET=Release \
+            -DCRYPTO=mbedtls \
+            ${S}
+}
+
+python () {
+    arch, prefix = libspdm_arch(d)
+    d.setVar('LIBSPDM_ARCH', arch)
+    d.setVar('LIBSPDM_WRAP_PREFIX', prefix)
+}
+
+do_configure[dirs] += "${B}"
+
+do_compile() {
+    cd ${B}
+    PATH="${WORKDIR}/toolchain-wrappers:${PATH}" oe_runmake copy_sample_key
+    PATH="${WORKDIR}/toolchain-wrappers:${PATH}" oe_runmake -j "${@oe.utils.parallel_make(d)}"
+}
+
+do_install() {
+    install -d ${D}${includedir}/libspdm
+    cp -r ${S}/include/* ${D}${includedir}/libspdm/
+
+    install -d ${D}${libdir}
+    find ${B}/lib -name '*.a' -exec install -m 0644 {} ${D}${libdir}/ \;
+}
+
+FILES_${PN} = "${libdir}/*.a"
+FILES_${PN}-dev = "${includedir}/libspdm"
+
+# Static libs only right now - nothing to put in a runtime/staticdev split debate yet.
+# NOTE: dunfell (3.1) uses underscore override syntax (FILES_${PN}, not
+# FILES:${PN}). If this recipe ever moves to a poky release past
+# honister/3.4, these need to switch back to colon syntax.
+INSANE_SKIP_${PN} += "staticdev"
+
+BBCLASSEXTEND = ""
+
+
+ERROR: libspdm-3.6.0+gitAUTOINC+dd39ad4798-r0 do_configure: Execution of '/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/temp/run.do_configure.3475181' failed with exit code 127:
+/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/temp/run.do_configure.3475181: line 124: cmake: command not found
+WARNING: /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/temp/run.do_configure.3475181:1 exit 127 from 'PATH="/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/toolchain-wrappers:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/poky/scripts:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/recipe-sysroot-native/usr/bin/arm-poky-linux-gnueabi:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/recipe-sysroot/usr/bin/crossscripts:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/recipe-sysroot-native/usr/sbin:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/recipe-sysroot-native/usr/bin:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/recipe-sysroot-native/sbin:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/recipe-sysroot-native/bin:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/poky/bitbake/bin:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/hosttools" cmake -G"Unix Makefiles" -DARCH=arm -DTOOLCHAIN=ARM_GNU -DTARGET=Release -DCRYPTO=mbedtls /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/git'
+
+ERROR: Logfile of failure stored in: /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/temp/log.do_configure.3475181
+Log data follows:
+| DEBUG: Executing shell function do_configure
+| /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/temp/run.do_configure.3475181: line 124: cmake: command not found
+| WARNING: /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/temp/run.do_configure.3475181:1 exit 127 from 'PATH="/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/toolchain-wrappers:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/poky/scripts:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/recipe-sysroot-native/usr/bin/arm-poky-linux-gnueabi:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/recipe-sysroot/usr/bin/crossscripts:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/recipe-sysroot-native/usr/sbin:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/recipe-sysroot-native/usr/bin:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/recipe-sysroot-native/sbin:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/recipe-sysroot-native/bin:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/poky/bitbake/bin:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/hosttools" cmake -G"Unix Makefiles" -DARCH=arm -DTOOLCHAIN=ARM_GNU -DTARGET=Release -DCRYPTO=mbedtls /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/git'
+| ERROR: Execution of '/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/temp/run.do_configure.3475181' failed with exit code 127:
+| /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/temp/run.do_configure.3475181: line 124: cmake: command not found
+| WARNING: /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/temp/run.do_configure.3475181:1 exit 127 from 'PATH="/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/toolchain-wrappers:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/poky/scripts:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/recipe-sysroot-native/usr/bin/arm-poky-linux-gnueabi:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/recipe-sysroot/usr/bin/crossscripts:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/recipe-sysroot-native/usr/sbin:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/recipe-sysroot-native/usr/bin:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/recipe-sysroot-native/sbin:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/recipe-sysroot-native/bin:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/poky/bitbake/bin:/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/hosttools" cmake -G"Unix Makefiles" -DARCH=arm -DTOOLCHAIN=ARM_GNU -DTARGET=Release -DCRYPTO=mbedtls /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/libspdm/3.6.0+gitAUTOINC+dd39ad4798-r0/git'
+| 
+ERROR: Task (/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm/libspdm_git.bb:do_configure) failed with exit code '1'
+NOTE: Tasks Summary: Attempted 1952 tasks of which 1950 didn't need to be rerun and 1 failed.
+
+Summary: 1 task failed:
+  /home/melvin/dev/project/ewd-orv3-pmc/artesy
+
+
+SUMMARY = "DMTF libspdm - SPDM (Security Protocol and Data Model) reference implementation"
+DESCRIPTION = "Requester/Responder library implementing DSP0274 SPDM, DSP0277 secured \
+messages and DSP0275 SPDM-over-MCTP. Built here as static libs + headers for use by \
+spdm-startup-app."
+HOMEPAGE = "https://github.com/DMTF/libspdm"
+LICENSE = "BSD-3-Clause"
+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=ed4cfe4688e1ac2cc2e6748766571949"
+
+# gitsm:// (not git://) so bitbake pulls the mbedtls/cmocka submodules too.
+#
+# SRCREV MUST be a real pinned commit, not AUTOREV. AUTOREV re-resolves on
+# every parse, which is exactly what produces "the metadata is not
+# deterministic" basehash errors and can leave do_fetch/do_unpack in an
+# inconsistent state (clone dir not matching what unpack expects). Get a
+# real commit with:
+#     git ls-remote https://github.com/DMTF/libspdm.git main
+# and paste the 40-char hash below. Update it deliberately when you want to
+# rebase, don't let it float.
+SRCREV = "dd39ad4798ae627eb4421bec96cd80a4122c25a7"
+SRC_URI = "gitsm://github.com/DMTF/libspdm.git;protocol=https;branch=main"
+PV = "3.6.0+git${SRCPV}"
+
+S = "${WORKDIR}/git"
+B = "${WORKDIR}/build"
+
+DEPENDS = "openssl"
+
+# Deliberately NOT inheriting cmake.bbclass: libspdm's own CMakeLists selects a
+# toolchain file per -DTOOLCHAIN=<name> that hardcodes upstream GNU cross-compiler
+# binary names (e.g. arm-none-linux-gnueabihf-gcc / aarch64-none-linux-gnu-gcc).
+# Those don't exist in a Yocto sysroot (ours are *-poky-linux-*). Rather than patch
+# libspdm's CMakeLists (fragile across upstream bumps), we drop wrapper scripts with
+# the exact names libspdm expects onto PATH, each just exec'ing our real cross tools.
+
+def libspdm_arch(d):
+    ta = d.getVar('TARGET_ARCH')
+    if ta == 'aarch64':
+        return ('aarch64', 'aarch64-none-linux-gnu')
+    elif ta.startswith('arm'):
+        return ('arm', 'arm-none-linux-gnueabihf')
+    else:
+        bb.fatal('libspdm recipe: unmapped TARGET_ARCH "%s" - add it to libspdm_arch()' % ta)
+
+do_configure() {
+    rm -rf ${WORKDIR}/toolchain-wrappers
+    mkdir -p ${WORKDIR}/toolchain-wrappers
+
+    # ${LIBSPDM_TOOLCHAIN_PREFIX} is computed below in do_configure:prepend via
+    # inline python, exported as LIBSPDM_WRAP_PREFIX.
+    for pair in "gcc:${CC}" "g++:${CXX}" "ar:${AR}" "ranlib:${RANLIB}" \
+                "ld:${LD}" "as:${AS}" "objcopy:${OBJCOPY}" "objdump:${OBJDUMP}" "strip:${STRIP}"; do
+        tool="${pair%%:*}"
+        real="${pair#*:}"
+        wrapper="${WORKDIR}/toolchain-wrappers/${LIBSPDM_WRAP_PREFIX}-${tool}"
+        cat > "${wrapper}" <<EOF
+#!/bin/sh
+exec ${real} "\$@"
+EOF
+        chmod +x "${wrapper}"
+    done
+
+    rm -rf ${B}
+    mkdir -p ${B}
+    cd ${B}
+    PATH="${WORKDIR}/toolchain-wrappers:${PATH}" \
+        cmake -G"Unix Makefiles" \
+            -DARCH=${LIBSPDM_ARCH} \
+            -DTOOLCHAIN=ARM_GNU \
+            -DTARGET=Release \
+            -DCRYPTO=mbedtls \
+            ${S}
+}
+
+python () {
+    arch, prefix = libspdm_arch(d)
+    d.setVar('LIBSPDM_ARCH', arch)
+    d.setVar('LIBSPDM_WRAP_PREFIX', prefix)
+}
+
+do_configure[dirs] += "${B}"
+
+do_compile() {
+    cd ${B}
+    PATH="${WORKDIR}/toolchain-wrappers:${PATH}" oe_runmake copy_sample_key
+    PATH="${WORKDIR}/toolchain-wrappers:${PATH}" oe_runmake -j "${@oe.utils.parallel_make(d)}"
+}
+
+do_install() {
+    install -d ${D}${includedir}/libspdm
+    cp -r ${S}/include/* ${D}${includedir}/libspdm/
+
+    install -d ${D}${libdir}
+    find ${B}/lib -name '*.a' -exec install -m 0644 {} ${D}${libdir}/ \;
+}
+
+FILES_${PN} = "${libdir}/*.a"
+FILES_${PN}-dev = "${includedir}/libspdm"
+
+# Static libs only right now - nothing to put in a runtime/staticdev split debate yet.
+# NOTE: dunfell (3.1) uses underscore override syntax (FILES_${PN}, not
+# FILES:${PN}). If this recipe ever moves to a poky release past
+# honister/3.4, these need to switch back to colon syntax.
+INSANE_SKIP_${PN} += "staticdev"
+
+BBCLASSEXTEND = ""
