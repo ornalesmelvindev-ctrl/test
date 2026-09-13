@@ -1,0 +1,140 @@
+ERROR: spdm-startup-app-1.0-r0 do_compile: Execution of '/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/temp/run.do_compile.3601071' failed with exit code 1:
+[1/2] /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot-native/usr/bin/arm-poky-linux-gnueabi/arm-poky-linux-gnueabi-gcc  -I../recipe-sysroot/usr/include/libspdm -march=armv7-a -mfpu=vfpv4-d16 -mfloat-abi=hard -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0=/usr/src/debug/spdm-startup-app/1.0-r0                      -fdebug-prefix-map=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0=/usr/src/debug/spdm-startup-app/1.0-r0                      -fdebug-prefix-map=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot-native=   -march=armv7-a -mfpu=vfpv4-d16 -mfloat-abi=hard -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot -DNDEBUG   -std=gnu11 -MD -MT CMakeFiles/spdm-startup-app.dir/main.c.o -MF CMakeFiles/spdm-startup-app.dir/main.c.o.d -o CMakeFiles/spdm-startup-app.dir/main.c.o   -c ../main.c
+FAILED: CMakeFiles/spdm-startup-app.dir/main.c.o 
+/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot-native/usr/bin/arm-poky-linux-gnueabi/arm-poky-linux-gnueabi-gcc  -I../recipe-sysroot/usr/include/libspdm -march=armv7-a -mfpu=vfpv4-d16 -mfloat-abi=hard -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0=/usr/src/debug/spdm-startup-app/1.0-r0                      -fdebug-prefix-map=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0=/usr/src/debug/spdm-startup-app/1.0-r0                      -fdebug-prefix-map=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot-native=   -march=armv7-a -mfpu=vfpv4-d16 -mfloat-abi=hard -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot -DNDEBUG   -std=gnu11 -MD -MT CMakeFiles/spdm-startup-app.dir/main.c.o -MF CMakeFiles/spdm-startup-app.dir/main.c.o.d -o CMakeFiles/spdm-startup-app.dir/main.c.o   -c ../main.c
+../main.c: In function 'spdm_transport_decode':
+../main.c:112:23: warning: passing argument 2 of 'libspdm_transport_mctp_decode_message' from incompatible pointer type [-Wincompatible-pointer-types]
+  112 |         spdm_context, session_id, is_app_message, is_requester,
+      |                       ^~~~~~~~~~
+      |                       |
+      |                       uint32_t * {aka unsigned int *}
+In file included from ../main.c:43:
+../recipe-sysroot/usr/include/libspdm/library/spdm_transport_mctp_lib.h:95:36: note: expected 'uint32_t **' {aka 'unsigned int **'} but argument is of type 'uint32_t *' {aka 'unsigned int *'}
+   95 |     void *spdm_context, uint32_t **session_id,
+      |                         ~~~~~~~~~~~^~~~~~~~~~
+../main.c: In function 'main':
+../main.c:159:44: error: 'LIBSPDM_MAX_SPDM_MSG_SIZE' undeclared (first use in this function); did you mean 'LIBSPDM_MAX_KEM_SS_SIZE'?
+  159 |                                            LIBSPDM_MAX_SPDM_MSG_SIZE,
+      |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                            LIBSPDM_MAX_KEM_SS_SIZE
+../main.c:159:44: note: each undeclared identifier is reported only once for each function it appears in
+../main.c:162:44: warning: passing argument 5 of 'libspdm_register_transport_layer_func' from incompatible pointer type [-Wincompatible-pointer-types]
+  162 |                                            spdm_transport_encode,
+      |                                            ^~~~~~~~~~~~~~~~~~~~~
+      |                                            |
+      |                                            libspdm_return_t (*)(void *, uint32_t,  _Bool,  _Bool,  size_t,  void *, size_t *, void **) {aka unsigned int (*)(void *, unsigned int,  _Bool,  _Bool,  unsigned int,  void *, unsigned int *, void **)}
+In file included from ../recipe-sysroot/usr/include/libspdm/library/spdm_requester_lib.h:14,
+                 from ../main.c:42:
+../recipe-sysroot/usr/include/libspdm/library/spdm_common_lib.h:728:43: note: expected 'libspdm_transport_encode_message_func' {aka 'unsigned int (*)(void *, const unsigned int *, _Bool,  _Bool,  unsigned int,  void *, unsigned int *, void **)'} but argument is of type 'libspdm_return_t (*)(void *, uint32_t,  _Bool,  _Bool,  size_t,  void *, size_t *, void **)' {aka 'unsigned int (*)(void *, unsigned int,  _Bool,  _Bool,  unsigned int,  void *, unsigned int *, void **)'}
+  728 |     libspdm_transport_encode_message_func transport_encode_message,
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+../main.c:163:44: warning: passing argument 6 of 'libspdm_register_transport_layer_func' from incompatible pointer type [-Wincompatible-pointer-types]
+  163 |                                            spdm_transport_decode);
+      |                                            ^~~~~~~~~~~~~~~~~~~~~
+      |                                            |
+      |                                            libspdm_return_t (*)(void *, uint32_t *, _Bool *, _Bool,  size_t,  void *, size_t *, void **) {aka unsigned int (*)(void *, unsigned int *, _Bool *, _Bool,  unsigned int,  void *, unsigned int *, void **)}
+In file included from ../recipe-sysroot/usr/include/libspdm/library/spdm_requester_lib.h:14,
+                 from ../main.c:42:
+../recipe-sysroot/usr/include/libspdm/library/spdm_common_lib.h:729:43: note: expected 'libspdm_transport_decode_message_func' {aka 'unsigned int (*)(void *, unsigned int **, _Bool *, _Bool,  unsigned int,  void *, unsigned int *, void **)'} but argument is of type 'libspdm_return_t (*)(void *, uint32_t *, _Bool *, _Bool,  size_t,  void *, size_t *, void **)' {aka 'unsigned int (*)(void *, unsigned int *, _Bool *, _Bool,  unsigned int,  void *, unsigned int *, void **)'}
+  729 |     libspdm_transport_decode_message_func transport_decode_message);
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+ninja: build stopped: subcommand failed.
+WARNING: /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/temp/run.do_compile.3601071:1 exit 1 from 'eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/build' "$@" -- ${EXTRA_OECMAKE_BUILD}'
+
+ERROR: Logfile of failure stored in: /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/temp/log.do_compile.3601071
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| NOTE: VERBOSE=1 cmake --build /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/build --target all --
+| [1/2] /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot-native/usr/bin/arm-poky-linux-gnueabi/arm-poky-linux-gnueabi-gcc  -I../recipe-sysroot/usr/include/libspdm -march=armv7-a -mfpu=vfpv4-d16 -mfloat-abi=hard -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0=/usr/src/debug/spdm-startup-app/1.0-r0                      -fdebug-prefix-map=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0=/usr/src/debug/spdm-startup-app/1.0-r0                      -fdebug-prefix-map=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot-native=   -march=armv7-a -mfpu=vfpv4-d16 -mfloat-abi=hard -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot -DNDEBUG   -std=gnu11 -MD -MT CMakeFiles/spdm-startup-app.dir/main.c.o -MF CMakeFiles/spdm-startup-app.dir/main.c.o.d -o CMakeFiles/spdm-startup-app.dir/main.c.o   -c ../main.c
+| FAILED: CMakeFiles/spdm-startup-app.dir/main.c.o
+| /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot-native/usr/bin/arm-poky-linux-gnueabi/arm-poky-linux-gnueabi-gcc  -I../recipe-sysroot/usr/include/libspdm -march=armv7-a -mfpu=vfpv4-d16 -mfloat-abi=hard -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0=/usr/src/debug/spdm-startup-app/1.0-r0                      -fdebug-prefix-map=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0=/usr/src/debug/spdm-startup-app/1.0-r0                      -fdebug-prefix-map=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot-native=   -march=armv7-a -mfpu=vfpv4-d16 -mfloat-abi=hard -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot -DNDEBUG   -std=gnu11 -MD -MT CMakeFiles/spdm-startup-app.dir/main.c.o -MF CMakeFiles/spdm-startup-app.dir/main.c.o.d -o CMakeFiles/spdm-startup-app.dir/main.c.o   -c ../main.c
+| ../main.c: In function 'spdm_transport_decode':
+| ../main.c:112:23: warning: passing argument 2 of 'libspdm_transport_mctp_decode_message' from incompatible pointer type [-Wincompatible-pointer-types]
+|   112 |         spdm_context, session_id, is_app_message, is_requester,
+|       |                       ^~~~~~~~~~
+|       |                       |
+|       |                       uint32_t * {aka unsigned int *}
+| In file included from ../main.c:43:
+| ../recipe-sysroot/usr/include/libspdm/library/spdm_transport_mctp_lib.h:95:36: note: expected 'uint32_t **' {aka 'unsigned int **'} but argument is of type 'uint32_t *' {aka 'unsigned int *'}
+|    95 |     void *spdm_context, uint32_t **session_id,
+|       |                         ~~~~~~~~~~~^~~~~~~~~~
+| ../main.c: In function 'main':
+| ../main.c:159:44: error: 'LIBSPDM_MAX_SPDM_MSG_SIZE' undeclared (first use in this function); did you mean 'LIBSPDM_MAX_KEM_SS_SIZE'?
+|   159 |                                            LIBSPDM_MAX_SPDM_MSG_SIZE,
+|       |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                            LIBSPDM_MAX_KEM_SS_SIZE
+| ../main.c:159:44: note: each undeclared identifier is reported only once for each function it appears in
+| ../main.c:162:44: warning: passing argument 5 of 'libspdm_register_transport_layer_func' from incompatible pointer type [-Wincompatible-pointer-types]
+|   162 |                                            spdm_transport_encode,
+|       |                                            ^~~~~~~~~~~~~~~~~~~~~
+|       |                                            |
+|       |                                            libspdm_return_t (*)(void *, uint32_t,  _Bool,  _Bool,  size_t,  void *, size_t *, void **) {aka unsigned int (*)(void *, unsigned int,  _Bool,  _Bool,  unsigned int,  void *, unsigned int *, void **)}
+| In file included from ../recipe-sysroot/usr/include/libspdm/library/spdm_requester_lib.h:14,
+|                  from ../main.c:42:
+| ../recipe-sysroot/usr/include/libspdm/library/spdm_common_lib.h:728:43: note: expected 'libspdm_transport_encode_message_func' {aka 'unsigned int (*)(void *, const unsigned int *, _Bool,  _Bool,  unsigned int,  void *, unsigned int *, void **)'} but argument is of type 'libspdm_return_t (*)(void *, uint32_t,  _Bool,  _Bool,  size_t,  void *, size_t *, void **)' {aka 'unsigned int (*)(void *, unsigned int,  _Bool,  _Bool,  unsigned int,  void *, unsigned int *, void **)'}
+|   728 |     libspdm_transport_encode_message_func transport_encode_message,
+|       |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+| ../main.c:163:44: warning: passing argument 6 of 'libspdm_register_transport_layer_func' from incompatible pointer type [-Wincompatible-pointer-types]
+|   163 |                                            spdm_transport_decode);
+|       |                                            ^~~~~~~~~~~~~~~~~~~~~
+|       |                                            |
+|       |                                            libspdm_return_t (*)(void *, uint32_t *, _Bool *, _Bool,  size_t,  void *, size_t *, void **) {aka unsigned int (*)(void *, unsigned int *, _Bool *, _Bool,  unsigned int,  void *, unsigned int *, void **)}
+| In file included from ../recipe-sysroot/usr/include/libspdm/library/spdm_requester_lib.h:14,
+|                  from ../main.c:42:
+| ../recipe-sysroot/usr/include/libspdm/library/spdm_common_lib.h:729:43: note: expected 'libspdm_transport_decode_message_func' {aka 'unsigned int (*)(void *, unsigned int **, _Bool *, _Bool,  unsigned int,  void *, unsigned int *, void **)'} but argument is of type 'libspdm_return_t (*)(void *, uint32_t *, _Bool *, _Bool,  size_t,  void *, size_t *, void **)' {aka 'unsigned int (*)(void *, unsigned int *, _Bool *, _Bool,  unsigned int,  void *, unsigned int *, void **)'}
+|   729 |     libspdm_transport_decode_message_func transport_decode_message);
+|       |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+| ninja: build stopped: subcommand failed.
+| WARNING: /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/temp/run.do_compile.3601071:1 exit 1 from 'eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/build' "$@" -- ${EXTRA_OECMAKE_BUILD}'
+| ERROR: Execution of '/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/temp/run.do_compile.3601071' failed with exit code 1:
+| [1/2] /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot-native/usr/bin/arm-poky-linux-gnueabi/arm-poky-linux-gnueabi-gcc  -I../recipe-sysroot/usr/include/libspdm -march=armv7-a -mfpu=vfpv4-d16 -mfloat-abi=hard -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0=/usr/src/debug/spdm-startup-app/1.0-r0                      -fdebug-prefix-map=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0=/usr/src/debug/spdm-startup-app/1.0-r0                      -fdebug-prefix-map=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot-native=   -march=armv7-a -mfpu=vfpv4-d16 -mfloat-abi=hard -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot -DNDEBUG   -std=gnu11 -MD -MT CMakeFiles/spdm-startup-app.dir/main.c.o -MF CMakeFiles/spdm-startup-app.dir/main.c.o.d -o CMakeFiles/spdm-startup-app.dir/main.c.o   -c ../main.c
+| FAILED: CMakeFiles/spdm-startup-app.dir/main.c.o
+| /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot-native/usr/bin/arm-poky-linux-gnueabi/arm-poky-linux-gnueabi-gcc  -I../recipe-sysroot/usr/include/libspdm -march=armv7-a -mfpu=vfpv4-d16 -mfloat-abi=hard -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0=/usr/src/debug/spdm-startup-app/1.0-r0                      -fdebug-prefix-map=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0=/usr/src/debug/spdm-startup-app/1.0-r0                      -fdebug-prefix-map=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot-native=   -march=armv7-a -mfpu=vfpv4-d16 -mfloat-abi=hard -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/recipe-sysroot -DNDEBUG   -std=gnu11 -MD -MT CMakeFiles/spdm-startup-app.dir/main.c.o -MF CMakeFiles/spdm-startup-app.dir/main.c.o.d -o CMakeFiles/spdm-startup-app.dir/main.c.o   -c ../main.c
+| ../main.c: In function 'spdm_transport_decode':
+| ../main.c:112:23: warning: passing argument 2 of 'libspdm_transport_mctp_decode_message' from incompatible pointer type [-Wincompatible-pointer-types]
+|   112 |         spdm_context, session_id, is_app_message, is_requester,
+|       |                       ^~~~~~~~~~
+|       |                       |
+|       |                       uint32_t * {aka unsigned int *}
+| In file included from ../main.c:43:
+| ../recipe-sysroot/usr/include/libspdm/library/spdm_transport_mctp_lib.h:95:36: note: expected 'uint32_t **' {aka 'unsigned int **'} but argument is of type 'uint32_t *' {aka 'unsigned int *'}
+|    95 |     void *spdm_context, uint32_t **session_id,
+|       |                         ~~~~~~~~~~~^~~~~~~~~~
+| ../main.c: In function 'main':
+| ../main.c:159:44: error: 'LIBSPDM_MAX_SPDM_MSG_SIZE' undeclared (first use in this function); did you mean 'LIBSPDM_MAX_KEM_SS_SIZE'?
+|   159 |                                            LIBSPDM_MAX_SPDM_MSG_SIZE,
+|       |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                            LIBSPDM_MAX_KEM_SS_SIZE
+| ../main.c:159:44: note: each undeclared identifier is reported only once for each function it appears in
+| ../main.c:162:44: warning: passing argument 5 of 'libspdm_register_transport_layer_func' from incompatible pointer type [-Wincompatible-pointer-types]
+|   162 |                                            spdm_transport_encode,
+|       |                                            ^~~~~~~~~~~~~~~~~~~~~
+|       |                                            |
+|       |                                            libspdm_return_t (*)(void *, uint32_t,  _Bool,  _Bool,  size_t,  void *, size_t *, void **) {aka unsigned int (*)(void *, unsigned int,  _Bool,  _Bool,  unsigned int,  void *, unsigned int *, void **)}
+| In file included from ../recipe-sysroot/usr/include/libspdm/library/spdm_requester_lib.h:14,
+|                  from ../main.c:42:
+| ../recipe-sysroot/usr/include/libspdm/library/spdm_common_lib.h:728:43: note: expected 'libspdm_transport_encode_message_func' {aka 'unsigned int (*)(void *, const unsigned int *, _Bool,  _Bool,  unsigned int,  void *, unsigned int *, void **)'} but argument is of type 'libspdm_return_t (*)(void *, uint32_t,  _Bool,  _Bool,  size_t,  void *, size_t *, void **)' {aka 'unsigned int (*)(void *, unsigned int,  _Bool,  _Bool,  unsigned int,  void *, unsigned int *, void **)'}
+|   728 |     libspdm_transport_encode_message_func transport_encode_message,
+|       |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+| ../main.c:163:44: warning: passing argument 6 of 'libspdm_register_transport_layer_func' from incompatible pointer type [-Wincompatible-pointer-types]
+|   163 |                                            spdm_transport_decode);
+|       |                                            ^~~~~~~~~~~~~~~~~~~~~
+|       |                                            |
+|       |                                            libspdm_return_t (*)(void *, uint32_t *, _Bool *, _Bool,  size_t,  void *, size_t *, void **) {aka unsigned int (*)(void *, unsigned int *, _Bool *, _Bool,  unsigned int,  void *, unsigned int *, void **)}
+| In file included from ../recipe-sysroot/usr/include/libspdm/library/spdm_requester_lib.h:14,
+|                  from ../main.c:42:
+| ../recipe-sysroot/usr/include/libspdm/library/spdm_common_lib.h:729:43: note: expected 'libspdm_transport_decode_message_func' {aka 'unsigned int (*)(void *, unsigned int **, _Bool *, _Bool,  unsigned int,  void *, unsigned int *, void **)'} but argument is of type 'libspdm_return_t (*)(void *, uint32_t *, _Bool *, _Bool,  size_t,  void *, size_t *, void **)' {aka 'unsigned int (*)(void *, unsigned int *, _Bool *, _Bool,  unsigned int,  void *, unsigned int *, void **)'}
+|   729 |     libspdm_transport_decode_message_func transport_decode_message);
+|       |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+| ninja: build stopped: subcommand failed.
+| WARNING: /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/temp/run.do_compile.3601071:1 exit 1 from 'eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/spdm-startup-app/1.0-r0/build' "$@" -- ${EXTRA_OECMAKE_BUILD}'
+| 
+ERROR: Task (/home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm_app/spdm-startup-app_1.0.bb:do_compile) failed with exit code '1'
+NOTE: Tasks Summary: Attempted 1984 tasks of which 1975 didn't need to be rerun and 1 failed.
+
+Summary: 1 task failed:
+  /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/libspdm_app/spdm-startup-app_1.0.bb:do_compile
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+
+
+Also please use fprintf(stderr istead of just printf)
