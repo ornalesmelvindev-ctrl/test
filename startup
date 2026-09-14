@@ -1237,4 +1237,129 @@ then put only useful logs, upto which are useful, also in the logs, make it verb
 
 I mean you know for documentation since I already verified that spdm is wokring
 
+wait this are the logs
+admin@artesyn-shelf:~# spdm-responder-app
+spdm-responder-app: listening on /tmp/spdm-loopback.sock, waiting for requester...
+spdm-responder-app: requester connected.
+spdm_context=0x1169598
+MCTP transport header_size=12 tail_size=48 (skip this many leading bytes in RECV/SEND dumps to find the SPDM payload)
+required scratch_size=27828
+allocated scratch_buffer=0x116c1f8
+scratch registered
+Responder DTS=4548
+Responder MAX=4608
+Responder capability flags=0x00020000
+spdm-responder-app: dispatching messages (GET_VERSION / GET_CAPABILITIES / NEGOTIATE_ALGORITHMS)...
+acquire_receiver_buffer
+receiver_buf=0x44705c
+returned ptr=0x44705c
+RECV (5 bytes):
+  05 10 84 00 00
+SEND (17 bytes):
+  05 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00
+  14
+acquire_receiver_buffer
+receiver_buf=0x44705c
+returned ptr=0x44705c
+RECV (21 bytes):
+  05 14 e1 00 00 00 00 00 00 00 00 02 00 c4 11 00
+  00 00 12 00 00
 
+=== GET_CAPABILITIES RECEIVED ===
+SPDM version      = 0x14
+CTExponent        = 0
+Flags             = 0x00020000
+DataTransferSize  = 4548 (0x11c4)
+MaxSPDMMsgSize    = 4608 (0x1200)
+===============================
+INVALID_REQUEST: request_size too small
+SEND (21 bytes):
+  05 14 61 00 00 00 00 00 00 00 00 02 00 c4 11 00
+  00 00 12 00 00
+acquire_receiver_buffer
+receiver_buf=0x44705c
+returned ptr=0x44705c
+RECV (33 bytes):
+  05 14 e3 00 00 20 00 00 00 00 00 00 00 00 00 00
+  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  00
+SEND (37 bytes):
+  05 14 63 00 00 24 00 00 00 00 00 00 00 00 00 00
+  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  00 00 00 00 00
+acquire_receiver_buffer
+receiver_buf=0x44705c
+returned ptr=0x44705c
+spdm-responder-app: dispatch ended (0x80040001) - requester disconnected or handshake finished.
+
+
+admin@artesyn-shelf:~# spdm-startup-app
+spdm-startup-app: connecting to responder loopback...
+spdm_context=0x228c598
+MCTP transport header_size=12 tail_size=48 (skip this many leading bytes in RECV/SEND dumps to find the SPDM payload)
+required scratch_size=27828
+allocated scratch_buffer=0x228f1f8
+scratch registered
+
+=== LOCAL CAPABILITY VALUES BEFORE INIT_CONNECTION ===
+Configured data_transfer_size = 4608
+Configured max_spdm_msg_size = 4548
+libspdm stored DATA_TRANSFER_SIZE = 4548
+libspdm stored MAX_SPDM_MSG_SIZE = 4608
+===============================================
+Requester capability flags=0x00020000
+spdm-startup-app: running GET_VERSION / GET_CAPABILITIES / NEGOTIATE_ALGORITHMS...
+
+=== FINAL VALUES BEFORE INIT_CONNECTION ===
+DTS=4548
+MAX=4608
+==========================================
+calling libspdm_init_connection
+acquire_sender_buffer
+sender_buf=0x44e214
+returned ptr=0x44e214
+SEND size=5
+SEND (5 bytes):
+  05 10 84 00 00
+acquire_receiver_buffer
+receiver_buf=0x44d014
+returned ptr=0x44d014
+RECV (17 bytes):
+  05 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00
+  14
+acquire_sender_buffer
+sender_buf=0x44e214
+returned ptr=0x44e214
+SEND size=21
+SEND (21 bytes):
+  05 14 e1 00 00 00 00 00 00 00 00 02 00 c4 11 00
+  00 00 12 00 00
+
+*** SENT GET_CAPABILITIES ***
+Decoded DataTransferSize = 4548 (0x11c4)
+Decoded MaxSPDMMsgSize  = 4608 (0x1200)
+Decoded Flags            = 0x00020000
+*****************************
+acquire_receiver_buffer
+receiver_buf=0x44d014
+returned ptr=0x44d014
+RECV (21 bytes):
+  05 14 61 00 00 00 00 00 00 00 00 02 00 c4 11 00
+  00 00 12 00 00
+acquire_sender_buffer
+sender_buf=0x44e214
+returned ptr=0x44e214
+SEND size=33
+SEND (33 bytes):
+  05 14 e3 00 00 20 00 00 00 00 00 00 00 00 00 00
+  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  00
+acquire_receiver_buffer
+receiver_buf=0x44d014
+returned ptr=0x44d014
+RECV (37 bytes):
+  05 14 63 00 00 24 00 00 00 00 00 00 00 00 00 00
+  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  00 00 00 00 00
+returned from libspdm_init_connection status=0x0
+SPDM connection established (version/capabilities/algorithms negotiated OK).
