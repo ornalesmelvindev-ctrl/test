@@ -1,43 +1,64 @@
 admin@artesyn-shelf:~# spdm-responder-app
 spdm-responder-app: listening on /tmp/spdm-loopback.sock, waiting for requester...
 spdm-responder-app: requester connected.
-spdm_context=0xf83598
+spdm_context=0x201e598
+MCTP transport header_size=12 tail_size=48 (skip this many leading bytes in RECV/SEND dumps to find the SPDM payload)
 required scratch_size=27828
-allocated scratch_buffer=0xf861f8
+allocated scratch_buffer=0x20211f8
 scratch registered
 spdm-responder-app: dispatching messages (GET_VERSION / GET_CAPABILITIES / NEGOTIATE_ALGORITHMS)...
 acquire_receiver_buffer
-receiver_buf=0x4c205c
-returned ptr=0x4c205c
+receiver_buf=0x4c705c
+returned ptr=0x4c705c
+RECV (5 bytes):
+  05 10 84 00 00
+SEND (17 bytes):
+  05 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00
+  14
 acquire_receiver_buffer
-receiver_buf=0x4c205c
-returned ptr=0x4c205c
+receiver_buf=0x4c705c
+returned ptr=0x4c705c
+RECV (21 bytes):
+  05 14 e1 00 00 00 00 00 00 00 00 00 00 c4 11 00
+  00 00 12 00 00
+SEND (5 bytes):
+  05 14 7f 01 00
 acquire_receiver_buffer
-receiver_buf=0x4c205c
-returned ptr=0x4c205c
+receiver_buf=0x4c705c
+returned ptr=0x4c705c
 spdm-responder-app: dispatch ended (0x80040001) - requester disconnected or handshake finished.
-
 
 admin@artesyn-shelf:~# spdm-startup-app
 spdm-startup-app: connecting to responder loopback...
-spdm_context=0x13c2598
+spdm_context=0x19d7598
+MCTP transport header_size=12 tail_size=48 (skip this many leading bytes in RECV/SEND dumps to find the SPDM payload)
 required scratch_size=27828
-allocated scratch_buffer=0x13c51f8
+allocated scratch_buffer=0x19da1f8
 scratch registered
 spdm-startup-app: running GET_VERSION / GET_CAPABILITIES / NEGOTIATE_ALGORITHMS...
 calling libspdm_init_connection
 acquire_sender_buffer
-sender_buf=0x518214
-returned ptr=0x518214
+sender_buf=0x4bd214
+returned ptr=0x4bd214
 SEND size=5
+SEND (5 bytes):
+  05 10 84 00 00
 acquire_receiver_buffer
-receiver_buf=0x517014
-returned ptr=0x517014
+receiver_buf=0x4bc014
+returned ptr=0x4bc014
+RECV (17 bytes):
+  05 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00
+  14
 acquire_sender_buffer
-sender_buf=0x518214
-returned ptr=0x518214
+sender_buf=0x4bd214
+returned ptr=0x4bd214
 SEND size=21
+SEND (21 bytes):
+  05 14 e1 00 00 00 00 00 00 00 00 00 00 c4 11 00
+  00 00 12 00 00
 acquire_receiver_buffer
-receiver_buf=0x517014
-returned ptr=0x517014
+receiver_buf=0x4bc014
+returned ptr=0x4bc014
+RECV (5 bytes):
+  05 14 7f 01 00
 libspdm_init_connection failed: 0x8001000a
