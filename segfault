@@ -1,0 +1,85 @@
+admin@artesyn-shelf:~# spdm-responder-app
+spdm-responder-app: listening on /tmp/spdm-loopback.sock, waiting for requester...
+spdm-responder-app: requester connected.
+spdm-responder-app: dispatching messages (GET_VERSION / GET_CAPABILITIES / NEGOTIATE_ALGORITHMS)...
+Segmentation fault
+admin@artesyn-shelf:~# gdb /usr/bin/spdm-responder-app
+GNU gdb (GDB) 9.1
+Copyright (C) 2020 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "arm-poky-linux-gnueabi".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+--Type <RET> for more, q to quit, c to continue without paging--
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from /usr/bin/spdm-responder-app...
+(gdb) run
+Starting program: /usr/bin/spdm-responder-app
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/libthread_db.so.1".
+spdm-responder-app: listening on /tmp/spdm-loopback.sock, waiting for requester...
+spdm-responder-app: requester connected.
+spdm-responder-app: dispatching messages (GET_VERSION / GET_CAPABILITIES / NEGOTIATE_ALGORITHMS)...
+
+Program received signal SIGSEGV, Segmentation fault.
+0x00000000 in ?? ()
+(gdb) bt
+#0  0x00000000 in ?? ()
+#1  0x00429530 in libspdm_acquire_receiver_buffer (msg_buf_ptr=0x7efffb1c, max_msg_size=<synthetic pointer>, spdm_context=0x444598)
+    at /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/libspdm/library/spdm_common_lib/libspdm_com_context_data.c:2716
+#2  libspdm_responder_dispatch_message (spdm_context=0x444598)
+    at /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/libspdm/library/spdm_responder_lib/libspdm_rsp_communication.c:27
+#3  0x00401758 in main () at ../main.c:216
+
+
+admin@artesyn-shelf:~# spdm-startup-app
+spdm-startup-app: connecting to responder loopback...
+spdm-startup-app: running GET_VERSION / GET_CAPABILITIES / NEGOTIATE_ALGORITHMS...
+Segmentation fault
+admin@artesyn-shelf:~# gdb /usr/bin/spdm-startup-app
+GNU gdb (GDB) 9.1
+Copyright (C) 2020 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "arm-poky-linux-gnueabi".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+--Type <RET> for more, q to quit, c to continue without paging--
+Reading symbols from /usr/bin/spdm-startup-app...
+(gdb) run
+Starting program: /usr/bin/spdm-startup-app
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/libthread_db.so.1".
+spdm-startup-app: connecting to responder loopback...
+spdm-startup-app: running GET_VERSION / GET_CAPABILITIES / NEGOTIATE_ALGORITHMS...
+
+Program received signal SIGSEGV, Segmentation fault.
+0x00000000 in ?? ()
+(gdb) bt
+#0  0x00000000 in ?? ()
+#1  0x00419c10 in libspdm_acquire_sender_buffer (spdm_context=spdm_context@entry=0x434598, max_msg_size=max_msg_size@entry=0x7efffb18,
+    msg_buf_ptr=msg_buf_ptr@entry=0x7efffb14)
+    at /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/libspdm/library/spdm_common_lib/libspdm_com_context_data.c:2676
+#2  0x0041aa5c in libspdm_try_get_version (version_number_entry_count=0x0, version_number_entry=0x0, spdm_context=0x434598)
+    at /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/libspdm/library/spdm_common_lib/libspdm_com_context_data.c:3058
+#3  libspdm_get_version (version_number_entry_count=0x0, version_number_entry=0x0, spdm_context=0x434598)
+    at /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/libspdm/library/spdm_requester_lib/libspdm_req_get_version.c:220
+#4  libspdm_init_connection (spdm_context=0x434598, get_version_only=<optimized out>)
+    at /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/libspdm/library/spdm_requester_lib/libspdm_req_communication.c:16
+#5  0x00401598 in main () at ../main.c:195
