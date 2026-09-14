@@ -1,0 +1,1 @@
+copy-Item (Get-Command sshpass).Source -Destination ./bin/
