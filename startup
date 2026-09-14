@@ -1,325 +1,52 @@
-current cmakelist
-cmake_minimum_required(VERSION 3.10)
+admin@artesyn-shelf:~# find / -name '*spdm*' 2>/dev/null
+/tmp/libspdm.tar.gz
+/usr/bin/spdm-startup-app
+/usr/include/libspdm
+/usr/include/libspdm/industry_standard/spdm_tcp_binding.h
+/usr/include/libspdm/industry_standard/spdm_storage_binding.h
+/usr/include/libspdm/industry_standard/spdm_secured_message.h
+/usr/include/libspdm/industry_standard/spdm.h
+/usr/include/libspdm/library/spdm_transport_tcp_lib.h
+/usr/include/libspdm/library/spdm_transport_pcidoe_lib.h
+/usr/include/libspdm/library/spdm_secured_message_lib.h
+/usr/include/libspdm/library/spdm_lib_config.h
+/usr/include/libspdm/library/spdm_transport_mctp_lib.h
+/usr/include/libspdm/library/spdm_responder_lib.h
+/usr/include/libspdm/library/spdm_return_status.h
+/usr/include/libspdm/library/spdm_common_lib.h
+/usr/include/libspdm/library/spdm_transport_storage_lib.h
+/usr/include/libspdm/library/spdm_crypt_lib.h
+/usr/include/libspdm/library/spdm_requester_lib.h
+/usr/include/libspdm/internal/libspdm_macro_check.h
+/usr/include/libspdm/internal/libspdm_responder_lib.h
+/usr/include/libspdm/internal/libspdm_lib_config.h
+/usr/include/libspdm/internal/libspdm_fips_lib.h
+/usr/include/libspdm/internal/libspdm_common_lib.h
+/usr/include/libspdm/internal/libspdm_secured_message_lib.h
+/usr/include/libspdm/internal/libspdm_requester_lib.h
+/usr/include/libspdm/internal/libspdm_crypt_lib.h
+/usr/lib/libspdm_responder_lib.a
+/usr/lib/libspdm_common_lib.a
+/usr/lib/libspdm_cert_verify_callback_sample.a
+/usr/lib/libspdm_transport_test_lib.a
+/usr/lib/libspdm_requester_lib.a
+/usr/lib/libspdm_crypt_ext_lib.a
+/usr/lib/libspdm_transport_pcidoe_lib.a
+/usr/lib/libspdm_transport_mctp_lib.a
+/usr/lib/libspdm_transport_tcp_lib.a
+/usr/lib/libspdm_device_secret_lib_null.a
+/usr/lib/libspdm_transport_storage_lib.a
+/usr/lib/libspdm_device_secret_lib_sample.a
+/usr/lib/libspdm_secured_message_lib.a
+/usr/lib/libspdm_crypt_lib.a
 
-project(spdm-startup-app C)
 
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_STANDARD_REQUIRED ON)
+admin@artesyn-shelf:~# spdm-startup-app
+spdm-startup-app: connecting to responder loopback...
+connect (is a responder listening on the socket yet?): No such file or directory
+no responder at /tmp/spdm-loopback.sock - start one first (see README)
+admin@artesyn-shelf:~# file /usr/bin/spdm-startup-app
+/usr/bin/spdm-startup-app: ELF 32-bit LSB shared object, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-armhf.so.3, BuildID[sha1]=ea92df8a086e769bd7a1988f84b7d9e6e6652e0e, for GNU/Linux 3.2.0, with debug_info, not stripped
 
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release)
-endif()
 
-#
-# Paths supplied from BitBake:
-#
-#   -DLIBSPDM_INCLUDE_DIR=${STAGING_INCDIR}/libspdm
-#   -DLIBSPDM_LIB_DIR=${STAGING_LIBDIR}
-#
-if(NOT LIBSPDM_INCLUDE_DIR)
-    set(LIBSPDM_INCLUDE_DIR "/usr/include/libspdm")
-endif()
-
-if(NOT LIBSPDM_LIB_DIR)
-    set(LIBSPDM_LIB_DIR "/usr/lib")
-endif()
-
-message(STATUS "LIBSPDM_INCLUDE_DIR = ${LIBSPDM_INCLUDE_DIR}")
-message(STATUS "LIBSPDM_LIB_DIR     = ${LIBSPDM_LIB_DIR}")
-
-add_executable(spdm-startup-app
-    main.c
-)
-
-target_include_directories(spdm-startup-app PRIVATE
-    ${LIBSPDM_INCLUDE_DIR}
-)
-
-target_link_directories(spdm-startup-app PRIVATE
-    ${LIBSPDM_LIB_DIR}
-)
-
-#
-# IMPORTANT:
-#
-# Do NOT force -fno-lto here.
-#
-# Your libspdm archives appear to have been built with LTO enabled:
-#
-#   plugin needed to handle lto object
-#
-# Forcing -fno-lto on the final link prevents GCC from properly handling
-# those archive members.
-#
-
-#
-# Link all libspdm-produced archives.
-#
-# Restrict the glob to libspdm-related libraries instead of every static
-# archive in the sysroot (libc.a, libstdc++.a, etc.).
-#
-file(GLOB LIBSPDM_LIBS
-    "${LIBSPDM_LIB_DIR}/libspdm*.a"
-)
-
-file(GLOB LIBSPDM_SUPPORT_LIBS
-    "${LIBSPDM_LIB_DIR}/libcryptlib*.a"
-    "${LIBSPDM_LIB_DIR}/libmalloclib*.a"
-    "${LIBSPDM_LIB_DIR}/libmemlib*.a"
-    "${LIBSPDM_LIB_DIR}/libplatform_lib*.a"
-    "${LIBSPDM_LIB_DIR}/librnglib*.a"
-    "${LIBSPDM_LIB_DIR}/libdebuglib*.a"
-    "${LIBSPDM_LIB_DIR}/libintrinsiclib*.a"
-    "${LIBSPDM_LIB_DIR}/libarmbuild_lib*.a"
-)
-
-set(ALL_LIBSPDM_LIBS
-    ${LIBSPDM_LIBS}
-    ${LIBSPDM_SUPPORT_LIBS}
-)
-
-if(NOT ALL_LIBSPDM_LIBS)
-    message(FATAL_ERROR
-        "No libspdm libraries found in ${LIBSPDM_LIB_DIR}"
-    )
-endif()
-
-target_link_libraries(spdm-startup-app PRIVATE
-    -Wl,--start-group
-    ${ALL_LIBSPDM_LIBS}
-    -Wl,--end-group
-
-    mbedtls
-    mbedx509
-    mbedcrypto
-    ssl
-    crypto
-
-    pthread
-    m
-)
-
-install(
-    TARGETS spdm-startup-app
-    RUNTIME DESTINATION bin
-)
-
-current main.c
-/*
- * spdm-startup-app - PMC SPDM requester bring-up
- *
- * Goal for this milestone: prove the libspdm integration (context, transport
- * encode/decode, device IO, crypto backend) actually works on-target, by
- * running the connection-setup phase of SPDM:
- *
- *      GET_VERSION -> GET_CAPABILITIES -> NEGOTIATE_ALGORITHMS
- *
- * which libspdm exposes as a single call: libspdm_init_connection().
- *
- * TRANSPORT: this uses the MCTP message encode/decode helpers that ship in
- * libspdm (transport-mctp lib), which is the right binding long-term (DSP0275
- * SPDM-over-MCTP) since your PSUs already sit on an I2C/PMBus bus. But actually
- * moving MCTP frames over I2C requires a kernel MCTP-I2C binding driver (or a
- * userspace SMBus block-write/read shim) AND a responder on the other end -
- * neither of which exists yet on your PSU. So:
- *
- *      spdm_device_send_message() / spdm_device_receive_message()
- *
- * below are stubbed as an AF_UNIX loopback so you can pair this app with a
- * responder process (e.g. spdm-emu's responder, or a second instance of your
- * own code acting as responder) running ON THE PMC, to validate everything
- * above the wire before real hardware is in the loop.
- *
- * CHECK AGAINST YOUR FETCHED HEADERS BEFORE TRUSTING THIS BLINDLY:
- * libspdm's public API (especially the device_io / buffer-acquire callback
- * shapes) has changed across versions. Grep
- *   ${STAGING_INCDIR}/libspdm/library/spdm_requester_lib.h
- *   ${STAGING_INCDIR}/libspdm/library/spdm_common_lib.h
- * for the exact signatures your fetched SRCREV provides and adjust the
- * callback registration calls if they don't match.
- */
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/socket.h>
-#include <sys/un.h>
-#include <unistd.h>
-
-#include "library/spdm_requester_lib.h"
-#include "library/spdm_transport_mctp_lib.h"
-#include "library/spdm_common_lib.h"
-
-#define LOOPBACK_SOCK_PATH "/tmp/spdm-loopback.sock"
-#define SENDER_BUF_SIZE    0x1200
-#define RECEIVER_BUF_SIZE  0x1200
-
-/* Max size (bytes) of an SPDM message body this transport will hand to/from
- * libspdm - not a library-provided constant, just our own transport's limit.
- * Keep it >= the buffer sizes above minus MCTP header/tail overhead. */
-#define SPDM_MAX_MESSAGE_SIZE 0x1200
-
-static int g_sock = -1;
-
-/* --- device IO: swap this file's contents for a real transport later --- */
-
-static libspdm_return_t spdm_device_send_message(void *spdm_context,
-                                                   size_t message_size,
-                                                   const void *message,
-                                                   uint64_t timeout)
-{
-    (void)spdm_context;
-    (void)timeout;
-    if (send(g_sock, message, message_size, 0) != (ssize_t)message_size) {
-        perror("spdm_device_send_message: send");
-        return LIBSPDM_STATUS_SEND_FAIL;
-    }
-    return LIBSPDM_STATUS_SUCCESS;
-}
-
-static libspdm_return_t spdm_device_receive_message(void *spdm_context,
-                                                      size_t *message_size,
-                                                      void **message,
-                                                      uint64_t timeout)
-{
-    (void)spdm_context;
-    (void)timeout;
-    ssize_t n = recv(g_sock, *message, *message_size, 0);
-    if (n <= 0) {
-        perror("spdm_device_receive_message: recv");
-        return LIBSPDM_STATUS_RECEIVE_FAIL;
-    }
-    *message_size = (size_t)n;
-    return LIBSPDM_STATUS_SUCCESS;
-}
-
-/* MCTP transport header encode/decode - reuse libspdm's helpers so the
- * message-framing layer is already spec-correct; only the raw byte
- * send/receive above is our stand-in. */
-static libspdm_return_t spdm_transport_encode(void *spdm_context,
-                                               const uint32_t *session_id,
-                                               bool is_app_message,
-                                               bool is_requester,
-                                               size_t message_size,
-                                               void *message,
-                                               size_t *transport_message_size,
-                                               void **transport_message)
-{
-    return libspdm_transport_mctp_encode_message(
-        spdm_context, session_id, is_app_message,
-        is_requester, message_size, message,
-        transport_message_size, transport_message);
-}
-
-static libspdm_return_t spdm_transport_decode(void *spdm_context,
-                                               uint32_t **session_id,
-                                               bool *is_app_message,
-                                               bool is_requester,
-                                               size_t transport_message_size,
-                                               void *transport_message,
-                                               size_t *message_size,
-                                               void **message)
-{
-    return libspdm_transport_mctp_decode_message(
-        spdm_context, session_id, is_app_message, is_requester,
-        transport_message_size, transport_message, message_size, message);
-}
-
-static int connect_loopback(void)
-{
-    int sock = socket(AF_UNIX, SOCK_STREAM, 0);
-    if (sock < 0) {
-        perror("socket");
-        return -1;
-    }
-
-    struct sockaddr_un addr = {0};
-    addr.sun_family = AF_UNIX;
-    strncpy(addr.sun_path, LOOPBACK_SOCK_PATH, sizeof(addr.sun_path) - 1);
-
-    if (connect(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
-        perror("connect (is a responder listening on the socket yet?)");
-        close(sock);
-        return -1;
-    }
-    return sock;
-}
-
-int main(void)
-{
-    printf("spdm-startup-app: connecting to responder loopback...\n");
-    g_sock = connect_loopback();
-    if (g_sock < 0) {
-        fprintf(stderr,
-                "no responder at %s - start one first (see README)\n",
-                LOOPBACK_SOCK_PATH);
-        return 1;
-    }
-
-    size_t context_size = libspdm_get_context_size();
-    void *spdm_context = malloc(context_size);
-    if (!spdm_context) {
-        fprintf(stderr, "OOM allocating spdm_context (%zu bytes)\n", context_size);
-        return 1;
-    }
-    libspdm_init_context(spdm_context);
-
-    libspdm_register_device_io_func(spdm_context,
-                                     spdm_device_send_message,
-                                     spdm_device_receive_message);
-    libspdm_register_transport_layer_func(spdm_context,
-                                           SPDM_MAX_MESSAGE_SIZE,
-                                           LIBSPDM_MCTP_TRANSPORT_HEADER_SIZE,
-                                           LIBSPDM_MCTP_TRANSPORT_TAIL_SIZE,
-                                           spdm_transport_encode,
-                                           spdm_transport_decode);
-
-    static uint8_t sender_buf[SENDER_BUF_SIZE];
-    static uint8_t receiver_buf[RECEIVER_BUF_SIZE];
-    libspdm_register_device_buffer_func(
-        spdm_context, SENDER_BUF_SIZE, RECEIVER_BUF_SIZE,
-        NULL, NULL, NULL, NULL); /* see header comment: confirm signature */
-    (void)sender_buf;
-    (void)receiver_buf;
-
-    /* Minimal requester capability set for the startup handshake - no
-     * mutual auth, no PSK, no measurements yet. Widen this once GET_VERSION/
-     * GET_CAPABILITIES/NEGOTIATE_ALGORITHMS is proven out. */
-    libspdm_data_parameter_t parameter = {0};
-    parameter.location = LIBSPDM_DATA_LOCATION_LOCAL;
-
-    uint8_t ct_exponent = 0;
-    libspdm_set_data(spdm_context, LIBSPDM_DATA_CAPABILITY_CT_EXPONENT,
-                      &parameter, &ct_exponent, sizeof(ct_exponent));
-
-    uint32_t requester_cap_flags = 0; /* no CERT_CAP/CHAL_CAP yet - bare handshake */
-    libspdm_set_data(spdm_context, LIBSPDM_DATA_CAPABILITY_FLAGS,
-                      &parameter, &requester_cap_flags, sizeof(requester_cap_flags));
-
-    printf("spdm-startup-app: running GET_VERSION / GET_CAPABILITIES / "
-           "NEGOTIATE_ALGORITHMS...\n");
-
-    libspdm_return_t status = libspdm_init_connection(spdm_context, false);
-    if (LIBSPDM_STATUS_IS_ERROR(status)) {
-        fprintf(stderr, "libspdm_init_connection failed: 0x%x\n", (unsigned)status);
-        free(spdm_context);
-        close(g_sock);
-        return 1;
-    }
-
-    printf("SPDM connection established (version/capabilities/algorithms "
-           "negotiated OK).\n");
-
-    /* TODO next milestones, in order:
-     *   1. GET_DIGESTS / GET_CERTIFICATE   (needs a cert chain + CERT_CAP)
-     *   2. CHALLENGE                        (needs CHAL_CAP + private key access)
-     *   3. GET_MEASUREMENTS                 (attest PSU fw/config state)
-     *   4. Swap loopback for real MCTP-over-I2C transport once the PSU
-     *      responder side exists.
-     */
-
-    free(spdm_context);
-    close(g_sock);
-    return 0;
-}
-
+wait, do we have to implement this using the mctp or what? whats missing?
