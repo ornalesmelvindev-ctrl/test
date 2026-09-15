@@ -1,0 +1,11 @@
+Your connection isn't private
+Attackers might be trying to steal your information from 10.152.12.21 (for example, passwords, messages, or credit cards).
+net::ERR_CERT_AUTHORITY_INVALID
+
+This server couldn't prove that it's 10.152.12.21; its security certificate is not trusted by your computer's operating system. This may be caused by a misconfiguration or an attacker intercepting your connection.
+
+Continue to 10.152.12.21 (unsafe)
+
+
+Also can you fix this one? because accessing the webui of the device, it is always required, can you bypass this on accessing the
+webui or not? dont force yourself if you cant
