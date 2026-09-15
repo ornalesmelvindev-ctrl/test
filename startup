@@ -1,15 +1,18 @@
+current logs
+╰─ sudo socat -d -d pty,raw,echo=0,link=/tmp/psu-mock-tty \
+            pty,raw,echo=0,link=/dev/ttyS0
 [sudo] password for melvin:
-2026/09/15 15:51:53 socat[213154] N PTY is /dev/pts/11
-2026/09/15 15:51:53 socat[213154] N PTY is /dev/pts/12
-2026/09/15 15:51:53 socat[213154] N starting data transfer loop with FDs [5,5] and [7,7]
-2026/09/15 15:55:41 socat[213154] N write(5, 0x5ddcaa4e1000, 9) completed
-2026/09/15 15:55:41 socat[213154] N write(7, 0x5ddcaa4e1000, 13) completed
-2026/09/15 15:55:42 socat[213154] N write(5, 0x5ddcaa4e1000, 25) completed
-2026/09/15 15:55:42 socat[213154] N write(7, 0x5ddcaa4e1000, 25) completed
-2026/09/15 15:55:44 socat[213154] N write(5, 0x5ddcaa4e1000, 49) completed
-2026/09/15 15:55:44 socat[213154] N write(7, 0x5ddcaa4e1000, 41) completed
+2026/09/15 16:19:11 socat[231694] N PTY is /dev/pts/11
+2026/09/15 16:19:11 socat[231694] N PTY is /dev/pts/12
+2026/09/15 16:19:11 socat[231694] N starting data transfer loop with FDs [5,5] and [7,7]
+2026/09/15 16:19:52 socat[231694] N write(5, 0x635698f14000, 9) completed
+2026/09/15 16:19:52 socat[231694] N write(7, 0x635698f14000, 13) completed
+2026/09/15 16:19:53 socat[231694] N write(5, 0x635698f14000, 25) completed
+2026/09/15 16:19:53 socat[231694] N write(7, 0x635698f14000, 25) completed
+2026/09/15 16:19:54 socat[231694] N write(5, 0x635698f14000, 49) completed
+2026/09/15 16:19:54 socat[231694] N write(7, 0x635698f14000, 41) completed
 
-╰─ sudo python3 mock_psu.py /tmp/psu-mock-tty
+sudo python3 mock_psu.py /tmp/psu-mock-tty
 [sudo] password for melvin:
 mock_psu: listening on /tmp/psu-mock-tty
 mock_psu: RX addr=80 func=65 msg=10840000
@@ -26,16 +29,72 @@ mock_psu: decoded response -> SPDMVersion=0x12 RequestResponseCode=0x63 (ALGORIT
 mock_psu: TX 8065241263000024000100000000001000000001000000000000000000000000000000000000002b27
 
 sudo modbus-service
+[sudo] password for melvin:
 createEventLoop(): Creating event loop
 blockSignals(): clocking signals
 addSignalHandler(): adding signal handler
 runEventLoop(): starting event loop
 [MODBUS_LOCAL_TEST_NO_GPIO] skipping real RTS/GPIO setup
-log_spdm_frame(): SPDM_CMD TX (PMC->PSU request): addr=0x80 func=0x65 | SPDMVersion=0x10 RequestResponseCode=0x84 (GET_VERSION) Param1=0x00 Param2=0x00
-log_spdm_frame(): SPDM_CMD RX (PSU->PMC response): addr=0x80 func=0x65 | SPDMVersion=0x08 RequestResponseCode=0x10 (UNKNOWN_RESPONSE) Param1=0x04 Param2=0x00
+log_spdm_frame(): SPDM_CMD TX (PMC->PSU request): addr=0x80 func=0x65 | ByteCount=4 SPDMVersion=0x10 RequestResponseCode=0x84 (GET_VERSION) Param1=0x00 Param2=0x00
+log_spdm_frame(): SPDM_CMD RX (PSU->PMC response): addr=0x80 func=0x65 | ByteCount=8 SPDMVersion=0x10 RequestResponseCode=0x04 (VERSION) Param1=0x00 Param2=0x00
 [MODBUS_LOCAL_TEST_NO_GPIO] skipping real RTS/GPIO setup
-log_spdm_frame(): SPDM_CMD TX (PMC->PSU request): addr=0x80 func=0x65 | SPDMVersion=0x12 RequestResponseCode=0xE1 (GET_CAPABILITIES) Param1=0x00 Param2=0x00
-log_spdm_frame(): SPDM_CMD RX (PSU->PMC response): addr=0x80 func=0x65 | SPDMVersion=0x14 RequestResponseCode=0x12 (UNKNOWN_RESPONSE) Param1=0x61 Param2=0x00
+log_spdm_frame(): SPDM_CMD TX (PMC->PSU request): addr=0x80 func=0x65 | ByteCount=20 SPDMVersion=0x12 RequestResponseCode=0xE1 (GET_CAPABILITIES) Param1=0x00 Param2=0x00
+log_spdm_frame(): SPDM_CMD RX (PSU->PMC response): addr=0x80 func=0x65 | ByteCount=20 SPDMVersion=0x12 RequestResponseCode=0x61 (CAPABILITIES) Param1=0x00 Param2=0x00
 [MODBUS_LOCAL_TEST_NO_GPIO] skipping real RTS/GPIO setup
-log_spdm_frame(): SPDM_CMD TX (PMC->PSU request): addr=0x80 func=0x65 | SPDMVersion=0x12 RequestResponseCode=0xE3 (NEGOTIATE_ALGORITHMS) Param1=0x03 Param2=0x00
-log_spdm_frame(): SPDM_CMD RX (PSU->PMC response): addr=0x80 func=0x65 | SPDMVersion=0x24 RequestResponseCode=0x12 (UNKNOWN_RESPONSE) Param1=0x63 Param2=0x00
+log_spdm_frame(): SPDM_CMD TX (PMC->PSU request): addr=0x80 func=0x65 | ByteCount=44 SPDMVersion=0x12 RequestResponseCode=0xE3 (NEGOTIATE_ALGORITHMS) Param1=0x03 Param2=0x00
+log_spdm_frame(): SPDM_CMD RX (PSU->PMC response): addr=0x80 func=0x65 | ByteCount=36 SPDMVersion=0x12 RequestResponseCode=0x63 (ALGORITHMS) Param1=0x00 Param2=0x0
+
+
+So what I want you to do know is for every process/function, put comment on what does it do? from all, modbus-service,  and in the requester,
+like for example in modbus-service
+
+for what is this shits after sendGenericRquest()
+    +                        r = sendGenericRequest(&s_modbus->s_request, &s_modbus->s_response, MODBUS_RTU_MAX_DATA_SIZE);
++
++                        if (0 < r)
++                        {
++                            log_spdm_frame("RX (PSU->PMC response)",
++                                           s_modbus->s_response.u8_address,
++                                           s_modbus->s_response.u8_function_code,
++                                           s_modbus->s_response.u8_data,
++                                           s_modbus->s_response.u8_data_length,
++                                           false);
++
++
++                            char buffer[512] = { 0 };
++                            char *ptr = &buffer[0];
++                            ptr += sprintf(ptr, "%02X", s_modbus->s_response.u8_address);
++                            ptr += sprintf(ptr, "%02X", s_modbus->s_response.u8_function_code);
++                            for (uint8_t i = 0; i < s_modbus->s_response.u8_data_length; i++)
++                            {
++                                ptr += sprintf(ptr, "%02X", s_modbus->s_response.u8_data[i]);
++                            }
++
++                            ptr += sprintf(ptr, "%02X", (s_modbus->s_response.u16_crc & 0xFF));
++                            ptr += sprintf(ptr, "%02X", ((s_modbus->s_response.u16_crc >> 8 ) & 0xFF));
++
++                            if ( NULL != p_response)
++                            {
++                                (void)sprintf(p_response, "%s\0", buffer);
++                            }
++                        }
++                        else
++                        {
++                            DEBUG_PRINT("SPDM_CMD: sendGenericRequest() returned %d (no/short "
++                                        "response from PSU - timeout or short read on the "
++                                        "UART side)\n", r);
++                        }
++                    }
+
+
+like in every memcpy(), what does it store, I mean like there's hardcoded shifts like << 8 or what, ytou know what I mean
+I wanna be fully familiar with whats happening,
+thats just example okay, I am refering for every process made, every shift, what is it for, since I dont have much exp in modbus as well
+
+moreover, in the requester, same thing, put comments, like for example, this
+what does it do?
+libspdm_init_context()
+I mean not too verbose, as long as the main functionallitry is there
+
+also, put that all and the summary in the readme, update it
+
