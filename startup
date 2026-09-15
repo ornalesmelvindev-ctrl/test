@@ -102,4 +102,5 @@ also in the request and response, for exampl ,the GET_CAPABILITIES, how did you 
 	PSU→PMC	806514126100000000000000000000c8000000c8000000ad8a
 
 Because later on, if proven it is working, of course I will study how it works so I can present smoothly
+also, how can you be so suyre that the mocks really acts like psu, acting as spmd responder
 
