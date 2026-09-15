@@ -1,1 +1,134 @@
+gcc spdm-startup-app_main_dbus.c spdm_transport_modbus.c spdm_device_io_dbus.c \
+    -I/usr/local/include/libspdm \
+    -L/usr/local/lib \
+    -lspdm_requester_lib \
+    -lspdm_common_lib \
+    -lspdm_secured_message_lib \
+    -lcryptlib_openssl \
+    -lcrypto \
+    -lsystemd \
+    -o requester-dbus
 
+/usr/bin/ld: /tmp/cc7BLwye.ltrans0.ltrans.o: in function `libspdm_append_managed_buffer':
+<artificial>:(.text+0x273): undefined reference to `libspdm_copy_mem'
+/usr/bin/ld: /tmp/cc7BLwye.ltrans0.ltrans.o: in function `libspdm_append_msg_log':
+<artificial>:(.text+0x2ce): undefined reference to `libspdm_copy_mem'
+/usr/bin/ld: <artificial>:(.text+0x2f0): undefined reference to `libspdm_copy_mem'
+/usr/bin/ld: /tmp/cc7BLwye.ltrans0.ltrans.o: in function `libspdm_reset_message_b':
+<artificial>:(.text+0x317): undefined reference to `libspdm_hash_free'
+/usr/bin/ld: /tmp/cc7BLwye.ltrans0.ltrans.o: in function `libspdm_reset_message_mut_b':
+<artificial>:(.text+0x33e): undefined reference to `libspdm_hash_free'
+/usr/bin/ld: /tmp/cc7BLwye.ltrans0.ltrans.o: in function `libspdm_reset_message_e.part.0':
+<artificial>:(.text+0x365): undefined reference to `libspdm_hash_free'
+/usr/bin/ld: /tmp/cc7BLwye.ltrans0.ltrans.o: in function `libspdm_reset_message_encap_e.part.0':
+<artificial>:(.text+0x38c): undefined reference to `libspdm_hash_free'
+/usr/bin/ld: /tmp/cc7BLwye.ltrans0.ltrans.o: in function `libspdm_reset_message_m.constprop.0':
+<artificial>:(.text+0x3b3): undefined reference to `libspdm_hash_free'
+/usr/bin/ld: /tmp/cc7BLwye.ltrans0.ltrans.o:<artificial>:(.text+0x466): more undefined references to `libspdm_hash_free' follow
+/usr/bin/ld: /tmp/cc7BLwye.ltrans0.ltrans.o: in function `libspdm_session_info_init.constprop.0':
+<artificial>:(.text+0x502): undefined reference to `libspdm_zero_mem'
+/usr/bin/ld: <artificial>:(.text+0x50f): undefined reference to `libspdm_zero_mem'
+/usr/bin/ld: <artificial>:(.text+0x520): undefined reference to `libspdm_zero_mem'
+/usr/bin/ld: <artificial>:(.text+0x5b2): undefined reference to `libspdm_get_hash_size'
+/usr/bin/ld: <artificial>:(.text+0x5c5): undefined reference to `libspdm_get_kem_shared_secret_size'
+/usr/bin/ld: <artificial>:(.text+0x5d0): undefined reference to `libspdm_get_dhe_shared_secret_size'
+/usr/bin/ld: <artificial>:(.text+0x5df): undefined reference to `libspdm_get_aead_key_size'
+/usr/bin/ld: <artificial>:(.text+0x5ee): undefined reference to `libspdm_get_aead_iv_size'
+/usr/bin/ld: <artificial>:(.text+0x5fd): undefined reference to `libspdm_get_aead_tag_size'
+/usr/bin/ld: /tmp/cc7BLwye.ltrans0.ltrans.o: in function `libspdm_receive_response.constprop.0':
+<artificial>:(.text+0x7d5): undefined reference to `libspdm_copy_mem'
+/usr/bin/ld: <artificial>:(.text+0x7f0): undefined reference to `libspdm_copy_mem'
+/usr/bin/ld: <artificial>:(.text+0x80d): undefined reference to `libspdm_copy_mem'
+/usr/bin/ld: <artificial>:(.text+0x828): undefined reference to `libspdm_zero_mem'
+/usr/bin/ld: <artificial>:(.text+0x837): undefined reference to `libspdm_zero_mem'
+/usr/bin/ld: <artificial>:(.text+0x848): undefined reference to `libspdm_zero_mem'
+/usr/bin/ld: <artificial>:(.text+0x97f): undefined reference to `libspdm_bin_concat'
+/usr/bin/ld: <artificial>:(.text+0x9a4): undefined reference to `libspdm_copy_mem'
+/usr/bin/ld: <artificial>:(.text+0x9c9): undefined reference to `libspdm_copy_mem'
+/usr/bin/ld: <artificial>:(.text+0x9e2): undefined reference to `libspdm_copy_mem'
+/usr/bin/ld: <artificial>:(.text+0xa10): undefined reference to `libspdm_hkdf_expand'
+/usr/bin/ld: <artificial>:(.text+0xa6c): undefined reference to `libspdm_bin_concat'
+/usr/bin/ld: <artificial>:(.text+0xa90): undefined reference to `libspdm_hkdf_expand'
+/usr/bin/ld: <artificial>:(.text+0xacf): undefined reference to `libspdm_bin_concat'
+/usr/bin/ld: <artificial>:(.text+0xaf1): undefined reference to `libspdm_hkdf_expand'
+/usr/bin/ld: /tmp/cc7BLwye.ltrans0.ltrans.o: in function `libspdm_send_request.constprop.0':
+<artificial>:(.text+0xc24): undefined reference to `libspdm_copy_mem'
+/usr/bin/ld: <artificial>:(.text+0xc48): undefined reference to `libspdm_copy_mem'
+/usr/bin/ld: <artificial>:(.text+0xc83): undefined reference to `libspdm_zero_mem'
+/usr/bin/ld: /tmp/cc7BLwye.ltrans0.ltrans.o: in function `libspdm_send_spdm_request':
+<artificial>:(.text+0xe55): undefined reference to `libspdm_copy_mem'
+/usr/bin/ld: <artificial>:(.text+0xf2b): undefined reference to `libspdm_zero_mem'
+/usr/bin/ld: <artificial>:(.text+0xf46): undefined reference to `libspdm_copy_mem'
+/usr/bin/ld: <artificial>:(.text+0x1023): undefined reference to `libspdm_copy_mem'
+/usr/bin/ld: <artificial>:(.text+0x108c): undefined reference to `libspdm_zero_mem'
+/usr/bin/ld: <artificial>:(.text+0x1125): undefined reference to `libspdm_copy_mem'
+/usr/bin/ld: <artificial>:(.text+0x11b3): undefined reference to `libspdm_copy_mem'
+/usr/bin/ld: <artificial>:(.text+0x122a): undefined reference to `libspdm_copy_mem'
+/usr/bin/ld: <artificial>:(.text+0x1276): undefined reference to `libspdm_zero_mem'
+/usr/bin/ld: /tmp/cc7BLwye.ltrans0.ltrans.o: in function `libspdm_receive_spdm_response':
+<artificial>:(.text+0x13c6): undefined reference to `libspdm_copy_mem'
+/usr/bin/ld: <artificial>:(.text+0x13f0): undefined reference to `libspdm_zero_mem'
+/usr/bin/ld: <artificial>:(.text+0x1567): undefined reference to `libspdm_zero_mem'
+/usr/bin/ld: <artificial>:(.text+0x15ec): undefined reference to `libspdm_zero_mem'
+/usr/bin/ld: <artificial>:(.text+0x1751): undefined reference to `libspdm_copy_mem'
+/usr/bin/ld: <artificial>:(.text+0x17c3): undefined reference to `libspdm_copy_mem'
+/usr/bin/ld: <artificial>:(.text+0x17d8): undefined reference to `libspdm_zero_mem'
+/usr/bin/ld: /tmp/cc7BLwye.ltrans0.ltrans.o: in function `libspdm_init_connection':
+<artificial>:(.text+0x195b): undefined reference to `libspdm_pqc_asym_free'
+/usr/bin/ld: <artificial>:(.text+0x1969): undefined reference to `libspdm_asym_free'
+/usr/bin/ld: <artificial>:(.text+0x197b): undefined reference to `libspdm_req_pqc_asym_free'
+/usr/bin/ld: <artificial>:(.text+0x198a): undefined reference to `libspdm_req_asym_free'
+/usr/bin/ld: <artificial>:(.text+0x19ce): undefined reference to `libspdm_zero_mem'
+/usr/bin/ld: <artificial>:(.text+0x19df): undefined reference to `libspdm_zero_mem'
+/usr/bin/ld: <artificial>:(.text+0x19f0): undefined reference to `libspdm_zero_mem'
+/usr/bin/ld: <artificial>:(.text+0x1a01): undefined reference to `libspdm_zero_mem'
+/usr/bin/ld: <artificial>:(.text+0x1a12): undefined reference to `libspdm_zero_mem'
+/usr/bin/ld: /tmp/cc7BLwye.ltrans0.ltrans.o:<artificial>:(.text+0x1c4b): more undefined references to `libspdm_zero_mem' follow
+/usr/bin/ld: /tmp/cc7BLwye.ltrans0.ltrans.o: in function `libspdm_init_connection':
+<artificial>:(.text+0x1c73): undefined reference to `libspdm_copy_mem'
+/usr/bin/ld: <artificial>:(.text+0x1c8d): undefined reference to `libspdm_copy_mem'
+/usr/bin/ld: <artificial>:(.text+0x1cdb): undefined reference to `libspdm_copy_mem'
+/usr/bin/ld: <artificial>:(.text+0x1d57): undefined reference to `libspdm_sleep'
+/usr/bin/ld: <artificial>:(.text+0x1e0b): undefined reference to `libspdm_zero_mem'
+/usr/bin/ld: <artificial>:(.text+0x23fb): undefined reference to `libspdm_sleep'
+/usr/bin/ld: <artificial>:(.text+0x24af): undefined reference to `libspdm_zero_mem'
+/usr/bin/ld: <artificial>:(.text+0x29ce): undefined reference to `libspdm_get_measurement_hash_size'
+/usr/bin/ld: <artificial>:(.text+0x2a07): undefined reference to `libspdm_get_hash_size'
+/usr/bin/ld: <artificial>:(.text+0x2aa6): undefined reference to `libspdm_get_asym_signature_size'
+/usr/bin/ld: <artificial>:(.text+0x2ac1): undefined reference to `libspdm_get_pqc_asym_signature_size'
+/usr/bin/ld: <artificial>:(.text+0x2be6): undefined reference to `libspdm_get_dhe_pub_key_size'
+/usr/bin/ld: <artificial>:(.text+0x2c01): undefined reference to `libspdm_get_kem_encap_key_size'
+/usr/bin/ld: <artificial>:(.text+0x2c95): undefined reference to `libspdm_get_aead_key_size'
+/usr/bin/ld: <artificial>:(.text+0x2cee): undefined reference to `libspdm_get_req_asym_signature_size'
+/usr/bin/ld: <artificial>:(.text+0x2d09): undefined reference to `libspdm_get_req_pqc_asym_signature_size'
+/usr/bin/ld: <artificial>:(.text+0x2e51): undefined reference to `libspdm_sleep'
+/usr/bin/ld: /tmp/cc7BLwye.ltrans0.ltrans.o: in function `libspdm_set_data':
+<artificial>:(.text+0x2f7a): undefined reference to `libspdm_copy_mem'
+/usr/bin/ld: <artificial>:(.text+0x3505): undefined reference to `libspdm_hash_all'
+/usr/bin/ld: <artificial>:(.text+0x351f): undefined reference to `libspdm_get_hash_size'
+/usr/bin/ld: <artificial>:(.text+0x354a): undefined reference to `libspdm_get_pqc_leaf_cert_public_key_from_cert_chain'
+/usr/bin/ld: <artificial>:(.text+0x355d): undefined reference to `libspdm_get_leaf_cert_public_key_from_cert_chain'
+/usr/bin/ld: /tmp/cc7BLwye.ltrans0.ltrans.o: in function `libspdm_init_context':
+<artificial>:(.text+0x3962): undefined reference to `libspdm_zero_mem'
+/usr/bin/ld: <artificial>:(.text+0x3a21): undefined reference to `libspdm_zero_mem'
+/usr/bin/ld: /tmp/cc7BLwye.ltrans0.ltrans.o: in function `libspdm_reset_managed_buffer':
+<artificial>:(.text+0x23e): undefined reference to `libspdm_zero_mem'
+collect2: error: ld returned 1 exit status
+
+gcc spdm-startup-app_main_dbus.c spdm_transport_modbus.c spdm_device_io_dbus.c \
+    -I/usr/local/include/libspdm \
+    -L/usr/local/lib \
+    -lspdm_requester_lib \
+    -lspdm_common_lib \
+    -lspdm_secured_message_lib \
+    -lcryptlib_openssl \
+    -lcrypto \
+    -lsystemd \
+    -o requester-dbus
+
+spdm-startup-app_main_dbus.c: In function ‘main’:
+spdm-startup-app_main_dbus.c:177:29: error: ‘SPDM_ALGORITHMS_KEY_SCHEDULE_HMAC_HASH’ undeclared (first use in this function); did you mean ‘SPDM_ALGORITHMS_KEY_SCHEDULE_SPDM’?
+  177 |     uint16_t key_schedule = SPDM_ALGORITHMS_KEY_SCHEDULE_HMAC_HASH;
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                             SPDM_ALGORITHMS_KEY_SCHEDULE_SPDM
+spdm-startup-app_main_dbus.c:177:29: note: each undeclared identifier is reported only once for each function it appears in
