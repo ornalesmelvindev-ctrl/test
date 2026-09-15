@@ -1,0 +1,69 @@
+I just added logs, I didnt modify
+int spdm_dbus_connect(void)
+{
+    printf("above\n");
+    int r = sd_bus_open_system(&g_bus);
+    printf("below\n");
+    if (r < 0) {
+        fprintf(stderr, "spdm_dbus_connect: sd_bus_open_system failed: %s\n", strerror(-r));
+        return -1;
+    }
+    return 0;
+}
+
+but it hangs in here
+./requester-dbus
+spdm-startup-app (dbusers): connecting to modbus-service...
+hello1
+above
+
+
+take note, I test this
+╰─ cat test.c
+#include <systemd/sd-bus.h>
+#include <stdio.h>
+
+int main(void)
+{
+    sd_bus *bus = NULL;
+
+    printf("before\n");
+    fflush(stdout);
+
+    int r = sd_bus_open_system(&bus);
+
+    printf("after r=%d\n", r);
+    fflush(stdout);
+
+    return 0;
+}%
+
+╰─ gcc test.c -o test -lsystemd && ./test
+
+before
+after r=0
+
+this is the way I compile it since I installed libspdm locally
+#!/bin/bash
+gcc spdm-startup-app_main_dbus.c spdm_transport_modbus.c spdm_device_io_dbus.c \
+    -I/usr/local/include/libspdm \
+    -L/usr/local/lib \
+    -Wl,--start-group \
+    -lspdm_requester_lib \
+    -lspdm_responder_lib \
+    -lspdm_common_lib \
+    -lspdm_secured_message_lib \
+    -lspdm_crypt_lib \
+    -lcryptlib_openssl \
+    -lcryptlib_null \
+    -lspdm_crypt_ext_lib \
+    -lmemlib \
+    -lmalloclib \
+    -ldebuglib \
+    -lintrinsiclib \
+    -lplatform_lib \
+    -Wl,--end-group \
+    -lcrypto \
+    -lsystemd \
+    -o requester-dbus \
+    -ldl
