@@ -1,0 +1,41 @@
+[sudo] password for melvin:
+2026/09/15 15:51:53 socat[213154] N PTY is /dev/pts/11
+2026/09/15 15:51:53 socat[213154] N PTY is /dev/pts/12
+2026/09/15 15:51:53 socat[213154] N starting data transfer loop with FDs [5,5] and [7,7]
+2026/09/15 15:55:41 socat[213154] N write(5, 0x5ddcaa4e1000, 9) completed
+2026/09/15 15:55:41 socat[213154] N write(7, 0x5ddcaa4e1000, 13) completed
+2026/09/15 15:55:42 socat[213154] N write(5, 0x5ddcaa4e1000, 25) completed
+2026/09/15 15:55:42 socat[213154] N write(7, 0x5ddcaa4e1000, 25) completed
+2026/09/15 15:55:44 socat[213154] N write(5, 0x5ddcaa4e1000, 49) completed
+2026/09/15 15:55:44 socat[213154] N write(7, 0x5ddcaa4e1000, 41) completed
+
+╰─ sudo python3 mock_psu.py /tmp/psu-mock-tty
+[sudo] password for melvin:
+mock_psu: listening on /tmp/psu-mock-tty
+mock_psu: RX addr=80 func=65 msg=10840000
+mock_psu: decoded request -> SPDMVersion=0x10 RequestResponseCode=0x84 (GET_VERSION) Param1=0x00 Param2=0x00
+mock_psu: decoded response -> SPDMVersion=0x10 RequestResponseCode=0x04 (VERSION), 8-byte body
+mock_psu: TX 80650810040000000100124e49
+mock_psu: RX addr=80 func=65 msg=12e100000000000000000000d7000000d7000000
+mock_psu: decoded request -> SPDMVersion=0x12 RequestResponseCode=0xe1 (GET_CAPABILITIES) Param1=0x00 Param2=0x00
+mock_psu: decoded response -> SPDMVersion=0x12 RequestResponseCode=0x61 (CAPABILITIES), 20-byte body
+mock_psu: TX 806514126100000000000000000000c8000000c8000000ad8a
+mock_psu: RX addr=80 func=65 msg=12e303002c000100100000000100000000000000000000000000000000000000022008000320010005200100
+mock_psu: decoded request -> SPDMVersion=0x12 RequestResponseCode=0xe3 (NEGOTIATE_ALGORITHMS) Param1=0x03 Param2=0x00
+mock_psu: decoded response -> SPDMVersion=0x12 RequestResponseCode=0x63 (ALGORITHMS), 36-byte body
+mock_psu: TX 8065241263000024000100000000001000000001000000000000000000000000000000000000002b27
+
+sudo modbus-service
+createEventLoop(): Creating event loop
+blockSignals(): clocking signals
+addSignalHandler(): adding signal handler
+runEventLoop(): starting event loop
+[MODBUS_LOCAL_TEST_NO_GPIO] skipping real RTS/GPIO setup
+log_spdm_frame(): SPDM_CMD TX (PMC->PSU request): addr=0x80 func=0x65 | SPDMVersion=0x10 RequestResponseCode=0x84 (GET_VERSION) Param1=0x00 Param2=0x00
+log_spdm_frame(): SPDM_CMD RX (PSU->PMC response): addr=0x80 func=0x65 | SPDMVersion=0x08 RequestResponseCode=0x10 (UNKNOWN_RESPONSE) Param1=0x04 Param2=0x00
+[MODBUS_LOCAL_TEST_NO_GPIO] skipping real RTS/GPIO setup
+log_spdm_frame(): SPDM_CMD TX (PMC->PSU request): addr=0x80 func=0x65 | SPDMVersion=0x12 RequestResponseCode=0xE1 (GET_CAPABILITIES) Param1=0x00 Param2=0x00
+log_spdm_frame(): SPDM_CMD RX (PSU->PMC response): addr=0x80 func=0x65 | SPDMVersion=0x14 RequestResponseCode=0x12 (UNKNOWN_RESPONSE) Param1=0x61 Param2=0x00
+[MODBUS_LOCAL_TEST_NO_GPIO] skipping real RTS/GPIO setup
+log_spdm_frame(): SPDM_CMD TX (PMC->PSU request): addr=0x80 func=0x65 | SPDMVersion=0x12 RequestResponseCode=0xE3 (NEGOTIATE_ALGORITHMS) Param1=0x03 Param2=0x00
+log_spdm_frame(): SPDM_CMD RX (PSU->PMC response): addr=0x80 func=0x65 | SPDMVersion=0x24 RequestResponseCode=0x12 (UNKNOWN_RESPONSE) Param1=0x63 Param2=0x00
