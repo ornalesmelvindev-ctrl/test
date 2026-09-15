@@ -1,35 +1,22 @@
-./compile.sh
-/usr/bin/ld: /tmp/ccYcP5pv.ltrans0.ltrans.o: in function `libspdm_asym_free':
-<artificial>:(.text+0xbb1): undefined reference to `free_pool'
-collect2: error: ld returned 1 exit status
-╭─░▒▓    ~/spdm-test ·················································································· 1 ✘  system   02:03:22 PM  ▓▒░
-╰─ cat compile.sh
-#!/bin/bash
-gcc spdm-startup-app_main_dbus.c spdm_transport_modbus.c spdm_device_io_dbus.c \
-    -I/usr/local/include/libspdm \
-    -L/usr/local/lib \
-    -L/home/melvin/libspdm-native/libspdm/build/lib \
-    -Wl,--start-group \
-    -lspdm_requester_lib \
-    -lspdm_responder_lib \
-    -lspdm_common_lib \
-    -lspdm_secured_message_lib \
-    -lspdm_crypt_lib \
-    -lcryptlib_openssl \
-    -lspdm_crypt_ext_lib \
-    -lmemlib \
-    -ldebuglib \
-    -lplatform_lib \
-    /home/melvin/libspdm-native/libspdm/build/os_stub/openssllib/openssl-install/lib/libcrypto.a \
-    -Wl,--end-group \
-    -lsystemd \
-    -ldl \
-    -pthread \
-    -o requester-dbus
+╰─ ./requester-dbus
+spdm-startup-app (dbusers): connecting to modbus-service...
+hello1
+above
+below
+hello2
+Configured DataTransferSize=220 MaxSPDMMsgSize=215 (fits Modbus 252-byte frame ceiling: yes)
+spdm-startup-app (dbus): running GET_VERSION / GET_CAPABILITIES / NEGOTIATE_ALGORITHMS via modbus-service...
+D-Bus sendRequest -> 806504108400002614
+sendRequest call failed: Message recipient disconnected from message bus without replying
+libspdm_init_connection failed: 0x80040001
 
 
-for lib in /home/melvin/libspdm-native/libspdm/build/lib/*.a \
-           /home/melvin/libspdm-native/libspdm/build/os_stub/openssllib/openssl-install/lib/libcrypto.a; do
-  nm "$lib" 2>/dev/null | grep -qw "T strlen" && echo "FOUND IN: $lib"
-done
-FOUND IN: /home/melvin/libspdm-native/libspdm/build/lib/libintrinsiclib.a
+╰─ sudo modbus-service
+createEventLoop(): Creating event loop
+blockSignals(): clocking signals
+addSignalHandler(): adding signal handler
+[!!!] dbus_add_object:143 called!!!
+[!!!] dbus_add_object:156 called!!!
+[!!!] sd_bus_request_name(aei.osal.modbusmanager1) returned 1
+runEventLoop(): starting event loop
+[1]    146789 segmentation fault  sudo modbus-service
