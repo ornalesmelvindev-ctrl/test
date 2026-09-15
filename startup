@@ -97,4 +97,9 @@ libspdm_init_context()
 I mean not too verbose, as long as the main functionallitry is there
 
 also, put that all and the summary in the readme, update it
+also in the request and response, for exampl ,the GET_CAPABILITIES, how did you know the address/code of the message, given that theyre not in the doc(spec)
+80651412e100000000000000000000d7000000d7000000c2cc
+	PSU→PMC	806514126100000000000000000000c8000000c8000000ad8a
+
+Because later on, if proven it is working, of course I will study how it works so I can present smoothly
 
