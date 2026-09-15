@@ -1,0 +1,55 @@
+Look at this, because I have PMC(Power Management Controller) (for controlling PSU configs like fan, output, etc)
+admin@artesyn-shelf:~# lsb_release -a
+LSB Version:    n/a
+Distributor ID: artesyn-poky
+Description:    artesyn-poky (Yocto Project Reference Distro) 3.1.8
+Release:        3.1.8
+Codename:       dunfell
+admin@artesyn-shelf:~# cat /etc/os-release
+ID=artesyn-poky
+NAME="artesyn-poky (Yocto Project Reference Distro)"
+VERSION="v06.05.01-ib3b"
+VERSION_ID=v06.05.01-ib3b
+PRETTY_NAME="artesyn-poky (Yocto Project Reference Distro) v06.05.01-ib3b"
+BUILD_ID="20260901030529"
+ARTESYN_BUILD_ID="v06.05.01-ib3-dirty"
+ARTESYN_TARGET_MACHINE="artesyn-shelf"
+
+My problem now is firmware team(PSU side) didnt implement yet the spdm responder thing(through modbus) so look at this, I created
+a mock, you can see in the logs, what I want to ask you is did it work?
+Because I didnt understand a thing if it worked,
+
+what I want you to do now is the patch or modify necessary files, I need more logs, like in the modbus-service
+also in the requester, I need to know what request I send, each part of the arddress or code, then did I received what I want(get_version
+capabilities and algo)
+
+also in the mock_psu.py, I need also comments in the mock and output,
+also how can I know spdm is the reason behind all of this? I mean I need to be enlighten
+
+so please, give me back as compressed files, all the necessary, I dont need the other files like the spdm-responder-app_main_modbus, only the one I am using now
+btw, I compiled the requester using this
+#!/bin/bash
+gcc spdm-startup-app_main_dbus.c spdm_transport_modbus.c spdm_device_io_dbus.c \
+    -I/usr/local/include/libspdm \
+    -L/usr/local/lib \
+    -L/home/melvin/libspdm-native/libspdm/build/lib \
+    -Wl,--start-group \
+    -lspdm_requester_lib \
+    -lspdm_responder_lib \
+    -lspdm_common_lib \
+    -lspdm_secured_message_lib \
+    -lspdm_crypt_lib \
+    -lcryptlib_openssl \
+    -lspdm_crypt_ext_lib \
+    -lmemlib \
+    -lmalloclib \
+    -ldebuglib \
+    -lplatform_lib \
+    /home/melvin/libspdm-native/libspdm/build/os_stub/openssllib/openssl-install/lib/libcrypto.a \
+    -Wl,--end-group \
+    -lsystemd \
+    -ldl \
+    -pthread \
+    -o requester-dbus
+
+take your time
