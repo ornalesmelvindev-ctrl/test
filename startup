@@ -1,6 +1,8 @@
-nm ./requester-dbus| grep -w "T strlen"
-0000000000090c77 T strlen
-╭─░▒▓    ~/spdm-test ···················································································· ✔  system   02:01:18 PM  ▓▒░
+./compile.sh
+/usr/bin/ld: /tmp/ccYcP5pv.ltrans0.ltrans.o: in function `libspdm_asym_free':
+<artificial>:(.text+0xbb1): undefined reference to `free_pool'
+collect2: error: ld returned 1 exit status
+╭─░▒▓    ~/spdm-test ·················································································· 1 ✘  system   02:03:22 PM  ▓▒░
 ╰─ cat compile.sh
 #!/bin/bash
 gcc spdm-startup-app_main_dbus.c spdm_transport_modbus.c spdm_device_io_dbus.c \
@@ -16,9 +18,7 @@ gcc spdm-startup-app_main_dbus.c spdm_transport_modbus.c spdm_device_io_dbus.c \
     -lcryptlib_openssl \
     -lspdm_crypt_ext_lib \
     -lmemlib \
-    -lmalloclib \
     -ldebuglib \
-    -lintrinsiclib \
     -lplatform_lib \
     /home/melvin/libspdm-native/libspdm/build/os_stub/openssllib/openssl-install/lib/libcrypto.a \
     -Wl,--end-group \
@@ -26,3 +26,10 @@ gcc spdm-startup-app_main_dbus.c spdm_transport_modbus.c spdm_device_io_dbus.c \
     -ldl \
     -pthread \
     -o requester-dbus
+
+
+for lib in /home/melvin/libspdm-native/libspdm/build/lib/*.a \
+           /home/melvin/libspdm-native/libspdm/build/os_stub/openssllib/openssl-install/lib/libcrypto.a; do
+  nm "$lib" 2>/dev/null | grep -qw "T strlen" && echo "FOUND IN: $lib"
+done
+FOUND IN: /home/melvin/libspdm-native/libspdm/build/lib/libintrinsiclib.a
