@@ -1,0 +1,4 @@
+this is my latest repo, merge your changes with regard to the icon and maximize here, because in the current, the open webui via is kinda ugly
+Also, in the devtool part, some recipe cant be find, if so, like for example, fru-pollmanager.bb is the recipe but rhe app
+is looking for fru-poll-mamager, we should tell that cant find the recipe, type manually then, then if already typed, take note to store
+as well that bb file for later use okay?
