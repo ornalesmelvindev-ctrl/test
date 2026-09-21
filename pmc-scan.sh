@@ -220,8 +220,18 @@ rm -f "$RESULTS_FILE"
 
 Also, why sometimes, it takes time to deploy? then now, sometimes, I experience disconnection on the ssh even though it's still available
 
-then maybe, we can add feature in the pmc monitor part? like
-current
-10.152.12.43	standard | 3kWh	no	0	🟢 Yes	🟢 Yes	10.131.55.228	🔴 In Use	SSH WebUI
-like maybe add checkbox or whatever the fitted shit for that, like pmc scan for 60sec, I can set this for example to not execute the
-commands in this ip for example 10.152.12.43, also, make the default to manual instead of 60sec
+while when I manually ssh, its not disconnecting.
+
+also in the pmc scan part, can you add functionality like when I hover in the PSU, for example, present psu is 3 in 10.152.12.12
+when I hover in 3, I can see which psu is present(take note in the script, if i is 0, that is psu1,), so for example 3, it will show upon hover like
+psu1, psu2, psu3
+
+Maybe mabye, because the html is dynamic right and depends on the output of pmc-scan.sh
+maybe you can put like config file or what ever file(for dyanmic shit too)
+like for example, set hover for psu is true, then it will show whatever I said,
+then fir ssh and redfish, you currently use this right?
+🟢 Yes	🟢 Yes
+so as well if set in the congfig file to use this icon to display, display, then if available
+🟢 Available
+
+then for the user
