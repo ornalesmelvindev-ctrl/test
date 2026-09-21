@@ -1,0 +1,64 @@
+can you create me a docker where in I can compile this, make sure its ubuntu 20.04
+Build Configuration:
+BB_VERSION           = "1.46.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "arm-poky-linux-gnueabi"
+MACHINE              = "artesyn-shelf"
+DISTRO               = "artesyn-poky"
+DISTRO_VERSION       = "3.1.8"
+TUNE_FEATURES        = "arm armv7a vfp vfpv4d16 callconvention-hard"
+TARGET_FPU           = "hard"
+meta-artesyn-bsp
+meta-orv3            = "HEAD:9efd7560b81239886243d76228659825e5087cd5"
+meta-aspeed          = "HEAD:2ccde15eaa30d283c13fba2a4bae5bbd44a6fa23"
+meta-networking
+meta-oe
+meta-python
+meta-webserver       = "HEAD:c38d2a74f762a792046f3d3c377827b08aade513"
+meta
+meta-poky
+meta-yocto-bsp       = "HEAD:0abf6820292b8a6ac566db254ff8c9f76bf678b9"
+workspace            = "develop:45a4d3d643b8d0f6aa794e4bc7e5310425c488fb"
+
+admin@artesyn-shelf:~# cat /etc/os-release
+ID=artesyn-poky
+NAME="artesyn-poky (Yocto Project Reference Distro)"
+VERSION="v06.05.01-ib4"
+VERSION_ID=v06.05.01-ib4
+PRETTY_NAME="artesyn-poky (Yocto Project Reference Distro) v06.05.01-ib4"
+BUILD_ID="20260911034308"
+ARTESYN_BUILD_ID="v06.05.01-ib4-2-ge4c7737"
+ARTESYN_TARGET_MACHINE="artesyn-shelf"
+admin@artesyn-shelf:~# lsb_release -a
+LSB Version:    n/a
+Distributor ID: artesyn-poky
+Description:    artesyn-poky (Yocto Project Reference Distro) 3.1.8
+Release:        3.1.8
+Codename:       dunfell
+
+these are the shits needed
+### Output files: [ewd-uber-smc-output](https://github-ep.ecp.priv/SoftwareEngineering/ewd-uber-smc-output)
+
+### Model Code: 700-015496-0000
+### Device: AST2620
+### Programming Software: TBD
+### Compiler: TBD
+### Compiler Version: TBD
+### iPRO PN: TBD
+
+
+### Build Image
+### Dependencies:
+`sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat cpio python3 python3-pip python3-pexpect xz-utils debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev pylint3 xterm python3-subunit mesa-common-dev python3.8-venv moreutils
+
+cd <project_dir>artesyn-shelf/poky/
+source oe-init-build-env ../build
+
+
+bitbake <image>
+bitbake artesyn-shelf-orv3-image% 
+
+
+also make sure you create me script to go into the docker, then the necessary mounts like ~/.ssh,, necessary mounts, because
+as you know, recipes fetch from bitbucket and not local codes
