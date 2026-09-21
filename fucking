@@ -1,0 +1,157 @@
+Sep 21 10:04:48 artesyn-shelf pmpsu[29628]: [!!!] Initial PSU presence check start: 1789985088
+Sep 21 10:04:48 artesyn-shelf pmpsu[29628]: [!!!] Initial PSU presence check done: 1789985088 bitmap=0x0007
+Sep 21 10:04:48 artesyn-shelf pmpsu[29628]: [!!!] ==================================================[!!!] === Poll Loop Start: 1789985088 ===[!!!] ==================================================[!!!] Device polling start: 1789985088
+Sep 21 10:04:48 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=0 addr=128 ts=1789985088
+Sep 21 10:04:48 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=0 addr=128 ts=1789985088 duration=0 sec
+Sep 21 10:04:48 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=1 addr=129 ts=1789985088
+Sep 21 10:04:48 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=1 addr=129 ts=1789985088 duration=0 sec
+Sep 21 10:04:48 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=2 addr=130 ts=1789985088
+Sep 21 10:04:48 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=2 addr=130 ts=1789985088 duration=0 sec
+Sep 21 10:04:48 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=3 addr=131 ts=1789985088
+Sep 21 10:04:48 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=3 addr=131 ts=1789985088 duration=0 sec
+Sep 21 10:04:48 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=4 addr=132 ts=1789985088
+Sep 21 10:04:48 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=4 addr=132 ts=1789985088 duration=0 sec
+Sep 21 10:04:48 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=5 addr=133 ts=1789985088
+Sep 21 10:04:48 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=5 addr=133 ts=1789985088 duration=0 sec
+Sep 21 10:04:48 artesyn-shelf pmpsu[29628]: [!!!] Device polling done: 1789985088
+Sep 21 10:04:48 artesyn-shelf pmpsu[29628]: [!!!] process_check_psu_presence() start: 1789985088
+Sep 21 10:04:48 artesyn-shelf pmpsu[29628]: [!!!] process_check_psu_presence() done: 1789985088 duration=0 sec bitmap=0x0007
+Sep 21 10:04:48 artesyn-shelf pmpsu[29628]: [!!!] Loop processing completed: 1789985088
+Sep 21 10:04:50 artesyn-shelf pmpsu[29628]: [!!!] === Poll Loop End: 1789985090 duration=2 sec ===
+Sep 21 10:04:50 artesyn-shelf pmpsu[29628]: [!!!] ==================================================[!!!] === Poll Loop Start: 1789985090 ===[!!!] ==================================================[!!!] Device polling start: 1789985090
+Sep 21 10:04:50 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=0 addr=128 ts=1789985090
+Sep 21 10:04:51 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=0 addr=128 ts=1789985091 duration=1 sec
+Sep 21 10:04:51 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=1 addr=129 ts=1789985091
+Sep 21 10:04:52 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=1 addr=129 ts=1789985092 duration=1 sec
+Sep 21 10:04:52 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=2 addr=130 ts=1789985092
+Sep 21 10:04:53 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=2 addr=130 ts=1789985093 duration=1 sec
+Sep 21 10:04:53 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=3 addr=131 ts=1789985093
+Sep 21 10:04:53 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=3 addr=131 ts=1789985093 duration=0 sec
+Sep 21 10:04:53 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=4 addr=132 ts=1789985093
+Sep 21 10:04:53 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=4 addr=132 ts=1789985093 duration=0 sec
+Sep 21 10:04:53 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=5 addr=133 ts=1789985093
+Sep 21 10:04:53 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=5 addr=133 ts=1789985093 duration=0 sec
+Sep 21 10:04:53 artesyn-shelf pmpsu[29628]: [!!!] Device polling done: 1789985093
+Sep 21 10:04:53 artesyn-shelf pmpsu[29628]: [!!!] process_check_psu_presence() start: 1789985093
+Sep 21 10:04:53 artesyn-shelf pmpsu[29628]: [!!!] process_check_psu_presence() done: 1789985093 duration=0 sec bitmap=0x0007
+Sep 21 10:04:53 artesyn-shelf pmpsu[29628]: [!!!] Loop processing completed: 1789985093
+Sep 21 10:04:55 artesyn-shelf pmpsu[29628]: [!!!] === Poll Loop End: 1789985095 duration=5 sec ===
+Sep 21 10:04:55 artesyn-shelf pmpsu[29628]: [!!!] ==================================================[!!!] === Poll Loop Start: 1789985095 ===[!!!] ==================================================[!!!] Device polling start: 1789985095
+Sep 21 10:04:55 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=0 addr=128 ts=1789985095
+Sep 21 10:04:57 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=0 addr=128 ts=1789985097 duration=2 sec
+Sep 21 10:04:57 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=1 addr=129 ts=1789985097
+Sep 21 10:04:59 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=1 addr=129 ts=1789985099 duration=2 sec
+Sep 21 10:04:59 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=2 addr=130 ts=1789985099
+Sep 21 10:05:01 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=2 addr=130 ts=1789985101 duration=2 sec
+Sep 21 10:05:01 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=3 addr=131 ts=1789985101
+Sep 21 10:05:01 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=3 addr=131 ts=1789985101 duration=0 sec
+Sep 21 10:05:01 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=4 addr=132 ts=1789985101
+Sep 21 10:05:01 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=4 addr=132 ts=1789985101 duration=0 sec
+Sep 21 10:05:01 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=5 addr=133 ts=1789985101
+Sep 21 10:05:01 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=5 addr=133 ts=1789985101 duration=0 sec
+Sep 21 10:05:01 artesyn-shelf pmpsu[29628]: [!!!] Device polling done: 1789985101
+Sep 21 10:05:01 artesyn-shelf pmpsu[29628]: [!!!] process_check_psu_presence() start: 1789985101
+Sep 21 10:05:01 artesyn-shelf pmpsu[29628]: [!!!] process_check_psu_presence() done: 1789985101 duration=0 sec bitmap=0x0007
+Sep 21 10:05:01 artesyn-shelf pmpsu[29628]: [!!!] Loop processing completed: 1789985101
+Sep 21 10:05:03 artesyn-shelf pmpsu[29628]: [!!!] === Poll Loop End: 1789985103 duration=8 sec ===
+Sep 21 10:05:03 artesyn-shelf pmpsu[29628]: [!!!] ==================================================[!!!] === Poll Loop Start: 1789985103 ===[!!!] ==================================================[!!!] Device polling start: 1789985103
+Sep 21 10:05:03 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=0 addr=128 ts=1789985103
+Sep 21 10:05:04 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=0 addr=128 ts=1789985104 duration=1 sec
+Sep 21 10:05:04 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=1 addr=129 ts=1789985104
+Sep 21 10:05:05 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=1 addr=129 ts=1789985105 duration=1 sec
+Sep 21 10:05:05 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=2 addr=130 ts=1789985105
+Sep 21 10:05:06 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=2 addr=130 ts=1789985106 duration=1 sec
+Sep 21 10:05:06 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=3 addr=131 ts=1789985106
+Sep 21 10:05:06 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=3 addr=131 ts=1789985106 duration=0 sec
+Sep 21 10:05:06 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=4 addr=132 ts=1789985106
+Sep 21 10:05:06 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=4 addr=132 ts=1789985106 duration=0 sec
+Sep 21 10:05:06 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=5 addr=133 ts=1789985106
+Sep 21 10:05:06 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=5 addr=133 ts=1789985106 duration=0 sec
+Sep 21 10:05:06 artesyn-shelf pmpsu[29628]: [!!!] Device polling done: 1789985106
+Sep 21 10:05:06 artesyn-shelf pmpsu[29628]: [!!!] process_check_psu_presence() start: 1789985106
+Sep 21 10:05:06 artesyn-shelf pmpsu[29628]: [!!!] process_check_psu_presence() done: 1789985106 duration=0 sec bitmap=0x0007
+Sep 21 10:05:06 artesyn-shelf pmpsu[29628]: [!!!] Loop processing completed: 1789985106
+Sep 21 10:05:08 artesyn-shelf pmpsu[29628]: [!!!] === Poll Loop End: 1789985108 duration=5 sec ===
+Sep 21 10:05:08 artesyn-shelf pmpsu[29628]: [!!!] ==================================================[!!!] === Poll Loop Start: 1789985108 ===[!!!] ==================================================[!!!] Device polling start: 1789985108
+Sep 21 10:05:08 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=0 addr=128 ts=1789985108
+Sep 21 10:05:11 artesyn-shelf pmpsu[29628]: [!!!] Print Buffer {
+Sep 21 10:05:11 artesyn-shelf pmpsu[29628]:   "timestamp": "2026-09-21 10:05:08",
+Sep 21 10:05:11 artesyn-shelf pmpsu[29628]:   "shelf_id": 1,
+Sep 21 10:05:11 artesyn-shelf pmpsu[29628]:   "list": [
+Sep 21 10:05:11 artesyn-shelf pmpsu[29628]:     {
+Sep 21 10:05:11 artesyn-shelf pmpsu[29628]:       "psu_id": 1,
+Sep 21 10:05:11 artesyn-shelf pmpsu[29628]:       "device_address": 128,
+Sep 21 10:05:11 artesyn-shelf pmpsu[29628]:       "present": true,
+Sep 21 10:05:11 artesyn-shelf pmpsu[29628]:       "status": "OK"
+Sep 21 10:05:11 artesyn-shelf pmpsu[29628]:     }
+Sep 21 10:05:11 artesyn-shelf pmpsu[29628]:   ]
+Sep 21 10:05:11 artesyn-shelf pmpsu[29628]: }
+Sep 21 10:05:11 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=0 addr=128 ts=1789985111 duration=3 sec
+Sep 21 10:05:11 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=1 addr=129 ts=1789985111
+Sep 21 10:05:14 artesyn-shelf pmpsu[29628]: [!!!] Print Buffer {
+Sep 21 10:05:14 artesyn-shelf pmpsu[29628]:   "timestamp": "2026-09-21 10:05:08",
+Sep 21 10:05:14 artesyn-shelf pmpsu[29628]:   "shelf_id": 1,
+Sep 21 10:05:14 artesyn-shelf pmpsu[29628]:   "list": [
+Sep 21 10:05:14 artesyn-shelf pmpsu[29628]:     {
+Sep 21 10:05:14 artesyn-shelf pmpsu[29628]:       "psu_id": 2,
+Sep 21 10:05:14 artesyn-shelf pmpsu[29628]:       "device_address": 129,
+Sep 21 10:05:14 artesyn-shelf pmpsu[29628]:       "present": true,
+Sep 21 10:05:14 artesyn-shelf pmpsu[29628]:       "status": "OK"
+Sep 21 10:05:14 artesyn-shelf pmpsu[29628]:     }
+Sep 21 10:05:14 artesyn-shelf pmpsu[29628]:   ]
+Sep 21 10:05:14 artesyn-shelf pmpsu[29628]: }
+Sep 21 10:05:14 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=1 addr=129 ts=1789985114 duration=3 sec
+Sep 21 10:05:14 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=2 addr=130 ts=1789985114
+
+Sep 21 10:05:17 artesyn-shelf pmpsu[29628]: [!!!] Print Buffer {
+Sep 21 10:05:17 artesyn-shelf pmpsu[29628]:   "timestamp": "2026-09-21 10:05:08",
+Sep 21 10:05:17 artesyn-shelf pmpsu[29628]:   "shelf_id": 1,
+Sep 21 10:05:17 artesyn-shelf pmpsu[29628]:   "list": [
+Sep 21 10:05:17 artesyn-shelf pmpsu[29628]:     {
+Sep 21 10:05:17 artesyn-shelf pmpsu[29628]:       "psu_id": 3,
+Sep 21 10:05:17 artesyn-shelf pmpsu[29628]:       "device_address": 130,
+Sep 21 10:05:17 artesyn-shelf pmpsu[29628]:       "present": true,
+Sep 21 10:05:17 artesyn-shelf pmpsu[29628]:       "status": "OK"
+Sep 21 10:05:17 artesyn-shelf pmpsu[29628]:     }
+Sep 21 10:05:17 artesyn-shelf pmpsu[29628]:   ]
+Sep 21 10:05:17 artesyn-shelf pmpsu[29628]: }
+Sep 21 10:05:17 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=2 addr=130 ts=1789985117 duration=3 sec
+Sep 21 10:05:17 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=3 addr=131 ts=1789985117
+Sep 21 10:05:17 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=3 addr=131 ts=1789985117 duration=0 sec
+Sep 21 10:05:17 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=4 addr=132 ts=1789985117
+Sep 21 10:05:17 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=4 addr=132 ts=1789985117 duration=0 sec
+Sep 21 10:05:17 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=5 addr=133 ts=1789985117
+Sep 21 10:05:17 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=5 addr=133 ts=1789985117 duration=0 sec
+Sep 21 10:05:17 artesyn-shelf pmpsu[29628]: [!!!] Device polling done: 1789985117
+Sep 21 10:05:17 artesyn-shelf pmpsu[29628]: [!!!] process_check_psu_presence() start: 1789985117
+Sep 21 10:05:17 artesyn-shelf pmpsu[29628]: [!!!] process_check_psu_presence() done: 1789985117 duration=0 sec bitmap=0x0007
+Sep 21 10:05:17 artesyn-shelf pmpsu[29628]: [!!!] Loop processing completed: 1789985117
+Sep 21 10:05:19 artesyn-shelf pmpsu[29628]: [!!!] === Poll Loop End: 1789985119 duration=11 sec ===
+Sep 21 10:05:19 artesyn-shelf pmpsu[29628]: [!!!] ==================================================[!!!] === Poll Loop Start: 1789985119 ===[!!!] ==================================================[!!!] Device polling start: 1789985119
+Sep 21 10:05:19 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=0 addr=128 ts=1789985119
+Sep 21 10:05:22 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=0 addr=128 ts=1789985122 duration=3 sec
+Sep 21 10:05:22 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=1 addr=129 ts=1789985122
+Sep 21 10:05:25 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=1 addr=129 ts=1789985125 duration=3 sec
+Sep 21 10:05:25 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=2 addr=130 ts=1789985125
+Sep 21 10:05:29 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=2 addr=130 ts=1789985129 duration=4 sec
+Sep 21 10:05:29 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=3 addr=131 ts=1789985129
+Sep 21 10:05:29 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=3 addr=131 ts=1789985129 duration=0 sec
+Sep 21 10:05:29 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=4 addr=132 ts=1789985129
+Sep 21 10:05:29 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=4 addr=132 ts=1789985129 duration=0 sec
+Sep 21 10:05:29 artesyn-shelf pmpsu[29628]: [!!!] [POLL] START index=5 addr=133 ts=1789985129
+Sep 21 10:05:29 artesyn-shelf pmpsu[29628]: [!!!] [POLL] END   index=5 addr=133 ts=1789985129 duration=0 sec
+Sep 21 10:05:29 artesyn-shelf pmpsu[29628]: [!!!] Device polling done: 1789985129
+Sep 21 10:05:29 artesyn-shelf pmpsu[29628]: [!!!] process_check_psu_presence() start: 1789985129
+Sep 21 10:05:29 artesyn-shelf pmpsu[29628]: [!!!] process_check_psu_presence() done: 1789985129 duration=0 sec bitmap=0x0007
+Sep 21 10:05:29 artesyn-shelf pmpsu[29628]: [!!!] Loop processing completed: 1789985129
+Sep 21 10:05:31 artesyn-shelf pmpsu[29628]: [!!!] === Poll Loop End: 1789985131 duration=12 sec ===
+Sep 21 10:05:31 artesyn-shelf pmpsu[29628]: [!!!] ==================================================[!!!] === Poll Loop Start: 1789985131 ===[!!!] ==================================================[!!!] Device polling start: 1789985131
+
+
+in here, can you tell me what causes the delay? because I expect only 2 sec duration in each loop
+
+for your reference, those logs came from
+    #else
+static void *poll_thread(void *args)
+
+take note, exec_cmd is only used in the modbus part
