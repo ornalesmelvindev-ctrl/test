@@ -41,83 +41,38 @@ Sep 21 10:47:07 artesyn-shelf pmpsu[30788]: [!!!] device error: 8003000000019A1B
 Sep 21 10:47:08 artesyn-shelf pmpsu[30788]: [!!!] device error: 8103000000019BCA
 Sep 21 10:47:09 artesyn-shelf pmpsu[30788]: [!!!] device error: 8203000000019BF9
 I am not really getting like when I use the default exec_cmd
-Sep 21 10:39:19 artesyn-shelf systemd[1]: Stopping PSU Poll Manager...
-Sep 21 10:39:19 artesyn-shelf systemd[1]: pmpsu.service: Succeeded.
-Sep 21 10:39:19 artesyn-shelf systemd[1]: Stopped PSU Poll Manager.
-Sep 21 10:39:19 artesyn-shelf systemd[1]: Starting PSU Poll Manager...
-Sep 21 10:39:19 artesyn-shelf systemd[1]: Started PSU Poll Manager.
-Sep 21 10:39:45 artesyn-shelf pmpsu[19767]: [!!!] Print Buffer {
-Sep 21 10:39:45 artesyn-shelf pmpsu[19767]:   "timestamp": "2026-09-21 10:39:42",
-Sep 21 10:39:45 artesyn-shelf pmpsu[19767]:   "shelf_id": 1,
-Sep 21 10:39:45 artesyn-shelf pmpsu[19767]:   "list": [
-Sep 21 10:39:45 artesyn-shelf pmpsu[19767]:     {
-Sep 21 10:39:45 artesyn-shelf pmpsu[19767]:       "psu_id": 1,
-Sep 21 10:39:45 artesyn-shelf pmpsu[19767]:       "device_address": 128,
-Sep 21 10:39:45 artesyn-shelf pmpsu[19767]:       "present": true,
-Sep 21 10:39:45 artesyn-shelf pmpsu[19767]:       "status": "OK"
-Sep 21 10:39:45 artesyn-shelf pmpsu[19767]:     }
-Sep 21 10:39:45 artesyn-shelf pmpsu[19767]:   ]
-Sep 21 10:39:45 artesyn-shelf pmpsu[19767]: }
-Sep 21 10:39:48 artesyn-shelf pmpsu[19767]: [!!!] Print Buffer {
-Sep 21 10:39:48 artesyn-shelf pmpsu[19767]:   "timestamp": "2026-09-21 10:39:42",
-Sep 21 10:39:48 artesyn-shelf pmpsu[19767]:   "shelf_id": 1,
-Sep 21 10:39:48 artesyn-shelf pmpsu[19767]:   "list": [
-Sep 21 10:39:48 artesyn-shelf pmpsu[19767]:     {
-Sep 21 10:39:48 artesyn-shelf pmpsu[19767]:       "psu_id": 2,
-Sep 21 10:39:48 artesyn-shelf pmpsu[19767]:       "device_address": 129,
-Sep 21 10:39:48 artesyn-shelf pmpsu[19767]:       "present": true,
-Sep 21 10:39:48 artesyn-shelf pmpsu[19767]:       "status": "OK"
-Sep 21 10:39:48 artesyn-shelf pmpsu[19767]:     }
-Sep 21 10:39:48 artesyn-shelf pmpsu[19767]:   ]
-Sep 21 10:39:48 artesyn-shelf pmpsu[19767]: }
-Sep 21 10:39:51 artesyn-shelf pmpsu[19767]: [!!!] Print Buffer {
-Sep 21 10:39:51 artesyn-shelf pmpsu[19767]:   "timestamp": "2026-09-21 10:39:42",
-Sep 21 10:39:51 artesyn-shelf pmpsu[19767]:   "shelf_id": 1,
-Sep 21 10:39:51 artesyn-shelf pmpsu[19767]:   "list": [
-Sep 21 10:39:51 artesyn-shelf pmpsu[19767]:     {
-Sep 21 10:39:51 artesyn-shelf pmpsu[19767]:       "psu_id": 3,
-Sep 21 10:39:51 artesyn-shelf pmpsu[19767]:       "device_address": 130,
-Sep 21 10:39:51 artesyn-shelf pmpsu[19767]:       "present": true,
-Sep 21 10:39:51 artesyn-shelf pmpsu[19767]:       "status": "OK"
-Sep 21 10:39:51 artesyn-shelf pmpsu[19767]:     }
-Sep 21 10:39:51 artesyn-shelf pmpsu[19767]:   ]
-Sep 21 10:39:51 artesyn-shelf pmpsu[19767]: }
-Sep 21 10:40:14 artesyn-shelf pmpsu[19767]: [!!!] Device with 82 retry count: 1.
-Sep 21 10:40:59 artesyn-shelf pmpsu[19767]: [!!!] Device with 82 retry count: 1.
-Sep 21 10:41:04 artesyn-shelf pmpsu[19767]: [!!!] Device with 80 retry count: 1.
-Sep 21 10:42:32 artesyn-shelf pmpsu[19767]: [!!!] Device with 82 retry count: 1.
-Sep 21 10:43:16 artesyn-shelf pmpsu[19767]: [!!!] Device with 81 retry count: 1.
-Sep 21 10:44:04 artesyn-shelf pmpsu[19767]: [!!!] Device with 82 retry count: 1.
-Sep 21 10:44:09 artesyn-shelf pmpsu[19767]: [!!!] Device with 80 retry count: 1.
-Sep 21 10:44:15 artesyn-shelf pmpsu[19767]: [!!!] Device with 82 retry count: 2.
-Sep 21 10:44:26 artesyn-shelf pmpsu[19767]: [!!!] Device with 82 retry count: 3.
-Sep 21 10:44:30 artesyn-shelf pmpsu[19767]: [!!!] Device with 80 retry count: 1.
-Sep 21 10:44:36 artesyn-shelf pmpsu[19767]: [!!!] Device with 82 address has been disconnected.
-Sep 21 10:44:36 artesyn-shelf pmpsu[19767]: [!!!] Print Buffer {
-Sep 21 10:44:36 artesyn-shelf pmpsu[19767]:   "timestamp": "2026-09-21 10:44:28",
-Sep 21 10:44:36 artesyn-shelf pmpsu[19767]:   "shelf_id": 1,
-Sep 21 10:44:36 artesyn-shelf pmpsu[19767]:   "list": [
-Sep 21 10:44:36 artesyn-shelf pmpsu[19767]:     {
-Sep 21 10:44:36 artesyn-shelf pmpsu[19767]:       "psu_id": 3,
-Sep 21 10:44:36 artesyn-shelf pmpsu[19767]:       "device_address": 130,
-Sep 21 10:44:36 artesyn-shelf pmpsu[19767]:       "present": true,
-Sep 21 10:44:36 artesyn-shelf pmpsu[19767]:       "status": "ERROR"
-Sep 21 10:44:36 artesyn-shelf pmpsu[19767]:     }
-Sep 21 10:44:36 artesyn-shelf pmpsu[19767]:   ]
-Sep 21 10:44:36 artesyn-shelf pmpsu[19767]: }
-Sep 21 10:45:09 artesyn-shelf pmpsu[19767]: [!!!] Device with 80 retry count: 1.
-Sep 21 10:45:24 artesyn-shelf pmpsu[19767]: [!!!] Print Buffer {
-Sep 21 10:45:24 artesyn-shelf pmpsu[19767]:   "timestamp": "2026-09-21 10:45:15",
-Sep 21 10:45:24 artesyn-shelf pmpsu[19767]:   "shelf_id": 1,
-Sep 21 10:45:24 artesyn-shelf pmpsu[19767]:   "list": [
-Sep 21 10:45:24 artesyn-shelf pmpsu[19767]:     {
-Sep 21 10:45:24 artesyn-shelf pmpsu[19767]:       "psu_id": 3,
-Sep 21 10:45:24 artesyn-shelf pmpsu[19767]:       "device_address": 130,
-Sep 21 10:45:24 artesyn-shelf pmpsu[19767]:       "present": true,
-Sep 21 10:45:24 artesyn-shelf pmpsu[19767]:       "status": "OK"
-Sep 21 10:45:24 artesyn-shelf pmpsu[19767]:     }
-Sep 21 10:45:24 artesyn-shelf pmpsu[19767]:   ]
-Sep 21 10:45:24 artesyn-shelf pmpsu[19767]: }
+logs when using the default,
+Sep 21 10:50:14 artesyn-shelf pmpsu[30788]: Version: v2.1.0.1
+Sep 21 10:50:14 artesyn-shelf systemd[1]: Stopping PSU Poll Manager...
+Sep 21 10:50:14 artesyn-shelf systemd[1]: pmpsu.service: Succeeded.
+Sep 21 10:50:14 artesyn-shelf systemd[1]: Stopped PSU Poll Manager.
 
 
-are you really sure on what you're doing?
+Sep 21 10:50:20 artesyn-shelf systemd[1]: Starting PSU Poll Manager...
+Sep 21 10:50:20 artesyn-shelf systemd[1]: Started PSU Poll Manager.
+Sep 21 10:50:45 artesyn-shelf pmpsu[4652]: [!!!] Print Buffer {
+Sep 21 10:50:45 artesyn-shelf pmpsu[4652]:   "timestamp": "2026-09-21 10:50:42",
+Sep 21 10:50:45 artesyn-shelf pmpsu[4652]:   "shelf_id": 1,
+Sep 21 10:50:45 artesyn-shelf pmpsu[4652]:   "list": [
+Sep 21 10:50:45 artesyn-shelf pmpsu[4652]:     {
+Sep 21 10:50:45 artesyn-shelf pmpsu[4652]:       "psu_id": 1,
+Sep 21 10:50:45 artesyn-shelf pmpsu[4652]:       "device_address": 128,
+Sep 21 10:50:45 artesyn-shelf pmpsu[4652]:       "present": true,
+Sep 21 10:50:45 artesyn-shelf pmpsu[4652]:       "status": "OK"
+Sep 21 10:50:45 artesyn-shelf pmpsu[4652]:     }
+Sep 21 10:50:45 artesyn-shelf pmpsu[4652]:   ]
+Sep 21 10:50:45 artesyn-shelf pmpsu[4652]: }
+Sep 21 10:50:48 artesyn-shelf pmpsu[4652]: [!!!] Print Buffer {
+Sep 21 10:50:48 artesyn-shelf pmpsu[4652]:   "timestamp": "2026-09-21 10:50:42",
+Sep 21 10:50:48 artesyn-shelf pmpsu[4652]:   "shelf_id": 1,
+Sep 21 10:50:48 artesyn-shelf pmpsu[4652]:   "list": [
+Sep 21 10:50:48 artesyn-shelf pmpsu[4652]:     {
+Sep 21 10:50:48 artesyn-shelf pmpsu[4652]:       "psu_id": 2,
+Sep 21 10:50:48 artesyn-shelf pmpsu[4652]:       "device_address": 129,
+Sep 21 10:50:48 artesyn-shelf pmpsu[4652]:       "present": true,
+Sep 21 10:50:48 artesyn-shelf pmpsu[4652]:       "status": "OK"
+Sep 21 10:50:48 artesyn-shelf pmpsu[4652]:     }
+Sep 21 10:50:48 artesyn-shelf pmpsu[4652]:   ]
+Sep 21 10:50:48 artesyn-shelf pmpsu[4652]: }
+Sep 21 10:50:50 artesyn-shelf pmpsu[4652]: [!!!] Device with 82 retry count: 1.
+are you really sure on what you're doing? also use ERROR_PRINT instead of DEBUG_PRINT
