@@ -1,9 +1,117 @@
-static const char s_modbus_request_cmd[] =
-    {
-        "busctl call aei.osal.modbusmanager1 /aei/osal/modbusmanager1 aei.osal.modbusmanager1.actions sendRequest s"};
+with that change
+Sep 21 10:25:48 artesyn-shelf systemd[1]: Starting PSU Poll Manager...
+Sep 21 10:25:48 artesyn-shelf systemd[1]: Started PSU Poll Manager.
+Sep 21 10:25:48 artesyn-shelf pmpsu[30401]: [!!!] poll_thread started: now=1789986348
+Sep 21 10:25:51 artesyn-shelf pmpsu[30401]: [!!!] Initial PSU presence check start: 1789986351
+Sep 21 10:25:51 artesyn-shelf pmpsu[30401]: [!!!] Initial PSU presence check done: 1789986351 bitmap=0x0007
+Sep 21 10:25:51 artesyn-shelf pmpsu[30401]: [!!!] ==================================================[!!!] === Poll Loop Start: 1789986351 ===[!!!] ==================================================[!!!] Device polling start: 1789986351
+Sep 21 10:25:51 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=0 addr=128 ts=1789986351
+Sep 21 10:25:51 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=0 addr=128 ts=1789986351 duration=0 sec
+Sep 21 10:25:51 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=1 addr=129 ts=1789986351
+Sep 21 10:25:51 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=1 addr=129 ts=1789986351 duration=0 sec
+Sep 21 10:25:51 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=2 addr=130 ts=1789986351
+Sep 21 10:25:51 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=2 addr=130 ts=1789986351 duration=0 sec
+Sep 21 10:25:51 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=3 addr=131 ts=1789986351
+Sep 21 10:25:51 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=3 addr=131 ts=1789986351 duration=0 sec
+Sep 21 10:25:51 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=4 addr=132 ts=1789986351
+Sep 21 10:25:51 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=4 addr=132 ts=1789986351 duration=0 sec
+Sep 21 10:25:51 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=5 addr=133 ts=1789986351
+Sep 21 10:25:51 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=5 addr=133 ts=1789986351 duration=0 sec
+Sep 21 10:25:51 artesyn-shelf pmpsu[30401]: [!!!] Device polling done: 1789986351
+Sep 21 10:25:51 artesyn-shelf pmpsu[30401]: [!!!] process_check_psu_presence() start: 1789986351
+Sep 21 10:25:51 artesyn-shelf pmpsu[30401]: [!!!] process_check_psu_presence() done: 1789986351 duration=0 sec bitmap=0x0007
+Sep 21 10:25:51 artesyn-shelf pmpsu[30401]: [!!!] Loop processing completed: 1789986351
+Sep 21 10:25:53 artesyn-shelf pmpsu[30401]: [!!!] === Poll Loop End: 1789986353 duration=2 sec ===
+Sep 21 10:25:53 artesyn-shelf pmpsu[30401]: [!!!] ==================================================[!!!] === Poll Loop Start: 1789986353 ===[!!!] ==================================================[!!!] Device polling start: 1789986353
+Sep 21 10:25:53 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=0 addr=128 ts=1789986353
+Sep 21 10:25:54 artesyn-shelf pmpsu[30401]: [!!!] Device with 80 retry count: 1.
+Sep 21 10:25:54 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=0 addr=128 ts=1789986354 duration=1 sec
+Sep 21 10:25:54 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=1 addr=129 ts=1789986354
+Sep 21 10:25:55 artesyn-shelf pmpsu[30401]: [!!!] Device with 81 retry count: 1.
+Sep 21 10:25:55 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=1 addr=129 ts=1789986355 duration=1 sec
+Sep 21 10:25:55 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=2 addr=130 ts=1789986355
+Sep 21 10:25:56 artesyn-shelf pmpsu[30401]: [!!!] Device with 82 retry count: 1.
+Sep 21 10:25:56 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=2 addr=130 ts=1789986356 duration=1 sec
+Sep 21 10:25:56 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=3 addr=131 ts=1789986356
+Sep 21 10:25:56 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=3 addr=131 ts=1789986356 duration=0 sec
+Sep 21 10:25:56 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=4 addr=132 ts=1789986356
+Sep 21 10:25:56 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=4 addr=132 ts=1789986356 duration=0 sec
+Sep 21 10:25:56 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=5 addr=133 ts=1789986356
+Sep 21 10:25:56 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=5 addr=133 ts=1789986356 duration=0 sec
+Sep 21 10:25:56 artesyn-shelf pmpsu[30401]: [!!!] Device polling done: 1789986356
+Sep 21 10:25:56 artesyn-shelf pmpsu[30401]: [!!!] process_check_psu_presence() start: 1789986356
+Sep 21 10:25:56 artesyn-shelf pmpsu[30401]: [!!!] process_check_psu_presence() done: 1789986356 duration=0 sec bitmap=0x0007
+Sep 21 10:25:56 artesyn-shelf pmpsu[30401]: [!!!] Loop processing completed: 1789986356
+Sep 21 10:25:58 artesyn-shelf pmpsu[30401]: [!!!] === Poll Loop End: 1789986358 duration=5 sec ===
+Sep 21 10:25:58 artesyn-shelf pmpsu[30401]: [!!!] ==================================================[!!!] === Poll Loop Start: 1789986358 ===[!!!] ==================================================[!!!] Device polling start: 1789986358
+Sep 21 10:25:58 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=0 addr=128 ts=1789986358
+Sep 21 10:25:59 artesyn-shelf pmpsu[30401]: [!!!] Device with 80 retry count: 2.
+Sep 21 10:25:59 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=0 addr=128 ts=1789986359 duration=1 sec
+Sep 21 10:25:59 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=1 addr=129 ts=1789986359
+Sep 21 10:26:00 artesyn-shelf pmpsu[30401]: [!!!] Device with 81 retry count: 2.
+Sep 21 10:26:00 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=1 addr=129 ts=1789986360 duration=1 sec
+Sep 21 10:26:00 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=2 addr=130 ts=1789986360
+Sep 21 10:26:01 artesyn-shelf pmpsu[30401]: [!!!] Device with 82 retry count: 2.
+Sep 21 10:26:01 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=2 addr=130 ts=1789986361 duration=1 sec
+Sep 21 10:26:01 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=3 addr=131 ts=1789986361
+Sep 21 10:26:01 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=3 addr=131 ts=1789986361 duration=0 sec
+Sep 21 10:26:01 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=4 addr=132 ts=1789986361
+Sep 21 10:26:01 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=4 addr=132 ts=1789986361 duration=0 sec
+Sep 21 10:26:01 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=5 addr=133 ts=1789986361
+Sep 21 10:26:01 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=5 addr=133 ts=1789986361 duration=0 sec
+Sep 21 10:26:01 artesyn-shelf pmpsu[30401]: [!!!] Device polling done: 1789986361
+Sep 21 10:26:01 artesyn-shelf pmpsu[30401]: [!!!] process_check_psu_presence() start: 1789986361
+Sep 21 10:26:01 artesyn-shelf pmpsu[30401]: [!!!] process_check_psu_presence() done: 1789986361 duration=0 sec bitmap=0x0007
+Sep 21 10:26:01 artesyn-shelf pmpsu[30401]: [!!!] Loop processing completed: 1789986361
+Sep 21 10:26:03 artesyn-shelf pmpsu[30401]: [!!!] === Poll Loop End: 1789986363 duration=5 sec ===
+Sep 21 10:26:03 artesyn-shelf pmpsu[30401]: [!!!] ==================================================[!!!] === Poll Loop Start: 1789986363 ===[!!!] ==================================================[!!!] Device polling start: 1789986363
+Sep 21 10:26:03 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=0 addr=128 ts=1789986363
+Sep 21 10:26:04 artesyn-shelf pmpsu[30401]: [!!!] Device with 80 retry count: 3.
+Sep 21 10:26:04 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=0 addr=128 ts=1789986364 duration=1 sec
+Sep 21 10:26:04 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=1 addr=129 ts=1789986364
+Sep 21 10:26:05 artesyn-shelf pmpsu[30401]: [!!!] Device with 81 retry count: 3.
+Sep 21 10:26:05 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=1 addr=129 ts=1789986365 duration=1 sec
+Sep 21 10:26:05 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=2 addr=130 ts=1789986365
+Sep 21 10:26:06 artesyn-shelf pmpsu[30401]: [!!!] Device with 82 retry count: 3.
+Sep 21 10:26:06 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=2 addr=130 ts=1789986366 duration=1 sec
+Sep 21 10:26:06 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=3 addr=131 ts=1789986366
+Sep 21 10:26:06 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=3 addr=131 ts=1789986366 duration=0 sec
+Sep 21 10:26:06 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=4 addr=132 ts=1789986366
+Sep 21 10:26:06 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=4 addr=132 ts=1789986366 duration=0 sec
+Sep 21 10:26:06 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=5 addr=133 ts=1789986366
+Sep 21 10:26:06 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=5 addr=133 ts=1789986366 duration=0 sec
+Sep 21 10:26:06 artesyn-shelf pmpsu[30401]: [!!!] Device polling done: 1789986366
+Sep 21 10:26:06 artesyn-shelf pmpsu[30401]: [!!!] process_check_psu_presence() start: 1789986366
+Sep 21 10:26:06 artesyn-shelf pmpsu[30401]: [!!!] process_check_psu_presence() done: 1789986366 duration=0 sec bitmap=0x0007
+Sep 21 10:26:06 artesyn-shelf pmpsu[30401]: [!!!] Loop processing completed: 1789986366
+Sep 21 10:26:08 artesyn-shelf pmpsu[30401]: [!!!] === Poll Loop End: 1789986368 duration=5 sec ===
+Sep 21 10:26:08 artesyn-shelf pmpsu[30401]: [!!!] ==================================================[!!!] === Poll Loop Start: 1789986368 ===[!!!] ==================================================[!!!] Device polling start: 1789986368
+Sep 21 10:26:08 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=0 addr=128 ts=1789986368
+Sep 21 10:26:09 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=0 addr=128 ts=1789986369 duration=1 sec
+Sep 21 10:26:09 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=1 addr=129 ts=1789986369
+Sep 21 10:26:10 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=1 addr=129 ts=1789986370 duration=1 sec
+Sep 21 10:26:10 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=2 addr=130 ts=1789986370
+Sep 21 10:26:11 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=2 addr=130 ts=1789986371 duration=1 sec
+Sep 21 10:26:11 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=3 addr=131 ts=1789986371
+Sep 21 10:26:11 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=3 addr=131 ts=1789986371 duration=0 sec
+Sep 21 10:26:11 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=4 addr=132 ts=1789986371
+Sep 21 10:26:11 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=4 addr=132 ts=1789986371 duration=0 sec
+Sep 21 10:26:11 artesyn-shelf pmpsu[30401]: [!!!] [POLL] START index=5 addr=133 ts=1789986371
+Sep 21 10:26:11 artesyn-shelf pmpsu[30401]: [!!!] [POLL] END   index=5 addr=133 ts=1789986371 duration=0 sec
+Sep 21 10:26:11 artesyn-shelf pmpsu[30401]: [!!!] Device polling done: 1789986371
+Sep 21 10:26:11 artesyn-shelf pmpsu[30401]: [!!!] process_check_psu_presence() start: 1789986371
+Sep 21 10:26:11 artesyn-shelf pmpsu[30401]: [!!!] process_check_psu_presence() done: 1789986371 duration=0 sec bitmap=0x0007
+Sep 21 10:26:11 artesyn-shelf pmpsu[30401]: [!!!] Loop processing completed: 1789986371
+Sep 21 10:26:13 artesyn-shelf pmpsu[30401]: [!!!] === Poll Loop End: 1789986373 duration=5 sec ===
+Sep 21 10:26:13 artesyn-shelf pmpsu[30401]: [!!!] ==================================================[!!!] === Poll Loop Start: 1789986373 ===[!!!] ==================================================[!!!] Device polling start: 1789986373
 
-static uint16_t computeModbusCrc16(uint16_t u16_initialCrc, uint8_t *pu8_data, size_t len);
+do you think it improved? or can it be still improved?
 
+TAKE NOTE this is not calledstatic int checkVoutSelStatus
+
+also are you sure this two functions the same? because if I use the original one, I am getting what I want, but with the refactored one
+although it maybe faster, I am not getting
+#if 1
 int readModbusRegisters(uint8_t u8_address, uint16_t u16_startRegisterAddress, uint8_t u8_registerCount, uint16_t *pu16_data)
 {
     int r = -1;
@@ -108,7 +216,208 @@ int readModbusRegisters(uint8_t u8_address, uint16_t u16_startRegisterAddress, u
     
     return r;
 }
+#else
+#include <systemd/sd-bus.h>
+int readModbusRegisters(uint8_t u8_address, uint16_t u16_startRegisterAddress, uint8_t u8_registerCount, uint16_t *pu16_data)
+{
+    int r = -1;
+    char request[STRING_BUFFER_SIZE_2XL] = {0};
+    uint8_t reqBytes[STRING_BUFFER_SIZE_XL] = {0};
+    uint8_t u8_buffer[STRING_BUFFER_SIZE_2XL] = {0};
+    uint8_t num = 0;
+ 
+    sd_bus *p_bus = NULL;
+    sd_bus_error error = SD_BUS_ERROR_NULL;
+    sd_bus_message *reply = NULL;
+    const char *response = NULL;
+ 
+    int reqLen = 6;
+    reqBytes[MODBUS_INDEX_ADDRESS] = u8_address;
+    reqBytes[MODBUS_INDEX_FUNCTION_CODE] = MODBUS_READ_HOLDING_REGISTER_FUNC_CODE;
+    reqBytes[MODBUS_INDEX_START_ADDRESS_HIGH] = (uint8_t)((u16_startRegisterAddress >> 8) & 0xFF);
+    reqBytes[MODBUS_INDEX_START_ADDRESS_LOW] = (uint8_t)(u16_startRegisterAddress & 0xFF);
+    reqBytes[MODBUS_INDEX_NO_OF_REGISTER_HIGH] = (uint8_t)((u8_registerCount >> 8) & 0xFF);
+    reqBytes[MODBUS_INDEX_NO_OF_REGISTER_LOW] = (uint8_t)(u8_registerCount & 0xFF);
+ 
+    uint16_t requestCrc = computeModbusCrc16(0xFFFF, &reqBytes[MODBUS_INDEX_ADDRESS], reqLen);
+    reqBytes[reqLen] = (requestCrc & 0xFF);
+    reqBytes[reqLen + 1] = ((requestCrc >> 8) & 0xFF);
+ 
+    (void)bytes2hexstring(&reqBytes[0], (reqLen + 2), &request[0]);
+ 
+    /** open a dedicated bus client for this request, separate from dbus_svc_init()'s bus */
+    if (0 > sd_bus_open_system(&p_bus))
+    {
+        DEBUG_PRINT("device error: could not open bus client for request: %s\n", request);
+        return r;
+    }
+ 
+    // sample (previous busctl-equivalent call): busctl call aei.osal.modbusmanager1 /aei/osal/modbusmanager1 aei.osal.modbusmanager1.actions sendRequest s C000000000000000”
+    if (0 > sd_bus_call_method(p_bus,
+                              "aei.osal.modbusmanager1",
+                              "/aei/osal/modbusmanager1",
+                              "aei.osal.modbusmanager1.actions",
+                              "sendRequest",
+                              &error,
+                              &reply,
+                              "s",
+                              request))
+    {
+        DEBUG_PRINT("device error: %s\n", request);
+        sd_bus_error_free(&error);
+        sd_bus_message_unref(reply);
+        sd_bus_unref(p_bus);
+        return r;
+    }
+ 
+    if (0 != sd_bus_message_read(reply, "s", &response))
+    {
+        DEBUG_PRINT("device error: %s\n", request);
+        sd_bus_error_free(&error);
+        sd_bus_message_unref(reply);
+        sd_bus_unref(p_bus);
+        return r;
+    }
+ 
+    if ((NULL != response) && (0 == strstr(response, "ERROR")))
+    {
+        // ERROR_PRINT("device found with address: %02X is present!\n",u8_address);
+        int len = (int)strlen(response);
+ 
+        if (len < 1)
+        {
+            DEBUG_PRINT("invalid response\n");
+            sd_bus_error_free(&error);
+            sd_bus_message_unref(reply);
+            sd_bus_unref(p_bus);
+            return r;
+        }
+ 
+        size_t bytelen = 0;
+        if (0 != hexstring2bytes((const char *)&response[0], &u8_buffer[0], &bytelen)) // response comes back as the raw hex payload, no busctl quoting/type prefix to strip
+        {
+            DEBUG_PRINT("parsing error\n");
+            sd_bus_error_free(&error);
+            sd_bus_message_unref(reply);
+            sd_bus_unref(p_bus);
+            return r;
+        }
+        (void)bytelen;
+ 
+        // crc
+        uint16_t computedCrc = computeModbusCrc16(0xFFFF, &u8_buffer[MODBUS_INDEX_ADDRESS], (bytelen - 2));
+        uint16_t receivedCrc = u8_buffer[bytelen - 2];
+        receivedCrc |= (u8_buffer[bytelen - 1] << 8);
+ 
+        if (computedCrc != receivedCrc)
+        {
+            DEBUG_PRINT("CRC Mismatched\n");
+            sd_bus_error_free(&error);
+            sd_bus_message_unref(reply);
+            sd_bus_unref(p_bus);
+            return r;
+        }
+ 
+        // address
+        if (u8_address != u8_buffer[MODBUS_INDEX_ADDRESS])
+        {
+            DEBUG_PRINT("Address mismatched, received: %02X expected: %02X\n", u8_buffer[MODBUS_INDEX_ADDRESS], u8_address);
+            sd_bus_error_free(&error);
+            sd_bus_message_unref(reply);
+            sd_bus_unref(p_bus);
+            return r;
+        }
+ 
+        // function code/exception/
+        if (0 != (u8_buffer[MODBUS_INDEX_FUNCTION_CODE] & 0x80))
+        {
+            DEBUG_PRINT("Exception Code: %02X\n", u8_buffer[MODBUS_INDEX_FUNCTION_CODE]);
+            sd_bus_error_free(&error);
+            sd_bus_message_unref(reply);
+            sd_bus_unref(p_bus);
+            return r;
+        }
+ 
+        num = u8_buffer[MODBUS_INDEX_BYTE_COUNT];
+        if (num >= (u8_registerCount << 1))
+        {
+            if (NULL == pu16_data)
+            {
+                DEBUG_PRINT("Data is Null\n");
+                sd_bus_error_free(&error);
+                sd_bus_message_unref(reply);
+                sd_bus_unref(p_bus);
+                return r;
+            }
+ 
+            uint8_t swapbuf = 0;
+            uint8_t swapCtr = 0;
+            do // Swap bytes, TODO: make a function
+            {
+                swapbuf = u8_buffer[MODBUS_INDEX_DATA + swapCtr];
+ 
+                u8_buffer[MODBUS_INDEX_DATA + swapCtr] = u8_buffer[MODBUS_INDEX_DATA + swapCtr + 1];
+                u8_buffer[MODBUS_INDEX_DATA + swapCtr + 1] = swapbuf;
+ 
+                swapCtr += 2;
+            } while (swapCtr < num);
+ 
+            memcpy((void *)&pu16_data[0], (void *)&u8_buffer[MODBUS_INDEX_DATA], (sizeof(uint8_t) * num));
+            DEBUG_PRINT("transferred data from device with address: %02X\n", u8_address);
+        }
+        r = 0;
+    }
+ 
+    sd_bus_error_free(&error);
+    sd_bus_message_unref(reply);
+    sd_bus_unref(p_bus);
+ 
+    return r;
+}
 
+#endif
+I am not getting these logs
+Sep 21 10:38:12 artesyn-shelf pmpsu[17418]: [!!!] Print Buffer {
+Sep 21 10:38:12 artesyn-shelf pmpsu[17418]:   "timestamp": "2026-09-21 10:38:09",
+Sep 21 10:38:12 artesyn-shelf pmpsu[17418]:   "shelf_id": 1,
+Sep 21 10:38:12 artesyn-shelf pmpsu[17418]:   "list": [
+Sep 21 10:38:12 artesyn-shelf pmpsu[17418]:     {
+Sep 21 10:38:12 artesyn-shelf pmpsu[17418]:       "psu_id": 1,
+Sep 21 10:38:12 artesyn-shelf pmpsu[17418]:       "device_address": 128,
+Sep 21 10:38:12 artesyn-shelf pmpsu[17418]:       "present": true,
+Sep 21 10:38:12 artesyn-shelf pmpsu[17418]:       "status": "OK"
+Sep 21 10:38:12 artesyn-shelf pmpsu[17418]:     }
+Sep 21 10:38:12 artesyn-shelf pmpsu[17418]:   ]
+Sep 21 10:38:12 artesyn-shelf pmpsu[17418]: }
+Sep 21 10:38:16 artesyn-shelf pmpsu[17418]: [!!!] Print Buffer {
+Sep 21 10:38:16 artesyn-shelf pmpsu[17418]:   "timestamp": "2026-09-21 10:38:09",
+Sep 21 10:38:16 artesyn-shelf pmpsu[17418]:   "shelf_id": 1,
+Sep 21 10:38:16 artesyn-shelf pmpsu[17418]:   "list": [
+Sep 21 10:38:16 artesyn-shelf pmpsu[17418]:     {
+Sep 21 10:38:16 artesyn-shelf pmpsu[17418]:       "psu_id": 3,
+Sep 21 10:38:16 artesyn-shelf pmpsu[17418]:       "device_address": 130,
+Sep 21 10:38:16 artesyn-shelf pmpsu[17418]:       "present": true,
+Sep 21 10:38:16 artesyn-shelf pmpsu[17418]:       "status": "OK"
+Sep 21 10:38:16 artesyn-shelf pmpsu[17418]:     }
+Sep 21 10:38:16 artesyn-shelf pmpsu[17418]:   ]
+Sep 21 10:38:16 artesyn-shelf pmpsu[17418]: }
 
-fucking wait, maybe the implementation of this needs also to remove the syscall? if so, give me the full implementation, take note not to change the format, the existing comments or anything, just give me the full implementation ​‌
- take note to open separate bus client as well and not to use the existing in dbus_svc_init()
+also this
+Sep 21 10:38:48 artesyn-shelf pmpsu[17418]: MockPsuPresence changed -1 -> 1
+Sep 21 10:38:52 artesyn-shelf pmpsu[17418]: [!!!] Mock forcing PSU1 absent
+Sep 21 10:38:57 artesyn-shelf pmpsu[17418]: [!!!] Device with 80 address has been disconnected.
+Sep 21 10:38:57 artesyn-shelf pmpsu[17418]: [!!!] Print Buffer {
+Sep 21 10:38:57 artesyn-shelf pmpsu[17418]:   "timestamp": "2026-09-21 10:38:54",
+Sep 21 10:38:57 artesyn-shelf pmpsu[17418]:   "shelf_id": 1,
+Sep 21 10:38:57 artesyn-shelf pmpsu[17418]:   "list": [
+Sep 21 10:38:57 artesyn-shelf pmpsu[17418]:     {
+Sep 21 10:38:57 artesyn-shelf pmpsu[17418]:       "psu_id": 1,
+Sep 21 10:38:57 artesyn-shelf pmpsu[17418]:       "device_address": 128,
+Sep 21 10:38:57 artesyn-shelf pmpsu[17418]:       "present": false,
+Sep 21 10:38:57 artesyn-shelf pmpsu[17418]:       "status": "ERROR"
+Sep 21 10:38:57 artesyn-shelf pmpsu[17418]:     }
+Sep 21 10:38:57 artesyn-shelf pmpsu[17418]:   ]
+Sep 21 10:38:57 artesyn-shelf pmpsu[17418]: }
+
+when I mock using
+busctl set-property aei.psu.pollmanager1 /aei/psu/pollmanager1 aei.psu.pollmanager1.actions MockPsuPresence i 1
