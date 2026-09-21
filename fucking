@@ -1,78 +1,390 @@
-look
-Sep 21 10:46:17 artesyn-shelf systemd[1]: Stopping PSU Poll Manager...
-Sep 21 10:46:17 artesyn-shelf systemd[1]: pmpsu.service: Succeeded.
-Sep 21 10:46:17 artesyn-shelf systemd[1]: Stopped PSU Poll Manager.
-Sep 21 10:46:25 artesyn-shelf systemd[1]: Starting PSU Poll Manager...
-Sep 21 10:46:25 artesyn-shelf systemd[1]: Started PSU Poll Manager.
-Sep 21 10:46:32 artesyn-shelf pmpsu[30788]: [!!!] device error: 8003000000019A1B
-Sep 21 10:46:32 artesyn-shelf pmpsu[30788]: [!!!] Device with 80 retry count: 1.
-Sep 21 10:46:33 artesyn-shelf pmpsu[30788]: [!!!] device error: 8103000000019BCA
-Sep 21 10:46:33 artesyn-shelf pmpsu[30788]: [!!!] Device with 81 retry count: 1.
-Sep 21 10:46:34 artesyn-shelf pmpsu[30788]: [!!!] device error: 8203000000019BF9
-Sep 21 10:46:34 artesyn-shelf pmpsu[30788]: [!!!] Device with 82 retry count: 1.
+#include "modbus-master.h"
+#include "helpers.h"
+#include "common.h"
 
-Sep 21 10:46:37 artesyn-shelf pmpsu[30788]: [!!!] device error: 8003000000019A1B
-Sep 21 10:46:37 artesyn-shelf pmpsu[30788]: [!!!] Device with 80 retry count: 2.
-Sep 21 10:46:38 artesyn-shelf pmpsu[30788]: [!!!] device error: 8103000000019BCA
-Sep 21 10:46:38 artesyn-shelf pmpsu[30788]: [!!!] Device with 81 retry count: 2.
-Sep 21 10:46:39 artesyn-shelf pmpsu[30788]: [!!!] device error: 8203000000019BF9
-Sep 21 10:46:39 artesyn-shelf pmpsu[30788]: [!!!] Device with 82 retry count: 2.
-Sep 21 10:46:42 artesyn-shelf pmpsu[30788]: [!!!] device error: 8003000000019A1B
-Sep 21 10:46:42 artesyn-shelf pmpsu[30788]: [!!!] Device with 80 retry count: 3.
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
+#include <stdlib.h>
+#include <errno.h>
 
-Sep 21 10:46:43 artesyn-shelf pmpsu[30788]: [!!!] device error: 8103000000019BCA
-Sep 21 10:46:43 artesyn-shelf pmpsu[30788]: [!!!] Device with 81 retry count: 3.
-Sep 21 10:46:44 artesyn-shelf pmpsu[30788]: [!!!] device error: 8203000000019BF9
-Sep 21 10:46:44 artesyn-shelf pmpsu[30788]: [!!!] Device with 82 retry count: 3.
-Sep 21 10:46:47 artesyn-shelf pmpsu[30788]: [!!!] device error: 8003000000019A1B
-Sep 21 10:46:48 artesyn-shelf pmpsu[30788]: [!!!] device error: 8103000000019BCA
-Sep 21 10:46:49 artesyn-shelf pmpsu[30788]: [!!!] device error: 8203000000019BF9
+static const char s_modbus_request_cmd[] =
+    {
+        "busctl call aei.osal.modbusmanager1 /aei/osal/modbusmanager1 aei.osal.modbusmanager1.actions sendRequest s"};
 
-Sep 21 10:46:52 artesyn-shelf pmpsu[30788]: [!!!] device error: 8003000000019A1B
-Sep 21 10:46:53 artesyn-shelf pmpsu[30788]: [!!!] device error: 8103000000019BCA
-Sep 21 10:46:54 artesyn-shelf pmpsu[30788]: [!!!] device error: 8203000000019BF9
-Sep 21 10:46:57 artesyn-shelf pmpsu[30788]: [!!!] device error: 8003000000019A1B
-Sep 21 10:46:58 artesyn-shelf pmpsu[30788]: [!!!] device error: 8103000000019BCA
-Sep 21 10:46:59 artesyn-shelf pmpsu[30788]: [!!!] device error: 8203000000019BF9
-Sep 21 10:47:02 artesyn-shelf pmpsu[30788]: [!!!] device error: 8003000000019A1B
-Sep 21 10:47:03 artesyn-shelf pmpsu[30788]: [!!!] device error: 8103000000019BCA
-Sep 21 10:47:04 artesyn-shelf pmpsu[30788]: [!!!] device error: 8203000000019BF9
-Sep 21 10:47:07 artesyn-shelf pmpsu[30788]: [!!!] device error: 8003000000019A1B
-Sep 21 10:47:08 artesyn-shelf pmpsu[30788]: [!!!] device error: 8103000000019BCA
-Sep 21 10:47:09 artesyn-shelf pmpsu[30788]: [!!!] device error: 8203000000019BF9
-I am not really getting like when I use the default exec_cmd
-logs when using the default,
-Sep 21 10:50:14 artesyn-shelf pmpsu[30788]: Version: v2.1.0.1
-Sep 21 10:50:14 artesyn-shelf systemd[1]: Stopping PSU Poll Manager...
-Sep 21 10:50:14 artesyn-shelf systemd[1]: pmpsu.service: Succeeded.
-Sep 21 10:50:14 artesyn-shelf systemd[1]: Stopped PSU Poll Manager.
+static uint16_t computeModbusCrc16(uint16_t u16_initialCrc, uint8_t *pu8_data, size_t len);
+#if 1
+int readModbusRegisters(uint8_t u8_address, uint16_t u16_startRegisterAddress, uint8_t u8_registerCount, uint16_t *pu16_data)
+{
+    int r = -1;
+    char cmd[STRING_BUFFER_SIZE_3XL] = {0};
+    char request[STRING_BUFFER_SIZE_2XL] = {0};
+    char response[STRING_BUFFER_SIZE_2XL] = {0};
+    uint8_t reqBytes[STRING_BUFFER_SIZE_XL] = {0};
+    uint8_t u8_buffer[STRING_BUFFER_SIZE_2XL] = {0};
+    uint8_t num = 0;
 
+    int reqLen = 6;
+    reqBytes[MODBUS_INDEX_ADDRESS] = u8_address;
+    reqBytes[MODBUS_INDEX_FUNCTION_CODE] = MODBUS_READ_HOLDING_REGISTER_FUNC_CODE;
+    reqBytes[MODBUS_INDEX_START_ADDRESS_HIGH] = (uint8_t)((u16_startRegisterAddress >> 8) & 0xFF);
+    reqBytes[MODBUS_INDEX_START_ADDRESS_LOW] = (uint8_t)(u16_startRegisterAddress & 0xFF);
+    reqBytes[MODBUS_INDEX_NO_OF_REGISTER_HIGH] = (uint8_t)((u8_registerCount >> 8) & 0xFF);
+    reqBytes[MODBUS_INDEX_NO_OF_REGISTER_LOW] = (uint8_t)(u8_registerCount & 0xFF);
 
-Sep 21 10:50:20 artesyn-shelf systemd[1]: Starting PSU Poll Manager...
-Sep 21 10:50:20 artesyn-shelf systemd[1]: Started PSU Poll Manager.
-Sep 21 10:50:45 artesyn-shelf pmpsu[4652]: [!!!] Print Buffer {
-Sep 21 10:50:45 artesyn-shelf pmpsu[4652]:   "timestamp": "2026-09-21 10:50:42",
-Sep 21 10:50:45 artesyn-shelf pmpsu[4652]:   "shelf_id": 1,
-Sep 21 10:50:45 artesyn-shelf pmpsu[4652]:   "list": [
-Sep 21 10:50:45 artesyn-shelf pmpsu[4652]:     {
-Sep 21 10:50:45 artesyn-shelf pmpsu[4652]:       "psu_id": 1,
-Sep 21 10:50:45 artesyn-shelf pmpsu[4652]:       "device_address": 128,
-Sep 21 10:50:45 artesyn-shelf pmpsu[4652]:       "present": true,
-Sep 21 10:50:45 artesyn-shelf pmpsu[4652]:       "status": "OK"
-Sep 21 10:50:45 artesyn-shelf pmpsu[4652]:     }
-Sep 21 10:50:45 artesyn-shelf pmpsu[4652]:   ]
-Sep 21 10:50:45 artesyn-shelf pmpsu[4652]: }
-Sep 21 10:50:48 artesyn-shelf pmpsu[4652]: [!!!] Print Buffer {
-Sep 21 10:50:48 artesyn-shelf pmpsu[4652]:   "timestamp": "2026-09-21 10:50:42",
-Sep 21 10:50:48 artesyn-shelf pmpsu[4652]:   "shelf_id": 1,
-Sep 21 10:50:48 artesyn-shelf pmpsu[4652]:   "list": [
-Sep 21 10:50:48 artesyn-shelf pmpsu[4652]:     {
-Sep 21 10:50:48 artesyn-shelf pmpsu[4652]:       "psu_id": 2,
-Sep 21 10:50:48 artesyn-shelf pmpsu[4652]:       "device_address": 129,
-Sep 21 10:50:48 artesyn-shelf pmpsu[4652]:       "present": true,
-Sep 21 10:50:48 artesyn-shelf pmpsu[4652]:       "status": "OK"
-Sep 21 10:50:48 artesyn-shelf pmpsu[4652]:     }
-Sep 21 10:50:48 artesyn-shelf pmpsu[4652]:   ]
-Sep 21 10:50:48 artesyn-shelf pmpsu[4652]: }
-Sep 21 10:50:50 artesyn-shelf pmpsu[4652]: [!!!] Device with 82 retry count: 1.
-are you really sure on what you're doing? also use ERROR_PRINT instead of DEBUG_PRINT
+    uint16_t requestCrc = computeModbusCrc16(0xFFFF, &reqBytes[MODBUS_INDEX_ADDRESS], reqLen);
+    reqBytes[reqLen] = (requestCrc & 0xFF);
+    reqBytes[reqLen + 1] = ((requestCrc >> 8) & 0xFF);
+
+    (void)bytes2hexstring(&reqBytes[0], (reqLen + 2), &request[0]);
+
+    (void)sprintf(&cmd[0], "%s '%s'", s_modbus_request_cmd, request); // sample: busctl call aei.osal.modbusmanager1 /aei/osal/modbusmanager1 aei.osal.modbusmanager1.actions sendRequest s C000000000000000”
+    if (0 != exec_cmd(cmd, &response[0], ARRAY_SIZE(response)))       // save into response[0], 512
+    {
+        DEBUG_PRINT("device error: %s\n", request);
+    }
+
+    if (0 == strstr(response, "ERROR"))
+    {
+        // ERROR_PRINT("device found with address: %02X is present!\n",u8_address);
+        int len = (int)strlen(response);
+
+        if (len < 3)
+        {
+            DEBUG_PRINT("invalid response\n");
+            return r;
+        }
+        
+        response[len - 2] = '\0'; // Remove newline and trailing double quotation
+        size_t bytelen = 0;
+        if (0 != hexstring2bytes((const char *)&response[3], &u8_buffer[0], &bytelen)) // pass index 3 to remove leading double quotation, datatype and space. Data is passed to u8_buffer
+        {
+            DEBUG_PRINT("parsing error\n");
+            return r;
+        }
+        (void)bytelen;
+
+        // crc
+        uint16_t computedCrc = computeModbusCrc16(0xFFFF, &u8_buffer[MODBUS_INDEX_ADDRESS], (bytelen - 2));
+        uint16_t receivedCrc = u8_buffer[bytelen - 2];
+        receivedCrc |= (u8_buffer[bytelen - 1] << 8);
+
+        if (computedCrc != receivedCrc)
+        {
+            DEBUG_PRINT("CRC Mismatched\n");
+            return r;
+        }
+
+        // address
+        if (u8_address != u8_buffer[MODBUS_INDEX_ADDRESS])
+        {
+            DEBUG_PRINT("Address mismatched, received: %02X expected: %02X\n", u8_buffer[MODBUS_INDEX_ADDRESS], u8_address);
+            return r;
+        }
+
+        // function code/exception/
+        if (0 != (u8_buffer[MODBUS_INDEX_FUNCTION_CODE] & 0x80))
+        {
+            DEBUG_PRINT("Exception Code: %02X\n", u8_buffer[MODBUS_INDEX_FUNCTION_CODE]);
+            return r;
+        }
+
+        num = u8_buffer[MODBUS_INDEX_BYTE_COUNT];
+        if (num >= (u8_registerCount << 1))
+        {
+            if (NULL == pu16_data)
+            {
+                DEBUG_PRINT("Data is Null\n");
+                return r;
+            }
+
+            uint8_t swapbuf = 0;
+            uint8_t swapCtr = 0;
+            do // Swap bytes, TODO: make a function
+            {
+                swapbuf = u8_buffer[MODBUS_INDEX_DATA + swapCtr];
+
+                u8_buffer[MODBUS_INDEX_DATA + swapCtr] = u8_buffer[MODBUS_INDEX_DATA + swapCtr + 1];
+                u8_buffer[MODBUS_INDEX_DATA + swapCtr + 1] = swapbuf;
+
+                swapCtr += 2;
+            } while (swapCtr < num);
+
+            memcpy((void *)&pu16_data[0], (void *)&u8_buffer[MODBUS_INDEX_DATA], (sizeof(uint8_t) * num));
+            DEBUG_PRINT("transferred data from device with address: %02X\n", u8_address);
+        }
+        r = 0;
+    }
+    
+    return r;
+}
+#else
+#include <systemd/sd-bus.h>
+
+static sd_bus *s_modbus_bus = NULL;
+
+int readModbusRegisters(uint8_t u8_address,
+                        uint16_t u16_startRegisterAddress,
+                        uint8_t u8_registerCount,
+                        uint16_t *pu16_data)
+{
+    int r = -1;
+    char request[STRING_BUFFER_SIZE_2XL] = {0};
+
+    uint8_t reqBytes[STRING_BUFFER_SIZE_XL] = {0};
+    uint8_t u8_buffer[STRING_BUFFER_SIZE_2XL] = {0};
+    uint8_t num = 0;
+
+    sd_bus_error error = SD_BUS_ERROR_NULL;
+    sd_bus_message *reply = NULL;
+    const char *response = NULL;
+
+    int reqLen = 6;
+
+    reqBytes[MODBUS_INDEX_ADDRESS] = u8_address;
+    reqBytes[MODBUS_INDEX_FUNCTION_CODE] =
+        MODBUS_READ_HOLDING_REGISTER_FUNC_CODE;
+
+    reqBytes[MODBUS_INDEX_START_ADDRESS_HIGH] =
+        (uint8_t)((u16_startRegisterAddress >> 8) & 0xFF);
+
+    reqBytes[MODBUS_INDEX_START_ADDRESS_LOW] =
+        (uint8_t)(u16_startRegisterAddress & 0xFF);
+
+    reqBytes[MODBUS_INDEX_NO_OF_REGISTER_HIGH] =
+        (uint8_t)((u8_registerCount >> 8) & 0xFF);
+
+    reqBytes[MODBUS_INDEX_NO_OF_REGISTER_LOW] =
+        (uint8_t)(u8_registerCount & 0xFF);
+
+    uint16_t requestCrc =
+        computeModbusCrc16(
+            0xFFFF,
+            &reqBytes[MODBUS_INDEX_ADDRESS],
+            reqLen);
+
+    reqBytes[reqLen]     = (requestCrc & 0xFF);
+    reqBytes[reqLen + 1] = ((requestCrc >> 8) & 0xFF);
+
+    (void)bytes2hexstring(
+        &reqBytes[0],
+        (reqLen + 2),
+        &request[0]);
+
+    if (NULL == s_modbus_bus)
+    {
+        r = sd_bus_open_system(&s_modbus_bus);
+        if (r < 0)
+        {
+            DEBUG_PRINT("device error: %s\n", request);
+            return -1;
+        }
+    }
+
+    r = sd_bus_call_method(
+            s_modbus_bus,
+            "aei.osal.modbusmanager1",
+            "/aei/osal/modbusmanager1",
+            "aei.osal.modbusmanager1.actions",
+            "sendRequest",
+            &error,
+            &reply,
+            "s",
+            request);
+
+    if (r < 0)
+    {
+        DEBUG_PRINT("device error: %s\n", request);
+        goto cleanup;
+    }
+
+    r = sd_bus_message_read(
+            reply,
+            "s",
+            &response);
+
+    if (r < 0 || response == NULL)
+    {
+        DEBUG_PRINT("device error: %s\n", request);
+        goto cleanup;
+    }
+
+    if (0 == strstr(response, "ERROR"))
+    {
+        // ERROR_PRINT("device found with address: %02X is present!\n",u8_address);
+
+        size_t bytelen = 0;
+
+        if (0 != hexstring2bytes(
+                     response,
+                     &u8_buffer[0],
+                     &bytelen))
+        {
+            DEBUG_PRINT("parsing error\n");
+            goto cleanup;
+        }
+
+        (void)bytelen;
+
+        // crc
+        uint16_t computedCrc =
+            computeModbusCrc16(
+                0xFFFF,
+                &u8_buffer[MODBUS_INDEX_ADDRESS],
+                (bytelen - 2));
+
+        uint16_t receivedCrc =
+            u8_buffer[bytelen - 2];
+
+        receivedCrc |=
+            (u8_buffer[bytelen - 1] << 8);
+
+        if (computedCrc != receivedCrc)
+        {
+            DEBUG_PRINT("CRC Mismatched\n");
+            goto cleanup;
+        }
+
+        // address
+        if (u8_address !=
+            u8_buffer[MODBUS_INDEX_ADDRESS])
+        {
+            DEBUG_PRINT(
+                "Address mismatched, received: %02X expected: %02X\n",
+                u8_buffer[MODBUS_INDEX_ADDRESS],
+                u8_address);
+
+            goto cleanup;
+        }
+
+        // function code/exception/
+        if (0 != (u8_buffer[MODBUS_INDEX_FUNCTION_CODE] & 0x80))
+        {
+            DEBUG_PRINT("Exception Code: %02X\n",
+                        u8_buffer[MODBUS_INDEX_FUNCTION_CODE]);
+
+            goto cleanup;
+        }
+
+        num = u8_buffer[MODBUS_INDEX_BYTE_COUNT];
+
+        if (num >= (u8_registerCount << 1))
+        {
+            if (NULL == pu16_data)
+            {
+                DEBUG_PRINT("Data is Null\n");
+                goto cleanup;
+            }
+
+            uint8_t swapbuf = 0;
+            uint8_t swapCtr = 0;
+
+            do // Swap bytes, TODO: make a function
+            {
+                swapbuf =
+                    u8_buffer[MODBUS_INDEX_DATA + swapCtr];
+
+                u8_buffer[MODBUS_INDEX_DATA + swapCtr] =
+                    u8_buffer[MODBUS_INDEX_DATA + swapCtr + 1];
+
+                u8_buffer[MODBUS_INDEX_DATA + swapCtr + 1] =
+                    swapbuf;
+
+                swapCtr += 2;
+
+            } while (swapCtr < num);
+
+            memcpy(
+                (void *)&pu16_data[0],
+                (void *)&u8_buffer[MODBUS_INDEX_DATA],
+                (sizeof(uint8_t) * num));
+
+            DEBUG_PRINT(
+                "transferred data from device with address: %02X\n",
+                u8_address);
+        }
+
+        r = 0;
+    }
+
+cleanup:
+    sd_bus_error_free(&error);
+    sd_bus_message_unref(reply);
+
+    return r;
+}
+#endif
+static uint16_t computeModbusCrc16(uint16_t u16_initialCrc, uint8_t *pu8_data, size_t len)
+{
+    uint16_t crc16;
+    uint16_t x, y, z;
+
+    crc16 = u16_initialCrc;
+    for (uint8_t i = 0; i < len; i++) // len = 6
+    {
+        x = (crc16 ^ pu8_data[i]); // 192
+        x &= 0xFF;
+
+        y = (x >> 4);
+        y ^= x;
+
+        y ^= (y >> 2);
+        y ^= (y >> 1);
+        y &= 1;
+
+        z = (uint16_t)(y << 8);
+        z |= x;
+
+        crc16 = (uint16_t)((crc16 >> 8) ^ (z << 6) ^ (z << 7) ^ (z >> 8));
+    }
+
+    crc16 &= 0xFFFF;
+
+    return crc16;
+}
+
+int hexstring2bytes(const char *s_hexstring, uint8_t *pu8_bytes, size_t *p_len)
+{
+    int r = -1;
+    uint8_t buffer[STRING_BUFFER_SIZE_3XL] = {0};
+    size_t bytelen = 0;
+    bool b_error = false;
+
+    int datalen = (int)strlen(s_hexstring);
+
+    if (0 == (datalen % 2))
+    {
+        size_t i = 0;
+
+        while ((i < datalen) && (false == b_error))
+        {
+            if (1 != sscanf((s_hexstring + i), "%2hhx", (unsigned char *)&buffer[bytelen]))
+            {
+                b_error = true;
+            }
+            else
+            {
+                bytelen++;
+            }
+
+            i += 2;
+        }
+
+        if (bytelen && !b_error)
+        {
+            if (NULL != p_len)
+            {
+                *p_len = bytelen;
+            }
+
+            if (NULL != pu8_bytes)
+            {
+                memcpy((void *)pu8_bytes, (void *)&buffer[0], bytelen);
+            }
+
+            r = 0;
+        }
+    }
+
+    return r;
+}
