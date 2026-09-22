@@ -1,0 +1,18 @@
+Setting up build directory at /home/builder/project/ewd-orv3-pmc/artesyn-shelf...
+2026-09-22 08:26:57 - INFO     - kas 4.7 started
+2026-09-22 08:26:57 - INFO     - Cloning repository poky
+2026-09-22 08:26:57 - INFO     - Repository ewd-meta-orv3-artesyn already contains cc48adac17a0f423c154848daa9275ba8af5516a as commit
+2026-09-22 08:26:57 - INFO     - Repository meta-aspeed already contains 2ccde15eaa30d283c13fba2a4bae5bbd44a6fa23 as commit
+2026-09-22 08:26:57 - INFO     - Repository meta-openembedded already contains c38d2a74f762a792046f3d3c377827b08aade513 as commit
+2026-09-22 08:26:57 - ERROR    - Command "/home/builder/project/ewd-orv3-pmc/artesyn-shelf$ git clone -q https://yoctoproject.org /home/builder/project/ewd-orv3-pmc/artesyn-shelf/poky" failed
+--- Error summary ---
+fatal: unable to access 'https://yoctoproject.org/': server certificate verification failed. CAfile: none CRLfile: none
+
+2026-09-22 08:26:57 - ERROR    - fetch repos failed: error code 128
+
+Setup build env with: . /home/builder/project/ewd-orv3-pmc/artesyn-shelf/poky/oe-init-build-env
+Build image with: bitbake artesyn-shelf-orv3-image
+
+Make sure to cover all the sanity issues on links and like this, the certificate need and all, since all of my source will be fetched in the net, no local codes
+
+also maybe also add like for spdm lib, because later on, i will try spmd emulator in this docker
