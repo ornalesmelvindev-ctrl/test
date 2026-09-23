@@ -1,13 +1,35 @@
-╰─ ./run.sh shell
-curl: (60) SSL certificate problem: unable to get local issuer certificate
-More details here: https://curl.haxx.se/docs/sslcerts.html
+Loaded 682 entries from dependency cache.
+ERROR: ExpansionError during parsing /work/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-artesyn-bsp/recipes-bsp/installscript/installscript_git.bb        | ETA:  0:01:47
+Traceback (most recent call last):
+  File "/work/ewd-orv3-pmc/artesyn-shelf/poky/bitbake/lib/bb/fetch2/__init__.py", line 1172, in srcrev_internal_helper(ud=<bb.fetch2.FetchData object at 0x768d3b8144c0>, d=<bb.data_smart.DataSmart object at 0x768d3b8647c0>, name='default'):
+         if srcrev == "AUTOINC":
+    >        srcrev = ud.method.latest_revision(ud, d, name)
 
-curl failed to verify the legitimacy of the server and therefore could not
-establish a secure connection to it. To learn more about this situation and
-how to fix it, please visit the web page mentioned above.
-!! TLS sanity check FAILED against https://example.com using /home/build/.cache/ca-bundle.pem
-!! If this is a certificate error: drop your corporate root CA (.crt) into
-!! ./certs/ and rebuild, or mount it at runtime via CERTS_DIR (see README).
-!! If it's a proxy/timeout: set HTTPS_PROXY/HTTP_PROXY/NO_PROXY before
-!! running run.sh. (Set SKIP_NET_CHECK=1 to silence this check.)
-melvin@yocto-builder:/work$
+  File "/work/ewd-orv3-pmc/artesyn-shelf/poky/bitbake/lib/bb/fetch2/__init__.py", line 1587, in Git.latest_revision(ud=<bb.fetch2.FetchData object at 0x768d3b8144c0>, d=<bb.data_smart.DataSmart object at 0x768d3b8647c0>, name='default'):
+             except KeyError:
+    >            revs[key] = rev = self._latest_revision(ud, d, name)
+                 return rev
+  File "/work/ewd-orv3-pmc/artesyn-shelf/poky/bitbake/lib/bb/fetch2/git.py", line 679, in Git._latest_revision(ud=<bb.fetch2.FetchData object at 0x768d3b8144c0>, d=<bb.data_smart.DataSmart object at 0x768d3b8647c0>, name='default'):
+             """
+    >        output = self._lsremote(ud, d, "")
+             # Tags of the form ^{} may not work, need to fallback to other form
+  File "/work/ewd-orv3-pmc/artesyn-shelf/poky/bitbake/lib/bb/fetch2/git.py", line 668, in Git._lsremote(ud=<bb.fetch2.FetchData object at 0x768d3b8144c0>, d=<bb.data_smart.DataSmart object at 0x768d3b8647c0>, search=''):
+                     bb.fetch2.check_network_access(d, cmd, repourl)
+    >            output = runfetchcmd(cmd, d, True)
+                 if not output:
+  File "/work/ewd-orv3-pmc/artesyn-shelf/poky/bitbake/lib/bb/fetch2/__init__.py", line 889, in runfetchcmd(cmd='export PSEUDO_DISABLED=1; export GIT_SSL_CAINFO="/home/build/.cache/ca-bundle.pem"; export PATH="/work/ewd-orv3-pmc/artesyn-shelf/poky/scripts:/work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/installscript/fetcheravoidrecurse-fetcheravoidrecurse/recipe-sysroot-native/usr/bin/arm-poky-linux-gnueabi:/work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/installscript/fetcheravoidrecurse-fetcheravoidrecurse/recipe-sysroot/usr/bin/crossscripts:/work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/installscript/fetcheravoidrecurse-fetcheravoidrecurse/recipe-sysroot-native/usr/sbin:/work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/installscript/fetcheravoidrecurse-fetcheravoidrecurse/recipe-sysroot-native/usr/bin:/work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/installscript/fetcheravoidrecurse-fetcheravoidrecurse/recipe-sysroot-native/sbin:/work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/installscript/fetcheravoidrecurse-fetcheravoidrecurse/recipe-sysroot-native/bin:/work/ewd-orv3-pmc/artesyn-shelf/poky/bitbake/bin:/work/ewd-orv3-pmc/artesyn-shelf/build/tmp/hosttools"; export HOME="/home/build"; git -c core.fsyncobjectfiles=0 ls-remote "ssh://git@bitbucket.org/advenergy/ewd-installscript-linux.git" ', d=<bb.data_smart.DataSmart object at 0x768d3b7f9880>, quiet=True, cleanup=[], log=None, workdir=None):
+
+    >        raise FetchError(error_message)
+
+bb.data_smart.ExpansionError: Failure expanding variable SRCPV, expression was ${@bb.fetch2.get_srcrev(d)} which triggered exception FetchError: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export GIT_SSL_CAINFO="/home/build/.cache/ca-bundle.pem"; export PATH="/work/ewd-orv3-pmc/artesyn-shelf/poky/scripts:/work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/installscript/fetcheravoidrecurse-fetcheravoidrecurse/recipe-sysroot-native/usr/bin/arm-poky-linux-gnueabi:/work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/installscript/fetcheravoidrecurse-fetcheravoidrecurse/recipe-sysroot/usr/bin/crossscripts:/work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/installscript/fetcheravoidrecurse-fetcheravoidrecurse/recipe-sysroot-native/usr/sbin:/work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/installscript/fetcheravoidrecurse-fetcheravoidrecurse/recipe-sysroot-native/usr/bin:/work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/installscript/fetcheravoidrecurse-fetcheravoidrecurse/recipe-sysroot-native/sbin:/work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/installscript/fetcheravoidrecurse-fetcheravoidrecurse/recipe-sysroot-native/bin:/work/ewd-orv3-pmc/artesyn-shelf/poky/bitbake/bin:/work/ewd-orv3-pmc/artesyn-shelf/build/tmp/hosttools"; export HOME="/home/build"; git -c core.fsyncobjectfiles=0 ls-remote "ssh://git@bitbucket.org/advenergy/ewd-installscript-linux.git"  failed with exit code 128, output:
+Could not create directory '/home/melvin/.ssh'.
+Host key verification failed.
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+
+
+
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+melvin@yocto-builder:/work/ewd-orv3-pmc/artesyn-shelf/build$
