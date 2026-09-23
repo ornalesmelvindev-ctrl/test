@@ -1,0 +1,13 @@
+╰─ ./run.sh shell
+curl: (60) SSL certificate problem: unable to get local issuer certificate
+More details here: https://curl.haxx.se/docs/sslcerts.html
+
+curl failed to verify the legitimacy of the server and therefore could not
+establish a secure connection to it. To learn more about this situation and
+how to fix it, please visit the web page mentioned above.
+!! TLS sanity check FAILED against https://example.com using /home/build/.cache/ca-bundle.pem
+!! If this is a certificate error: drop your corporate root CA (.crt) into
+!! ./certs/ and rebuild, or mount it at runtime via CERTS_DIR (see README).
+!! If it's a proxy/timeout: set HTTPS_PROXY/HTTP_PROXY/NO_PROXY before
+!! running run.sh. (Set SKIP_NET_CHECK=1 to silence this check.)
+melvin@yocto-builder:/work$
