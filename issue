@@ -1,4 +1,34 @@
- ./spdm-responder /tmp/spdm_uart_responder  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/bundle_responder.certchain.der
+./spdm-requester /tmp/spdm_uart_requester /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der
+
+===== SPDM-over-Modbus REQUESTER =====
+[requester][main      ] uart_path=/tmp/spdm_uart_requester root_cert_path=/home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der
+[requester][device_io] initialized on fd=3
+[requester][setup_capabilities_and_algorithms] advertised: ct_exp=12 cap_flags=0x00000002 asym=ECDSA_P256 hash=SHA256
+[requester][read_file_to_buffer] loaded '/home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der' (411 bytes)
+[requester][setup_trusted_root] trusted root certificate installed (411 bytes)
+
+---- STEP 1-3: libspdm_init_connection() (GET_VERSION -> GET_CAPABILITIES -> NEGOTIATE_ALGORITHMS) ----
+[transport][modbus] ENCODE: wrapped 4-byte request SPDM message -> 5-byte transport message (marker=0x5A)
+[requester][device_io] SEND: 5-byte transport message -> 1 Modbus frame(s)
+[requester][hexdump] outgoing SPDM msg (5 bytes): 5A 10 84 00 00
+[requester][device_io]   -> frag 1/1: 5 payload bytes, ADU=13 bytes (addr=0x11 func=0x45)
+[requester][device_io] SEND: complete (1 frame(s) on the wire)
+[requester][device_io] RECV: waiting for Modbus frame(s)...
+[requester][device_io]   <- frag 1/1: addr=0x11 func=0x45 17 payload bytes (CRC OK)
+[requester][device_io] RECV: complete -- reassembled 17-byte transport message from 1 frame(s)
+[transport][modbus] DECODE: unwrapped 17-byte transport message -> 16-byte SPDM message
+[transport][modbus] ENCODE: wrapped 20-byte request SPDM message -> 21-byte transport message (marker=0x5A)
+[requester][device_io] SEND: 21-byte transport message -> 1 Modbus frame(s)
+[requester][hexdump] outgoing SPDM msg (21 bytes): 5A 14 E1 00 00 00 0C 00 00 02 00 00 00 FF 3F 00 00 FF 3F 00 00
+[requester][device_io]   -> frag 1/1: 21 payload bytes, ADU=29 bytes (addr=0x11 func=0x45)
+[requester][device_io] SEND: complete (1 frame(s) on the wire)
+[requester][device_io] RECV: waiting for Modbus frame(s)...
+[requester][device_io]   <- frag 1/1: addr=0x11 func=0x45 5 payload bytes (CRC OK)
+[requester][device_io] RECV: complete -- reassembled 5-byte transport message from 1 frame(s)
+[transport][modbus] DECODE: unwrapped 5-byte transport message -> 4-byte SPDM message
+[requester][main      ] FATAL: libspdm_init_connection failed: 0x8001000A
+
+./spdm-responder /tmp/spdm_uart_responder  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/bundle_responder.certchain.der
 
 ===== SPDM-over-Modbus RESPONDER =====
 [responder][main      ] uart_path=/tmp/spdm_uart_responder cert_chain_path=/home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/bundle_responder.certchain.der
@@ -29,35 +59,3 @@
 [responder][device_io]   -> frag 1/1: 5 payload bytes, ADU=13 bytes (addr=0x11 func=0x45)
 [responder][device_io] SEND: complete (1 frame(s) on the wire)
 [responder][device_io] RECV: waiting for Modbus frame(s)...
-
- ./spdm-requester /tmp/spdm_uart_requester /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der
-
-===== SPDM-over-Modbus REQUESTER =====
-[requester][main      ] uart_path=/tmp/spdm_uart_requester root_cert_path=/home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der
-[requester][device_io] initialized on fd=3
-[requester][setup_capabilities_and_algorithms] advertised: ct_exp=12 cap_flags=0x00000002 asym=ECDSA_P256 hash=SHA256
-[requester][read_file_to_buffer] loaded '/home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der' (411 bytes)
-[requester][setup_trusted_root] trusted root certificate installed (411 bytes)
-
----- STEP 1-3: libspdm_init_connection() (GET_VERSION -> GET_CAPABILITIES -> NEGOTIATE_ALGORITHMS) ----
-[transport][modbus] ENCODE: wrapped 4-byte request SPDM message -> 5-byte transport message (marker=0x5A)
-[requester][device_io] SEND: 5-byte transport message -> 1 Modbus frame(s)
-[requester][hexdump] outgoing SPDM msg (5 bytes): 5A 10 84 00 00
-[requester][device_io]   -> frag 1/1: 5 payload bytes, ADU=13 bytes (addr=0x11 func=0x45)
-[requester][device_io] SEND: complete (1 frame(s) on the wire)
-[requester][device_io] RECV: waiting for Modbus frame(s)...
-[requester][device_io]   <- frag 1/1: addr=0x11 func=0x45 17 payload bytes (CRC OK)
-[requester][device_io] RECV: complete -- reassembled 17-byte transport message from 1 frame(s)
-[transport][modbus] DECODE: unwrapped 17-byte transport message -> 16-byte SPDM message
-[transport][modbus] ENCODE: wrapped 20-byte request SPDM message -> 21-byte transport message (marker=0x5A)
-[requester][device_io] SEND: 21-byte transport message -> 1 Modbus frame(s)
-[requester][hexdump] outgoing SPDM msg (21 bytes): 5A 14 E1 00 00 00 0C 00 00 02 00 00 00 FF 3F 00 00 FF 3F 00 00
-[requester][device_io]   -> frag 1/1: 21 payload bytes, ADU=29 bytes (addr=0x11 func=0x45)
-[requester][device_io] SEND: complete (1 frame(s) on the wire)
-[requester][device_io] RECV: waiting for Modbus frame(s)...
-[requester][device_io]   <- frag 1/1: addr=0x11 func=0x45 5 payload bytes (CRC OK)
-[requester][device_io] RECV: complete -- reassembled 5-byte transport message from 1 frame(s)
-[transport][modbus] DECODE: unwrapped 5-byte transport message -> 4-byte SPDM message
-[requester][main      ] FATAL: libspdm_init_connection failed: 0x8001000A
-
-are you just guessing?
