@@ -1,26 +1,3 @@
-typedef struct {
-    spdm_message_header_t header;
-    /* param1 == RSVD
-     * param2 == RSVD
-     * Below field is added in 1.1.*/
-    uint8_t reserved;
-    uint8_t ct_exponent;
-    /* ext_flags is a reserved field for SPDM versions prior to 1.4 */
-    uint16_t ext_flags;
-    uint32_t flags;
-    /* Below field is added in 1.2.*/
-    uint32_t data_transfer_size;
-    uint32_t max_spdm_msg_size;
-} spdm_get_capabilities_request_t;
-
-I just added this log inside device_io_send_message()
-static void hexdump(const char *role, const char *label, const uint8_t *buf, size_t len)
-{
-    fprintf(stderr, "[%s][hexdump] %s (%zu bytes):", role, label, len);
-    for (size_t i = 0; i < len; i++) fprintf(stderr, " %02X", buf[i]);
-    fprintf(stderr, "\n");
-}
-
 ./spdm-responder /tmp/spdm_uart_responder  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/bundle_responder.certchain.der
 
 ===== SPDM-over-Modbus RESPONDER =====
@@ -53,7 +30,7 @@ static void hexdump(const char *role, const char *label, const uint8_t *buf, siz
 [responder][device_io] SEND: complete (1 frame(s) on the wire)
 [responder][device_io] RECV: waiting for Modbus frame(s)...
 
-./spdm-requester /tmp/spdm_uart_requester /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der
+ ./spdm-requester /tmp/spdm_uart_requester /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der
 
 ===== SPDM-over-Modbus REQUESTER =====
 [requester][main      ] uart_path=/tmp/spdm_uart_requester root_cert_path=/home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der
@@ -74,7 +51,7 @@ static void hexdump(const char *role, const char *label, const uint8_t *buf, siz
 [transport][modbus] DECODE: unwrapped 17-byte transport message -> 16-byte SPDM message
 [transport][modbus] ENCODE: wrapped 20-byte request SPDM message -> 21-byte transport message (marker=0x5A)
 [requester][device_io] SEND: 21-byte transport message -> 1 Modbus frame(s)
-[requester][hexdump] outgoing SPDM msg (21 bytes): 5A 14 E1 00 00 00 0C 00 00 02 00 00 00 FF 3F 00 00 00 40 00 00
+[requester][hexdump] outgoing SPDM msg (21 bytes): 5A 14 E1 00 00 00 0C 00 00 02 00 00 00 FF 3F 00 00 FF 3F 00 00
 [requester][device_io]   -> frag 1/1: 21 payload bytes, ADU=29 bytes (addr=0x11 func=0x45)
 [requester][device_io] SEND: complete (1 frame(s) on the wire)
 [requester][device_io] RECV: waiting for Modbus frame(s)...
@@ -82,7 +59,3 @@ static void hexdump(const char *role, const char *label, const uint8_t *buf, siz
 [requester][device_io] RECV: complete -- reassembled 5-byte transport message from 1 frame(s)
 [transport][modbus] DECODE: unwrapped 5-byte transport message -> 4-byte SPDM message
 [requester][main      ] FATAL: libspdm_init_connection failed: 0x8001000A
-
-what could be the problem?
-I already done this but same response
-
