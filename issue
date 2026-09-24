@@ -1,3 +1,104 @@
+ make LIBSPDM_DIR=/home/melvin/libspdm-native/libspdm
+gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/modbus_crc.c -o build/modbus_crc.o
+gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/modbus_transport.c -o build/modbus_transport.o
+gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/device_io.c -o build/device_io.o
+gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/virtual_uart.c -o build/virtual_uart.o
+gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/common_setup.c -o build/common_setup.o
+gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/libspdm_sample_support.c -o build/libspdm_sample_support.o
+gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/spdm_requester.c -o build/spdm_requester.o
+gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include build/modbus_crc.o build/modbus_transport.o build/device_io.o build/virtual_uart.o build/common_setup.o build/libspdm_sample_support.o build/spdm_requester.o -o spdm-requester -L/home/melvin/libspdm-native/libspdm/build/lib -lspdm_requester_lib -lspdm_responder_lib -lspdm_common_lib -lspdm_secured_message_lib -lspdm_crypt_lib -lspdm_device_secret_lib_sample -lspdm_crypt_ext_lib -lcryptlib_openssl -lmemlib -lmalloclib -ldebuglib -lplatform_lib -lrnglib -lssl -lcrypto -lpthread
+In function ‘libspdm_handle_error_large_response’,
+    inlined from ‘libspdm_receive_spdm_response’ at /home/melvin/libspdm-native/libspdm/library/spdm_requester_lib/libspdm_req_send_receive.c:794:18:
+/home/melvin/libspdm-native/libspdm/library/spdm_requester_lib/libspdm_req_handle_error_response.c:407:17: warning: ‘max_chunk_data_transfer_size’ may be used uninitialized [-Wmaybe-uninitialized]
+  407 |                 && large_response_size > max_chunk_data_transfer_size) {
+      |                 ^
+/home/melvin/libspdm-native/libspdm/library/spdm_requester_lib/libspdm_req_handle_error_response.c: In function ‘libspdm_receive_spdm_response’:
+/home/melvin/libspdm-native/libspdm/library/spdm_requester_lib/libspdm_req_handle_error_response.c:239:14: note: ‘max_chunk_data_transfer_size’ was declared here
+  239 |     uint64_t max_chunk_data_transfer_size;
+      |              ^
+gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/spdm_responder.c -o build/spdm_responder.o
+gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include build/modbus_crc.o build/modbus_transport.o build/device_io.o build/virtual_uart.o build/common_setup.o build/libspdm_sample_support.o build/spdm_responder.o -o spdm-responder -L/home/melvin/libspdm-native/libspdm/build/lib -lspdm_requester_lib -lspdm_responder_lib -lspdm_common_lib -lspdm_secured_message_lib -lspdm_crypt_lib -lspdm_device_secret_lib_sample -lspdm_crypt_ext_lib -lcryptlib_openssl -lmemlib -lmalloclib -ldebuglib -lplatform_lib -lrnglib -lssl -lcrypto -lpthread
+lto-wrapper: warning: using serial compilation of 3 LTRANS jobs
+lto-wrapper: note: see the ‘-flto’ option documentation for more information
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_endpoint_info.c: In function ‘libspdm_get_response_endpoint_info’:
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_endpoint_info.c:235:18: warning: ‘signature_size’ may be used uninitialized [-Wmaybe-uninitialized]
+  235 |         status = libspdm_append_message_e(spdm_context, session_info, spdm_response,
+      |                  ^
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_endpoint_info.c:22:12: note: ‘signature_size’ was declared here
+   22 |     size_t signature_size;
+      |            ^
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_set_certificate_rsp.c: In function ‘libspdm_get_response_set_certificate’:
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_set_certificate_rsp.c:220:51: warning: ‘erase’ may be used uninitialized [-Wmaybe-uninitialized]
+  220 |     if ((spdm_version >= SPDM_MESSAGE_VERSION_13) && erase) {
+      |                                                   ^
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_set_certificate_rsp.c:69:10: note: ‘erase’ was declared here
+   69 |     bool erase;
+      |          ^
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_event_ack.c: In function ‘libspdm_get_response_event_ack’:
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_event_ack.c:139:62: warning: ‘prev_event_instance_id’ may be used uninitialized [-Wmaybe-uninitialized]
+  139 |             if (event_instance_id != (prev_event_instance_id + 1)) {
+      |                                                              ^
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_event_ack.c:24:14: note: ‘prev_event_instance_id’ was declared here
+   24 |     uint32_t prev_event_instance_id;
+      |              ^
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_communication.c: In function ‘libspdm_responder_dispatch_message’:
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_communication.c:50:8: warning: ‘session_id’ may be used uninitialized [-Wmaybe-uninitialized]
+   50 |     if (session_id != NULL) {
+      |        ^
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_communication.c:18:15: note: ‘session_id’ was declared here
+   18 |     uint32_t *session_id;
+      |               ^
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_communication.c:66:5: warning: ‘message_size’ may be used uninitialized [-Wmaybe-uninitialized]
+   66 |     libspdm_zero_mem(response, response_size);
+      |     ^
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_communication.c:22:12: note: ‘message_size’ was declared here
+   22 |     size_t message_size;
+      |            ^
+In function ‘libspdm_mlkem_encapsulate’,
+    inlined from ‘libspdm_kem_encapsulate’ at /home/melvin/libspdm-native/libspdm/library/spdm_crypt_lib/libspdm_crypt_pqc_kem.c:208:16,
+    inlined from ‘libspdm_secured_message_kem_encapsulate’ at /home/melvin/libspdm-native/libspdm/library/spdm_secured_message_lib/libspdm_secmes_key_exchange_pqc.c:42:11,
+    inlined from ‘libspdm_get_response_key_exchange’ at /home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_key_exchange_rsp.c:737:18:
+/home/melvin/libspdm-native/libspdm/os_stub/cryptlib_openssl/pk/mlkem.c:238:8: warning: ‘kem_encap_key_size’ may be used uninitialized [-Wmaybe-uninitialized]
+  238 |     if (peer_encap_key_size != final_encap_key_size) {
+      |        ^
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_key_exchange_rsp.c: In function ‘libspdm_get_response_key_exchange’:
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_key_exchange_rsp.c:254:12: note: ‘kem_encap_key_size’ was declared here
+  254 |     size_t kem_encap_key_size;
+      |            ^
+In function ‘libspdm_mlkem_encapsulate’,
+    inlined from ‘libspdm_kem_encapsulate’ at /home/melvin/libspdm-native/libspdm/library/spdm_crypt_lib/libspdm_crypt_pqc_kem.c:208:16,
+    inlined from ‘libspdm_secured_message_kem_encapsulate’ at /home/melvin/libspdm-native/libspdm/library/spdm_secured_message_lib/libspdm_secmes_key_exchange_pqc.c:42:11,
+    inlined from ‘libspdm_get_response_key_exchange’ at /home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_key_exchange_rsp.c:737:18:
+/home/melvin/libspdm-native/libspdm/os_stub/cryptlib_openssl/pk/mlkem.c:245:8: warning: ‘kem_cipher_text_size’ may be used uninitialized [-Wmaybe-uninitialized]
+  245 |     if (*cipher_text_size < final_cipher_text_size) {
+      |        ^
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_key_exchange_rsp.c: In function ‘libspdm_get_response_key_exchange’:
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_key_exchange_rsp.c:255:12: note: ‘kem_cipher_text_size’ was declared here
+  255 |     size_t kem_cipher_text_size;
+      |            ^
+In function ‘libspdm_ec_get_pub_key’,
+    inlined from ‘libspdm_ec_generate_key’ at /home/melvin/libspdm-native/libspdm/os_stub/cryptlib_openssl/pk/ec.c:528:12,
+    inlined from ‘libspdm_dhe_generate_key’ at /home/melvin/libspdm-native/libspdm/library/spdm_crypt_lib/libspdm_crypt_dhe.c:308:16,
+    inlined from ‘libspdm_secured_message_dhe_generate_key’ at /home/melvin/libspdm-native/libspdm/library/spdm_secured_message_lib/libspdm_secmes_key_exchange.c:25:12,
+    inlined from ‘libspdm_get_response_key_exchange’ at /home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_key_exchange_rsp.c:772:18:
+/home/melvin/libspdm-native/libspdm/os_stub/cryptlib_openssl/pk/ec.c:436:8: warning: ‘dhe_key_size’ may be used uninitialized [-Wmaybe-uninitialized]
+  436 |     if (*public_key_size < len - 1) {
+      |        ^
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_key_exchange_rsp.c: In function ‘libspdm_get_response_key_exchange’:
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_key_exchange_rsp.c:253:12: note: ‘dhe_key_size’ was declared here
+  253 |     size_t dhe_key_size;
+      |            ^
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_key_exchange_rsp.c:840:12: warning: ‘use_default_opaque_data’ may be used uninitialized [-Wmaybe-uninitialized]
+  840 |         if (use_default_opaque_data) {
+      |            ^
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_key_exchange_rsp.c:276:10: note: ‘use_default_opaque_data’ was declared here
+  276 |     bool use_default_opaque_data;
+      |          ^
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_psk_exchange_rsp.c: In function ‘libspdm_get_response_psk_exchange’:
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_psk_exchange_rsp.c:453:12: warning: ‘use_default_opaque_data’ may be used uninitialized [-Wmaybe-uninitialized]
+  453 |         if (use_default_opaque_data) {
+      |            ^
+/home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_psk_exchange_rsp.c:96:10: note: ‘use_default_opaque_data’ was declared here
    96 |     bool use_default_opaque_data;
       |          ^
 In function ‘libspdm_generate_measurement_signature’,
@@ -9,86 +110,3 @@ In function ‘libspdm_generate_measurement_signature’,
 /home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_measurements.c:91:13: note: ‘slot_id_param’ was declared here
    91 |     uint8_t slot_id_param;
       |             ^
-/usr/bin/ld: /tmp/ccAqWSeN.ltrans0.ltrans.o: in function `libspdm_get_response_csr':
-/home/melvin/libspdm-native/libspdm/os_stub/spdm_device_secret_lib_sample/csr.c:96:(.text+0x4102): undefined reference to `libspdm_read_input_file'
-/usr/bin/ld: /home/melvin/libspdm-native/libspdm/os_stub/spdm_device_secret_lib_sample/csr.c:63:(.text+0x4179): undefined reference to `libspdm_write_output_file'
-/usr/bin/ld: /home/melvin/libspdm-native/libspdm/os_stub/spdm_device_secret_lib_sample/csr.c:96:(.text+0x425b): undefined reference to `libspdm_read_input_file'
-/usr/bin/ld: /home/melvin/libspdm-native/libspdm/os_stub/spdm_device_secret_lib_sample/csr.c:77:(.text+0x43c6): undefined reference to `libspdm_write_output_file'
-/usr/bin/ld: /home/melvin/libspdm-native/libspdm/os_stub/spdm_device_secret_lib_sample/csr.c:63:(.text+0x443f): undefined reference to `libspdm_write_output_file'
-/usr/bin/ld: /tmp/ccAqWSeN.ltrans0.ltrans.o: in function `libspdm_get_response_set_key_pair_info_ack':
-/home/melvin/libspdm-native/libspdm/os_stub/spdm_device_secret_lib_sample/key_pair.c:490:(.text+0x5357): undefined reference to `libspdm_read_input_file'
-/usr/bin/ld: /home/melvin/libspdm-native/libspdm/os_stub/spdm_device_secret_lib_sample/key_pair.c:502:(.text+0x54dd): undefined reference to `libspdm_write_output_file'
-/usr/bin/ld: /tmp/ccAqWSeN.ltrans2.ltrans.o: in function `libspdm_get_responder_pqc_private_key_from_raw_data':
-/home/melvin/libspdm-native/libspdm/os_stub/spdm_device_secret_lib_sample/read_priv_key_raw_data_pqc.c:83:(.text+0x172c): undefined reference to `libspdm_read_input_file'
-/usr/bin/ld: /tmp/ccAqWSeN.ltrans2.ltrans.o: in function `libspdm_read_cached_last_csr_request':
-/home/melvin/libspdm-native/libspdm/os_stub/spdm_device_secret_lib_sample/csr.c:37:(.text+0x1f14): undefined reference to `libspdm_read_input_file'
-/usr/bin/ld: /home/melvin/libspdm-native/libspdm/os_stub/spdm_device_secret_lib_sample/csr.c:41:(.text+0x1f2e): undefined reference to `libspdm_read_input_file'
-/usr/bin/ld: /tmp/ccAqWSeN.ltrans2.ltrans.o: in function `libspdm_psk_handshake_secret_hkdf_expand':
-/home/melvin/libspdm-native/libspdm/os_stub/spdm_device_secret_lib_sample/psk.c:103:(.text+0x76bb): undefined reference to `libspdm_dump_hex_str'
-/usr/bin/ld: /tmp/ccAqWSeN.ltrans2.ltrans.o: in function `libspdm_requester_data_sign.constprop.0':
-/home/melvin/libspdm-native/libspdm/os_stub/spdm_device_secret_lib_sample/read_priv_key_pem_pqc.c:211:(.text+0x8608): undefined reference to `libspdm_read_input_file'
-/usr/bin/ld: /tmp/ccAqWSeN.ltrans2.ltrans.o: in function `libspdm_requester_data_sign.constprop.0':
-/home/melvin/libspdm-native/libspdm/os_stub/spdm_device_secret_lib_sample/read_priv_key_pem.c:166:(.text+0x86e6): undefined reference to `libspdm_read_input_file'
-/usr/bin/ld: /tmp/ccAqWSeN.ltrans2.ltrans.o: in function `libspdm_requester_data_sign.constprop.0':
-/home/melvin/libspdm-native/libspdm/os_stub/spdm_device_secret_lib_sample/read_priv_key_raw_data_pqc.c:205:(.text+0x890f): undefined reference to `libspdm_read_input_file'
-/usr/bin/ld: /tmp/ccAqWSeN.ltrans2.ltrans.o: in function `libspdm_responder_data_sign.constprop.0':
-/home/melvin/libspdm-native/libspdm/os_stub/spdm_device_secret_lib_sample/read_priv_key_pem_pqc.c:146:(.text+0x8e32): undefined reference to `libspdm_read_input_file'
-/usr/bin/ld: /tmp/ccAqWSeN.ltrans2.ltrans.o: in function `libspdm_responder_data_sign.constprop.0':
-/home/melvin/libspdm-native/libspdm/os_stub/spdm_device_secret_lib_sample/read_priv_key_pem.c:116:(.text+0x8f27): undefined reference to `libspdm_read_input_file'
-/usr/bin/ld: /tmp/ccAqWSeN.ltrans2.ltrans.o:/home/melvin/libspdm-native/libspdm/os_stub/spdm_device_secret_lib_sample/read_priv_key_pem.c:63: more undefined references to `libspdm_read_input_file' follow
-collect2: error: ld returned 1 exit status
-make: *** [Makefile:76: spdm-responder] Error 1
-
-
-# Search for the implementation of the file I/O operations
-rg "bool libspdm_read_input_file" --glob "*.c"
-rg "bool libspdm_write_output_file" --glob "*.c"
-
-# Search for the implementation of the hex dumper
-rg "libspdm_dump_hex_str" --glob "*.c"
-
-unit_test/test_crypt/os_support.c
-11:bool libspdm_read_input_file(const char *file_name, void **file_data, size_t *file_size) {
-
-unit_test/spdm_unit_test_common/support.c
-57:bool libspdm_read_input_file(const char *file_name, void **file_data,
-
-unit_test/test_size/test_size_of_spdm_requester/support.c
-13:bool libspdm_read_input_file(const char *file_name, void **file_data,
-
-unit_test/test_size/test_size_of_spdm_responder/support.c
-13:bool libspdm_read_input_file(const char *file_name, void **file_data,
-
-unit_test/fuzzing/spdm_unit_fuzzing_common/common.c
-115:bool libspdm_read_input_file(const char *file_name, void **file_data,
-unit_test/test_crypt/os_support.c
-45:bool libspdm_write_output_file(const char *file_name, const void *file_data, size_t file_size) {
-
-unit_test/spdm_unit_test_common/support.c
-142:bool libspdm_write_output_file(const char *file_name, const void *file_data,
-
-unit_test/fuzzing/spdm_unit_fuzzing_common/common.c
-156:bool libspdm_write_output_file(const char *file_name, const void *file_data,
-
-unit_test/test_size/test_size_of_spdm_responder/support.c
-19:bool libspdm_write_output_file(const char *file_name, const void *file_data,
-
-unit_test/test_size/test_size_of_spdm_requester/support.c
-19:bool libspdm_write_output_file(const char *file_name, const void *file_data,
-unit_test/test_crypt/x509_verify.c
-658:void libspdm_dump_hex_str(const uint8_t *buffer, size_t buffer_size)
-
-unit_test/spdm_unit_test_common/support.c
-16:void libspdm_dump_hex_str(const uint8_t *buffer, size_t buffer_size)
-
-os_stub/spdm_device_secret_lib_sample/psk.c
-103:    libspdm_dump_hex_str(psk, psk_size);
-
-unit_test/fuzzing/spdm_unit_fuzzing_common/common.c
-177:void libspdm_dump_hex_str(const uint8_t *buffer, size_t buffer_size)
-
-unit_test/test_size/test_size_of_spdm_requester/support.c
-9:void libspdm_dump_hex_str(const uint8_t *buffer, size_t buffer_size)
-
-unit_test/test_size/test_size_of_spdm_responder/support.c
-9:void libspdm_dump_hex_str(const uint8_t *buffer, size_t buffer_size)
