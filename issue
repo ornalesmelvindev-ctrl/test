@@ -1,6 +1,3 @@
-can you summarize the result? I dont have any idea yet, put in in a file or just a single block so I can copy the summary
-and also, is spdm really rtransported via modbus
-
 ./spdm-responder /tmp/spdm_uart_responder  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/rsa2048/bundle_responder.certchain.der
 
 ===== SPDM-over-Modbus RESPONDER =====
@@ -58,3 +55,166 @@ and also, is spdm really rtransported via modbus
 [requester][device_io] RECV: complete -- reassembled 5-byte transport message from 1 frame(s)
 [transport][modbus] DECODE: unwrapped 5-byte transport message -> 4-byte SPDM message
 [requester][main      ] FATAL: libspdm_init_connection failed: 0x8001000A
+
+
+whats missing? why it failed? is it the certificate used?
+./scripts/find_sample_certs.sh /home/melvin/libspdm-native/libspdm | grep 'bundle_responder.*der'
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-128s/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-128s/bundle_responder.certchain_alias_cert_partial_set.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-128s/bundle_responder.certchain_alias.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-128s/bundle_responder.certchain1.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-128s/bundle_responder.certchain4.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/sm2/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/sm2/bundle_responder.certchain_alias_cert_partial_set.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/sm2/bundle_responder.certchain_alias.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/sm2/bundle_responder.certchain1.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/sm2/bundle_responder.certchain4.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-256f/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-256f/bundle_responder.certchain_alias_cert_partial_set.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-256f/bundle_responder.certchain_alias.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-256f/bundle_responder.certchain1.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-256f/bundle_responder.certchain4.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/rsa2048/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/rsa2048/bundle_responder.certchain_alias_cert_partial_set.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/rsa2048/bundle_responder.certchain_alias.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/rsa2048/bundle_responder.certchain1.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/rsa2048/bundle_responder.certchain4.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/rsa4096/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/rsa4096/bundle_responder.certchain_alias_cert_partial_set.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/rsa4096/bundle_responder.certchain_alias.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/rsa4096/bundle_responder.certchain1.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/rsa4096/bundle_responder.certchain4.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp521/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp521/bundle_responder.certchain_alias_cert_partial_set.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp521/bundle_responder.certchain_alias.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp521/bundle_responder.certchain1.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp521/bundle_responder.certchain4.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/rsa3072_Expiration/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/mldsa44/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/mldsa44/bundle_responder.certchain_alias_cert_partial_set.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/mldsa44/bundle_responder.certchain_alias.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/mldsa44/bundle_responder.certchain1.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/mldsa44/bundle_responder.certchain4.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-192s/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-192s/bundle_responder.certchain_alias_cert_partial_set.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-192s/bundle_responder.certchain_alias.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-192s/bundle_responder.certchain1.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-192s/bundle_responder.certchain4.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-192f/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-192f/bundle_responder.certchain_alias_cert_partial_set.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-192f/bundle_responder.certchain_alias.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-192f/bundle_responder.certchain1.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-192f/bundle_responder.certchain4.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/mldsa65/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/mldsa65/bundle_responder.certchain_alias_cert_partial_set.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/mldsa65/bundle_responder.certchain_alias.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/mldsa65/bundle_responder.certchain1.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/mldsa65/bundle_responder.certchain4.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-192s/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-192s/bundle_responder.certchain_alias_cert_partial_set.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-192s/bundle_responder.certchain_alias.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-192s/bundle_responder.certchain1.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-192s/bundle_responder.certchain4.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp384/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp384/bundle_responder.certchain_alias_cert_partial_set.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp384/bundle_responder.certchain_alias.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp384/bundle_responder.certchain1.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp384/bundle_responder.certchain4.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-256s/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-256s/bundle_responder.certchain_alias_cert_partial_set.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-256s/bundle_responder.certchain_alias.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-256s/bundle_responder.certchain1.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-256s/bundle_responder.certchain4.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-256f/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-256f/bundle_responder.certchain_alias_cert_partial_set.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-256f/bundle_responder.certchain_alias.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-256f/bundle_responder.certchain1.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-256f/bundle_responder.certchain4.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-128f/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-128f/bundle_responder.certchain_alias_cert_partial_set.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-128f/bundle_responder.certchain_alias.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-128f/bundle_responder.certchain1.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-128f/bundle_responder.certchain4.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-128f/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-128f/bundle_responder.certchain_alias_cert_partial_set.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-128f/bundle_responder.certchain_alias.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-128f/bundle_responder.certchain1.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-128f/bundle_responder.certchain4.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-256s/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-256s/bundle_responder.certchain_alias_cert_partial_set.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-256s/bundle_responder.certchain_alias.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-256s/bundle_responder.certchain1.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-256s/bundle_responder.certchain4.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/bundle_responder.certchain_alias_cert_partial_set.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/bundle_responder.certchain_alias.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/bundle_responder.certchain1.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/bundle_responder.certchain4.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/rsa3072/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/rsa3072/bundle_responder.certchain_alias_cert_partial_set.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/rsa3072/bundle_responder.certchain_alias.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/rsa3072/bundle_responder.certchain1.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/rsa3072/bundle_responder.certchain4.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-192f/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-192f/bundle_responder.certchain_alias_cert_partial_set.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-192f/bundle_responder.certchain_alias.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-192f/bundle_responder.certchain1.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-192f/bundle_responder.certchain4.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ed25519/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ed25519/bundle_responder.certchain_alias_cert_partial_set.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ed25519/bundle_responder.certchain_alias.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ed25519/bundle_responder.certchain1.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ed25519/bundle_responder.certchain4.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ed448/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ed448/bundle_responder.certchain_alias_cert_partial_set.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ed448/bundle_responder.certchain_alias.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ed448/bundle_responder.certchain1.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ed448/bundle_responder.certchain4.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/mldsa87/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/mldsa87/bundle_responder.certchain_alias_cert_partial_set.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/mldsa87/bundle_responder.certchain_alias.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/mldsa87/bundle_responder.certchain1.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/mldsa87/bundle_responder.certchain4.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/long_chains/ShorterMAXUINT16_bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/long_chains/Shorter1024B_bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/long_chains/ShorterMAXINT16_bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-128s/bundle_responder.certchain.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-128s/bundle_responder.certchain_alias_cert_partial_set.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-128s/bundle_responder.certchain_alias.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-128s/bundle_responder.certchain1.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-128s/bundle_responder.certchain4.der
+
+
+
+  ./scripts/find_sample_certs.sh /home/melvin/libspdm-native/libspdm | grep 'ca.cert.*der'
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-128s/ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/sm2/ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-256f/ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/rsa2048/ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/rsa4096/ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp521/ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/rsa3072_Expiration/ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/mldsa44/ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-192s/ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-192f/ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/mldsa65/ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-192s/ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp384/ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-256s/ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-256f/ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-128f/ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-128f/ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-shake-256s/ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/rsa3072/ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-192f/ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ed25519/ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ed448/ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/mldsa87/ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/long_chains/ShorterMAXINT16_ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/long_chains/Shorter1024B_ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/long_chains/ShorterMAXUINT16_ca.cert.der
+  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/slh-dsa-sha2-128s/ca.cert.der
+
+
+  Also, I thoiugh using modbus uses like libmodbus, so as long as we use virtual uart or real /dev/ttyS* or /dev/USB*, it uses modbus already?
