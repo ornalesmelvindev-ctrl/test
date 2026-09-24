@@ -1,447 +1,323 @@
-typedef struct {
-    spdm_message_header_t header;
-    /* param1 == RSVD
-     * param2 == RSVD
-     * Below field is added in 1.1.*/
-    uint8_t reserved;
-    uint8_t ct_exponent;
-    /* ext_flags is a reserved field for SPDM versions prior to 1.4 */
-    uint16_t ext_flags;
-    uint32_t flags;
-    /* Below field is added in 1.2.*/
-    uint32_t data_transfer_size;
-    uint32_t max_spdm_msg_size;
-} spdm_get_capabilities_request_t;
+libspdm_return_t libspdm_get_response_capabilities(libspdm_context_t *spdm_context,
+                                                   size_t request_size,
+                                                   const void *request,
+                                                   size_t *response_size,
+                                                   void *response)
+{
+    const spdm_get_capabilities_request_t *spdm_request;
+    spdm_capabilities_response_t *spdm_response;
+    libspdm_return_t status;
 
+    spdm_request = request;
 
-ldd ./spdm-requester
-        linux-vdso.so.1 (0x000076377d6ce000)
-        libcrypto.so.3 => /lib/x86_64-linux-gnu/libcrypto.so.3 (0x000076377d000000)
-        libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x000076377cc00000)
-        /lib64/ld-linux-x86-64.so.2 (0x000076377d6d0000)
-╭─░▒▓    /mnt/c/U/me/Dow/spdm_now/spdm-modbus-fixed-with-libspdm-support/spdm-modbus ······························································· ✔  system   04:24:32 PM  ▓▒░
-╰─ ldd ./spdm-responder
-        linux-vdso.so.1 (0x0000758a38e58000)
-        libcrypto.so.3 => /lib/x86_64-linux-gnu/libcrypto.so.3 (0x0000758a38600000)
-        libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x0000758a38200000)
-        /lib64/ld-linux-x86-64.so.2 (0x0000758a38e5a000)
-╭─░▒▓    /mnt/c/U/me/Dow/spdm_now/spdm-modbus-fixed-with-libspdm-support/spdm-modbus ······························································· ✔  system   04:24:36 PM  ▓▒░
-╰─ readelf -Ws ./spdm-requester| grep libspdm
-    33: 0000000000000000     0 FILE    LOCAL  DEFAULT  ABS libspdm_sample_support.c
-    42: 00000000000063f8    30 FUNC    LOCAL  DEFAULT   16 libspdm_is_capabilities_flag_supported.constprop.0
-    43: 0000000000006416   148 FUNC    LOCAL  DEFAULT   16 libspdm_handle_simple_error_response
-    44: 00000000000064aa    24 FUNC    LOCAL  DEFAULT   16 libspdm_onehot0
-    45: 00000000000064c2    19 FUNC    LOCAL  DEFAULT   16 libspdm_get_scratch_buffer_secure_message_capacity
-    46: 00000000000064c2    19 FUNC    LOCAL  DEFAULT   16 libspdm_get_scratch_buffer_sender_receiver_capacity
-    47: 00000000000064c2    19 FUNC    LOCAL  DEFAULT   16 libspdm_get_scratch_buffer_large_sender_receiver_capacity
-    48: 00000000000064d5    12 FUNC    LOCAL  DEFAULT   16 libspdm_get_scratch_buffer_sender_receiver_offset
-    49: 00000000000064e1    23 FUNC    LOCAL  DEFAULT   16 libspdm_get_scratch_buffer_large_sender_receiver_offset
-    50: 00000000000064f8    80 FUNC    LOCAL  DEFAULT   16 libspdm_acquire_sender_buffer
-    51: 0000000000006548    19 FUNC    LOCAL  DEFAULT   16 libspdm_release_sender_buffer
-    52: 000000000000655b    83 FUNC    LOCAL  DEFAULT   16 libspdm_acquire_receiver_buffer
-    53: 00000000000065ae    19 FUNC    LOCAL  DEFAULT   16 libspdm_release_receiver_buffer
-    54: 00000000000065c1    67 FUNC    LOCAL  DEFAULT   16 libspdm_version_number_sort
-    55: 0000000000006604    38 FUNC    LOCAL  DEFAULT   16 libspdm_get_session_info_via_session_id
-    56: 000000000000662a     3 FUNC    LOCAL  DEFAULT   16 libspdm_read_uint32
-    57: 000000000000662d    76 FUNC    LOCAL  DEFAULT   16 libspdm_get_hash_size
-    58: 0000000000006679   134 FUNC    LOCAL  DEFAULT   16 libspdm_get_asym_signature_size
-    59: 00000000000066ff    32 FUNC    LOCAL  DEFAULT   16 libspdm_is_palindrome
-    60: 000000000000671f   134 FUNC    LOCAL  DEFAULT   16 libspdm_asym_get_public_key_from_x509
-    61: 000000000000c061   151 FUNC    LOCAL  DEFAULT   16 libspdm_rsa_get_public_key_from_x509
-    62: 000000000000c0f8   153 FUNC    LOCAL  DEFAULT   16 libspdm_ec_get_public_key_from_x509
-    63: 000000000000c191   156 FUNC    LOCAL  DEFAULT   16 libspdm_ecd_get_public_key_from_x509
-    64: 000000000000c22d   157 FUNC    LOCAL  DEFAULT   16 libspdm_sm2_get_public_key_from_x509
-    65: 00000000000067a5   256 FUNC    LOCAL  DEFAULT   16 libspdm_get_public_key_algo_OID_len
-    66: 00000000000068a5   189 FUNC    LOCAL  DEFAULT   16 libspdm_get_pqc_asym_signature_size
-    67: 0000000000006962    40 FUNC    LOCAL  DEFAULT   16 libspdm_consttime_is_mem_equal
-    68: 000000000000698a   266 FUNC    LOCAL  DEFAULT   16 libspdm_process_general_opaque_data_check
-    69: 0000000000006a94    27 FUNC    LOCAL  DEFAULT   16 libspdm_copy_mem
-    70: 0000000000006aaf    54 FUNC    LOCAL  DEFAULT   16 libspdm_append_managed_buffer
-    71: 0000000000006ae5   113 FUNC    LOCAL  DEFAULT   16 libspdm_append_msg_log
-    72: 0000000000006b56    17 FUNC    LOCAL  DEFAULT   16 libspdm_zero_mem
-    73: 0000000000006b67    18 FUNC    LOCAL  DEFAULT   16 libspdm_reset_managed_buffer
-    74: 0000000000006b79    58 FUNC    LOCAL  DEFAULT   16 libspdm_get_signing_context_string.constprop.0
-    75: 00000000000138e0   224 OBJECT  LOCAL  DEFAULT   23 m_libspdm_signing_context_str_table
-    76: 0000000000006bb3   160 FUNC    LOCAL  DEFAULT   16 libspdm_create_signing_context.constprop.0
-    77: 0000000000006c53   135 FUNC    LOCAL  DEFAULT   16 libspdm_bin_concat.constprop.0
-    78: 0000000000006cda    52 FUNC    LOCAL  DEFAULT   16 libspdm_hash_free
-    79: 0000000000006d0e    39 FUNC    LOCAL  DEFAULT   16 libspdm_reset_message_b
-    80: 0000000000006d0e    39 FUNC    LOCAL  DEFAULT   16 libspdm_reset_message_c
-    81: 0000000000006d35    39 FUNC    LOCAL  DEFAULT   16 libspdm_reset_message_mut_b
-    82: 0000000000006d35    39 FUNC    LOCAL  DEFAULT   16 libspdm_reset_message_mut_c
-    83: 0000000000006d5c   108 FUNC    LOCAL  DEFAULT   16 libspdm_reset_message_m
-    84: 0000000000006dc8    39 FUNC    LOCAL  DEFAULT   16 libspdm_reset_message_e.part.0
-    85: 0000000000006def    39 FUNC    LOCAL  DEFAULT   16 libspdm_reset_message_encap_e.part.0
-    86: 0000000000006e16    83 FUNC    LOCAL  DEFAULT   16 libspdm_reset_message_buffer_via_request_code
-    87: 0000000000006e69   676 FUNC    LOCAL  DEFAULT   16 libspdm_session_info_init.constprop.0
-    89: 000000000000710d    62 FUNC    LOCAL  DEFAULT   16 libspdm_free_session_id
-    90: 000000000000714b   415 FUNC    LOCAL  DEFAULT   16 libspdm_send_request.constprop.0
-    91: 00000000000072ea    43 FUNC    LOCAL  DEFAULT   16 libspdm_hash_new
-    92: 0000000000007315    89 FUNC    LOCAL  DEFAULT   16 libspdm_mldsa_type_name_to_nid
-    93: 000000000000736e   132 FUNC    LOCAL  DEFAULT   16 libspdm_pqc_asym_free
-    94: 00000000000073f2    32 FUNC    LOCAL  DEFAULT   16 libspdm_ec_free
-    95: 00000000000073f2    32 FUNC    LOCAL  DEFAULT   16 libspdm_ecd_free
-    96: 00000000000073f2    32 FUNC    LOCAL  DEFAULT   16 libspdm_sm2_dsa_free
-    97: 0000000000007412   131 FUNC    LOCAL  DEFAULT   16 libspdm_asym_free
-    98: 0000000000007495  2883 FUNC    LOCAL  DEFAULT   16 libspdm_asym_verify_wrap
-    99: 0000000000007fd8   149 FUNC    LOCAL  DEFAULT   16 libspdm_asn1_get_tag
-   100: 000000000000806d   202 FUNC    LOCAL  DEFAULT   16 libspdm_x509_get_cert_from_cert_chain
-   101: 0000000000008137   146 FUNC    LOCAL  DEFAULT   16 libspdm_get_leaf_cert_public_key_from_cert_chain
-   104: 0000000000008211   163 FUNC    LOCAL  DEFAULT   16 libspdm_hash_init
-   106: 00000000000082d3    51 FUNC    LOCAL  DEFAULT   16 libspdm_hash_update
-   107: 0000000000008306   173 FUNC    LOCAL  DEFAULT   16 libspdm_append_message_b
-   108: 00000000000083b3   361 FUNC    LOCAL  DEFAULT   16 libspdm_append_message_m
-   110: 0000000000008533    48 FUNC    LOCAL  DEFAULT   16 libspdm_hash_final
-   112: 000000000000858e   184 FUNC    LOCAL  DEFAULT   16 libspdm_hash_all
-   114: 000000000000871a   292 FUNC    LOCAL  DEFAULT   16 libspdm_hkdf_expand
-   115: 000000000000883e  1273 FUNC    LOCAL  DEFAULT   16 libspdm_receive_response.constprop.0
-   116: 0000000000008d37  1457 FUNC    LOCAL  DEFAULT   16 libspdm_send_spdm_request
-   117: 00000000000092e8  1311 FUNC    LOCAL  DEFAULT   16 libspdm_receive_spdm_response
-   118: 0000000000009807   207 FUNC    LOCAL  DEFAULT   16 libspdm_mldsa_new
-   119: 00000000000098d6   293 FUNC    LOCAL  DEFAULT   16 libspdm_slhdsa_new
-   120: 00000000000099fb   128 FUNC    LOCAL  DEFAULT   16 libspdm_mldsa_set_pubkey
-   121: 0000000000009a7b    95 FUNC    LOCAL  DEFAULT   16 libspdm_slhdsa_set_pubkey
-   122: 0000000000009ada  1986 FUNC    LOCAL  DEFAULT   16 libspdm_pqc_asym_get_public_key_from_x509
-   153: 000000000000a29c   146 FUNC    LOCAL  DEFAULT   16 libspdm_get_pqc_leaf_cert_public_key_from_cert_chain
-   154: 000000000000a32e    99 FUNC    LOCAL  DEFAULT   16 libspdm_x509_construct_certificate
-   155: 000000000000a391   202 FUNC    LOCAL  DEFAULT   16 libspdm_x509_get_subject_name
-   156: 000000000000a45b   222 FUNC    LOCAL  DEFAULT   16 libspdm_x509_get_issuer_name
-   157: 000000000000a539   167 FUNC    LOCAL  DEFAULT   16 libspdm_x509_set_date_time
-   158: 000000000000a5e0   203 FUNC    LOCAL  DEFAULT   16 libspdm_x509_compare_date_time
-   160: 000000000000a6e6   365 FUNC    LOCAL  DEFAULT   16 libspdm_x509_verify_cert
-   161: 000000000000a853   353 FUNC    LOCAL  DEFAULT   16 libspdm_x509_get_extension_data.part.0
-   162: 000000000000a9b4   322 FUNC    LOCAL  DEFAULT   16 libspdm_is_root_certificate
-   163: 0000000000012663     3 OBJECT  LOCAL  DEFAULT   18 m_libspdm_oid_basic_constraints
-   164: 000000000000aaf6  4715 FUNC    LOCAL  DEFAULT   16 libspdm_verify_certificate_chain_buffer
-   165: 0000000000012660     3 OBJECT  LOCAL  DEFAULT   18 m_libspdm_oid_ext_key_usage
-   166: 000000000000bd61   106 FUNC    LOCAL  DEFAULT   16 libspdm_sleep
-   167: 000000000000bdcb   545 FUNC    LOCAL  DEFAULT   16 libspdm_handle_error_response_main
-   170: 000000000000c32d  4065 FUNC    LOCAL  DEFAULT   16 libspdm_verify_measurement_signature
-   182: 00000000000101a7    13 FUNC    GLOBAL DEFAULT   16 libspdm_register_device_io_func
-   187: 0000000000010416   441 FUNC    GLOBAL DEFAULT   16 libspdm_deinit_context
-   194: 0000000000010267    41 FUNC    GLOBAL DEFAULT   16 libspdm_get_sizeof_required_scratch_buffer
-   195: 00000000000101b4    72 FUNC    GLOBAL DEFAULT   16 libspdm_register_device_buffer_func
-   205: 000000000000f04d  2103 FUNC    GLOBAL DEFAULT   16 libspdm_get_measurement
-   207: 000000000000566b   441 FUNC    GLOBAL DEFAULT   16 libspdm_read_input_file
-   214: 00000000000058cc   130 FUNC    GLOBAL DEFAULT   16 libspdm_dump_hex_str
-   255: 000000000000f884  2339 FUNC    GLOBAL DEFAULT   16 libspdm_set_data
-   258: 00000000000102d5   321 FUNC    GLOBAL DEFAULT   16 libspdm_init_context
-   287: 00000000000101fc   107 FUNC    GLOBAL DEFAULT   16 libspdm_register_transport_layer_func
-   293: 000000000000e878  2005 FUNC    GLOBAL DEFAULT   16 libspdm_get_certificate
-   336: 0000000000005824   168 FUNC    GLOBAL DEFAULT   16 libspdm_write_output_file
-   340: 00000000000105cf    10 FUNC    GLOBAL DEFAULT   16 libspdm_get_context_size
-   343: 0000000000010290    69 FUNC    GLOBAL DEFAULT   16 libspdm_set_scratch_buffer
-   344: 000000000000d30e  5482 FUNC    GLOBAL DEFAULT   16 libspdm_init_connection
-╭─░▒▓    /mnt/c/U/me/Dow/spdm_now/spdm-modbus-fixed-with-libspdm-support/spdm-modbus ······························································· ✔  system   04:25:05 PM  ▓▒░
-╰─ readelf -Ws ./spdm-responder| grep libspdm
-    33: 0000000000000000     0 FILE    LOCAL  DEFAULT  ABS libspdm_sample_support.c
-    43: 0000000000008afa   315 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_func_via_request_code
-    44: 000000000000e65d   943 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_digests
-    45: 0000000000009a71  3512 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_algorithms
-    46: 000000000000e1d1  1164 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_certificate
-    47: 00000000000120c4  1639 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_challenge_auth
-    48: 000000000000d341   703 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_measurement_extension_log
-    49: 0000000000010606  6007 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_key_exchange
-    50: 000000000000ea0c   564 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_encapsulated_request
-    51: 000000000000ec40   603 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_encapsulated_response_ack
-    52: 000000000000c62b   365 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_respond_if_ready
-    53: 000000000000a829  1816 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_finish
-    54: 000000000000ee9b   456 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_end_session
-    55: 000000000000f063   458 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_heartbeat
-    56: 000000000000f22d   948 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_key_update
-    57: 000000000000af41  1240 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_endpoint_info
-    58: 000000000000c798  2242 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_csr
-    59: 000000000000b419  1577 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_set_certificate
-    60: 000000000000d600   716 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_key_pair_info
-    61: 000000000000d8cc  2309 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_set_key_pair_info_ack
-    62: 000000000000d05a   743 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_chunk_get
-    63: 000000000000f5e1  1333 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_chunk_send
-    64: 000000000000ba42   501 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_supported_event_types
-    65: 000000000000bc37   501 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_subscribe_event_types_ack
-    66: 000000000000be2c  1100 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_event_ack
-    67: 000000000000c278   947 FUNC    LOCAL  DEFAULT   16 libspdm_get_vendor_defined_response
-    68: 0000000000009401  1648 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_capabilities
-    69: 0000000000011d7d   839 FUNC    LOCAL  DEFAULT   16 libspdm_get_response_version
-    70: 0000000000008c35    24 FUNC    LOCAL  DEFAULT   16 libspdm_prioritize_algorithm
-    71: 0000000000008e59   169 FUNC    LOCAL  DEFAULT   16 libspdm_get_encap_request_send_event
-    72: 0000000000008f02   159 FUNC    LOCAL  DEFAULT   16 libspdm_process_encap_response_event_ack
-    73: 0000000000008c4d   143 FUNC    LOCAL  DEFAULT   16 libspdm_get_encap_struct_via_op_code
-    74: 0000000000008cdc   381 FUNC    LOCAL  DEFAULT   16 libspdm_process_encapsulated_response
-    78: 0000000000009176   284 FUNC    LOCAL  DEFAULT   16 libspdm_generate_key_exchange_rsp_hmac
-    82: 00000000001b4dc8     8 OBJECT  LOCAL  DEFAULT   27 libspdm_secret_lib_finish_opaque_data_size
-    96: 00000000001b4de8     8 OBJECT  LOCAL  DEFAULT   27 libspdm_secret_lib_challenge_opaque_data_size
-    98: 000000000001272b    65 FUNC    LOCAL  DEFAULT   16 libspdm_version_number_sort.part.0
-    99: 000000000001276c    53 FUNC    LOCAL  DEFAULT   16 libspdm_asym_func_need_hash
-   100: 00000000000127a1    32 FUNC    LOCAL  DEFAULT   16 libspdm_is_palindrome
-   101: 00000000000127c1    67 FUNC    LOCAL  DEFAULT   16 libspdm_is_signature_buffer_palindrome
-   102: 0000000000012804   285 FUNC    LOCAL  DEFAULT   16 libspdm_get_sm_data_element_from_opaque_data
-   103: 0000000000012921   163 FUNC    LOCAL  DEFAULT   16 libspdm_hash_init
-   104: 00000000000129c4  2524 FUNC    LOCAL  DEFAULT   16 libspdm_asym_sign_wrap
-   105: 00000000000133a0  2904 FUNC    LOCAL  DEFAULT   16 libspdm_asym_verify_wrap
-   106: 0000000000014c6a   146 FUNC    LOCAL  DEFAULT   16 libspdm_get_pqc_leaf_cert_public_key_from_cert_chain
-   108: 000000000001558e   182 FUNC    LOCAL  DEFAULT   16 libspdm_append_message_mut_b
-   109: 000000000001558e   182 FUNC    LOCAL  DEFAULT   16 libspdm_append_message_mut_c
-   110: 0000000000015bdc   361 FUNC    LOCAL  DEFAULT   16 libspdm_append_message_m
-   111: 0000000000015ea0   343 FUNC    LOCAL  DEFAULT   16 libspdm_append_message_encap_e
-   112: 0000000000016838   290 FUNC    LOCAL  DEFAULT   16 libspdm_generate_aead_key_and_iv
-   114: 00000000001b4df8     8 OBJECT  LOCAL  DEFAULT   27 libspdm_secret_lib_psk_finish_opaque_data_size
-   115: 0000000000016ec6   167 FUNC    LOCAL  DEFAULT   16 libspdm_generate_finished_key
-   117: 0000000000029660   224 OBJECT  LOCAL  DEFAULT   23 m_libspdm_signing_context_str_table
-   118: 0000000000017d75   628 FUNC    LOCAL  DEFAULT   16 libspdm_asym_verify_hash_ex
-   119: 00000000001b4e08     8 OBJECT  LOCAL  DEFAULT   27 libspdm_secret_lib_meas_opaque_data_size
-   120: 0000000000019c3a   146 FUNC    LOCAL  DEFAULT   16 libspdm_get_leaf_cert_public_key_from_cert_chain
-   121: 000000000001a994   529 FUNC    LOCAL  DEFAULT   16 libspdm_verify_certificate_chain_buffer
-   123: 000000000001b06a   141 FUNC    LOCAL  DEFAULT   16 libspdm_get_asym_get_private_key_from_pem
-   124: 000000000001d473   220 FUNC    LOCAL  DEFAULT   16 libspdm_sm2_get_private_key_from_pem
-   125: 000000000001d2b6   146 FUNC    LOCAL  DEFAULT   16 libspdm_rsa_get_private_key_from_pem
-   126: 000000000001d348   148 FUNC    LOCAL  DEFAULT   16 libspdm_ec_get_private_key_from_pem
-   127: 000000000001d3dc   151 FUNC    LOCAL  DEFAULT   16 libspdm_ecd_get_private_key_from_pem
-   128: 000000000001b0f7   117 FUNC    LOCAL  DEFAULT   16 libspdm_measurement_hash_all
-   129: 000000000001b16c   159 FUNC    LOCAL  DEFAULT   16 libspdm_get_aysm_nid
-   130: 000000000001b20b   206 FUNC    LOCAL  DEFAULT   16 libspdm_get_pqc_aysm_nid
-   131: 000000000001b2d9    24 FUNC    LOCAL  DEFAULT   16 libspdm_get_str_len
-   132: 000000000001b2f1   182 FUNC    LOCAL  DEFAULT   16 libspdm_read_responder_private_key
-   133: 000000000001b3a7   287 FUNC    LOCAL  DEFAULT   16 libspdm_read_responder_pqc_private_key
-   134: 000000000001b4c6   182 FUNC    LOCAL  DEFAULT   16 libspdm_read_responder_certificate
-   135: 000000000001b57c   287 FUNC    LOCAL  DEFAULT   16 libspdm_read_responder_pqc_certificate
-   136: 000000000001b69b    89 FUNC    LOCAL  DEFAULT   16 libspdm_mldsa_type_name_to_nid
-   137: 000000000001b6f4   355 FUNC    LOCAL  DEFAULT   16 libspdm_slhdsa_type_name_to_nid
-   138: 000000000001b857   597 FUNC    LOCAL  DEFAULT   16 libspdm_pqc_asym_verify_wrap
-   141: 000000000001baac    27 FUNC    LOCAL  DEFAULT   16 libspdm_mldsa_free
-   142: 000000000001baac    27 FUNC    LOCAL  DEFAULT   16 libspdm_slhdsa_free
-   144: 000000000001bd90   218 FUNC    LOCAL  DEFAULT   16 libspdm_mldsa_new
-   145: 000000000001be6a   299 FUNC    LOCAL  DEFAULT   16 libspdm_slhdsa_new
-   146: 000000000001bf95   314 FUNC    LOCAL  DEFAULT   16 libspdm_mldsa_set_privkey
-   148: 000000000001c0cf  1046 FUNC    LOCAL  DEFAULT   16 libspdm_rsa_set_key
-   149: 000000000001c4e5   128 FUNC    LOCAL  DEFAULT   16 libspdm_mldsa_set_pubkey
-   150: 000000000001c565    95 FUNC    LOCAL  DEFAULT   16 libspdm_slhdsa_set_pubkey
-   151: 000000000001c5c4   169 FUNC    LOCAL  DEFAULT   16 libspdm_slhdsa_set_privkey
-   152: 000000000001c66d   477 FUNC    LOCAL  DEFAULT   16 libspdm_get_responder_pqc_private_key_from_raw_data
-   153: 000000000001c84a    99 FUNC    LOCAL  DEFAULT   16 libspdm_x509_construct_certificate
-   154: 000000000001c8ad   167 FUNC    LOCAL  DEFAULT   16 libspdm_x509_set_date_time
-   155: 000000000001c954   203 FUNC    LOCAL  DEFAULT   16 libspdm_x509_compare_date_time
-   164: 000000000001d0fc   442 FUNC    LOCAL  DEFAULT   16 libspdm_pqc_asym_get_private_key_from_pem.constprop.0
-   165: 000000000001d932   724 FUNC    LOCAL  DEFAULT   16 libspdm_ec_set_priv_key
-   166: 000000000001dd54    36 FUNC    LOCAL  DEFAULT   16 libspdm_dh_free
-   167: 000000000001de02   348 FUNC    LOCAL  DEFAULT   16 libspdm_ec_set_pub_key
-   198: 000000000001f45d    96 FUNC    LOCAL  DEFAULT   16 libspdm_strstr
-   199: 000000000001fc4d   227 FUNC    LOCAL  DEFAULT   16 libspdm_get_key_pair_id_by_slot.constprop.0
-   200: 000000000001ff41   224 FUNC    LOCAL  DEFAULT   16 libspdm_fill_measurement_image_hash_block
-   201: 0000000000020021   128 FUNC    LOCAL  DEFAULT   16 libspdm_fill_measurement_manifest_block
-   202: 00000000000200a1   120 FUNC    LOCAL  DEFAULT   16 libspdm_fill_measurement_device_mode_block
-   203: 000000000002027e   302 FUNC    LOCAL  DEFAULT   16 libspdm_set_subject_name.constprop.0
-   204: 00000000000203ac  2051 FUNC    LOCAL  DEFAULT   16 libspdm_gen_x509_csr.constprop.0
-   205: 0000000000027bb8     3 OBJECT  LOCAL  DEFAULT   18 m_libspdm_oid_ext_key_usage
-   206: 0000000000021a22   760 FUNC    LOCAL  DEFAULT   16 libspdm_pqc_asym_sign_wrap
-   209: 0000000000021d1a   235 FUNC    LOCAL  DEFAULT   16 libspdm_pqc_asym_sign
-   210: 0000000000021e05   232 FUNC    LOCAL  DEFAULT   16 libspdm_pqc_asym_sign_hash
-   211: 0000000000021eed   241 FUNC    LOCAL  DEFAULT   16 libspdm_req_pqc_asym_sign
-   212: 0000000000021fde   238 FUNC    LOCAL  DEFAULT   16 libspdm_req_pqc_asym_sign_hash
-   213: 00000000000220cc   280 FUNC    LOCAL  DEFAULT   16 libspdm_fill_measurement_hem_block
-   214: 00000000000225cb   518 FUNC    LOCAL  DEFAULT   16 libspdm_psk_handshake_secret_hkdf_expand
-   215: 00000000001b4e80    64 OBJECT  LOCAL  DEFAULT   27 m_libspdm_my_salt0
-   218: 00000000000227d1   613 FUNC    LOCAL  DEFAULT   16 libspdm_psk_master_secret_hkdf_expand
-   219: 000000000002b8f0    17 OBJECT  LOCAL  DEFAULT   26 m_libspdm_bin_str0
-   220: 00000000001b4e40    64 OBJECT  LOCAL  DEFAULT   27 m_libspdm_my_zero_filled_buffer
-   221: 0000000000022a89    36 FUNC    LOCAL  DEFAULT   16 libspdm_rsa_new
-   222: 0000000000022aad   488 FUNC    LOCAL  DEFAULT   16 libspdm_get_responder_private_key_from_raw_data
-   223: 000000000002b300   256 OBJECT  LOCAL  DEFAULT   26 m_libspdm_rsa2048_res_d
-   224: 000000000002b406     3 OBJECT  LOCAL  DEFAULT   26 m_libspdm_rsa2048_res_e
-   225: 000000000002b7e0   257 OBJECT  LOCAL  DEFAULT   26 m_libspdm_rsa2048_res_n
-   226: 000000000002af60   512 OBJECT  LOCAL  DEFAULT   26 m_libspdm_rsa4096_res_d
-   227: 000000000002b400     3 OBJECT  LOCAL  DEFAULT   26 m_libspdm_rsa4096_res_e
-   228: 000000000002b420   513 OBJECT  LOCAL  DEFAULT   26 m_libspdm_rsa4096_res_n
-   229: 000000000002b160   385 OBJECT  LOCAL  DEFAULT   26 m_libspdm_rsa3072_res_d
-   230: 000000000002b403     3 OBJECT  LOCAL  DEFAULT   26 m_libspdm_rsa3072_res_e
-   231: 000000000002b640   385 OBJECT  LOCAL  DEFAULT   26 m_libspdm_rsa3072_res_n
-   232: 000000000002ae00    32 OBJECT  LOCAL  DEFAULT   26 m_libspdm_ec256_responder_private_key
-   233: 000000000002af20    64 OBJECT  LOCAL  DEFAULT   26 m_libspdm_ec256_responder_public_key
-   234: 000000000002adc0    48 OBJECT  LOCAL  DEFAULT   26 m_libspdm_ec384_responder_private_key
-   235: 000000000002aec0    96 OBJECT  LOCAL  DEFAULT   26 m_libspdm_ec384_responder_public_key
-   236: 000000000002ad60    66 OBJECT  LOCAL  DEFAULT   26 m_libspdm_ec521_responder_private_key
-   237: 000000000002ae20   132 OBJECT  LOCAL  DEFAULT   26 m_libspdm_ec521_responder_public_key
-   239: 000000000002a760   256 OBJECT  LOCAL  DEFAULT   26 m_libspdm_rsa2048_req_d
-   240: 000000000002a866     3 OBJECT  LOCAL  DEFAULT   26 m_libspdm_rsa2048_req_e
-   241: 000000000002ac40   257 OBJECT  LOCAL  DEFAULT   26 m_libspdm_rsa2048_req_n
-   242: 000000000002a260    32 OBJECT  LOCAL  DEFAULT   26 m_libspdm_ec256_requester_private_key
-   243: 000000000002a380    64 OBJECT  LOCAL  DEFAULT   26 m_libspdm_ec256_requester_public_key
-   244: 000000000002a3c0   512 OBJECT  LOCAL  DEFAULT   26 m_libspdm_rsa4096_req_d
-   245: 000000000002a860     3 OBJECT  LOCAL  DEFAULT   26 m_libspdm_rsa4096_req_e
-   246: 000000000002a880   513 OBJECT  LOCAL  DEFAULT   26 m_libspdm_rsa4096_req_n
-   247: 000000000002a5c0   385 OBJECT  LOCAL  DEFAULT   26 m_libspdm_rsa3072_req_d
-   248: 000000000002a863     3 OBJECT  LOCAL  DEFAULT   26 m_libspdm_rsa3072_req_e
-   249: 000000000002aaa0   385 OBJECT  LOCAL  DEFAULT   26 m_libspdm_rsa3072_req_n
-   250: 000000000002a220    48 OBJECT  LOCAL  DEFAULT   26 m_libspdm_ec384_requester_private_key
-   251: 000000000002a320    96 OBJECT  LOCAL  DEFAULT   26 m_libspdm_ec384_requester_public_key
-   252: 000000000002a1c0    66 OBJECT  LOCAL  DEFAULT   26 m_libspdm_ec521_requester_private_key
-   253: 000000000002a280   132 OBJECT  LOCAL  DEFAULT   26 m_libspdm_ec521_requester_public_key
-   254: 0000000000027b70     3 OBJECT  LOCAL  DEFAULT   18 m_libspdm_oid_basic_constraints
-   259: 000000000001f6ac  1441 FUNC    LOCAL  DEFAULT   16 libspdm_init_key_pair_info
-   260: 00000000000149ae    51 FUNC    LOCAL  DEFAULT   16 libspdm_find_event_instance_id
-   261: 000000000001df7d   374 FUNC    LOCAL  DEFAULT   16 libspdm_rsa_sign_with_padding.lto_priv.0
-   262: 0000000000014687   204 FUNC    LOCAL  DEFAULT   16 libspdm_process_opaque_data_version_selection_data
-   263: 000000000001483b   162 FUNC    LOCAL  DEFAULT   16 libspdm_process_opaque_data_aead_limit
-   264: 0000000000015d45   347 FUNC    LOCAL  DEFAULT   16 libspdm_append_message_e
-   265: 0000000000014ed2    43 FUNC    LOCAL  DEFAULT   16 libspdm_reset_message_encap_e.part.0
-   266: 0000000000014942   108 FUNC    LOCAL  DEFAULT   16 libspdm_parse_and_send_event
-   267: 000000000001a6f3   359 FUNC    LOCAL  DEFAULT   16 libspdm_contains_hardware_id_oid
-   268: 000000000001fd30   248 FUNC    LOCAL  DEFAULT   16 libspdm_read_key_pair_info
-   270: 0000000000014d49    47 FUNC    LOCAL  DEFAULT   16 libspdm_hash_new
-   271: 0000000000014a40    78 FUNC    LOCAL  DEFAULT   16 libspdm_validate_svh_vendor_id_len
-   272: 000000000001bbb5    95 FUNC    LOCAL  DEFAULT   16 libspdm_sha512_hash_all
-   274: 0000000000024294   953 FUNC    LOCAL  DEFAULT   16 libspdm_generate_data_key
-   275: 000000000001fe28   281 FUNC    LOCAL  DEFAULT   16 libspdm_generate_mel
-   276: 000000000001e59b    44 FUNC    LOCAL  DEFAULT   16 libspdm_consttime_is_mem_equal
-   277: 00000000000186d4   108 FUNC    LOCAL  DEFAULT   16 libspdm_asym_free
-   278: 0000000000016f6d   422 FUNC    LOCAL  DEFAULT   16 libspdm_generate_session_handshake_key
-   279: 0000000000013ef8    46 FUNC    LOCAL  DEFAULT   16 libspdm_is_capabilities_flag_supported
-   280: 000000000000906a   268 FUNC    LOCAL  DEFAULT   16 libspdm_verify_psk_finish_req_hmac
-   281: 000000000001df5e    31 FUNC    LOCAL  DEFAULT   16 libspdm_rsa_free
-   282: 00000000000148dd    94 FUNC    LOCAL  DEFAULT   16 libspdm_apply_aead_limit_to_session
-   283: 00000000000152ec   120 FUNC    LOCAL  DEFAULT   16 libspdm_assign_session_id
-   284: 0000000000014f2e   223 FUNC    LOCAL  DEFAULT   16 libspdm_reset_message_buffer_via_request_code
-   285: 000000000001e25a   226 FUNC    LOCAL  DEFAULT   16 libspdm_x509_get_issuer_name
-   286: 000000000001bb56    95 FUNC    LOCAL  DEFAULT   16 libspdm_sha384_hash_all
-   287: 000000000001546c    55 FUNC    LOCAL  DEFAULT   16 libspdm_hash_duplicate
-   288: 00000000000199e0   464 FUNC    LOCAL  DEFAULT   16 libspdm_req_asym_sign_hash
-   289: 000000000000906a   268 FUNC    LOCAL  DEFAULT   16 libspdm_verify_finish_req_hmac
-   291: 00000000000178ca   539 FUNC    LOCAL  DEFAULT   16 libspdm_create_update_session_data_key
-   295: 000000000001dd54    36 FUNC    LOCAL  DEFAULT   16 libspdm_ecd_free
-   296: 0000000000014ddb    43 FUNC    LOCAL  DEFAULT   16 libspdm_reset_message_mut_b
-   297: 00000000000241a0    40 FUNC    LOCAL  DEFAULT   16 libspdm_x509_get_extended_basic_constraints.constprop.0
-   298: 000000000001bc73    95 FUNC    LOCAL  DEFAULT   16 libspdm_sha3_384_hash_all
-   299: 0000000000009036    33 FUNC    LOCAL  DEFAULT   16 libspdm_set_connection_state
-   300: 0000000000014ea1    49 FUNC    LOCAL  DEFAULT   16 libspdm_reset_message_e
-   301: 0000000000009057    19 FUNC    LOCAL  DEFAULT   16 libspdm_trigger_key_update_callback
-   302: 0000000000014e76    43 FUNC    LOCAL  DEFAULT   16 libspdm_reset_message_e.part.0
-   303: 00000000000164d0   280 FUNC    LOCAL  DEFAULT   16 libspdm_hmac_all
-   304: 000000000001dd54    36 FUNC    LOCAL  DEFAULT   16 libspdm_mlkem_free
-   305: 00000000000154dd   177 FUNC    LOCAL  DEFAULT   16 libspdm_append_message_c
-   306: 000000000001625e   528 FUNC    LOCAL  DEFAULT   16 libspdm_append_message_k
-   307: 0000000000008fa1   149 FUNC    LOCAL  DEFAULT   16 libspdm_set_session_state
-   308: 0000000000014e06   112 FUNC    LOCAL  DEFAULT   16 libspdm_reset_message_m
-   309: 0000000000014753   232 FUNC    LOCAL  DEFAULT   16 libspdm_build_opaque_data_aead_limit_element
-   310: 000000000001f5c1   235 FUNC    LOCAL  DEFAULT   16 libspdm_req_pqc_asym_verify_hash
-   311: 000000000001cef5   248 FUNC    LOCAL  DEFAULT   16 libspdm_read_cached_last_csr_request
-   312: 0000000000009176   284 FUNC    LOCAL  DEFAULT   16 libspdm_generate_finish_rsp_hmac
-   313: 000000000001dd54    36 FUNC    LOCAL  DEFAULT   16 libspdm_ec_free
-   314: 0000000000017c70    61 FUNC    LOCAL  DEFAULT   16 libspdm_get_signing_context_string
-   315: 0000000000014493    42 FUNC    LOCAL  DEFAULT   16 libspdm_get_session_info_via_session_id
-   316: 000000000001500d   735 FUNC    LOCAL  DEFAULT   16 libspdm_session_info_init
-   317: 0000000000016205    89 FUNC    LOCAL  DEFAULT   16 libspdm_hash_all
-   318: 0000000000009176   284 FUNC    LOCAL  DEFAULT   16 libspdm_generate_psk_exchange_rsp_hmac.lto_priv.0
-   319: 0000000000014ddb    43 FUNC    LOCAL  DEFAULT   16 libspdm_reset_message_mut_c
-   320: 000000000001ce70   133 FUNC    LOCAL  DEFAULT   16 libspdm_pqc_asym_free
-   321: 000000000001bd31    95 FUNC    LOCAL  DEFAULT   16 libspdm_sm3_256_hash_all
-   322: 0000000000022c95   771 FUNC    LOCAL  DEFAULT   16 libspdm_gen_csr_without_reset
-   323: 0000000000009292   367 FUNC    LOCAL  DEFAULT   16 libspdm_responder_handle_response_state
-   325: 0000000000014cfc    77 FUNC    LOCAL  DEFAULT   16 libspdm_get_hash_nid
-   326: 000000000001dd54    36 FUNC    LOCAL  DEFAULT   16 libspdm_sm2_dsa_free
-   327: 000000000001432f    23 FUNC    LOCAL  DEFAULT   16 libspdm_release_receiver_buffer
-   328: 000000000001646e    98 FUNC    LOCAL  DEFAULT   16 libspdm_get_measurement_hash_size
-   329: 000000000001a85a   314 FUNC    LOCAL  DEFAULT   16 libspdm_is_root_certificate
-   330: 00000000000144f6    37 FUNC    LOCAL  DEFAULT   16 libspdm_get_opaque_data_version_selection_data_size
-   332: 000000000001e33c   369 FUNC    LOCAL  DEFAULT   16 libspdm_x509_verify_cert
-   333: 0000000000014318    23 FUNC    LOCAL  DEFAULT   16 libspdm_release_sender_buffer
-   334: 000000000001d0a9    39 FUNC    LOCAL  DEFAULT   16 libspdm_key_exchange_rsp_opaque_data.part.0
-   335: 00000000000188ce   595 FUNC    LOCAL  DEFAULT   16 libspdm_asym_get_public_key_from_der_wrap.lto_priv.0
-   336: 0000000000014db0    43 FUNC    LOCAL  DEFAULT   16 libspdm_reset_message_c
-   337: 00000000000154a3    58 FUNC    LOCAL  DEFAULT   16 libspdm_hash_update
-   338: 0000000000014a8e   396 FUNC    LOCAL  DEFAULT   16 libspdm_activate_update_session_data_key
-   340: 0000000000019bb0   138 FUNC    LOCAL  DEFAULT   16 libspdm_asym_get_public_key_from_x509
-   341: 0000000000024162    62 FUNC    LOCAL  DEFAULT   16 libspdm_get_measurement_summary_hash_size.constprop.0
-   342: 0000000000023094   494 FUNC    LOCAL  DEFAULT   16 libspdm_append_message_f.constprop.0
-   343: 000000000001f301   348 FUNC    LOCAL  DEFAULT   16 libspdm_x509_verify_cert_chain
-   344: 0000000000014a27    25 FUNC    LOCAL  DEFAULT   16 libspdm_reset_managed_buffer
-   345: 00000000000241c8   204 FUNC    LOCAL  DEFAULT   16 libspdm_bin_concat.constprop.0
-   346: 000000000001ed8d  1396 FUNC    LOCAL  DEFAULT   16 libspdm_pqc_asym_get_public_key_from_der
-   347: 000000000001457c   267 FUNC    LOCAL  DEFAULT   16 libspdm_process_general_opaque_data_check
-   348: 000000000001e4ad   213 FUNC    LOCAL  DEFAULT   16 libspdm_x509_get_cert_from_cert_chain
-   349: 000000000001493b     7 FUNC    LOCAL  DEFAULT   16 libspdm_read_uint32
-   350: 0000000000014c1a    80 FUNC    LOCAL  DEFAULT   16 libspdm_get_hash_size
-   352: 0000000000023ce1  1153 FUNC    LOCAL  DEFAULT   16 libspdm_responder_data_sign.constprop.0
-   353: 00000000000165e8   296 FUNC    LOCAL  DEFAULT   16 libspdm_hkdf_extract
-   354: 00000000000221e4   672 FUNC    LOCAL  DEFAULT   16 libspdm_measurement_collection.part.0
-   355: 000000000001bc14    95 FUNC    LOCAL  DEFAULT   16 libspdm_sha3_256_hash_all
-   356: 0000000000014db0    43 FUNC    LOCAL  DEFAULT   16 libspdm_reset_message_b
-   357: 000000000001413d    23 FUNC    LOCAL  DEFAULT   16 libspdm_get_scratch_buffer_sender_receiver_capacity
-   358: 0000000000018e9e   639 FUNC    LOCAL  DEFAULT   16 libspdm_req_asym_verify_hash_ex
-   359: 0000000000014154   150 FUNC    LOCAL  DEFAULT   16 libspdm_is_encap_supported
-   360: 00000000000154dd   177 FUNC    LOCAL  DEFAULT   16 libspdm_append_message_b
-   361: 0000000000020bc4  3678 FUNC    LOCAL  DEFAULT   16 libspdm_x509_common_certificate_check.part.0.lto_priv.0
-   362: 000000000001cfed   188 FUNC    LOCAL  DEFAULT   16 libspdm_event_subscribe.part.0
-   363: 000000000001e0f3   153 FUNC    LOCAL  DEFAULT   16 libspdm_asn1_get_tag
-   364: 000000000001695a   405 FUNC    LOCAL  DEFAULT   16 libspdm_generate_session_data_key
-   365: 0000000000016710   296 FUNC    LOCAL  DEFAULT   16 libspdm_hkdf_expand
-   366: 0000000000014efd    49 FUNC    LOCAL  DEFAULT   16 libspdm_reset_message_encap_e
-   367: 0000000000013f26    86 FUNC    LOCAL  DEFAULT   16 libspdm_allocate_rsp_session_id
-   368: 00000000000149e1    70 FUNC    LOCAL  DEFAULT   16 libspdm_append_managed_buffer
-   369: 0000000000023282    61 FUNC    LOCAL  DEFAULT   16 libspdm_calculate_th1_hash.constprop.0
-   371: 000000000001413d    23 FUNC    LOCAL  DEFAULT   16 libspdm_get_scratch_buffer_large_sender_receiver_capacity
-   372: 000000000001a5ef   260 FUNC    LOCAL  DEFAULT   16 libspdm_get_public_key_algo_OID_len.lto_priv.0
-   373: 000000000001451b    97 FUNC    LOCAL  DEFAULT   16 libspdm_build_opaque_data_version_selection_data
-   374: 0000000000020119   357 FUNC    LOCAL  DEFAULT   16 libspdm_x509_get_extension_data.part.0
-   375: 000000000001413d    23 FUNC    LOCAL  DEFAULT   16 libspdm_get_scratch_buffer_secure_message_capacity
-   376: 0000000000016168   157 FUNC    LOCAL  DEFAULT   16 libspdm_calculate_th_hash_for_finish
-   377: 0000000000020baf    21 FUNC    LOCAL  DEFAULT   16 libspdm_zero_mem
-   378: 000000000001f4bd    31 FUNC    LOCAL  DEFAULT   16 libspdm_copy_mem
-   379: 00000000000248b5   932 FUNC    LOCAL  DEFAULT   16 libspdm_update_local_cert_chain
-   380: 000000000001d0a9    39 FUNC    LOCAL  DEFAULT   16 libspdm_psk_exchange_rsp_opaque_data.part.0
-   381: 000000000002343f   102 FUNC    LOCAL  DEFAULT   16 libspdm_calculate_il1il2_hash.constprop.0
-   382: 0000000000017cad   200 FUNC    LOCAL  DEFAULT   16 libspdm_create_signing_context
-   383: 0000000000022f98   252 FUNC    LOCAL  DEFAULT   16 libspdm_get_element_from_opaque_data_with_element_id.constprop.0
-   384: 000000000001baf7    95 FUNC    LOCAL  DEFAULT   16 libspdm_sha256_hash_all
-   385: 000000000001dc06   334 FUNC    LOCAL  DEFAULT   16 libspdm_ec_new_by_nid
-   386: 0000000000016131    55 FUNC    LOCAL  DEFAULT   16 libspdm_hash_final
-   387: 00000000000144bd    57 FUNC    LOCAL  DEFAULT   16 libspdm_slot_id_to_key_pair_id
-   388: 0000000000015364    71 FUNC    LOCAL  DEFAULT   16 libspdm_free_session_id
-   389: 00000000000234a5    77 FUNC    LOCAL  DEFAULT   16 libspdm_calculate_m1m2_hash.constprop.0
-   390: 0000000000017fe9   138 FUNC    LOCAL  DEFAULT   16 libspdm_get_asym_signature_size
-   391: 000000000001e582    25 FUNC    LOCAL  DEFAULT   16 libspdm_random_bytes
-   392: 000000000001cdaf   193 FUNC    LOCAL  DEFAULT   16 libspdm_get_pqc_asym_signature_size
-   394: 000000000002464d   616 FUNC    LOCAL  DEFAULT   16 libspdm_generate_handshake_key.constprop.0
-   395: 0000000000018cd4   458 FUNC    LOCAL  DEFAULT   16 libspdm_asym_sign_hash
-   396: 000000000001bcd2    95 FUNC    LOCAL  DEFAULT   16 libspdm_sha3_512_hash_all
-   397: 0000000000014d78    56 FUNC    LOCAL  DEFAULT   16 libspdm_hash_free
-   399: 000000000001e5c7  1990 FUNC    LOCAL  DEFAULT   16 libspdm_pqc_asym_get_public_key_from_x509
-   400: 0000000000023326   281 FUNC    LOCAL  DEFAULT   16 libspdm_copy_signature_swap_endian.constprop.0
-   402: 000000000001e18c   206 FUNC    LOCAL  DEFAULT   16 libspdm_x509_get_subject_name
-   403: 0000000000016168   157 FUNC    LOCAL  DEFAULT   16 libspdm_calculate_th_hash_for_exchange
-   404: 0000000000022484   327 FUNC    LOCAL  DEFAULT   16 libspdm_generate_measurement_summary_hash
-   405: 0000000000013f7c   449 FUNC    LOCAL  DEFAULT   16 libspdm_process_opaque_data_supported_version_data
-   406: 000000000001dd78    51 FUNC    LOCAL  DEFAULT   16 libspdm_dhe_free
-   409: 00000000000141ea    13 FUNC    GLOBAL DEFAULT   16 libspdm_register_device_io_func
-   413: 000000000001cacf   151 FUNC    GLOBAL HIDDEN    16 libspdm_rsa_get_public_key_from_x509
-   414: 0000000000015744   283 FUNC    GLOBAL HIDDEN    16 libspdm_get_encap_request_get_certificate
-   419: 0000000000016aef   983 FUNC    GLOBAL HIDDEN    16 libspdm_get_response_psk_finish
-   421: 000000000001585f   165 FUNC    GLOBAL HIDDEN    16 libspdm_get_encap_request_get_digest
-   422: 0000000000018740   398 FUNC    GLOBAL DEFAULT   16 libspdm_deinit_context
-   427: 00000000000153ab   193 FUNC    GLOBAL HIDDEN    16 libspdm_process_encap_response_key_update
-   434: 00000000000142aa    41 FUNC    GLOBAL DEFAULT   16 libspdm_get_sizeof_required_scratch_buffer
-   435: 00000000000141f7    72 FUNC    GLOBAL DEFAULT   16 libspdm_register_device_buffer_func
-   454: 000000000000808b   441 FUNC    GLOBAL DEFAULT   16 libspdm_read_input_file
-   460: 000000000000fb16  2800 FUNC    GLOBAL DEFAULT   16 libspdm_responder_dispatch_message
-   465: 00000000000082ec   130 FUNC    GLOBAL DEFAULT   16 libspdm_dump_hex_str
-   477: 000000000001949d   910 FUNC    GLOBAL HIDDEN    16 libspdm_process_encap_response_endpoint_info
-   489: 0000000000018b21   435 FUNC    GLOBAL HIDDEN    16 libspdm_asym_sign
-   497: 000000000001cc9b   157 FUNC    GLOBAL HIDDEN    16 libspdm_sm2_get_public_key_from_x509
-   499: 00000000000234f2  2031 FUNC    GLOBAL HIDDEN    16 libspdm_requester_data_sign.constprop.0
-   507: 0000000000017113  1975 FUNC    GLOBAL HIDDEN    16 libspdm_get_response_psk_exchange
-   513: 0000000000015904   728 FUNC    GLOBAL HIDDEN    16 libspdm_process_encap_response_digest
-   517: 000000000001cbff   156 FUNC    GLOBAL HIDDEN    16 libspdm_ecd_get_public_key_from_x509
-   522: 0000000000015ff7   314 FUNC    GLOBAL HIDDEN    16 libspdm_get_encap_request_get_endpoint_info
-   533: 0000000000017ae5   395 FUNC    GLOBAL HIDDEN    16 libspdm_get_encap_request_key_update
-   537: 0000000000019ccc  2339 FUNC    GLOBAL DEFAULT   16 libspdm_set_data
-   542: 0000000000014346   323 FUNC    GLOBAL DEFAULT   16 libspdm_init_context
-   580: 000000000001423f   107 FUNC    GLOBAL DEFAULT   16 libspdm_register_transport_layer_func
-   581: 00000000001b3dc0  4096 OBJECT  GLOBAL HIDDEN    27 m_libspdm_mel
-   593: 000000000001982b   437 FUNC    GLOBAL HIDDEN    16 libspdm_req_asym_sign
-   616: 000000000001f4dc   229 FUNC    GLOBAL HIDDEN    16 libspdm_pqc_asym_verify_hash
-   621: 000000000001911d   896 FUNC    GLOBAL HIDDEN    16 libspdm_process_encap_response_challenge_auth
-   624: 0000000000018073  1633 FUNC    GLOBAL HIDDEN    16 libspdm_get_response_measurements
-   652: 000000000001cb66   153 FUNC    GLOBAL HIDDEN    16 libspdm_ec_get_public_key_from_x509
-   659: 000000000001aba5  1221 FUNC    GLOBAL HIDDEN    16 libspdm_process_encap_response_certificate
-   660: 0000000000008244   168 FUNC    GLOBAL DEFAULT   16 libspdm_write_output_file
-   667: 0000000000014489    10 FUNC    GLOBAL DEFAULT   16 libspdm_get_context_size
-   671: 00000000000142d3    69 FUNC    GLOBAL DEFAULT   16 libspdm_set_scratch_buffer
-   676: 0000000000015644   256 FUNC    GLOBAL HIDDEN    16 libspdm_get_encap_request_challenge
+    /* -=[Check Parameters Phase]=- */
+    LIBSPDM_ASSERT(spdm_request->header.request_response_code == SPDM_GET_CAPABILITIES);
+
+    /* -=[Verify State Phase]=- */
+    if (spdm_context->response_state != LIBSPDM_RESPONSE_STATE_NORMAL) {
+        return libspdm_responder_handle_response_state(
+            spdm_context, spdm_request->header.request_response_code,  response_size, response);
+    }
+    if (spdm_context->connection_info.connection_state != LIBSPDM_CONNECTION_STATE_AFTER_VERSION) {
+        return libspdm_generate_error_response(spdm_context,
+                                               SPDM_ERROR_CODE_UNEXPECTED_REQUEST,
+                                               0, response_size, response);
+    }
+
+    /* -=[Validate Request Phase]=- */
+    if (!libspdm_check_request_version_compatibility(
+            spdm_context, spdm_request->header.spdm_version)) {
+        return libspdm_generate_error_response(spdm_context,
+                                               SPDM_ERROR_CODE_VERSION_MISMATCH, 0,
+                                               response_size, response);
+    }
+    if (spdm_request->header.spdm_version >= SPDM_MESSAGE_VERSION_12) {
+        if (request_size < sizeof(spdm_get_capabilities_request_t)) {
+            return libspdm_generate_error_response(
+                spdm_context, SPDM_ERROR_CODE_INVALID_REQUEST, 0, response_size, response);
+        } else {
+            request_size = sizeof(spdm_get_capabilities_request_t);
+        }
+    } else if (spdm_request->header.spdm_version >= SPDM_MESSAGE_VERSION_11) {
+        if (request_size < sizeof(spdm_get_capabilities_request_t) -
+            sizeof(spdm_request->data_transfer_size) - sizeof(spdm_request->max_spdm_msg_size)) {
+            return libspdm_generate_error_response(
+                spdm_context, SPDM_ERROR_CODE_INVALID_REQUEST, 0, response_size, response);
+        } else {
+            request_size = sizeof(spdm_get_capabilities_request_t) -
+                           sizeof(spdm_request->data_transfer_size) -
+                           sizeof(spdm_request->max_spdm_msg_size);
+        }
+    } else {
+        if (request_size < sizeof(spdm_message_header_t)) {
+            return libspdm_generate_error_response(
+                spdm_context, SPDM_ERROR_CODE_INVALID_REQUEST, 0, response_size, response);
+        } else {
+            request_size = sizeof(spdm_message_header_t);
+        }
+    }
+    if (!libspdm_check_request_flag_compatibility(
+            spdm_request->flags, spdm_request->header.spdm_version)) {
+        return libspdm_generate_error_response(spdm_context,
+                                               SPDM_ERROR_CODE_INVALID_REQUEST, 0,
+                                               response_size, response);
+    }
+    if (spdm_request->header.spdm_version >= SPDM_MESSAGE_VERSION_12) {
+        if ((spdm_request->data_transfer_size < SPDM_MIN_DATA_TRANSFER_SIZE_VERSION_12) ||
+            (spdm_request->data_transfer_size > spdm_request->max_spdm_msg_size)) {
+            return libspdm_generate_error_response(spdm_context,
+                                                   SPDM_ERROR_CODE_INVALID_REQUEST, 0,
+                                                   response_size, response);
+        }
+        if (((spdm_request->flags & SPDM_GET_CAPABILITIES_REQUEST_FLAGS_CHUNK_CAP) == 0) &&
+            (spdm_request->data_transfer_size != spdm_request->max_spdm_msg_size)) {
+            return libspdm_generate_error_response(spdm_context,
+                                                   SPDM_ERROR_CODE_INVALID_REQUEST, 0,
+                                                   response_size, response);
+        }
+    }
+    if (spdm_request->header.spdm_version >= SPDM_MESSAGE_VERSION_11) {
+        if (spdm_request->ct_exponent > LIBSPDM_MAX_CT_EXPONENT) {
+            return libspdm_generate_error_response(spdm_context,
+                                                   SPDM_ERROR_CODE_INVALID_REQUEST, 0,
+                                                   response_size, response);
+        }
+    }
+
+    /* Check that if Param1[0] is set, Requester must have CHUNK_CAP */
+    if (spdm_request->header.spdm_version >= SPDM_MESSAGE_VERSION_13 &&
+        (spdm_request->header.param1 & SPDM_GET_CAPABILITIES_REQUEST_PARAM1_SUPPORTED_ALGORITHMS) &&
+        ((spdm_request->flags & SPDM_GET_CAPABILITIES_REQUEST_FLAGS_CHUNK_CAP) == 0)) {
+        return libspdm_generate_error_response(spdm_context,
+                                               SPDM_ERROR_CODE_INVALID_REQUEST,
+                                               0,
+                                               response_size,
+                                               response);
+    }
+
+    libspdm_reset_message_buffer_via_request_code(spdm_context, NULL,
+                                                  spdm_request->header.request_response_code);
+
+    size_t required_size;
+
+    if (spdm_request->header.spdm_version >= SPDM_MESSAGE_VERSION_12) {
+        required_size = sizeof(spdm_capabilities_response_t);
+    } else {
+        required_size = offsetof(spdm_capabilities_response_t, data_transfer_size);
+    }
+
+    uint32_t response_flags = libspdm_mask_capability_flags(
+        spdm_context, false, spdm_context->local_context.capability.flags);
+
+    bool supported_algs_requested =
+        (spdm_request->header.spdm_version >= SPDM_MESSAGE_VERSION_13) &&
+        ((spdm_request->header.param1 & SPDM_GET_CAPABILITIES_REQUEST_PARAM1_SUPPORTED_ALGORITHMS) != 0) &&
+        ((spdm_request->flags & SPDM_GET_CAPABILITIES_REQUEST_FLAGS_CHUNK_CAP) != 0) &&
+        ((response_flags & SPDM_GET_CAPABILITIES_RESPONSE_FLAGS_CHUNK_CAP) != 0);
+
+    if (supported_algs_requested) {
+        uint8_t table_count = 0;
+        if (spdm_context->local_context.algorithm.dhe_named_group != 0) {
+            table_count++;
+        }
+        if (spdm_context->local_context.algorithm.aead_cipher_suite != 0) {
+            table_count++;
+        }
+        if (spdm_context->local_context.algorithm.req_base_asym_alg != 0) {
+            table_count++;
+        }
+        if (spdm_context->local_context.algorithm.key_schedule != 0) {
+            table_count++;
+        }
+
+        if (spdm_request->header.spdm_version >= SPDM_MESSAGE_VERSION_14) {
+            if (spdm_context->local_context.algorithm.req_pqc_asym_alg != 0) {
+                table_count++;
+            }
+            if (spdm_context->local_context.algorithm.kem_alg != 0) {
+                table_count++;
+            }
+        }
+
+        required_size += sizeof(spdm_supported_algorithms_block_t) +
+                         (table_count * sizeof(spdm_negotiate_algorithms_common_struct_table_t));
+    }
+
+    LIBSPDM_ASSERT(*response_size >= required_size);
+    *response_size = required_size;
+
+    libspdm_zero_mem(response, *response_size);
+    spdm_response = response;
+
+    spdm_response->header.spdm_version = spdm_request->header.spdm_version;
+    spdm_response->header.request_response_code = SPDM_CAPABILITIES;
+    spdm_response->header.param1 = supported_algs_requested ?
+                                   SPDM_CAPABILITIES_RESPONSE_PARAM1_SUPPORTED_ALGORITHMS : 0;
+    spdm_response->header.param2 = 0;
+    spdm_response->ct_exponent = spdm_context->local_context.capability.ct_exponent;
+    spdm_response->flags = response_flags;
+    if (spdm_request->header.spdm_version >= SPDM_MESSAGE_VERSION_12) {
+        spdm_response->data_transfer_size =
+            spdm_context->local_context.capability.data_transfer_size;
+        spdm_response->max_spdm_msg_size =
+            spdm_context->local_context.capability.max_spdm_msg_size;
+    }
+
+    if (supported_algs_requested) {
+        uint8_t index = 0;
+
+        /* Allocate space for the supported_algorithms block at the end of the response */
+        spdm_supported_algorithms_block_t *supported_algorithms =
+            (spdm_supported_algorithms_block_t*)((uint8_t*)spdm_response + sizeof(spdm_capabilities_response_t));
+
+        supported_algorithms->param2 = 0;
+        supported_algorithms->length = sizeof(spdm_supported_algorithms_block_t);
+        supported_algorithms->measurement_specification =
+            spdm_context->local_context.algorithm.measurement_spec;
+        supported_algorithms->other_params_support =
+            spdm_context->local_context.algorithm.other_params_support;
+        supported_algorithms->base_asym_algo=
+            spdm_context->local_context.algorithm.base_asym_algo;
+        supported_algorithms->base_hash_algo=
+            spdm_context->local_context.algorithm.base_hash_algo;
+
+        if (spdm_response->header.spdm_version >= SPDM_MESSAGE_VERSION_14) {
+            supported_algorithms->pqc_asym_algo =
+                spdm_context->local_context.algorithm.pqc_asym_algo;
+        } else {
+            supported_algorithms->pqc_asym_algo = 0;
+        }
+
+        libspdm_zero_mem(supported_algorithms->reserved2, sizeof(supported_algorithms->reserved2));
+        supported_algorithms->ext_asym_count = 0;
+        supported_algorithms->ext_hash_count = 0;
+        supported_algorithms->reserved3 = 0;
+        supported_algorithms->mel_specification =
+            spdm_context->local_context.algorithm.mel_spec;
+
+        spdm_negotiate_algorithms_common_struct_table_t *struct_table =
+            (spdm_negotiate_algorithms_common_struct_table_t*)(
+                (uint8_t*)supported_algorithms +
+                sizeof(spdm_supported_algorithms_block_t)
+                );
+
+        if (spdm_context->local_context.algorithm.dhe_named_group != 0) {
+            struct_table[index].alg_type =
+                SPDM_NEGOTIATE_ALGORITHMS_STRUCT_TABLE_ALG_TYPE_DHE;
+            struct_table[index].alg_count = 0x20;
+            struct_table[index].alg_supported =
+                spdm_context->local_context.algorithm.dhe_named_group;
+            index++;
+        }
+
+        if (spdm_context->local_context.algorithm.aead_cipher_suite != 0) {
+            struct_table[index].alg_type =
+                SPDM_NEGOTIATE_ALGORITHMS_STRUCT_TABLE_ALG_TYPE_AEAD;
+            struct_table[index].alg_count = 0x20;
+            struct_table[index].alg_supported =
+                spdm_context->local_context.algorithm.aead_cipher_suite;
+            index++;
+        }
+
+        if (spdm_context->local_context.algorithm.req_base_asym_alg != 0) {
+            struct_table[index].alg_type =
+                SPDM_NEGOTIATE_ALGORITHMS_STRUCT_TABLE_ALG_TYPE_REQ_BASE_ASYM_ALG;
+            struct_table[index].alg_count = 0x20;
+            struct_table[index].alg_supported =
+                spdm_context->local_context.algorithm.req_base_asym_alg;
+            index++;
+        }
+
+        if (spdm_context->local_context.algorithm.key_schedule != 0) {
+            struct_table[index].alg_type =
+                SPDM_NEGOTIATE_ALGORITHMS_STRUCT_TABLE_ALG_TYPE_KEY_SCHEDULE;
+            struct_table[index].alg_count = 0x20;
+            struct_table[index].alg_supported =
+                spdm_context->local_context.algorithm.key_schedule;
+            index++;
+        }
+
+        if (spdm_response->header.spdm_version >= SPDM_MESSAGE_VERSION_14) {
+            if (spdm_context->local_context.algorithm.req_pqc_asym_alg != 0) {
+                struct_table[index].alg_type =
+                    SPDM_NEGOTIATE_ALGORITHMS_STRUCT_TABLE_ALG_TYPE_REQ_PQC_ASYM_ALG;
+                struct_table[index].alg_count = 0x20;
+                struct_table[index].alg_supported =
+                    (uint16_t)spdm_context->local_context.algorithm.req_pqc_asym_alg;
+                index++;
+            }
+            if (spdm_context->local_context.algorithm.kem_alg != 0) {
+                struct_table[index].alg_type =
+                    SPDM_NEGOTIATE_ALGORITHMS_STRUCT_TABLE_ALG_TYPE_KEM_ALG;
+                struct_table[index].alg_count = 0x20;
+                struct_table[index].alg_supported =
+                    (uint16_t)spdm_context->local_context.algorithm.kem_alg;
+                index++;
+            }
+        }
+
+        supported_algorithms->param1 = index;
+        supported_algorithms->length +=
+            supported_algorithms->param1*
+            sizeof(spdm_negotiate_algorithms_common_struct_table_t);
+
+    } else if (spdm_response->header.spdm_version < SPDM_MESSAGE_VERSION_12) {
+        *response_size = sizeof(spdm_capabilities_response_t) -
+                         sizeof(spdm_response->data_transfer_size) -
+                         sizeof(spdm_response->max_spdm_msg_size);
+    }
+
+    if (spdm_response->header.spdm_version >= SPDM_MESSAGE_VERSION_14) {
+        spdm_response->ext_flags =
+            libspdm_mask_capability_ext_flags(spdm_context, false,
+                                              spdm_context->local_context.capability.ext_flags);
+    } else {
+        spdm_response->ext_flags = 0;
+    }
+
+    /* -=[Process Request Phase]=- */
+    status = libspdm_append_message_a(spdm_context, spdm_request, request_size);
+    if (LIBSPDM_STATUS_IS_ERROR(status)) {
+        return libspdm_generate_error_response(spdm_context,
+                                               SPDM_ERROR_CODE_UNSPECIFIED, 0,
+                                               response_size, response);
+    }
+    status = libspdm_append_message_a(spdm_context, spdm_response, *response_size);
+
+    if (LIBSPDM_STATUS_IS_ERROR(status)) {
+        return libspdm_generate_error_response(spdm_context,
+                                               SPDM_ERROR_CODE_UNSPECIFIED, 0,
+                                               response_size, response);
+    }
+
+    if (spdm_response->header.spdm_version >= SPDM_MESSAGE_VERSION_11) {
+        spdm_context->connection_info.capability.ct_exponent = spdm_request->ct_exponent;
+    } else {
+        spdm_context->connection_info.capability.ct_exponent = 0;
+    }
+
+    spdm_context->connection_info.capability.flags =
+        libspdm_mask_capability_flags(spdm_context, true, spdm_request->flags);
+
+    if (spdm_response->header.spdm_version >= SPDM_MESSAGE_VERSION_12) {
+        spdm_context->connection_info.capability.data_transfer_size =
+            spdm_request->data_transfer_size;
+        spdm_context->connection_info.capability.max_spdm_msg_size =
+            spdm_request->max_spdm_msg_size;
+    } else {
+        spdm_context->connection_info.capability.data_transfer_size = 0;
+        spdm_context->connection_info.capability.max_spdm_msg_size = 0;
+    }
+
+    if (spdm_response->header.spdm_version >= SPDM_MESSAGE_VERSION_14) {
+        spdm_context->connection_info.capability.ext_flags =
+            libspdm_mask_capability_ext_flags(spdm_context, true, spdm_request->ext_flags);
+    } else {
+        spdm_context->connection_info.capability.ext_flags = 0;
+    }
+
+    /* -=[Update State Phase]=- */
+    libspdm_set_connection_state(spdm_context, LIBSPDM_CONNECTION_STATE_AFTER_CAPABILITIES);
+
+    return LIBSPDM_STATUS_SUCCESS;
+}
