@@ -1,72 +1,15 @@
+I enabled the DLIBSPDM_DEBUG_PRINT_ENABLE=1 but now, maybe thats why?
+
 ./spdm-responder /tmp/spdm_uart_responder  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/bundle_responder.certchain.der
 
 ===== SPDM-over-Modbus RESPONDER =====
 [responder][main      ] uart_path=/tmp/spdm_uart_responder cert_chain_path=/home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/bundle_responder.certchain.der
 [responder][device_io] initialized on fd=3
-[responder][setup_capabilities_and_algorithms] advertised: ct_exp=12 cap_flags=0x00000032 asym=ECDSA_P256 hash=SHA256
-[responder][read_file_to_buffer] loaded '/home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/bundle_responder.certchain.der' (1418 bytes)
-[responder][setup_local_cert_chain] local certificate chain (slot 0) installed (1418 bytes)
+LIBSPDM_ASSERT: /home/melvin/libspdm-native/libspdm/library/spdm_common_lib/libspdm_com_context_data.c(2623): context->local_context.capability.max_spdm_msg_size != 0
 
----- responder ready, waiting for requester on '/tmp/spdm_uart_responder' ----
----- (each incoming request is logged as it arrives; Ctrl-C to stop) ----
-
-[responder][device_io] RECV: waiting for Modbus frame(s)...
-[responder][device_io]   <- frag 1/1: addr=0x11 func=0x45 5 payload bytes (CRC OK)
-[responder][device_io] RECV: complete -- reassembled 5-byte transport message from 1 frame(s)
-[transport][modbus] DECODE: unwrapped 5-byte transport message -> 4-byte SPDM message
-[transport][modbus] ENCODE: wrapped 16-byte response SPDM message -> 17-byte transport message (marker=0x5A)
-[responder][device_io] SEND: 17-byte transport message -> 1 Modbus frame(s)
-[responder][hexdump] outgoing SPDM msg (17 bytes): 5A 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00 14
-[responder][device_io]   -> frag 1/1: 17 payload bytes, ADU=25 bytes (addr=0x11 func=0x45)
-[responder][device_io] SEND: complete (1 frame(s) on the wire)
-[responder][device_io] RECV: waiting for Modbus frame(s)...
-[responder][device_io]   <- frag 1/1: addr=0x11 func=0x45 21 payload bytes (CRC OK)
-[responder][device_io] RECV: complete -- reassembled 21-byte transport message from 1 frame(s)
-[transport][modbus] DECODE: unwrapped 21-byte transport message -> 20-byte SPDM message
-[transport][modbus] ENCODE: wrapped 4-byte response SPDM message -> 5-byte transport message (marker=0x5A)
-[responder][device_io] SEND: 5-byte transport message -> 1 Modbus frame(s)
-[responder][hexdump] outgoing SPDM msg (5 bytes): 5A 14 7F 01 00
-[responder][device_io]   -> frag 1/1: 5 payload bytes, ADU=13 bytes (addr=0x11 func=0x45)
-[responder][device_io] SEND: complete (1 frame(s) on the wire)
-[responder][device_io] RECV: waiting for Modbus frame(s)...
-
- ps aux | grep respo
-melvin   1964598  0.0  0.0   9304  3956 pts/7    S+   14:58   0:00 socat -d -d PTY,raw,echo=0,link=/tmp/spdm_uart_requester PTY,raw,echo=0,link=/tmp/spdm_uart_responder
-melvin   1988598  0.0  0.0   9624  3184 pts/4    S+   16:58   0:00 ./spdm-responder /tmp/spdm_uart_responder /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/bundle_responder.certchain.der
-melvin   1989014  0.0  0.0   4108  2168 pts/24   S+   17:00   0:00 grep --color=auto --exclude-dir=.bzr --exclude-dir=CVS --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=.tox --exclude-dir=.venv --exclude-dir=venv respo
-╭─░▒▓    /mnt/c/U/me/Dow/spdm_now/spdm-modbus-fixed-with-libspdm-support/spdm-modbus ······························································· ✔  system   05:00:52 PM  ▓▒░
-╰─ killall -p spdm-responder
-╭─░▒▓    /mnt/c/U/me/Dow/spdm_now/spdm-modbus-fixed-with-libspdm-support/spdm-modbus ······························································· ✔  system   05:01:55 PM  ▓▒░
-╰─ ps aux | grep respo
-melvin   1964598  0.0  0.0   9304  3956 pts/7    S+   14:58   0:00 socat -d -d PTY,raw,echo=0,link=/tmp/spdm_uart_requester PTY,raw,echo=0,link=/tmp/spdm_uart_responder
-melvin   1989216  0.0  0.0   4108  2164 pts/24   S+   17:01   0:00 grep --color=auto --exclude-dir=.bzr --exclude-dir=CVS --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=.tox --exclude-dir=.venv --exclude-dir=venv respo
-╭─░▒▓    /mnt/c/U/me/Dow/spdm_now/spdm-modbus-fixed-with-libspdm-support/spdm-modbus ······························································· ✔  system   05:01:57 PM  ▓▒░
-╰─ ./spdm-requester /tmp/spdm_uart_requester /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der
+./spdm-requester /tmp/spdm_uart_requester /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der
 
 ===== SPDM-over-Modbus REQUESTER =====
 [requester][main      ] uart_path=/tmp/spdm_uart_requester root_cert_path=/home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der
 [requester][device_io] initialized on fd=3
-[requester][setup_capabilities_and_algorithms] advertised: ct_exp=12 cap_flags=0x00000002 asym=ECDSA_P256 hash=SHA256
-[requester][read_file_to_buffer] loaded '/home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der' (411 bytes)
-[requester][setup_trusted_root] trusted root certificate installed (411 bytes)
-
----- STEP 1-3: libspdm_init_connection() (GET_VERSION -> GET_CAPABILITIES -> NEGOTIATE_ALGORITHMS) ----
-[transport][modbus] ENCODE: wrapped 4-byte request SPDM message -> 5-byte transport message (marker=0x5A)
-[requester][device_io] SEND: 5-byte transport message -> 1 Modbus frame(s)
-[requester][hexdump] outgoing SPDM msg (5 bytes): 5A 10 84 00 00
-[requester][device_io]   -> frag 1/1: 5 payload bytes, ADU=13 bytes (addr=0x11 func=0x45)
-[requester][device_io] SEND: complete (1 frame(s) on the wire)
-[requester][device_io] RECV: waiting for Modbus frame(s)...
-[requester][device_io]   <- frag 1/1: addr=0x11 func=0x45 17 payload bytes (CRC OK)
-[requester][device_io] RECV: complete -- reassembled 17-byte transport message from 1 frame(s)
-[transport][modbus] DECODE: unwrapped 17-byte transport message -> 16-byte SPDM message
-[transport][modbus] ENCODE: wrapped 20-byte request SPDM message -> 21-byte transport message (marker=0x5A)
-[requester][device_io] SEND: 21-byte transport message -> 1 Modbus frame(s)
-[requester][hexdump] outgoing SPDM msg (21 bytes): 5A 14 E1 00 00 00 0C 00 00 02 00 00 00 FF 3F 00 00 FF 3F 00 00
-[requester][device_io]   -> frag 1/1: 21 payload bytes, ADU=29 bytes (addr=0x11 func=0x45)
-[requester][device_io] SEND: complete (1 frame(s) on the wire)
-[requester][device_io] RECV: waiting for Modbus frame(s)...
-[requester][device_io]   <- frag 1/1: addr=0x11 func=0x45 5 payload bytes (CRC OK)
-[requester][device_io] RECV: complete -- reassembled 5-byte transport message from 1 frame(s)
-[transport][modbus] DECODE: unwrapped 5-byte transport message -> 4-byte SPDM message
-[requester][main      ] FATAL: libspdm_init_connection failed: 0x8001000A
+LIBSPDM_ASSERT: /home/melvin/libspdm-native/libspdm/library/spdm_common_lib/libspdm_com_context_data.c(2623): context->local_context.capability.max_spdm_msg_size != 0
