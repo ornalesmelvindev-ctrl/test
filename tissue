@@ -30,7 +30,18 @@
 [responder][device_io] SEND: complete (1 frame(s) on the wire)
 [responder][device_io] RECV: waiting for Modbus frame(s)...
 
- ./spdm-requester /tmp/spdm_uart_requester /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der
+ ps aux | grep respo
+melvin   1964598  0.0  0.0   9304  3956 pts/7    S+   14:58   0:00 socat -d -d PTY,raw,echo=0,link=/tmp/spdm_uart_requester PTY,raw,echo=0,link=/tmp/spdm_uart_responder
+melvin   1988598  0.0  0.0   9624  3184 pts/4    S+   16:58   0:00 ./spdm-responder /tmp/spdm_uart_responder /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/bundle_responder.certchain.der
+melvin   1989014  0.0  0.0   4108  2168 pts/24   S+   17:00   0:00 grep --color=auto --exclude-dir=.bzr --exclude-dir=CVS --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=.tox --exclude-dir=.venv --exclude-dir=venv respo
+╭─░▒▓    /mnt/c/U/me/Dow/spdm_now/spdm-modbus-fixed-with-libspdm-support/spdm-modbus ······························································· ✔  system   05:00:52 PM  ▓▒░
+╰─ killall -p spdm-responder
+╭─░▒▓    /mnt/c/U/me/Dow/spdm_now/spdm-modbus-fixed-with-libspdm-support/spdm-modbus ······························································· ✔  system   05:01:55 PM  ▓▒░
+╰─ ps aux | grep respo
+melvin   1964598  0.0  0.0   9304  3956 pts/7    S+   14:58   0:00 socat -d -d PTY,raw,echo=0,link=/tmp/spdm_uart_requester PTY,raw,echo=0,link=/tmp/spdm_uart_responder
+melvin   1989216  0.0  0.0   4108  2164 pts/24   S+   17:01   0:00 grep --color=auto --exclude-dir=.bzr --exclude-dir=CVS --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=.tox --exclude-dir=.venv --exclude-dir=venv respo
+╭─░▒▓    /mnt/c/U/me/Dow/spdm_now/spdm-modbus-fixed-with-libspdm-support/spdm-modbus ······························································· ✔  system   05:01:57 PM  ▓▒░
+╰─ ./spdm-requester /tmp/spdm_uart_requester /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der
 
 ===== SPDM-over-Modbus REQUESTER =====
 [requester][main      ] uart_path=/tmp/spdm_uart_requester root_cert_path=/home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der
