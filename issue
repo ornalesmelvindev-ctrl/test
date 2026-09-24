@@ -1,37 +1,55 @@
-can you create me a full C implementaion of spdm using modbus? I mean we can use virtual uart for linux
+ make LIBSPDM_DIR=/home/melvin/libspdm-native/libspdm
+gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/modbus_crc.c -o build/modbus_crc.o
+gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/modbus_transport.c -o build/modbus_transport.o
+gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/device_io.c -o build/device_io.o
+src/device_io.c: In function ‘device_io_receive_message’:
+src/device_io.c:296:33: warning: comparison is always false due to limited range of data type [-Wtype-limits]
+  296 |         if (total == 0 || total > MODBUS_SPDM_MAX_FRAGS || seq >= total) {
+      |                                 ^
+gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/virtual_uart.c -o build/virtual_uart.o
+gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/common_setup.c -o build/common_setup.o
+gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/spdm_requester.c -o build/spdm_requester.o
+src/spdm_requester.c: In function ‘setup_capabilities_and_algorithms’:
+src/spdm_requester.c:77:9: error: ‘SPDM_GET_CAPABILITIES_REQUEST_FLAGS_MEAS_CAP’ undeclared (first use in this function); did you mean ‘SPDM_GET_CAPABILITIES_REQUEST_FLAGS_MAC_CAP’?
+   77 |         SPDM_GET_CAPABILITIES_REQUEST_FLAGS_MEAS_CAP;
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         SPDM_GET_CAPABILITIES_REQUEST_FLAGS_MAC_CAP
+src/spdm_requester.c:77:9: note: each undeclared identifier is reported only once for each function it appears in
+src/spdm_requester.c: In function ‘main’:
+src/spdm_requester.c:222:59: warning: passing argument 3 of ‘libspdm_get_certificate’ makes integer from pointer without a cast [-Wint-conversion]
+  222 |         status = libspdm_get_certificate(spdm_context, 0, &cert_chain_size, cert_chain);
+      |                                                           ^~~~~~~~~~~~~~~~
+      |                                                           |
+      |                                                           size_t * {aka long unsigned int *}
+In file included from src/spdm_requester.c:38:
+/home/melvin/libspdm-native/libspdm/include/library/spdm_requester_lib.h:109:50: note: expected ‘uint8_t’ {aka ‘unsigned char’} but argument is of type ‘size_t *’ {aka ‘long unsigned int *’}
+  109 |                                          uint8_t slot_id,
+      |                                          ~~~~~~~~^~~~~~~
+src/spdm_requester.c:222:77: warning: passing argument 4 of ‘libspdm_get_certificate’ from incompatible pointer type [-Wincompatible-pointer-types]
+  222 |         status = libspdm_get_certificate(spdm_context, 0, &cert_chain_size, cert_chain);
+      |                                                                             ^~~~~~~~~~
+      |                                                                             |
+      |                                                                             uint8_t * {aka unsigned char *}
+/home/melvin/libspdm-native/libspdm/include/library/spdm_requester_lib.h:110:50: note: expected ‘size_t *’ {aka ‘long unsigned int *’} but argument is of type ‘uint8_t *’ {aka ‘unsigned char *’}
+  110 |                                          size_t *cert_chain_size,
+      |                                          ~~~~~~~~^~~~~~~~~~~~~~~
+src/spdm_requester.c:222:18: error: too few arguments to function ‘libspdm_get_certificate’
+  222 |         status = libspdm_get_certificate(spdm_context, 0, &cert_chain_size, cert_chain);
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_requester_lib.h:107:18: note: declared here
+  107 | libspdm_return_t libspdm_get_certificate(void *spdm_context,
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~
+src/spdm_requester.c:246:13: error: ‘SPDM_GET_MEASUREMENTS_REQUEST_ATTRIBUTES_SIGNATURE_REQUESTED’ undeclared (first use in this function); did you mean ‘SPDM_GET_MEASUREMENTS_REQUEST_ATTRIBUTES_RAW_BIT_STREAM_REQUESTED’?
+  246 |             SPDM_GET_MEASUREMENTS_REQUEST_ATTRIBUTES_SIGNATURE_REQUESTED,
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |             SPDM_GET_MEASUREMENTS_REQUEST_ATTRIBUTES_RAW_BIT_STREAM_REQUESTED
+make: *** [Makefile:71: build/spdm_requester.o] Error 1
 
-because as all know, the current implementation of spdm emu only uses  mctp, but now, I just want to know how can really modbus be used as transoirt proto
-in spdm, from get_version, get_capapilities, cert ... all the way to get mesurement if possible
-
-take you time, and make sure this test will be verbose, I mean put logs in each steps, also in the source code you willmaek, put comments on for what is this one?
-
-I mean I need explaination on how it will run
-I mean use the actual libspdm if possible, here the source for that, so maybe use headers locally and tell me whereexactly I will put that
-I want to test it like
-
-in one terminal
-./spdm-requester
-
-in the other
-./spmd-respoinder
-
-I have locally compiled the libsppdm github
-so maybe you can use the headers locally? and the lib.*a?
-╰─ ls
-CMakeLists.txt  CONTRIBUTING.md  LICENSE.md  README.md  SECURITY.md  VERSION.md  build  doc  include  library  libspdm.pc.in  os_stub  script  unit_test
-╭─░▒▓    ~/libspdm-native/libspdm    main ······················································································ ✔  system   01:55:32 PM  ▓▒░
-╰─ ls os_stub
-armbuild_lib      cryptlib_openssl  include     memlib        platform_lib_null                 spdm_crypt_ext_lib             spdm_device_secret_lib_tpm
-cryptlib_mbedtls  debuglib          malloclib   openssllib    rnglib                            spdm_device_secret_lib_null
-cryptlib_null     debuglib_null     mbedtlslib  platform_lib  spdm_cert_verify_callback_sample  spdm_device_secret_lib_sample
-╭─░▒▓    ~/libspdm-native/libspdm    main ······················································································ ✔  system   01:55:37 PM  ▓▒░
-╰─ ls lib
-ls: cannot access 'lib': No such file or directory
-╭─░▒▓    ~/libspdm-native/libspdm    main ···················································································· 2 ✘  system   01:55:39 PM  ▓▒░
-╰─ ls library
-spdm_common_lib  spdm_requester_lib  spdm_secured_message_lib  spdm_transport_pcidoe_lib   spdm_transport_tcp_lib
-spdm_crypt_lib   spdm_responder_lib  spdm_transport_mctp_lib   spdm_transport_storage_lib
-╭─░▒▓    ~/libspdm-native/libspdm    main ······················································································ ✔  system   01:55:41 PM  ▓▒░
-╰─ pwd
-/home/melvin/libspdm-native/libspdm
-
+anyyways, I slightly modified the CLFAgs IN MAKEFIULE for the base.h
+CC      := gcc
+CFLAGS  := -Wall -Wextra -g -O0 -std=gnu11 \
+           -Iinclude \
+           -I$(LIBSPDM_INCLUDE) \
+           -I$(LIBSPDM_INCLUDE)/hal \
+           -I$(LIBSPDM_BUILD_INC)
+LDFLAGS := -L$(LIBSPDM_LIB_DIR)
