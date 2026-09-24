@@ -38,3 +38,57 @@ In function ‘libspdm_generate_measurement_signature’,
 /usr/bin/ld: /tmp/ccAqWSeN.ltrans2.ltrans.o:/home/melvin/libspdm-native/libspdm/os_stub/spdm_device_secret_lib_sample/read_priv_key_pem.c:63: more undefined references to `libspdm_read_input_file' follow
 collect2: error: ld returned 1 exit status
 make: *** [Makefile:76: spdm-responder] Error 1
+
+
+# Search for the implementation of the file I/O operations
+rg "bool libspdm_read_input_file" --glob "*.c"
+rg "bool libspdm_write_output_file" --glob "*.c"
+
+# Search for the implementation of the hex dumper
+rg "libspdm_dump_hex_str" --glob "*.c"
+
+unit_test/test_crypt/os_support.c
+11:bool libspdm_read_input_file(const char *file_name, void **file_data, size_t *file_size) {
+
+unit_test/spdm_unit_test_common/support.c
+57:bool libspdm_read_input_file(const char *file_name, void **file_data,
+
+unit_test/test_size/test_size_of_spdm_requester/support.c
+13:bool libspdm_read_input_file(const char *file_name, void **file_data,
+
+unit_test/test_size/test_size_of_spdm_responder/support.c
+13:bool libspdm_read_input_file(const char *file_name, void **file_data,
+
+unit_test/fuzzing/spdm_unit_fuzzing_common/common.c
+115:bool libspdm_read_input_file(const char *file_name, void **file_data,
+unit_test/test_crypt/os_support.c
+45:bool libspdm_write_output_file(const char *file_name, const void *file_data, size_t file_size) {
+
+unit_test/spdm_unit_test_common/support.c
+142:bool libspdm_write_output_file(const char *file_name, const void *file_data,
+
+unit_test/fuzzing/spdm_unit_fuzzing_common/common.c
+156:bool libspdm_write_output_file(const char *file_name, const void *file_data,
+
+unit_test/test_size/test_size_of_spdm_responder/support.c
+19:bool libspdm_write_output_file(const char *file_name, const void *file_data,
+
+unit_test/test_size/test_size_of_spdm_requester/support.c
+19:bool libspdm_write_output_file(const char *file_name, const void *file_data,
+unit_test/test_crypt/x509_verify.c
+658:void libspdm_dump_hex_str(const uint8_t *buffer, size_t buffer_size)
+
+unit_test/spdm_unit_test_common/support.c
+16:void libspdm_dump_hex_str(const uint8_t *buffer, size_t buffer_size)
+
+os_stub/spdm_device_secret_lib_sample/psk.c
+103:    libspdm_dump_hex_str(psk, psk_size);
+
+unit_test/fuzzing/spdm_unit_fuzzing_common/common.c
+177:void libspdm_dump_hex_str(const uint8_t *buffer, size_t buffer_size)
+
+unit_test/test_size/test_size_of_spdm_requester/support.c
+9:void libspdm_dump_hex_str(const uint8_t *buffer, size_t buffer_size)
+
+unit_test/test_size/test_size_of_spdm_responder/support.c
+9:void libspdm_dump_hex_str(const uint8_t *buffer, size_t buffer_size)
