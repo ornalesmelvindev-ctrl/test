@@ -1,79 +1,74 @@
-cat SpdmRequester.log
-trans - 0x2
-connect success!
-DOE(0x0) VendorId-0x0001, DataObjectType-0x00
-DOE(0x1) VendorId-0x0001, DataObjectType-0x01
-DOE(0x2) VendorId-0x0001, DataObjectType-0x02
-libspdm_send_spdm_request[0] msg SPDM_GET_VERSION(0x84), size (0x4):
-0000: 10 84 00 00
-libspdm_receive_spdm_response[0] msg SPDM_VERSION(0x4), size (0x10):
-0000: 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00 14
-libspdm_send_spdm_request[0] msg SPDM_GET_CAPABILITIES(0xe1), size (0x14):
-0000: 14 e1 00 00 00 00 00 00 c6 f7 82 88 00 12 00 00 00 80 02 00
-libspdm_receive_spdm_response[0] msg SPDM_CAPABILITIES(0x61), size (0x14):
-0000: 14 61 00 00 00 00 00 00 f7 fb 9a b9 00 12 00 00 00 80 02 00
-libspdm_send_spdm_request[0] msg SPDM_NEGOTIATE_ALGORITHMS(0xe3), size (0x38):
-0000: 14 e3 06 00 38 00 01 12 90 00 00 00 03 00 00 00 07 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01
-0020: 02 20 1b 00 03 20 06 00 04 20 0f 00 05 20 01 00 06 20 07 00 07 20 07 00
-libspdm_receive_spdm_response[0] msg SPDM_ALGORITHMS(0x63), size (0x3c):
-0000: 14 63 06 00 3c 00 01 12 08 00 00 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01
-0020: 00 00 00 00 02 20 10 00 03 20 02 00 04 20 08 00 05 20 01 00 06 20 00 00 07 20 00 00
-base_hash - 0x00000002
-base_asym - 0x00000080
-dhe - 0x0010
-aead - 0x0002
-req_asym - 0x0008
-pqc_asym - 0x00000000
-req_pqc_asym - 0x0000
-kem - 0x0000
-Unable to open file ecp384/ca.cert.der
-Client stopped
-╭─░▒▓    ~/libspdm-native/spdm-emu/build/bin    main ·············································································································································································· ✔  system   04:47:43 PM  ▓▒░
-╰─ ls
-SpdmRequester.log  SpdmRequester.pcap  SpdmResponder.log  SpdmResponder.pcap  spdm_device_attester_sample  spdm_device_validator_sample  spdm_requester_emu  spdm_responder_emu
-╭─░▒▓    ~/libspdm-native/spdm-emu/build/bin    main ·············································································································································································· ✔  system   04:48:33 PM  ▓▒░
-╰─ cat SpdmResponder.log
-trans - 0x2
-SpdmReceiveRequest[.] ...
-transport_decode_message - 80010002u
-transport_decode_message : 80010002u
-SpdmReceiveRequest[.] ...
-transport_decode_message - 80010002u
-transport_decode_message : 80010002u
-SpdmReceiveRequest[.] ...
-transport_decode_message - 80010002u
-transport_decode_message : 80010002u
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_GET_VERSION(0x84), size (0x4):
-0000: 10 84 00 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_VERSION(0x4), size (0x10):
-0000: 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00 14
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_GET_CAPABILITIES(0xe1), size (0x14):
-0000: 14 e1 00 00 00 00 00 00 c6 f7 82 88 00 12 00 00 00 80 02 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_CAPABILITIES(0x61), size (0x14):
-0000: 14 61 00 00 00 00 00 00 f7 fb 9a b9 00 12 00 00 00 80 02 00
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_NEGOTIATE_ALGORITHMS(0xe3), size (0x38):
-0000: 14 e3 06 00 38 00 01 12 90 00 00 00 03 00 00 00 07 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01
-0020: 02 20 1b 00 03 20 06 00 04 20 0f 00 05 20 01 00 06 20 07 00 07 20 07 00
-SpdmSendResponse[0] ...
-base_hash - 0x00000002
-base_asym - 0x00000080
-dhe - 0x0010
-aead - 0x0002
-req_asym - 0x0008
-pqc_asym - 0x00000000
-req_pqc_asym - 0x0000
-kem - 0x0000
-Unable to open file ecp384/bundle_responder.certchain.der
-Unable to open file ecp384/bundle_responder.certchain1.der
-Unable to open file ecp384/bundle_responder.certchain4.der
-Unable to open file rsa3072/ca.cert.der
-Unable to open file rsa3072/bundle_requester.certchain.der
-SpdmSendResponse[0]: msg SPDM_ALGORITHMS(0x63), size (0x3c):
-0000: 14 63 06 00 3c 00 01 12 08 00 00 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01
-0020: 00 00 00 00 02 20 10 00 03 20 02 00 04 20 08 00 05 20 01 00 06 20 00 00 07 20 00 00
-SPDM Responder server stopped
+╰─ docker build -t spdm-emu:latest .
+
+[+] Building 1331.9s (15/23)                                                                                                                               docker:default
+ => [internal] load build definition from Dockerfile                                                                                                                 0.1s
+ => => transferring dockerfile: 1.74kB                                                                                                                               0.0s
+ => resolve image config for docker-image://docker.io/docker/dockerfile:1                                                                                            3.7s
+ => CACHED docker-image://docker.io/docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32                                      0.1s
+ => => resolve docker.io/docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32                                                 0.1s
+ => [internal] load metadata for docker.io/library/ubuntu:22.04                                                                                                      1.7s
+ => [internal] load .dockerignore                                                                                                                                    0.0s
+ => => transferring context: 2B                                                                                                                                      0.0s
+ => [internal] load build context                                                                                                                                    0.0s
+ => => transferring context: 35B                                                                                                                                     0.0s
+ => [builder 1/9] FROM docker.io/library/ubuntu:22.04@sha256:b8b6ee6aa931ecd9d0d952abc34dc0e5f7c6a30c6bb71b079fe399fde0329c02                                        0.1s
+ => => resolve docker.io/library/ubuntu:22.04@sha256:b8b6ee6aa931ecd9d0d952abc34dc0e5f7c6a30c6bb71b079fe399fde0329c02                                                0.1s
+ => CACHED [stage-1 2/9] RUN apt-get update && apt-get install -y --no-install-recommends     libssl3     ca-certificates     iproute2     i2c-tools     && rm -rf   0.0s
+ => CACHED [stage-1 3/9] RUN useradd -m -u 1000 spdm                                                                                                                 0.0s
+ => CACHED [stage-1 4/9] WORKDIR /opt/spdm-emu                                                                                                                       0.0s
+ => CACHED [builder 2/9] RUN apt-get update && apt-get install -y --no-install-recommends     build-essential     cmake     git     ca-certificates     libssl-dev   0.0s
+ => CACHED [builder 3/9] WORKDIR /src                                                                                                                                0.0s
+ => CACHED [builder 4/9] RUN git clone https://github.com/DMTF/spdm-emu.git spdm-emu                                                                                 0.0s
+ => CACHED [builder 5/9] WORKDIR /src/spdm-emu                                                                                                                       0.0s
+ => ERROR [builder 6/9] RUN git checkout main &&     git submodule update --init --recursive                                                                      1325.2s
+------
+ > [builder 6/9] RUN git checkout main &&     git submodule update --init --recursive:
+1.954 Already on 'main'
+1.957 Your branch is up to date with 'origin/main'.
+2.011 Submodule 'SPDM-Responder-Validator' (https://github.com/DMTF/SPDM-Responder-Validator) registered for path 'SPDM-Responder-Validator'
+2.013 Submodule 'libspdm' (https://github.com/DMTF/libspdm) registered for path 'libspdm'
+2.018 Cloning into '/src/spdm-emu/SPDM-Responder-Validator'...
+5.470 Cloning into '/src/spdm-emu/libspdm'...
+62.70 Submodule path 'SPDM-Responder-Validator': checked out 'c27bb1c7a5c2b289a316d0d5685ea899adc71899'
+62.70 Submodule 'libspdm' (https://github.com/DMTF/libspdm) registered for path 'SPDM-Responder-Validator/libspdm'
+62.71 Cloning into '/src/spdm-emu/SPDM-Responder-Validator/libspdm'...
+113.4 Submodule path 'SPDM-Responder-Validator/libspdm': checked out '8a92317f9510543b1a31d849c80cadbc23a5593d'
+113.4 Submodule 'os_stub/mbedtlslib/mbedtls' (https://github.com/Mbed-TLS/mbedtls) registered for path 'SPDM-Responder-Validator/libspdm/os_stub/mbedtlslib/mbedtls'
+113.4 Submodule 'os_stub/openssllib/openssl' (https://github.com/openssl/openssl) registered for path 'SPDM-Responder-Validator/libspdm/os_stub/openssllib/openssl'
+113.4 Submodule 'unit_test/cmockalib/cmocka' (https://gitlab.com/cmocka/cmocka.git) registered for path 'SPDM-Responder-Validator/libspdm/unit_test/cmockalib/cmocka'
+113.4 Cloning into '/src/spdm-emu/SPDM-Responder-Validator/libspdm/os_stub/mbedtlslib/mbedtls'...
+274.0 Cloning into '/src/spdm-emu/SPDM-Responder-Validator/libspdm/os_stub/openssllib/openssl'...
+633.3 Cloning into '/src/spdm-emu/SPDM-Responder-Validator/libspdm/unit_test/cmockalib/cmocka'...
+633.7 fatal: unable to access 'https://gitlab.com/cmocka/cmocka.git/': server certificate verification failed. CAfile: none CRLfile: none
+633.7 fatal: clone of 'https://gitlab.com/cmocka/cmocka.git' into submodule path '/src/spdm-emu/SPDM-Responder-Validator/libspdm/unit_test/cmockalib/cmocka' failed
+633.7 Failed to clone 'unit_test/cmockalib/cmocka'. Retry scheduled
+633.7 Cloning into '/src/spdm-emu/SPDM-Responder-Validator/libspdm/unit_test/cmockalib/cmocka'...
+634.0 fatal: unable to access 'https://gitlab.com/cmocka/cmocka.git/': server certificate verification failed. CAfile: none CRLfile: none
+634.0 fatal: clone of 'https://gitlab.com/cmocka/cmocka.git' into submodule path '/src/spdm-emu/SPDM-Responder-Validator/libspdm/unit_test/cmockalib/cmocka' failed
+634.0 Failed to clone 'unit_test/cmockalib/cmocka' a second time, aborting
+634.1 fatal: Failed to recurse into submodule path 'SPDM-Responder-Validator/libspdm'
+637.7 Submodule path 'libspdm': checked out '99e5ea830f02523ceea3aafa4c9b5171aa41cda5'
+637.8 Submodule 'os_stub/mbedtlslib/mbedtls' (https://github.com/Mbed-TLS/mbedtls) registered for path 'libspdm/os_stub/mbedtlslib/mbedtls'
+637.8 Submodule 'os_stub/openssllib/openssl' (https://github.com/openssl/openssl) registered for path 'libspdm/os_stub/openssllib/openssl'
+637.8 Submodule 'unit_test/cmockalib/cmocka' (https://gitlab.com/cmocka/cmocka.git) registered for path 'libspdm/unit_test/cmockalib/cmocka'
+637.8 Cloning into '/src/spdm-emu/libspdm/os_stub/mbedtlslib/mbedtls'...
+797.1 Cloning into '/src/spdm-emu/libspdm/os_stub/openssllib/openssl'...
+1323.3 Cloning into '/src/spdm-emu/libspdm/unit_test/cmockalib/cmocka'...
+1323.6 fatal: unable to access 'https://gitlab.com/cmocka/cmocka.git/': server certificate verification failed. CAfile: none CRLfile: none
+1323.6 fatal: clone of 'https://gitlab.com/cmocka/cmocka.git' into submodule path '/src/spdm-emu/libspdm/unit_test/cmockalib/cmocka' failed
+1323.6 Failed to clone 'unit_test/cmockalib/cmocka'. Retry scheduled
+1323.6 Cloning into '/src/spdm-emu/libspdm/unit_test/cmockalib/cmocka'...
+1323.8 fatal: unable to access 'https://gitlab.com/cmocka/cmocka.git/': server certificate verification failed. CAfile: none CRLfile: none
+1323.9 fatal: clone of 'https://gitlab.com/cmocka/cmocka.git' into submodule path '/src/spdm-emu/libspdm/unit_test/cmockalib/cmocka' failed
+1323.9 Failed to clone 'unit_test/cmockalib/cmocka' a second time, aborting
+1323.9 fatal: Failed to recurse into submodule path 'SPDM-Responder-Validator'
+1323.9 fatal: Failed to recurse into submodule path 'libspdm'
+------
+Dockerfile:27
+--------------------
+  26 |     WORKDIR /src/spdm-emu
+  27 | >>> RUN git checkout ${SPDM_EMU_REF} && \
+  28 | >>>     git submodule update --init --recursive
+  29 |
+--------------------
+ERROR: failed to build: failed to solve: process "/bin/sh -c git checkout ${SPDM_EMU_REF} &&     git submodule update --init --recursive" did not complete successfully: exit code: 1
