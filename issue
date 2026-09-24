@@ -1,55 +1,549 @@
- make LIBSPDM_DIR=/home/melvin/libspdm-native/libspdm
+╰─ make LIBSPDM_DIR=/home/melvin/libspdm-native/libspdm
 gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/modbus_crc.c -o build/modbus_crc.o
 gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/modbus_transport.c -o build/modbus_transport.o
 gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/device_io.c -o build/device_io.o
-src/device_io.c: In function ‘device_io_receive_message’:
-src/device_io.c:296:33: warning: comparison is always false due to limited range of data type [-Wtype-limits]
-  296 |         if (total == 0 || total > MODBUS_SPDM_MAX_FRAGS || seq >= total) {
-      |                                 ^
 gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/virtual_uart.c -o build/virtual_uart.o
 gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/common_setup.c -o build/common_setup.o
 gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/spdm_requester.c -o build/spdm_requester.o
-src/spdm_requester.c: In function ‘setup_capabilities_and_algorithms’:
-src/spdm_requester.c:77:9: error: ‘SPDM_GET_CAPABILITIES_REQUEST_FLAGS_MEAS_CAP’ undeclared (first use in this function); did you mean ‘SPDM_GET_CAPABILITIES_REQUEST_FLAGS_MAC_CAP’?
-   77 |         SPDM_GET_CAPABILITIES_REQUEST_FLAGS_MEAS_CAP;
-      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      |         SPDM_GET_CAPABILITIES_REQUEST_FLAGS_MAC_CAP
-src/spdm_requester.c:77:9: note: each undeclared identifier is reported only once for each function it appears in
-src/spdm_requester.c: In function ‘main’:
-src/spdm_requester.c:222:59: warning: passing argument 3 of ‘libspdm_get_certificate’ makes integer from pointer without a cast [-Wint-conversion]
-  222 |         status = libspdm_get_certificate(spdm_context, 0, &cert_chain_size, cert_chain);
-      |                                                           ^~~~~~~~~~~~~~~~
-      |                                                           |
-      |                                                           size_t * {aka long unsigned int *}
-In file included from src/spdm_requester.c:38:
-/home/melvin/libspdm-native/libspdm/include/library/spdm_requester_lib.h:109:50: note: expected ‘uint8_t’ {aka ‘unsigned char’} but argument is of type ‘size_t *’ {aka ‘long unsigned int *’}
-  109 |                                          uint8_t slot_id,
-      |                                          ~~~~~~~~^~~~~~~
-src/spdm_requester.c:222:77: warning: passing argument 4 of ‘libspdm_get_certificate’ from incompatible pointer type [-Wincompatible-pointer-types]
-  222 |         status = libspdm_get_certificate(spdm_context, 0, &cert_chain_size, cert_chain);
-      |                                                                             ^~~~~~~~~~
-      |                                                                             |
-      |                                                                             uint8_t * {aka unsigned char *}
-/home/melvin/libspdm-native/libspdm/include/library/spdm_requester_lib.h:110:50: note: expected ‘size_t *’ {aka ‘long unsigned int *’} but argument is of type ‘uint8_t *’ {aka ‘unsigned char *’}
-  110 |                                          size_t *cert_chain_size,
-      |                                          ~~~~~~~~^~~~~~~~~~~~~~~
-src/spdm_requester.c:222:18: error: too few arguments to function ‘libspdm_get_certificate’
-  222 |         status = libspdm_get_certificate(spdm_context, 0, &cert_chain_size, cert_chain);
-      |                  ^~~~~~~~~~~~~~~~~~~~~~~
-/home/melvin/libspdm-native/libspdm/include/library/spdm_requester_lib.h:107:18: note: declared here
-  107 | libspdm_return_t libspdm_get_certificate(void *spdm_context,
-      |                  ^~~~~~~~~~~~~~~~~~~~~~~
-src/spdm_requester.c:246:13: error: ‘SPDM_GET_MEASUREMENTS_REQUEST_ATTRIBUTES_SIGNATURE_REQUESTED’ undeclared (first use in this function); did you mean ‘SPDM_GET_MEASUREMENTS_REQUEST_ATTRIBUTES_RAW_BIT_STREAM_REQUESTED’?
-  246 |             SPDM_GET_MEASUREMENTS_REQUEST_ATTRIBUTES_SIGNATURE_REQUESTED,
-      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      |             SPDM_GET_MEASUREMENTS_REQUEST_ATTRIBUTES_RAW_BIT_STREAM_REQUESTED
-make: *** [Makefile:71: build/spdm_requester.o] Error 1
-
-anyyways, I slightly modified the CLFAgs IN MAKEFIULE for the base.h
-CC      := gcc
-CFLAGS  := -Wall -Wextra -g -O0 -std=gnu11 \
-           -Iinclude \
-           -I$(LIBSPDM_INCLUDE) \
-           -I$(LIBSPDM_INCLUDE)/hal \
-           -I$(LIBSPDM_BUILD_INC)
-LDFLAGS := -L$(LIBSPDM_LIB_DIR)
+gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include build/modbus_crc.o build/modbus_transport.o build/device_io.o build/virtual_uart.o build/common_setup.o build/spdm_requester.o -o spdm-requester -L/home/melvin/libspdm-native/libspdm/build/lib -lspdm_requester_lib -lspdm_responder_lib -lspdm_common_lib -lspdm_secured_message_lib -lspdm_crypt_lib -lspdm_device_secret_lib_sample -lspdm_crypt_ext_lib -lcryptlib_openssl -lmemlib -lmalloclib -ldebuglib -lplatform_lib -lrnglib -lssl -lcrypto -lpthread
+In function ‘libspdm_handle_error_large_response’,
+    inlined from ‘libspdm_receive_spdm_response’ at /home/melvin/libspdm-native/libspdm/library/spdm_requester_lib/libspdm_req_send_receive.c:794:18:
+/home/melvin/libspdm-native/libspdm/library/spdm_requester_lib/libspdm_req_handle_error_response.c:407:17: warning: ‘max_chunk_data_transfer_size’ may be used uninitialized [-Wmaybe-uninitialized]
+  407 |                 && large_response_size > max_chunk_data_transfer_size) {
+      |                 ^
+/home/melvin/libspdm-native/libspdm/library/spdm_requester_lib/libspdm_req_handle_error_response.c: In function ‘libspdm_receive_spdm_response’:
+/home/melvin/libspdm-native/libspdm/library/spdm_requester_lib/libspdm_req_handle_error_response.c:239:14: note: ‘max_chunk_data_transfer_size’ was declared here
+  239 |     uint64_t max_chunk_data_transfer_size;
+      |              ^
+gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/spdm_responder.c -o build/spdm_responder.o
+src/spdm_responder.c:27:30: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘.’ token
+   27 |  *   like `*/bundle_responder.certchain.der` under
+      |                              ^
+src/spdm_responder.c:27:44: error: stray ‘`’ in program
+   27 |  *   like `*/bundle_responder.certchain.der` under
+      |                                            ^
+src/spdm_responder.c:28:36: warning: missing terminating ' character
+   28 |  *   unit_test/sample_key/) -- that's the chain whose private key
+      |                                    ^
+src/spdm_responder.c:28:36: error: missing terminating ' character
+   28 |  *   unit_test/sample_key/) -- that's the chain whose private key
+      |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/spdm_responder.c:34:36: error: expected identifier or ‘(’ before ‘if’
+   34 |  * differ across libspdm releases; if it's not found, grep your
+      |                                    ^~
+src/spdm_responder.c:34:41: warning: missing terminating ' character
+   34 |  * differ across libspdm releases; if it's not found, grep your
+      |                                         ^
+src/spdm_responder.c:34:41: error: missing terminating ' character
+   34 |  * differ across libspdm releases; if it's not found, grep your
+      |                                         ^~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/stdio.h:44,
+                 from src/spdm_responder.c:40:
+/usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h:95:3: error: unknown type name ‘size_t’
+   95 |   size_t __pad5;
+      |   ^~~~~~
+/usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h:98:67: error: ‘size_t’ undeclared here (not in a function)
+   98 |   char _unused2[15 * sizeof (int) - 4 * sizeof (void *) - sizeof (size_t)];
+      |                                                                   ^~~~~~
+/usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h:1:1: note: ‘size_t’ is defined in header ‘<stddef.h>’; did you forget to ‘#include <stddef.h>’?
+  +++ |+#include <stddef.h>
+    1 | /* Copyright (C) 1991-2024 Free Software Foundation, Inc.
+In file included from /usr/include/stdio.h:47:
+/usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:28:43: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   28 |                                           size_t __nbytes);
+      |                                           ^~~~~~
+/usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:37:44: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   37 |                                            size_t __nbytes);
+      |                                            ^~~~~~
+/usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:57:3: error: unknown type name ‘cookie_read_function_t’
+   57 |   cookie_read_function_t *read;         /* Read bytes.  */
+      |   ^~~~~~~~~~~~~~~~~~~~~~
+/usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:58:3: error: unknown type name ‘cookie_write_function_t’
+   58 |   cookie_write_function_t *write;       /* Write bytes.  */
+      |   ^~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/stdio.h:314:35: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  314 | extern FILE *fmemopen (void *__s, size_t __len, const char *__modes)
+      |                                   ^~~~~~
+/usr/include/stdio.h:320:47: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  320 | extern FILE *open_memstream (char **__bufloc, size_t *__sizeloc) __THROW
+      |                                               ^~~~~~
+/usr/include/stdio.h:340:34: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  340 |                     int __modes, size_t __n) __THROW __nonnull ((1));
+      |                                  ^~~~~~
+/usr/include/stdio.h:346:24: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  346 |                        size_t __size) __THROW __nonnull ((1));
+      |                        ^~~~~~
+/usr/include/stdio.h:385:44: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  385 | extern int snprintf (char *__restrict __s, size_t __maxlen,
+      |                                            ^~~~~~
+/usr/include/stdio.h:389:45: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  389 | extern int vsnprintf (char *__restrict __s, size_t __maxlen,
+      |                                             ^~~~~~
+/usr/include/stdio.h:695:30: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  695 |                              size_t *__restrict __n, int __delimiter,
+      |                              ^~~~~~
+/usr/include/stdio.h:698:28: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  698 |                            size_t *__restrict __n, int __delimiter,
+      |                            ^~~~~~
+/usr/include/stdio.h:708:27: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  708 |                           size_t *__restrict __n,
+      |                           ^~~~~~
+/usr/include/stdio.h:738:15: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘fread’
+  738 | extern size_t fread (void *__restrict __ptr, size_t __size,
+      |               ^~~~~
+/usr/include/stdio.h:745:15: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘fwrite’
+  745 | extern size_t fwrite (const void *__restrict __ptr, size_t __size,
+      |               ^~~~~~
+/usr/include/stdio.h:766:15: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘fread_unlocked’
+  766 | extern size_t fread_unlocked (void *__restrict __ptr, size_t __size,
+      |               ^~~~~~~~~~~~~~
+/usr/include/stdio.h:769:15: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘fwrite_unlocked’
+  769 | extern size_t fwrite_unlocked (const void *__restrict __ptr, size_t __size,
+      |               ^~~~~~~~~~~~~~~
+In file included from src/spdm_responder.c:41:
+/usr/include/stdlib.h:98:15: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘__ctype_get_mb_cur_max’
+   98 | extern size_t __ctype_get_mb_cur_max (void) __THROW __wur;
+      |               ^~~~~~~~~~~~~~~~~~~~~~
+/usr/include/stdlib.h:531:25: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  531 |                         size_t __statelen) __THROW __nonnull ((2));
+      |                         ^~~~~~
+/usr/include/stdlib.h:561:25: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  561 |                         size_t __statelen,
+      |                         ^~~~~~
+/usr/include/stdlib.h:661:42: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  661 | extern void arc4random_buf (void *__buf, size_t __size)
+      |                                          ^~~~~~
+/usr/include/stdlib.h:672:22: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  672 | extern void *malloc (size_t __size) __THROW __attribute_malloc__
+      |                      ^~~~~~
+/usr/include/stdlib.h:675:22: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  675 | extern void *calloc (size_t __nmemb, size_t __size)
+      |                      ^~~~~~
+/usr/include/stdlib.h:675:38: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  675 | extern void *calloc (size_t __nmemb, size_t __size)
+      |                                      ^~~~~~
+/usr/include/stdlib.h:683:36: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  683 | extern void *realloc (void *__ptr, size_t __size)
+      |                                    ^~~~~~
+/usr/include/stdlib.h:695:41: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  695 | extern void *reallocarray (void *__ptr, size_t __nmemb, size_t __size)
+      |                                         ^~~~~~
+/usr/include/stdlib.h:695:57: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  695 | extern void *reallocarray (void *__ptr, size_t __nmemb, size_t __size)
+      |                                                         ^~~~~~
+/usr/include/stdlib.h:701:41: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  701 | extern void *reallocarray (void *__ptr, size_t __nmemb, size_t __size)
+      |                                         ^~~~~~
+/usr/include/stdlib.h:701:57: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  701 | extern void *reallocarray (void *__ptr, size_t __nmemb, size_t __size)
+      |                                                         ^~~~~~
+In file included from /usr/include/stdlib.h:706:
+/usr/include/alloca.h:32:22: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   32 | extern void *alloca (size_t __size) __THROW;
+      |                      ^~~~~~
+/usr/include/stdlib.h:712:22: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  712 | extern void *valloc (size_t __size) __THROW __attribute_malloc__
+      |                      ^~~~~~
+/usr/include/stdlib.h:718:45: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  718 | extern int posix_memalign (void **__memptr, size_t __alignment, size_t __size)
+      |                                             ^~~~~~
+/usr/include/stdlib.h:718:65: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  718 | extern int posix_memalign (void **__memptr, size_t __alignment, size_t __size)
+      |                                                                 ^~~~~~
+/usr/include/stdlib.h:724:29: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  724 | extern void *aligned_alloc (size_t __alignment, size_t __size)
+      |                             ^~~~~~
+/usr/include/stdlib.h:724:49: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  724 | extern void *aligned_alloc (size_t __alignment, size_t __size)
+      |                                                 ^~~~~~
+/usr/include/stdlib.h:961:23: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  961 |                       size_t __nmemb, size_t __size, __compar_fn_t __compar)
+      |                       ^~~~~~
+/usr/include/stdlib.h:961:39: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  961 |                       size_t __nmemb, size_t __size, __compar_fn_t __compar)
+      |                                       ^~~~~~
+/usr/include/stdlib.h:970:34: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  970 | extern void qsort (void *__base, size_t __nmemb, size_t __size,
+      |                                  ^~~~~~
+/usr/include/stdlib.h:970:50: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  970 | extern void qsort (void *__base, size_t __nmemb, size_t __size,
+      |                                                  ^~~~~~
+/usr/include/stdlib.h:1044:20: error: expected declaration specifiers or ‘...’ before ‘size_t’
+ 1044 |                    size_t __len) __THROW __nonnull ((3, 4, 5));
+      |                    ^~~~~~
+/usr/include/stdlib.h:1047:20: error: expected declaration specifiers or ‘...’ before ‘size_t’
+ 1047 |                    size_t __len) __THROW __nonnull ((3, 4, 5));
+      |                    ^~~~~~
+/usr/include/stdlib.h:1051:45: error: expected declaration specifiers or ‘...’ before ‘size_t’
+ 1051 |                     char *__restrict __buf, size_t __len)
+      |                                             ^~~~~~
+/usr/include/stdlib.h:1055:45: error: expected declaration specifiers or ‘...’ before ‘size_t’
+ 1055 |                     char *__restrict __buf, size_t __len)
+      |                                             ^~~~~~
+/usr/include/stdlib.h:1062:36: error: expected declaration specifiers or ‘...’ before ‘size_t’
+ 1062 | extern int mblen (const char *__s, size_t __n) __THROW;
+      |                                    ^~~~~~
+/usr/include/stdlib.h:1066:48: error: expected declaration specifiers or ‘...’ before ‘size_t’
+ 1066 |                    const char *__restrict __s, size_t __n) __THROW;
+      |                                                ^~~~~~
+/usr/include/stdlib.h:1073:15: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘mbstowcs’
+ 1073 | extern size_t mbstowcs (wchar_t *__restrict  __pwcs,
+      |               ^~~~~~~~
+/usr/include/stdlib.h:1077:15: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘wcstombs’
+ 1077 | extern size_t wcstombs (char *__restrict __s,
+      |               ^~~~~~~~
+In file included from src/spdm_responder.c:42:
+/usr/include/string.h:44:22: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   44 |                      size_t __n) __THROW __nonnull ((1, 2));
+      |                      ^~~~~~
+/usr/include/string.h:47:56: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   47 | extern void *memmove (void *__dest, const void *__src, size_t __n)
+      |                                                        ^~~~~~
+/usr/include/string.h:55:32: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   55 |                       int __c, size_t __n)
+      |                                ^~~~~~
+/usr/include/string.h:61:42: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   61 | extern void *memset (void *__s, int __c, size_t __n) __THROW __nonnull ((1));
+      |                                          ^~~~~~
+/usr/include/string.h:64:56: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   64 | extern int memcmp (const void *__s1, const void *__s2, size_t __n)
+      |                                                        ^~~~~~
+/usr/include/string.h:80:60: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   80 | extern int __memcmpeq (const void *__s1, const void *__s2, size_t __n)
+      |                                                            ^~~~~~
+/usr/include/string.h:107:48: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  107 | extern void *memchr (const void *__s, int __c, size_t __n)
+      |                                                ^~~~~~
+/usr/include/string.h:145:53: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  145 |                       const char *__restrict __src, size_t __n)
+      |                                                     ^~~~~~
+/usr/include/string.h:153:23: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  153 |                       size_t __n) __THROW __nonnull ((1, 2));
+      |                       ^~~~~~
+/usr/include/string.h:159:57: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  159 | extern int strncmp (const char *__s1, const char *__s2, size_t __n)
+      |                                                         ^~~~~~
+/usr/include/string.h:166:15: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘strxfrm’
+  166 | extern size_t strxfrm (char *__restrict __dest,
+      |               ^~~~~~~
+/usr/include/string.h:179:15: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘strxfrm_l’
+  179 | extern size_t strxfrm_l (char *__dest, const char *__src, size_t __n,
+      |               ^~~~~~~~~
+/usr/include/string.h:195:45: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  195 | extern char *strndup (const char *__string, size_t __n)
+      |                                             ^~~~~~
+/usr/include/string.h:293:15: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘strcspn’
+  293 | extern size_t strcspn (const char *__s, const char *__reject)
+      |               ^~~~~~~
+/usr/include/string.h:297:15: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘strspn’
+  297 | extern size_t strspn (const char *__s, const char *__accept)
+      |               ^~~~~~
+/usr/include/string.h:389:46: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  389 | extern void *memmem (const void *__haystack, size_t __haystacklen,
+      |                                              ^~~~~~
+/usr/include/string.h:390:44: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  390 |                      const void *__needle, size_t __needlelen)
+      |                                            ^~~~~~
+/usr/include/string.h:398:55: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  398 |                         const void *__restrict __src, size_t __n)
+      |                                                       ^~~~~~
+/usr/include/string.h:401:53: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  401 |                       const void *__restrict __src, size_t __n)
+      |                                                     ^~~~~~
+/usr/include/string.h:407:15: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘strlen’
+  407 | extern size_t strlen (const char *__s)
+      |               ^~~~~~
+/usr/include/string.h:413:15: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘strnlen’
+  413 | extern size_t strnlen (const char *__string, size_t __maxlen)
+      |               ^~~~~~~
+In file included from /usr/include/features.h:502,
+                 from /usr/include/x86_64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdio.h:28:
+/usr/include/string.h:432:12: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  432 | extern int __REDIRECT_NTH (strerror_r,
+      |            ^~~~~~~~~~~~~~
+In file included from /usr/include/string.h:462:
+/usr/include/strings.h:34:54: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   34 | extern int bcmp (const void *__s1, const void *__s2, size_t __n)
+      |                                                      ^~~~~~
+/usr/include/strings.h:38:53: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   38 | extern void bcopy (const void *__src, void *__dest, size_t __n)
+      |                                                     ^~~~~~
+/usr/include/strings.h:42:31: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   42 | extern void bzero (void *__s, size_t __n) __THROW __nonnull ((1));
+      |                               ^~~~~~
+/usr/include/strings.h:120:61: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  120 | extern int strncasecmp (const char *__s1, const char *__s2, size_t __n)
+      |                                                             ^~~~~~
+/usr/include/strings.h:134:27: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  134 |                           size_t __n, locale_t __loc)
+      |                           ^~~~~~
+/usr/include/string.h:466:40: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  466 | extern void explicit_bzero (void *__s, size_t __n) __THROW __nonnull ((1))
+      |                                        ^~~~~~
+/usr/include/string.h:497:55: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  497 |                         const char *__restrict __src, size_t __n)
+      |                                                       ^~~~~~
+/usr/include/string.h:500:53: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  500 |                       const char *__restrict __src, size_t __n)
+      |                                                     ^~~~~~
+/usr/include/string.h:506:15: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘strlcpy’
+  506 | extern size_t strlcpy (char *__restrict __dest,
+      |               ^~~~~~~
+/usr/include/string.h:512:15: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘strlcat’
+  512 | extern size_t strlcat (char *__restrict __dest,
+      |               ^~~~~~~
+In file included from /usr/include/signal.h:313,
+                 from src/spdm_responder.c:43:
+/usr/include/x86_64-linux-gnu/bits/types/stack_t.h:30:5: error: expected specifier-qualifier-list before ‘size_t’
+   30 |     size_t ss_size;
+      |     ^~~~~~
+In file included from /home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:16,
+                 from /home/melvin/libspdm-native/libspdm/include/library/spdm_responder_lib.h:14,
+                 from src/spdm_responder.c:45:
+/home/melvin/libspdm-native/libspdm/include/library/spdm_secured_message_lib.h:51:1: error: unknown type name ‘size_t’
+   51 | size_t libspdm_secured_message_get_context_size(void);
+      | ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_secured_message_lib.h:18:1: note: ‘size_t’ is defined in header ‘<stddef.h>’; did you forget to ‘#include <stddef.h>’?
+   17 | #include "library/spdm_return_status.h"
+  +++ |+#include <stddef.h>
+   18 |
+/home/melvin/libspdm-native/libspdm/include/library/spdm_secured_message_lib.h:72:51: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   72 |                                                   size_t shared_secret_size);
+      |                                                   ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_secured_message_lib.h:89:5: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   89 |     size_t *export_master_secret_size);
+      |     ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_secured_message_lib.h:127:50: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  127 |                                                  size_t *session_keys_size);
+      |                                                  ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_secured_message_lib.h:140:50: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  140 |                                                  size_t session_keys_size);
+      |                                                  ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_secured_message_lib.h:240:30: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  240 |     bool is_request_message, size_t app_message_size,
+      |                              ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_secured_message_lib.h:241:24: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  241 |     void *app_message, size_t *secured_message_size,
+      |                        ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_secured_message_lib.h:263:30: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  263 |     bool is_request_message, size_t secured_message_size,
+      |                              ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_secured_message_lib.h:264:28: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  264 |     void *secured_message, size_t *app_message_size,
+      |                            ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:289:35: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  289 |                                   size_t data_size);
+      |                                   ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:307:47: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  307 |                                   void *data, size_t *data_size);
+      |                                               ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:362:60: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  362 |                                                            size_t num_secured_contexts);
+      |                                                            ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:460:1: error: unknown type name ‘size_t’
+  460 | size_t libspdm_get_context_size(void);
+      | ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:17:1: note: ‘size_t’ is defined in header ‘<stddef.h>’; did you forget to ‘#include <stddef.h>’?
+   16 | #include "library/spdm_secured_message_lib.h"
+  +++ |+#include <stddef.h>
+   17 | #include "library/spdm_return_status.h"
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:469:1: error: unknown type name ‘size_t’
+  469 | size_t libspdm_get_context_size_without_secured_context(void);
+      | ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:469:1: note: ‘size_t’ is defined in header ‘<stddef.h>’; did you forget to ‘#include <stddef.h>’?
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:495:62: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  495 |                                                              size_t message_size,
+      |                                                              ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:526:65: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  526 |                                                                 size_t *message_size,
+      |                                                                 ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:540:25: error: unknown type name ‘libspdm_device_send_message_func’
+  540 |     void *spdm_context, libspdm_device_send_message_func send_message,
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:541:5: error: unknown type name ‘libspdm_device_receive_message_func’
+  541 |     libspdm_device_receive_message_func receive_message);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:665:30: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  665 |     bool is_request_message, size_t message_size,
+      |                              ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:666:20: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  666 |     void *message, size_t *transport_message_size,
+      |                    ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:698:5: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  698 |     size_t transport_message_size, void *transport_message,
+      |     ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:699:5: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  699 |     size_t *message_size, void **message);
+      |     ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:728:5: error: unknown type name ‘libspdm_transport_encode_message_func’; did you mean ‘libspdm_transport_get_header_size_func’?
+  728 |     libspdm_transport_encode_message_func transport_encode_message,
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |     libspdm_transport_get_header_size_func
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:729:5: error: unknown type name ‘libspdm_transport_decode_message_func’; did you mean ‘libspdm_transport_get_header_size_func’?
+  729 |     libspdm_transport_decode_message_func transport_decode_message);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |     libspdm_transport_get_header_size_func
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:741:1: error: unknown type name ‘size_t’
+  741 | size_t libspdm_get_sizeof_required_scratch_buffer (void *spdm_context);
+      | ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:741:1: note: ‘size_t’ is defined in header ‘<stddef.h>’; did you forget to ‘#include <stddef.h>’?
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:759:5: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  759 |     size_t scratch_buffer_size);
+      |     ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:772:5: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  772 |     size_t *scratch_buffer_size);
+      |     ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:796:5: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  796 |     size_t cert_chain_size, const void *cert_chain,
+      |     ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:798:5: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  798 |     size_t *trust_anchor_size);
+      |     ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:816:11: error: unknown type name ‘libspdm_verify_spdm_cert_chain_func’
+  816 |     const libspdm_verify_spdm_cert_chain_func verify_spdm_cert_chain);
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:889:42: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  889 |                                          size_t *cert_chain_buffer_size);
+      |                                          ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:904:40: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  904 |                                        size_t *cert_chain_data_size);
+      |                                        ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:918:41: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  918 |                                         size_t *peer_public_key_buffer_size);
+      |                                         ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_common_lib.h:932:42: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  932 |                                          size_t *local_public_key_buffer_size);
+      |                                          ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_responder_lib.h:41:5: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   41 |     size_t request_size, const void *request, size_t *response_size,
+      |     ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_responder_lib.h:41:47: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   41 |     size_t request_size, const void *request, size_t *response_size,
+      |                                               ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_responder_lib.h:54:25: error: unknown type name ‘libspdm_get_response_func’
+   54 |     void *spdm_context, libspdm_get_response_func get_response_func);
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_responder_lib.h:72:42: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   72 |                                          size_t request_size, void *request);
+      |                                          ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_responder_lib.h:89:41: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   89 |                                         size_t *response_size,
+      |                                         ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_responder_lib.h:122:50: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  122 |                                                  size_t *spdm_response_size,
+      |                                                  ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_responder_lib.h:145:5: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  145 |     size_t extended_error_data_size, const uint8_t *extended_error_data,
+      |     ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_responder_lib.h:146:5: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  146 |     size_t *spdm_response_size, void *spdm_response);
+      |     ^~~~~~
+/home/melvin/libspdm-native/libspdm/include/library/spdm_responder_lib.h:282:50: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  282 |     void *spdm_context, void *cert_chain_buffer, size_t cert_chain_buffer_max_size);
+      |                                                  ^~~~~~
+In file included from include/modbus_transport.h:39,
+                 from src/spdm_responder.c:48:
+include/modbus_spdm.h:107:44: error: expected declaration specifiers or ‘...’ before ‘size_t’
+  107 | uint16_t modbus_crc16(const uint8_t *data, size_t len);
+      |                                            ^~~~~~
+include/modbus_transport.h:57:30: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   57 |     bool is_request_message, size_t message_size, void *message,
+      |                              ^~~~~~
+include/modbus_transport.h:58:5: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   58 |     size_t *transport_message_size, void **transport_message);
+      |     ^~~~~~
+include/modbus_transport.h:62:30: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   62 |     bool is_request_message, size_t transport_message_size, void *transport_message,
+      |                              ^~~~~~
+include/modbus_transport.h:63:5: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   63 |     size_t *message_size, void **message);
+      |     ^~~~~~
+In file included from src/spdm_responder.c:50:
+include/device_io.h:50:61: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   50 | libspdm_return_t device_io_send_message(void *spdm_context, size_t message_size,
+      |                                                             ^~~~~~
+include/device_io.h:53:64: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   53 | libspdm_return_t device_io_receive_message(void *spdm_context, size_t *message_size,
+      |                                                                ^~~~~~
+In file included from src/spdm_responder.c:51:
+include/virtual_uart.h:36:49: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   36 | int vuart_write_all(int fd, const uint8_t *buf, size_t len);
+      |                                                 ^~~~~~
+include/virtual_uart.h:41:42: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   41 | int vuart_read_all(int fd, uint8_t *buf, size_t len);
+      |                                          ^~~~~~
+In file included from src/spdm_responder.c:52:
+include/common_setup.h:32:46: error: expected declaration specifiers or ‘...’ before ‘size_t’
+   32 |                           uint8_t **out_buf, size_t *out_len);
+      |                                              ^~~~~~
+src/spdm_responder.c: In function ‘setup_capabilities_and_algorithms’:
+src/spdm_responder.c:67:5: warning: implicit declaration of function ‘memset’ [-Wimplicit-function-declaration]
+   67 |     memset(&parameter, 0, sizeof(parameter));
+      |     ^~~~~~
+src/spdm_responder.c:53:1: note: include ‘<string.h>’ or provide a declaration of ‘memset’
+   52 | #include "common_setup.h"
+  +++ |+#include <string.h>
+   53 |
+src/spdm_responder.c:67:5: warning: incompatible implicit declaration of built-in function ‘memset’ [-Wbuiltin-declaration-mismatch]
+   67 |     memset(&parameter, 0, sizeof(parameter));
+      |     ^~~~~~
+src/spdm_responder.c:67:5: note: include ‘<string.h>’ or provide a declaration of ‘memset’
+src/spdm_responder.c:71:5: warning: implicit declaration of function ‘libspdm_set_data’ [-Wimplicit-function-declaration]
+   71 |     libspdm_set_data(spdm_context, LIBSPDM_DATA_CAPABILITY_CT_EXPONENT,
+      |     ^~~~~~~~~~~~~~~~
+src/spdm_responder.c: In function ‘setup_local_cert_chain’:
+src/spdm_responder.c:108:11: error: expected ‘;’ before ‘chain_len’
+  108 |     size_t chain_len = 0;
+      |           ^~~~~~~~~~
+      |           ;
+src/spdm_responder.c:109:10: warning: implicit declaration of function ‘read_file_to_buffer’ [-Wimplicit-function-declaration]
+  109 |     if (!read_file_to_buffer(ROLE, cert_chain_path, &chain, &chain_len)) {
+      |          ^~~~~~~~~~~~~~~~~~~
+src/spdm_responder.c:109:62: error: ‘chain_len’ undeclared (first use in this function)
+  109 |     if (!read_file_to_buffer(ROLE, cert_chain_path, &chain, &chain_len)) {
+      |                                                              ^~~~~~~~~
+src/spdm_responder.c:109:62: note: each undeclared identifier is reported only once for each function it appears in
+src/spdm_responder.c:114:5: warning: incompatible implicit declaration of built-in function ‘memset’ [-Wbuiltin-declaration-mismatch]
+  114 |     memset(&parameter, 0, sizeof(parameter));
+      |     ^~~~~~
+src/spdm_responder.c:114:5: note: include ‘<string.h>’ or provide a declaration of ‘memset’
+src/spdm_responder.c: In function ‘main’:
+src/spdm_responder.c:151:11: error: expected ‘;’ before ‘context_size’
+  151 |     size_t context_size = libspdm_get_context_size();
+      |           ^~~~~~~~~~~~~
+      |           ;
+src/spdm_responder.c:152:26: warning: implicit declaration of function ‘malloc’ [-Wimplicit-function-declaration]
+  152 |     void *spdm_context = malloc(context_size);
+      |                          ^~~~~~
+src/spdm_responder.c:53:1: note: include ‘<stdlib.h>’ or provide a declaration of ‘malloc’
+   52 | #include "common_setup.h"
+  +++ |+#include <stdlib.h>
+   53 |
+src/spdm_responder.c:152:26: warning: incompatible implicit declaration of built-in function ‘malloc’ [-Wbuiltin-declaration-mismatch]
+  152 |     void *spdm_context = malloc(context_size);
+      |                          ^~~~~~
+src/spdm_responder.c:152:26: note: include ‘<stdlib.h>’ or provide a declaration of ‘malloc’
+src/spdm_responder.c:152:33: error: ‘context_size’ undeclared (first use in this function)
+  152 |     void *spdm_context = malloc(context_size);
+      |                                 ^~~~~~~~~~~~
+src/spdm_responder.c:159:5: warning: implicit declaration of function ‘libspdm_register_device_io_func’; did you mean ‘libspdm_register_device_buffer_func’? [-Wimplicit-function-declaration]
+  159 |     libspdm_register_device_io_func(spdm_context,
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |     libspdm_register_device_buffer_func
+src/spdm_responder.c:160:38: error: ‘device_io_send_message’ undeclared (first use in this function)
+  160 |                                      device_io_send_message,
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~
+src/spdm_responder.c:161:38: error: ‘device_io_receive_message’ undeclared (first use in this function)
+  161 |                                      device_io_receive_message);
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+src/spdm_responder.c:163:5: warning: implicit declaration of function ‘libspdm_register_transport_layer_func’ [-Wimplicit-function-declaration]
+  163 |     libspdm_register_transport_layer_func(spdm_context,
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/spdm_responder.c:167:44: error: ‘modbus_transport_encode_message’ undeclared (first use in this function)
+  167 |                                            modbus_transport_encode_message,
+      |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/spdm_responder.c:168:44: error: ‘modbus_transport_decode_message’ undeclared (first use in this function)
+  168 |                                            modbus_transport_decode_message);
+      |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:70: build/spdm_responder.o] Error 1
