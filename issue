@@ -16,6 +16,7 @@
 [transport][modbus] DECODE: unwrapped 5-byte transport message -> 4-byte SPDM message
 [transport][modbus] ENCODE: wrapped 16-byte response SPDM message -> 17-byte transport message (marker=0x5A)
 [responder][device_io] SEND: 17-byte transport message -> 1 Modbus frame(s)
+[responder][hexdump] outgoing SPDM msg (17 bytes): 5A 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00 14
 [responder][device_io]   -> frag 1/1: 17 payload bytes, ADU=25 bytes (addr=0x11 func=0x45)
 [responder][device_io] SEND: complete (1 frame(s) on the wire)
 [responder][device_io] RECV: waiting for Modbus frame(s)...
@@ -24,9 +25,10 @@
 [transport][modbus] DECODE: unwrapped 21-byte transport message -> 20-byte SPDM message
 [transport][modbus] ENCODE: wrapped 4-byte response SPDM message -> 5-byte transport message (marker=0x5A)
 [responder][device_io] SEND: 5-byte transport message -> 1 Modbus frame(s)
+[responder][hexdump] outgoing SPDM msg (5 bytes): 5A 14 7F 01 00
 [responder][device_io]   -> frag 1/1: 5 payload bytes, ADU=13 bytes (addr=0x11 func=0x45)
 [responder][device_io] SEND: complete (1 frame(s) on the wire)
-[responder][device_io] RECV: waiting for Modbus frame(s)..
+[responder][device_io] RECV: waiting for Modbus frame(s)...
 
 ./spdm-requester /tmp/spdm_uart_requester /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der
 
@@ -40,6 +42,7 @@
 ---- STEP 1-3: libspdm_init_connection() (GET_VERSION -> GET_CAPABILITIES -> NEGOTIATE_ALGORITHMS) ----
 [transport][modbus] ENCODE: wrapped 4-byte request SPDM message -> 5-byte transport message (marker=0x5A)
 [requester][device_io] SEND: 5-byte transport message -> 1 Modbus frame(s)
+[requester][hexdump] outgoing SPDM msg (5 bytes): 5A 10 84 00 00
 [requester][device_io]   -> frag 1/1: 5 payload bytes, ADU=13 bytes (addr=0x11 func=0x45)
 [requester][device_io] SEND: complete (1 frame(s) on the wire)
 [requester][device_io] RECV: waiting for Modbus frame(s)...
@@ -48,110 +51,11 @@
 [transport][modbus] DECODE: unwrapped 17-byte transport message -> 16-byte SPDM message
 [transport][modbus] ENCODE: wrapped 20-byte request SPDM message -> 21-byte transport message (marker=0x5A)
 [requester][device_io] SEND: 21-byte transport message -> 1 Modbus frame(s)
+[requester][hexdump] outgoing SPDM msg (21 bytes): 5A 14 E1 00 00 00 0C 00 00 02 00 00 00 FF 3F 00 00 00 40 00 00
 [requester][device_io]   -> frag 1/1: 21 payload bytes, ADU=29 bytes (addr=0x11 func=0x45)
 [requester][device_io] SEND: complete (1 frame(s) on the wire)
 [requester][device_io] RECV: waiting for Modbus frame(s)...
 [requester][device_io]   <- frag 1/1: addr=0x11 func=0x45 5 payload bytes (CRC OK)
 [requester][device_io] RECV: complete -- reassembled 5-byte transport message from 1 frame(s)
 [transport][modbus] DECODE: unwrapped 5-byte transport message -> 4-byte SPDM message
-[requester][main      ] FATAL: libspdm_init_connection failed: 0x8001000A
-
-
-still the same, I added like
-requester
-static void setup_capabilities_and_algorithms(void *spdm_context)
-{
-    libspdm_data_parameter_t parameter;
-    memset(&parameter, 0, sizeof(parameter));
-    parameter.location = LIBSPDM_DATA_LOCATION_LOCAL;
-
-    uint8_t ct_exponent = 12; /* CT = 2^12 microseconds cap on responder think-time */
-    libspdm_set_data(spdm_context, LIBSPDM_DATA_CAPABILITY_CT_EXPONENT,
-                      &parameter, &ct_exponent, sizeof(ct_exponent));
-
-    /* NOTE: MEAS_CAP is a *responder*-only capability flag (only the
-     * responder produces measurements, so only it advertises support
-     * for them) -- there is no requester-side MEAS_CAP flag, which is
-     * why it's not listed here even though the requester is the one
-     * that will go on to call libspdm_get_measurement(). We only
-     * claim CERT_CAP -- deliberately not doing KEY_EX/session/
-     * encryption capabilities, since this demo only exercises the
-     * unsecured connection + measurement flow. */
-    uint32_t cap_flags =
-        SPDM_GET_CAPABILITIES_REQUEST_FLAGS_CERT_CAP;
-    libspdm_set_data(spdm_context, LIBSPDM_DATA_CAPABILITY_FLAGS,
-                      &parameter, &cap_flags, sizeof(cap_flags));
-
-    uint8_t meas_spec = SPDM_MEASUREMENT_SPECIFICATION_DMTF;
-    libspdm_set_data(spdm_context, LIBSPDM_DATA_MEASUREMENT_SPEC,
-                      &parameter, &meas_spec, sizeof(meas_spec));
-
-    uint32_t asym_algo = SPDM_ALGORITHMS_BASE_ASYM_ALGO_TPM_ALG_ECDSA_ECC_NIST_P256;
-    libspdm_set_data(spdm_context, LIBSPDM_DATA_BASE_ASYM_ALGO,
-                      &parameter, &asym_algo, sizeof(asym_algo));
-
-    uint32_t hash_algo = SPDM_ALGORITHMS_BASE_HASH_ALGO_TPM_ALG_SHA_256;
-    libspdm_set_data(spdm_context, LIBSPDM_DATA_BASE_HASH_ALGO,
-                      &parameter, &hash_algo, sizeof(hash_algo));
-
-    uint32_t measurement_hash_algo = SPDM_ALGORITHMS_MEASUREMENT_HASH_ALGO_TPM_ALG_SHA_256;
-    libspdm_set_data(spdm_context, LIBSPDM_DATA_MEASUREMENT_HASH_ALGO,
-                      &parameter, &measurement_hash_algo, sizeof(measurement_hash_algo));
-
-    uint32_t data_transfer_size = MODBUS_MAX_SPDM_MESSAGE_SIZE;
-    libspdm_set_data(spdm_context, LIBSPDM_DATA_CAPABILITY_DATA_TRANSFER_SIZE,
-                    &parameter, &data_transfer_size, sizeof(data_transfer_size));
-
-    uint32_t max_spdm_msg_size = MODBUS_MAX_SPDM_MESSAGE_SIZE;
-    libspdm_set_data(spdm_context, LIBSPDM_DATA_CAPABILITY_MAX_SPDM_MSG_SIZE,
-                    &parameter, &max_spdm_msg_size, sizeof(max_spdm_msg_size));
-
-    VLOG(ROLE, "advertised: ct_exp=%u cap_flags=0x%08X asym=ECDSA_P256 hash=SHA256",
-         ct_exponent, cap_flags);
-}
-
-responder
-static void setup_capabilities_and_algorithms(void *spdm_context)
-{
-    libspdm_data_parameter_t parameter;
-    memset(&parameter, 0, sizeof(parameter));
-    parameter.location = LIBSPDM_DATA_LOCATION_LOCAL;
-
-    uint8_t ct_exponent = 12;
-    libspdm_set_data(spdm_context, LIBSPDM_DATA_CAPABILITY_CT_EXPONENT,
-                      &parameter, &ct_exponent, sizeof(ct_exponent));
-
-    uint32_t cap_flags =
-        SPDM_GET_CAPABILITIES_RESPONSE_FLAGS_CERT_CAP |
-        SPDM_GET_CAPABILITIES_RESPONSE_FLAGS_MEAS_CAP_SIG |
-        SPDM_GET_CAPABILITIES_RESPONSE_FLAGS_MEAS_FRESH_CAP;
-    libspdm_set_data(spdm_context, LIBSPDM_DATA_CAPABILITY_FLAGS,
-                      &parameter, &cap_flags, sizeof(cap_flags));
-
-    uint8_t meas_spec = SPDM_MEASUREMENT_SPECIFICATION_DMTF;
-    libspdm_set_data(spdm_context, LIBSPDM_DATA_MEASUREMENT_SPEC,
-                      &parameter, &meas_spec, sizeof(meas_spec));
-
-    uint32_t asym_algo = SPDM_ALGORITHMS_BASE_ASYM_ALGO_TPM_ALG_ECDSA_ECC_NIST_P256;
-    libspdm_set_data(spdm_context, LIBSPDM_DATA_BASE_ASYM_ALGO,
-                      &parameter, &asym_algo, sizeof(asym_algo));
-
-    uint32_t hash_algo = SPDM_ALGORITHMS_BASE_HASH_ALGO_TPM_ALG_SHA_256;
-    libspdm_set_data(spdm_context, LIBSPDM_DATA_BASE_HASH_ALGO,
-                      &parameter, &hash_algo, sizeof(hash_algo));
-
-    uint32_t measurement_hash_algo = SPDM_ALGORITHMS_MEASUREMENT_HASH_ALGO_TPM_ALG_SHA_256;
-    libspdm_set_data(spdm_context, LIBSPDM_DATA_MEASUREMENT_HASH_ALGO,
-                      &parameter, &measurement_hash_algo, sizeof(measurement_hash_algo));
-
-    uint32_t data_transfer_size = MODBUS_MAX_SPDM_MESSAGE_SIZE;
-    libspdm_set_data(spdm_context, LIBSPDM_DATA_CAPABILITY_DATA_TRANSFER_SIZE,
-                    &parameter, &data_transfer_size, sizeof(data_transfer_size));
-
-    uint32_t max_spdm_msg_size = MODBUS_MAX_SPDM_MESSAGE_SIZE;
-    libspdm_set_data(spdm_context, LIBSPDM_DATA_CAPABILITY_MAX_SPDM_MSG_SIZE,
-                    &parameter, &max_spdm_msg_size, sizeof(max_spdm_msg_size));
-
-    VLOG(ROLE, "advertised: ct_exp=%u cap_flags=0x%08X asym=ECDSA_P256 hash=SHA256",
-         ct_exponent, cap_flags);
-}
+[requester][main      ] FATAL: libspdm_init_connection failed: 0x8001000
