@@ -1,93 +1,159 @@
-bool libspdm_verify_certificate_chain_buffer(
-    uint8_t spdm_version,
-    uint32_t base_hash_algo, uint32_t base_asym_algo, uint32_t pqc_asym_algo,
-    const void *cert_chain_buffer,
-    size_t cert_chain_buffer_size,
-    bool is_requester_cert, uint8_t cert_model)
+take note these errors:
+make
+gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/spdm_responder.c -o build/spdm_responder.o
+src/spdm_responder.c:48:10: fatal error: hal/library/cryptlib_cert.h: No such file or directory
+   48 | #include "hal/library/cryptlib_cert.h"
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make: *** [Makefile:71: build/spdm_responder.o] Error 1
+╭─░▒▓    /mnt/c/U/me/Dow/spdm_now/spdm-modbus-fixed-with-libspdm-support.tar3/spdm-modbus ························································ 2 ✘  system   08:59:57 AM  ▓▒░
+╰─ make
+gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/spdm_responder.c -o build/spdm_responder.o
+src/spdm_responder.c:48:10: fatal error: library/cryptlib_cert.h: No such file or directory
+   48 | #include "library/cryptlib_cert.h"
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make: *** [Makefile:71: build/spdm_responder.o] Error 1
+╭─░▒▓    /mnt/c/U/me/Dow/spdm_now/spdm-modbus-fixed-with-libspdm-support.tar3/spdm-modbus ························································ 2 ✘  system   09:00:18 AM  ▓▒░
+╰─ make
+gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/spdm_responder.c -o build/spdm_responder.o
+src/spdm_responder.c: In function ‘setup_local_cert_chain’:
+src/spdm_responder.c:173:11: error: ‘spdm_cert_chain_t’ has no member named ‘reserved’
+  173 |     header->reserved = 0;
+      |           ^~
+make: *** [Makefile:71: build/spdm_responder.o] Error 1
+
+so I just added #include "library/cryptlib/cryptlib_cert.h"  in spdm_responder.c
+also removed the header->reserved since
+typedef struct {
+    spdm_message_header_t header;
+    uint16_t portion_length;
+    uint16_t remainder_length;
+    uint32_t large_portion_length;
+    uint32_t large_remainder_length;
+    /* uint8_t                cert_chain[large_portion_length];*/
+} spdm_certificate_large_response_t;
+
+#define SPDM_CERTIFICATE_RESPONSE_LARGE_CERT_CHAIN 0x80
+
+#define SPDM_CERTIFICATE_RESPONSE_SLOT_ID_MASK 0xF
+
+/* SPDM CERTIFICATE response Attributes */
+#define SPDM_CERTIFICATE_RESPONSE_ATTRIBUTES_CERTIFICATE_INFO_MASK 0x7
+
+typedef struct {
+    /* Total length of the SPDM certificate chain, in bytes, including all fields in this struct. */
+    uint32_t length;
+
+    /* Hash of the root certificate using the negotiated base hashing algorithm.
+     * uint8_t root_hash[hash_size]; */
+
+    /* An ASN.1 DER-encoded X.509 v3 certificate chain.
+     * uint8_t certificates[length - 4 - hash_size]; */
+} spdm_cert_chain_t;
+
+/* Maximum size, in bytes, of a certificate chain. */
+#define SPDM_MAX_CERTIFICATE_CHAIN_SIZE 0xFFFF
+#define SPDM_MAX_CERTIFICATE_CHAIN_SIZE_14 0xFFFFFFFF
+
+/* Maximum size, in bytes, of a measurement extension log.*/
+#define SPDM_MAX_MEASUREMENT_EXTENSION_LOG_SIZE 0xFFFFFFFF
+
+bool libspdm_verify_peer_cert_chain_buffer_authority(libspdm_context_t *spdm_context,
+                                                     const void *cert_chain_buffer,
+                                                     size_t cert_chain_buffer_size,
+                                                     const void **trust_anchor,
+                                                     size_t *trust_anchor_size)
 {
-    const uint8_t *cert_chain_data;
-    size_t cert_chain_data_size;
-    const uint8_t *first_cert_buffer;
-    size_t first_cert_buffer_size;
-    size_t hash_size;
-    uint8_t calc_root_cert_hash[LIBSPDM_MAX_HASH_SIZE];
-    const uint8_t *leaf_cert_buffer;
-    size_t leaf_cert_buffer_size;
+    const uint8_t *root_cert;
+    size_t root_cert_size;
+    uint8_t root_cert_index;
+    size_t root_cert_hash_size;
+    uint8_t root_cert_hash[LIBSPDM_MAX_HASH_SIZE];
+    const uint8_t *received_root_cert;
+    size_t received_root_cert_size;
     bool result;
-    const spdm_cert_chain_t *cert_chain_header;
 
-    hash_size = libspdm_get_hash_size(base_hash_algo);
+    root_cert_index = 0;
+    root_cert = spdm_context->local_context.peer_root_cert_provision[root_cert_index];
+    root_cert_size = spdm_context->local_context.peer_root_cert_provision_size[root_cert_index];
 
-    if (cert_chain_buffer_size <= sizeof(spdm_cert_chain_t) + hash_size) {
-        LIBSPDM_DEBUG((LIBSPDM_DEBUG_INFO,
-                       "!!! VerifyCertificateChainBuffer - FAIL (buffer too small) !!!\n"));
-        return false;
-    }
+    root_cert_hash_size = libspdm_get_hash_size(
+        spdm_context->connection_info.algorithm.base_hash_algo);
 
-    cert_chain_header = cert_chain_buffer;
-    if (cert_chain_header->length != cert_chain_buffer_size) {
-        LIBSPDM_DEBUG((LIBSPDM_DEBUG_INFO,
-                       "!!! VerifyCertificateChainBuffer - FAIL (cert_chain->length mismatch) !!!\n"));
-        return false;
-    }
+    if ((root_cert != NULL) && (root_cert_size != 0)) {
+        while ((root_cert != NULL) && (root_cert_size != 0)) {
+            result = libspdm_hash_all(
+                spdm_context->connection_info.algorithm.base_hash_algo,
+                root_cert, root_cert_size, root_cert_hash);
+            if (!result) {
+                LIBSPDM_DEBUG((LIBSPDM_DEBUG_ERROR,
+                               "!!! verify_peer_cert_chain_buffer - FAIL (hash calculation) !!!\n"));
+                return false;
+            }
 
-    cert_chain_data = (const uint8_t *)cert_chain_buffer + sizeof(spdm_cert_chain_t) + hash_size;
-    cert_chain_data_size = cert_chain_buffer_size - sizeof(spdm_cert_chain_t) - hash_size;
-    if (!libspdm_x509_get_cert_from_cert_chain(
-            cert_chain_data, cert_chain_data_size, 0, &first_cert_buffer,
-            &first_cert_buffer_size)) {
-        LIBSPDM_DEBUG((LIBSPDM_DEBUG_INFO,
-                       "!!! VerifyCertificateChainBuffer - FAIL (get root certificate failed)!!!\n"));
-        return false;
-    }
+            if (libspdm_consttime_is_mem_equal((const uint8_t *)cert_chain_buffer +
+                                               sizeof(spdm_cert_chain_t),
+                                               root_cert_hash, root_cert_hash_size)) {
+                break;
+            }
 
-    if (libspdm_is_root_certificate(first_cert_buffer, first_cert_buffer_size)) {
-        result = libspdm_hash_all(base_hash_algo, first_cert_buffer, first_cert_buffer_size,
-                                  calc_root_cert_hash);
+            #if (LIBSPDM_MAX_ROOT_CERT_SUPPORT) > 1
+            if ((root_cert_index < ((LIBSPDM_MAX_ROOT_CERT_SUPPORT) -1)) &&
+                (spdm_context->local_context.peer_root_cert_provision[root_cert_index + 1] !=
+                 NULL)) {
+                root_cert_index++;
+                root_cert = spdm_context->local_context.peer_root_cert_provision[root_cert_index];
+                root_cert_size =
+                    spdm_context->local_context.peer_root_cert_provision_size[root_cert_index];
+            } else
+            #endif /* LIBSPDM_MAX_ROOT_CERT_SUPPORT */
+            {
+                LIBSPDM_DEBUG((LIBSPDM_DEBUG_ERROR,
+                               "!!! verify_peer_cert_chain_buffer - "
+                               "FAIL (all root cert hash mismatch) !!!\n"));
+                return false;
+            }
+        }
+
+        result = libspdm_x509_get_cert_from_cert_chain(
+            (const uint8_t *)cert_chain_buffer + sizeof(spdm_cert_chain_t) + root_cert_hash_size,
+            cert_chain_buffer_size - sizeof(spdm_cert_chain_t) - root_cert_hash_size,
+            0, &received_root_cert, &received_root_cert_size);
         if (!result) {
-            LIBSPDM_DEBUG((LIBSPDM_DEBUG_INFO,
-                           "!!! VerifyCertificateChainBuffer - FAIL (hash calculation fail) !!!\n"));
+            LIBSPDM_DEBUG((LIBSPDM_DEBUG_ERROR,
+                           "!!! verify_peer_cert_chain_buffer - FAIL (cert retrieval fail) !!!\n"));
             return false;
         }
-        if (!libspdm_consttime_is_mem_equal((const uint8_t *)cert_chain_buffer +
-                                            sizeof(spdm_cert_chain_t),
-                                            calc_root_cert_hash, hash_size)) {
-            LIBSPDM_DEBUG((LIBSPDM_DEBUG_INFO,
-                           "!!! VerifyCertificateChainBuffer - FAIL (cert root hash mismatch) !!!\n"));
-            return false;
+        if (libspdm_is_root_certificate(received_root_cert, received_root_cert_size)) {
+            if ((root_cert != NULL) &&
+                !libspdm_consttime_is_mem_equal(received_root_cert, root_cert, root_cert_size)) {
+                LIBSPDM_DEBUG((LIBSPDM_DEBUG_ERROR,
+                               "!!! verify_peer_cert_chain_buffer - "
+                               "FAIL (root cert mismatch) !!!\n"));
+                return false;
+            }
+        } else {
+            if (!libspdm_x509_verify_cert(received_root_cert, received_root_cert_size,
+                                          root_cert, root_cert_size)) {
+                LIBSPDM_DEBUG((LIBSPDM_DEBUG_ERROR,
+                               "!!! verify_peer_cert_chain_buffer - "
+                               "FAIL (received root cert verify failed)!!!\n"));
+                return false;
+            }
         }
-        LIBSPDM_DEBUG((LIBSPDM_DEBUG_INFO,
-                       "!!! VerifyCertificateChainBuffer - PASS (cert root hash match) !!!\n"));
-    }
-
-    /*If the number of certificates in the certificate chain is more than 1,
-     * other certificates need to be verified.*/
-    if (cert_chain_data_size > first_cert_buffer_size) {
-        if (!libspdm_x509_verify_cert_chain(first_cert_buffer, first_cert_buffer_size,
-                                            cert_chain_data + first_cert_buffer_size,
-                                            cert_chain_data_size - first_cert_buffer_size)) {
-            LIBSPDM_DEBUG((LIBSPDM_DEBUG_INFO,
-                           "!!! VerifyCertificateChainBuffer - FAIL (cert chain verify failed)!!!\n"));
-            return false;
+        if (trust_anchor != NULL) {
+            *trust_anchor = root_cert;
+        }
+        if (trust_anchor_size != NULL) {
+            *trust_anchor_size = root_cert_size;
         }
     }
-
-    if (!libspdm_x509_get_cert_from_cert_chain(
-            cert_chain_data, cert_chain_data_size, -1,
-            &leaf_cert_buffer, &leaf_cert_buffer_size)) {
-        LIBSPDM_DEBUG((LIBSPDM_DEBUG_INFO,
-                       "!!! VerifyCertificateChainBuffer - FAIL (get leaf certificate failed)!!!\n"));
-        return false;
-    }
-
-    if (!libspdm_x509_certificate_check(spdm_version,
-                                        leaf_cert_buffer, leaf_cert_buffer_size,
-                                        base_asym_algo, pqc_asym_algo, base_hash_algo,
-                                        is_requester_cert, cert_model)) {
-        LIBSPDM_DEBUG((LIBSPDM_DEBUG_INFO,
-                       "!!! VerifyCertificateChainBuffer - FAIL (leaf certificate check failed)!!!\n"));
-        return false;
-    }
+    /*
+     * When there is no root_cert in local_context, the return is true too.
+     * No root_cert means the caller wants to verify the trust anchor of the cert chain.
+     */
+    LIBSPDM_DEBUG((LIBSPDM_DEBUG_INFO, "!!! verify_peer_cert_chain_buffer - PASS !!!\n"));
 
     return true;
 }
