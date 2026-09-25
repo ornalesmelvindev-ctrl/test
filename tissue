@@ -1,360 +1,94 @@
-all passed now except the GET_MEASUREMENTS?? if so, can you give me a summary of what we've done to fix from start to finish, I mean like the first issue, the length, upto this cert verify
-./spdm-responder /tmp/spdm_uart_responder  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/bundle_responder.certchain.der
+Becauase sometimes, after firmware upgrade, webui is available but ssh is off by default, so need to do this
+first create session, then execute the ssh, then delete session
 
-===== SPDM-over-Modbus RESPONDER =====
-[responder][main      ] uart_path=/tmp/spdm_uart_responder cert_chain_path=/home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/bundle_responder.certchain.der
-[responder][device_io] initialized on fd=3
-[responder][setup_capabilities_and_algorithms] advertised: ct_exp=12 cap_flags=0x00000032 asym=ECDSA_P256 hash=SHA256
-[responder][read_file_to_buffer] loaded '/home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/bundle_responder.certchain.der' (1418 bytes)
-[responder][setup_local_cert_chain] local certificate chain (slot 0) installed: 1418 bytes raw DER wrapped into 1454 bytes (Length/Reserved/RootHash header added)
+#create session
+admin@artesyn-shelf:~# curl -kX POST "https://10.152.12.25/redfish/v1/SessionService/Sessions" -H "accept: application/json" -H "Content-Type: a
+pplication/json" -d "{\"Password\":\"admin1234\",\"UserName\":\"admin\"}"
+expected response
+{
+  "@odata.id": "/redfish/v1/SessionService/Sessions/392d26283ee9c361",
+  "CreatedTime": "2026-09-25T07:36:06.376Z",
+  "Description": "SessionDetails",
+  "UserName": "admin",
+  "@odata.type": "#Session.v1_8_0.Session",
+  "Id": "392d26283ee9c361",
+  "ExpirationTime": "2026-09-25T07:51:06.376Z",
+  "Name": "SessionDetails"
+  
 
----- responder ready, waiting for requester on '/tmp/spdm_uart_responder' ----
----- (each incoming request is logged as it arrives; Ctrl-C to stop) ----
+#enable ssh
+curl -kX PATCH "https://10.152.12.25/redfish/v1/Managers/PSC/NetworkProtocol" -H "accept: application/json" -H "X-Auth-Token: f7f24375080b1938" -H "Content-Type: application/json" -d "{\"SSH\":{\"ProtocolEnabled\":false}}"
+expected response
+{
+  "Status": {
+    "Health": "OK",
+    "State": "Enabled"
+  },
+  "Description": "PMC Network Protocols",
+  "@odata.type": "#ManagerNetworkProtocol.v1_12_0.ManagerNetworkProtocol",
+  "DNS": {
+    "Port": 53,
+    "ProtocolEnabled": false,
+    "DNSServers": [
+      ""
+    ]
+  },
+  "SSH": {
+    "Port": 22,
+    "ProtocolEnabled": false
+  },
+  "HTTP": {
+    "Port": 80,
+    "ProtocolEnabled": false
+  },
+  "SSDP": {
+    "Port": 1900,
+    "ProtocolEnabled": true,
+    "NotifyIPv6Scope": "LINK",
+    "NotifyMulticastIntervalSeconds": 600,
+    "NotifyTTL": 5
+  },
+  "NTP": {
+    "Port": 123,
+    "ProtocolEnabled": false,
+    "NTPServers": [
+      ""
+    ]
+  },
+  "DHCP": {
+    "Port": 64,
+    "ProtocolEnabled": true
+  },
+  "DHCPv6": {
+    "Port": 546,
+    "ProtocolEnabled": true
+  },
+  "Name": "Manager Network Protocol",
+  "@odata.id": "/redfish/v1/Managers/PSC/NetworkProtocol",
+  "HTTPS": {
+    "Port": 443,
+    "ProtocolEnabled": true
+  },
+  "Id": "Id",
+  "HostName": "Artesyn"
+}
 
-[responder][device_io] RECV: waiting for Modbus frame(s)...
-[responder][device_io]   <- frag 1/1: addr=0x11 func=0x45 5 payload bytes (CRC OK)
-[responder][device_io] RECV: complete -- reassembled 5-byte transport message from 1 frame(s)
-[responder][hexdump] incoming transport msg (5 bytes): 5A 10 84 00 00
-SpdmReceiveRequest[.] ...
-[transport][modbus] DECODE: unwrapped 5-byte transport message -> 4-byte SPDM message
-SpdmReceiveRequest[0] msg SPDM_GET_VERSION(0x84), size (0x4):
-0000: 10 84 00 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_VERSION(0x4), size (0x10):
-0000: 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00 14
-[transport][modbus] ENCODE: wrapped 16-byte response SPDM message -> 17-byte transport message (marker=0x5A)
-[responder][device_io] SEND: 17-byte transport message -> 1 Modbus frame(s)
-[responder][hexdump] outgoing transport msg (17 bytes): 5A 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00 14
-[responder][device_io]   -> frag 1/1: 17 payload bytes, ADU=25 bytes (addr=0x11 func=0x45)
-[responder][device_io] SEND: complete (1 frame(s) on the wire)
-[responder][device_io] RECV: waiting for Modbus frame(s)...
-[responder][device_io]   <- frag 1/1: addr=0x11 func=0x45 21 payload bytes (CRC OK)
-[responder][device_io] RECV: complete -- reassembled 21-byte transport message from 1 frame(s)
-[responder][hexdump] incoming transport msg (21 bytes): 5A 14 E1 00 00 00 0C 00 00 00 00 00 00 FF 3F 00 00 FF 3F 00 00
-SpdmReceiveRequest[.] ...
-[transport][modbus] DECODE: unwrapped 21-byte transport message -> 20-byte SPDM message
-SpdmReceiveRequest[0] msg SPDM_GET_CAPABILITIES(0xe1), size (0x14):
-0000: 14 e1 00 00 00 0c 00 00 00 00 00 00 ff 3f 00 00 ff 3f 00 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_CAPABILITIES(0x61), size (0x14):
-0000: 14 61 00 00 00 0c 00 00 32 00 00 00 ff 3f 00 00 ff 3f 00 00
-[transport][modbus] ENCODE: wrapped 20-byte response SPDM message -> 21-byte transport message (marker=0x5A)
-[responder][device_io] SEND: 21-byte transport message -> 1 Modbus frame(s)
-[responder][hexdump] outgoing transport msg (21 bytes): 5A 14 61 00 00 00 0C 00 00 32 00 00 00 FF 3F 00 00 FF 3F 00 00
-[responder][device_io]   -> frag 1/1: 21 payload bytes, ADU=29 bytes (addr=0x11 func=0x45)
-[responder][device_io] SEND: complete (1 frame(s) on the wire)
-[responder][device_io] RECV: waiting for Modbus frame(s)...
-[responder][device_io]   <- frag 1/1: addr=0x11 func=0x45 33 payload bytes (CRC OK)
-[responder][device_io] RECV: complete -- reassembled 33-byte transport message from 1 frame(s)
-[responder][hexdump] incoming transport msg (33 bytes): 5A 14 E3 00 00 20 00 01 00 10 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-SpdmReceiveRequest[.] ...
-[transport][modbus] DECODE: unwrapped 33-byte transport message -> 32-byte SPDM message
-SpdmReceiveRequest[0] msg SPDM_NEGOTIATE_ALGORITHMS(0xe3), size (0x20):
-0000: 14 e3 00 00 20 00 01 00 10 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-SpdmSendResponse[0] ...
-base_hash - 0x00000001
-base_asym - 0x00000010
-dhe - 0x0000
-aead - 0x0000
-req_asym - 0x0000
-pqc_asym - 0x00000000
-req_pqc_asym - 0x0000
-kem - 0x0000
-SpdmSendResponse[0]: msg SPDM_ALGORITHMS(0x63), size (0x24):
-0000: 14 63 00 00 24 00 01 00 02 00 00 00 10 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0020: 00 00 00 00
-[transport][modbus] ENCODE: wrapped 36-byte response SPDM message -> 37-byte transport message (marker=0x5A)
-[responder][device_io] SEND: 37-byte transport message -> 1 Modbus frame(s)
-[responder][hexdump] outgoing transport msg (37 bytes): 5A 14 63 00 00 24 00 01 00 02 00 00 00 10 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-[responder][device_io]   -> frag 1/1: 37 payload bytes, ADU=45 bytes (addr=0x11 func=0x45)
-[responder][device_io] SEND: complete (1 frame(s) on the wire)
-[responder][device_io] RECV: waiting for Modbus frame(s)...
-[responder][device_io]   <- frag 1/1: addr=0x11 func=0x45 9 payload bytes (CRC OK)
-[responder][device_io] RECV: complete -- reassembled 9-byte transport message from 1 frame(s)
-[responder][hexdump] incoming transport msg (9 bytes): 5A 14 82 00 00 00 00 F7 3F
-SpdmReceiveRequest[.] ...
-[transport][modbus] DECODE: unwrapped 9-byte transport message -> 8-byte SPDM message
-SpdmReceiveRequest[0] msg SPDM_GET_CERTIFICATE(0x82), size (0x8):
-0000: 14 82 00 00 00 00 f7 3f
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_CERTIFICATE(0x2), size (0x5b6):
-0000: 14 02 00 00 ae 05 00 00 ae 05 00 00 50 42 6d bb 1d 8b 60 cc 7d e6 3e 32 54 23 fc 19 1f 56 8c 28
-0020: f8 a3 86 2c 57 b8 14 e8 81 83 cc 3d 30 82 01 97 30 82 01 3d a0 03 02 01 02 02 14 38 e6 2d 01 f6
-0040: da a4 ba 23 d3 51 38 0d 17 d4 3e f8 65 25 b6 30 0a 06 08 2a 86 48 ce 3d 04 03 02 30 21 31 1f 30
-0060: 1d 06 03 55 04 03 0c 16 44 4d 54 46 20 6c 69 62 73 70 64 6d 20 45 43 50 32 35 36 20 43 41 30 1e
-0080: 17 0d 32 36 30 36 32 33 30 32 35 38 33 39 5a 17 0d 33 36 30 36 32 30 30 32 35 38 33 39 5a 30 21
-00a0: 31 1f 30 1d 06 03 55 04 03 0c 16 44 4d 54 46 20 6c 69 62 73 70 64 6d 20 45 43 50 32 35 36 20 43
-00c0: 41 30 59 30 13 06 07 2a 86 48 ce 3d 02 01 06 08 2a 86 48 ce 3d 03 01 07 03 42 00 04 f6 ff 00 b6
-00e0: 57 6f 2c a4 8e 0a 18 6c 43 b8 53 97 c2 5d 60 66 7b 49 26 b5 14 2c 54 db c7 e1 4c 53 7d e9 64 97
-0100: 47 2c 6f 33 44 65 99 00 de 6b 3c b2 56 2d 50 91 62 fe 34 3b 70 6b 23 1d 51 4e 40 10 a3 53 30 51
-0120: 30 1d 06 03 55 1d 0e 04 16 04 14 c7 be ca ca 9e 01 a3 34 13 77 f8 db 36 22 d2 47 ed dc 37 6b 30
-0140: 1f 06 03 55 1d 23 04 18 30 16 80 14 c7 be ca ca 9e 01 a3 34 13 77 f8 db 36 22 d2 47 ed dc 37 6b
-0160: 30 0f 06 03 55 1d 13 01 01 ff 04 05 30 03 01 01 ff 30 0a 06 08 2a 86 48 ce 3d 04 03 02 03 48 00
-0180: 30 45 02 21 00 c5 1c 62 80 50 6a 6b dd 4a 5a 0b e7 55 8f bb 9d 20 94 6d c4 91 ec 80 69 c6 f8 63
-01a0: d0 d9 26 37 f3 02 20 41 75 c9 57 50 b7 76 ce c6 43 27 a5 27 2b 93 e1 3c b5 77 8d 2b 4f 1a 60 ab
-01c0: 2a 8a 56 76 68 0c 3c 30 82 01 be 30 82 01 65 a0 03 02 01 02 02 01 01 30 0a 06 08 2a 86 48 ce 3d
-01e0: 04 03 02 30 21 31 1f 30 1d 06 03 55 04 03 0c 16 44 4d 54 46 20 6c 69 62 73 70 64 6d 20 45 43 50
-0200: 32 35 36 20 43 41 30 1e 17 0d 32 36 30 36 32 33 30 32 35 38 33 39 5a 17 0d 33 36 30 36 32 30 30
-0220: 32 35 38 33 39 5a 30 30 31 2e 30 2c 06 03 55 04 03 0c 25 44 4d 54 46 20 6c 69 62 73 70 64 6d 20
-0240: 45 43 50 32 35 36 20 69 6e 74 65 72 6d 65 64 69 61 74 65 20 63 65 72 74 30 59 30 13 06 07 2a 86
-0260: 48 ce 3d 02 01 06 08 2a 86 48 ce 3d 03 01 07 03 42 00 04 bf 1c 25 e0 ad 16 c4 bc 07 9f a7 dd 27
-0280: 94 1a cf 3b 45 b1 d0 4e c4 8b 2e cb 57 82 bb d2 8f bf 69 44 2e 52 f3 54 7a 38 86 38 00 57 5f 85
-02a0: 09 36 8a b4 3c 83 90 d2 f2 2e 76 ff 62 98 be ca fe a6 c4 a3 7f 30 7d 30 0c 06 03 55 1d 13 04 05
-02c0: 30 03 01 01 ff 30 0b 06 03 55 1d 0f 04 04 03 02 01 fe 30 1d 06 03 55 1d 0e 04 16 04 14 98 98 bd
-02e0: 4d 22 c9 5b 21 c0 6a 69 61 ea 20 76 02 b7 c9 e3 fb 30 20 06 03 55 1d 25 01 01 ff 04 16 30 14 06
-0300: 08 2b 06 01 05 05 07 03 01 06 08 2b 06 01 05 05 07 03 02 30 1f 06 03 55 1d 23 04 18 30 16 80 14
-0320: c7 be ca ca 9e 01 a3 34 13 77 f8 db 36 22 d2 47 ed dc 37 6b 30 0a 06 08 2a 86 48 ce 3d 04 03 02
-0340: 03 47 00 30 44 02 20 7d 69 4e 82 7a 1d d6 75 7d bc 9b 42 fa 34 31 13 b7 b5 65 ca 1b 35 94 4b 1b
-0360: 2d 07 ec 28 84 86 30 02 20 63 2f f9 af 34 21 ff 21 1e 77 2c be 02 e7 82 bb 83 f8 f4 37 7b 04 dc
-0380: 38 14 43 dd bf 1b de 36 49 30 82 02 29 30 82 01 d0 a0 03 02 01 02 02 01 03 30 0a 06 08 2a 86 48
-03a0: ce 3d 04 03 02 30 30 31 2e 30 2c 06 03 55 04 03 0c 25 44 4d 54 46 20 6c 69 62 73 70 64 6d 20 45
-03c0: 43 50 32 35 36 20 69 6e 74 65 72 6d 65 64 69 61 74 65 20 63 65 72 74 30 1e 17 0d 32 36 30 36 32
-03e0: 33 30 32 35 38 33 39 5a 17 0d 33 36 30 36 32 30 30 32 35 38 33 39 5a 30 2d 31 2b 30 29 06 03 55
-0400: 04 03 0c 22 44 4d 54 46 20 6c 69 62 73 70 64 6d 20 45 43 50 32 35 36 20 72 65 73 70 6f 6e 64 65
-0420: 72 20 63 65 72 74 30 59 30 13 06 07 2a 86 48 ce 3d 02 01 06 08 2a 86 48 ce 3d 03 01 07 03 42 00
-0440: 04 69 be df aa 22 2d b7 be c2 02 71 b9 9f 83 d4 10 89 78 35 a4 0b dc 5c 5d 70 40 57 da 24 c2 cc
-0460: bc 1f 88 e8 46 af 80 c7 e6 b1 b5 0a d8 3d 41 84 99 b1 a9 5a 92 36 b3 08 01 c8 54 e5 f4 64 61 db
-0480: 4f a3 81 dd 30 81 da 30 0c 06 03 55 1d 13 01 01 ff 04 02 30 00 30 0b 06 03 55 1d 0f 04 04 03 02
-04a0: 05 e0 30 1d 06 03 55 1d 0e 04 16 04 14 7e 3e d9 b0 af a2 58 44 bd c2 0a 0c de b5 11 5d 0b d6 7f
-04c0: 10 30 31 06 03 55 1d 11 04 2a 30 28 a0 26 06 0a 2b 06 01 04 01 83 1c 82 12 01 a0 18 0c 16 41 43
-04e0: 4d 45 3a 57 49 44 47 45 54 3a 31 32 33 34 35 36 37 38 39 30 30 2a 06 03 55 1d 25 01 01 ff 04 20
-0500: 30 1e 06 08 2b 06 01 05 05 07 03 01 06 08 2b 06 01 05 05 07 03 02 06 08 2b 06 01 05 05 07 03 09
-0520: 30 1e 06 0a 2b 06 01 04 01 83 1c 82 12 06 04 10 30 0e 30 0c 06 0a 2b 06 01 04 01 83 1c 82 12 02
-0540: 30 1f 06 03 55 1d 23 04 18 30 16 80 14 98 98 bd 4d 22 c9 5b 21 c0 6a 69 61 ea 20 76 02 b7 c9 e3
-0560: fb 30 0a 06 08 2a 86 48 ce 3d 04 03 02 03 47 00 30 44 02 20 6b 24 7d c9 0a 01 21 ff 9c e7 df 21
-0580: 16 33 45 d1 51 af 58 90 7d 37 9e be b6 a4 01 09 c6 91 2b 46 02 20 58 38 b9 87 3b 21 1f 91 39 ee
-05a0: 97 58 81 2e 0d 65 a2 7a 1f 1f 11 dd 0c e3 4c 8c fa 28 f6 8f 37 98
-[transport][modbus] ENCODE: wrapped 1462-byte response SPDM message -> 1463-byte transport message (marker=0x5A)
-[responder][device_io] SEND: 1463-byte transport message -> 6 Modbus frame(s)
-[responder][hexdump] outgoing transport msg (1463 bytes): 5A 14 02 00 00 AE 05 00 00 AE 05 00 00 50 42 6D BB 1D 8B 60 CC 7D E6 3E 32 54 23 FC 19 1F 56 8C 28 F8 A3 86 2C 57 B8 14 E8 81 83 CC 3D 30 82 01 97 30 82 01 3D A0 03 02 01 02 02 14 38 E6 2D 01 F6 DA A4 BA 23 D3 51 38 0D 17 D4 3E F8 65 25 B6 30 0A 06 08 2A 86 48 CE 3D 04 03 02 30 21 31 1F 30 1D 06 03 55 04 03 0C 16 44 4D 54 46 20 6C 69 62 73 70 64 6D 20 45 43 50 32 35 36 20 43 41 30 1E 17 0D 32 36 30 36 32 33 30 32 35 38 33 39 5A 17 0D 33 36 30 36 32 30 30 32 35 38 33 39 5A 30 21 31 1F 30 1D 06 03 55 04 03 0C 16 44 4D 54 46 20 6C 69 62 73 70 64 6D 20 45 43 50 32 35 36 20 43 41 30 59 30 13 06 07 2A 86 48 CE 3D 02 01 06 08 2A 86 48 CE 3D 03 01 07 03 42 00 04 F6 FF 00 B6 57 6F 2C A4 8E 0A 18 6C 43 B8 53 97 C2 5D 60 66 7B 49 26 B5 14 2C 54 DB C7 E1 4C 53 7D E9 64 97 47 2C 6F 33 44 65 99 00 DE 6B 3C B2 56 2D 50 91 62 FE 34 3B 70 6B 23 1D 51 4E 40 10 A3 53 30 51 30 1D 06 03 55 1D 0E 04 16 04 14 C7 BE CA CA 9E 01 A3 34 13 77 F8 DB 36 22 D2 47 ED DC 37 6B 30 1F 06 03 55 1D 23 04 18 30 16 80 14 C7 BE CA CA 9E 01 A3 34 13 77 F8 DB 36 22 D2 47 ED DC 37 6B 30 0F 06 03 55 1D 13 01 01 FF 04 05 30 03 01 01 FF 30 0A 06 08 2A 86 48 CE 3D 04 03 02 03 48 00 30 45 02 21 00 C5 1C 62 80 50 6A 6B DD 4A 5A 0B E7 55 8F BB 9D 20 94 6D C4 91 EC 80 69 C6 F8 63 D0 D9 26 37 F3 02 20 41 75 C9 57 50 B7 76 CE C6 43 27 A5 27 2B 93 E1 3C B5 77 8D 2B 4F 1A 60 AB 2A 8A 56 76 68 0C 3C 30 82 01 BE 30 82 01 65 A0 03 02 01 02 02 01 01 30 0A 06 08 2A 86 48 CE 3D 04 03 02 30 21 31 1F 30 1D 06 03 55 04 03 0C 16 44 4D 54 46 20 6C 69 62 73 70 64 6D 20 45 43 50 32 35 36 20 43 41 30 1E 17 0D 32 36 30 36 32 33 30 32 35 38 33 39 5A 17 0D 33 36 30 36 32 30 30 32 35 38 33 39 5A 30 30 31 2E 30 2C 06 03 55 04 03 0C 25 44 4D 54 46 20 6C 69 62 73 70 64 6D 20 45 43 50 32 35 36 20 69 6E 74 65 72 6D 65 64 69 61 74 65 20 63 65 72 74 30 59 30 13 06 07 2A 86 48 CE 3D 02 01 06 08 2A 86 48 CE 3D 03 01 07 03 42 00 04 BF 1C 25 E0 AD 16 C4 BC 07 9F A7 DD 27 94 1A CF 3B 45 B1 D0 4E C4 8B 2E CB 57 82 BB D2 8F BF 69 44 2E 52 F3 54 7A 38 86 38 00 57 5F 85 09 36 8A B4 3C 83 90 D2 F2 2E 76 FF 62 98 BE CA FE A6 C4 A3 7F 30 7D 30 0C 06 03 55 1D 13 04 05 30 03 01 01 FF 30 0B 06 03 55 1D 0F 04 04 03 02 01 FE 30 1D 06 03 55 1D 0E 04 16 04 14 98 98 BD 4D 22 C9 5B 21 C0 6A 69 61 EA 20 76 02 B7 C9 E3 FB 30 20 06 03 55 1D 25 01 01 FF 04 16 30 14 06 08 2B 06 01 05 05 07 03 01 06 08 2B 06 01 05 05 07 03 02 30 1F 06 03 55 1D 23 04 18 30 16 80 14 C7 BE CA CA 9E 01 A3 34 13 77 F8 DB 36 22 D2 47 ED DC 37 6B 30 0A 06 08 2A 86 48 CE 3D 04 03 02 03 47 00 30 44 02 20 7D 69 4E 82 7A 1D D6 75 7D BC 9B 42 FA 34 31 13 B7 B5 65 CA 1B 35 94 4B 1B 2D 07 EC 28 84 86 30 02 20 63 2F F9 AF 34 21 FF 21 1E 77 2C BE 02 E7 82 BB 83 F8 F4 37 7B 04 DC 38 14 43 DD BF 1B DE 36 49 30 82 02 29 30 82 01 D0 A0 03 02 01 02 02 01 03 30 0A 06 08 2A 86 48 CE 3D 04 03 02 30 30 31 2E 30 2C 06 03 55 04 03 0C 25 44 4D 54 46 20 6C 69 62 73 70 64 6D 20 45 43 50 32 35 36 20 69 6E 74 65 72 6D 65 64 69 61 74 65 20 63 65 72 74 30 1E 17 0D 32 36 30 36 32 33 30 32 35 38 33 39 5A 17 0D 33 36 30 36 32 30 30 32 35 38 33 39 5A 30 2D 31 2B 30 29 06 03 55 04 03 0C 22 44 4D 54 46 20 6C 69 62 73 70 64 6D 20 45 43 50 32 35 36 20 72 65 73 70 6F 6E 64 65 72 20 63 65 72 74 30 59 30 13 06 07 2A 86 48 CE 3D 02 01 06 08 2A 86 48 CE 3D 03 01 07 03 42 00 04 69 BE DF AA 22 2D B7 BE C2 02 71 B9 9F 83 D4 10 89 78 35 A4 0B DC 5C 5D 70 40 57 DA 24 C2 CC BC 1F 88 E8 46 AF 80 C7 E6 B1 B5 0A D8 3D 41 84 99 B1 A9 5A 92 36 B3 08 01 C8 54 E5 F4 64 61 DB 4F A3 81 DD 30 81 DA 30 0C 06 03 55 1D 13 01 01 FF 04 02 30 00 30 0B 06 03 55 1D 0F 04 04 03 02 05 E0 30 1D 06 03 55 1D 0E 04 16 04 14 7E 3E D9 B0 AF A2 58 44 BD C2 0A 0C DE B5 11 5D 0B D6 7F 10 30 31 06 03 55 1D 11 04 2A 30 28 A0 26 06 0A 2B 06 01 04 01 83 1C 82 12 01 A0 18 0C 16 41 43 4D 45 3A 57 49 44 47 45 54 3A 31 32 33 34 35 36 37 38 39 30 30 2A 06 03 55 1D 25 01 01 FF 04 20 30 1E 06 08 2B 06 01 05 05 07 03 01 06 08 2B 06 01 05 05 07 03 02 06 08 2B 06 01 05 05 07 03 09 30 1E 06 0A 2B 06 01 04 01 83 1C 82 12 06 04 10 30 0E 30 0C 06 0A 2B 06 01 04 01 83 1C 82 12 02 30 1F 06 03 55 1D 23 04 18 30 16 80 14 98 98 BD 4D 22 C9 5B 21 C0 6A 69 61 EA 20 76 02 B7 C9 E3 FB 30 0A 06 08 2A 86 48 CE 3D 04 03 02 03 47 00 30 44 02 20 6B 24 7D C9 0A 01 21 FF 9C E7 DF 21 16 33 45 D1 51 AF 58 90 7D 37 9E BE B6 A4 01 09 C6 91 2B 46 02 20 58 38 B9 87 3B 21 1F 91 39 EE 97 58 81 2E 0D 65 A2 7A 1F 1F 11 DD 0C E3 4C 8C FA 28 F6 8F 37 98
-[responder][device_io]   -> frag 1/6: 248 payload bytes, ADU=256 bytes (addr=0x11 func=0x45)
-[responder][device_io]   -> frag 2/6: 248 payload bytes, ADU=256 bytes (addr=0x11 func=0x45)
-[responder][device_io]   -> frag 3/6: 248 payload bytes, ADU=256 bytes (addr=0x11 func=0x45)
-[responder][device_io]   -> frag 4/6: 248 payload bytes, ADU=256 bytes (addr=0x11 func=0x45)
-[responder][device_io]   -> frag 5/6: 248 payload bytes, ADU=256 bytes (addr=0x11 func=0x45)
-[responder][device_io]   -> frag 6/6: 223 payload bytes, ADU=231 bytes (addr=0x11 func=0x45)
-[responder][device_io] SEND: complete (6 frame(s) on the wire)
-[responder][device_io] RECV: waiting for Modbus frame(s)...
-[responder][device_io]   <- frag 1/1: addr=0x11 func=0x45 46 payload bytes (CRC OK)
-[responder][device_io] RECV: complete -- reassembled 46-byte transport message from 1 frame(s)
-[responder][hexdump] incoming transport msg (46 bytes): 5A 14 E0 01 FF 27 AC 3A 8A 8B AB D6 EF 64 CB E0 78 A0 AA AF D9 66 B1 CE 96 C7 E8 45 98 3F 50 22 97 AD 36 36 D4 00 00 00 00 00 00 00 00 00
-SpdmReceiveRequest[.] ...
-[transport][modbus] DECODE: unwrapped 46-byte transport message -> 45-byte SPDM message
-SpdmReceiveRequest[0] msg SPDM_GET_MEASUREMENTS(0xe0), size (0x2d):
-0000: 14 e0 01 ff 27 ac 3a 8a 8b ab d6 ef 64 cb e0 78 a0 aa af d9 66 b1 ce 96 c7 e8 45 98 3f 50 22 97
-0020: ad 36 36 d4 00 00 00 00 00 00 00 00 00
-SpdmSendResponse[0] ...
-l1l2 hash - 31 12 67 4c 62 f2 55 4a dd c6 d5 f2 22 d7 fd a1 2d 6f 17 fc ad 84 a1 2e 9d 0c 10 75 d9 36 f2 7c
-SpdmSendResponse[0]: msg SPDM_ERROR(0x7f), size (0x4):
-0000: 14 7f 05 00
-[transport][modbus] ENCODE: wrapped 4-byte response SPDM message -> 5-byte transport message (marker=0x5A)
-[responder][device_io] SEND: 5-byte transport message -> 1 Modbus frame(s)
-[responder][hexdump] outgoing transport msg (5 bytes): 5A 14 7F 05 00
-[responder][device_io]   -> frag 1/1: 5 payload bytes, ADU=13 bytes (addr=0x11 func=0x45)
-[responder][device_io] SEND: complete (1 frame(s) on the wire)
-[responder][device_io] RECV: waiting for Modbus frame(s)...
+#delete seesion
+curl -kX DELETE "https://10.152.12.25/redfish/v1/SessionService/Sessions/f7f24375080b1938" -H "accept: application/json" -H "X-Auth-Token: f7f24375080b1938"
 
-./spdm-requester /tmp/spdm_uart_requester /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der
+expected response
+{
+  "@odata.id": "/redfish/v1/SessionService/Sessions/f7f24375080b1938",
+  "CreatedTime": "2026-09-25T07:37:44.784Z",
+  "Description": "SessionDetails",
+  "UserName": "admin",
+  "@odata.type": "#Session.v1_8_0.Session",
+  "Id": "f7f24375080b1938",
+  "ExpirationTime": "2026-09-25T07:54:56.526Z",
+  "Name": "SessionDetails"
+}
 
-===== SPDM-over-Modbus REQUESTER =====
-[requester][main      ] uart_path=/tmp/spdm_uart_requester root_cert_path=/home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der
-[requester][device_io] initialized on fd=3
-[requester][setup_capabilities_and_algorithms] advertised: ct_exp=12 cap_flags=0x00000000 asym=ECDSA_P256 hash=SHA256
-[requester][read_file_to_buffer] loaded '/home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der' (411 bytes)
-[requester][setup_trusted_root] trusted root certificate installed (411 bytes)
-
----- STEP 1-3: libspdm_init_connection() (GET_VERSION -> GET_CAPABILITIES -> NEGOTIATE_ALGORITHMS) ----
-libspdm_send_spdm_request[0] msg SPDM_GET_VERSION(0x84), size (0x4):
-0000: 10 84 00 00
-[transport][modbus] ENCODE: wrapped 4-byte request SPDM message -> 5-byte transport message (marker=0x5A)
-[requester][device_io] SEND: 5-byte transport message -> 1 Modbus frame(s)
-[requester][hexdump] outgoing transport msg (5 bytes): 5A 10 84 00 00
-[requester][device_io]   -> frag 1/1: 5 payload bytes, ADU=13 bytes (addr=0x11 func=0x45)
-[requester][device_io] SEND: complete (1 frame(s) on the wire)
-[requester][device_io] RECV: waiting for Modbus frame(s)...
-[requester][device_io]   <- frag 1/1: addr=0x11 func=0x45 17 payload bytes (CRC OK)
-[requester][device_io] RECV: complete -- reassembled 17-byte transport message from 1 frame(s)
-[requester][hexdump] incoming transport msg (17 bytes): 5A 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00 14
-[transport][modbus] DECODE: unwrapped 17-byte transport message -> 16-byte SPDM message
-libspdm_receive_spdm_response[0] msg SPDM_VERSION(0x4), size (0x10):
-0000: 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00 14
-libspdm_send_spdm_request[0] msg SPDM_GET_CAPABILITIES(0xe1), size (0x14):
-0000: 14 e1 00 00 00 0c 00 00 00 00 00 00 ff 3f 00 00 ff 3f 00 00
-[transport][modbus] ENCODE: wrapped 20-byte request SPDM message -> 21-byte transport message (marker=0x5A)
-[requester][device_io] SEND: 21-byte transport message -> 1 Modbus frame(s)
-[requester][hexdump] outgoing transport msg (21 bytes): 5A 14 E1 00 00 00 0C 00 00 00 00 00 00 FF 3F 00 00 FF 3F 00 00
-[requester][device_io]   -> frag 1/1: 21 payload bytes, ADU=29 bytes (addr=0x11 func=0x45)
-[requester][device_io] SEND: complete (1 frame(s) on the wire)
-[requester][device_io] RECV: waiting for Modbus frame(s)...
-[requester][device_io]   <- frag 1/1: addr=0x11 func=0x45 21 payload bytes (CRC OK)
-[requester][device_io] RECV: complete -- reassembled 21-byte transport message from 1 frame(s)
-[requester][hexdump] incoming transport msg (21 bytes): 5A 14 61 00 00 00 0C 00 00 32 00 00 00 FF 3F 00 00 FF 3F 00 00
-[transport][modbus] DECODE: unwrapped 21-byte transport message -> 20-byte SPDM message
-libspdm_receive_spdm_response[0] msg SPDM_CAPABILITIES(0x61), size (0x14):
-0000: 14 61 00 00 00 0c 00 00 32 00 00 00 ff 3f 00 00 ff 3f 00 00
-libspdm_send_spdm_request[0] msg SPDM_NEGOTIATE_ALGORITHMS(0xe3), size (0x20):
-0000: 14 e3 00 00 20 00 01 00 10 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-[transport][modbus] ENCODE: wrapped 32-byte request SPDM message -> 33-byte transport message (marker=0x5A)
-[requester][device_io] SEND: 33-byte transport message -> 1 Modbus frame(s)
-[requester][hexdump] outgoing transport msg (33 bytes): 5A 14 E3 00 00 20 00 01 00 10 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-[requester][device_io]   -> frag 1/1: 33 payload bytes, ADU=41 bytes (addr=0x11 func=0x45)
-[requester][device_io] SEND: complete (1 frame(s) on the wire)
-[requester][device_io] RECV: waiting for Modbus frame(s)...
-[requester][device_io]   <- frag 1/1: addr=0x11 func=0x45 37 payload bytes (CRC OK)
-[requester][device_io] RECV: complete -- reassembled 37-byte transport message from 1 frame(s)
-[requester][hexdump] incoming transport msg (37 bytes): 5A 14 63 00 00 24 00 01 00 02 00 00 00 10 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-[transport][modbus] DECODE: unwrapped 37-byte transport message -> 36-byte SPDM message
-libspdm_receive_spdm_response[0] msg SPDM_ALGORITHMS(0x63), size (0x24):
-0000: 14 63 00 00 24 00 01 00 02 00 00 00 10 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0020: 00 00 00 00
-base_hash - 0x00000001
-base_asym - 0x00000010
-dhe - 0x0000
-aead - 0x0000
-req_asym - 0x0000
-pqc_asym - 0x00000000
-req_pqc_asym - 0x0000
-kem - 0x0000
-[requester][main      ] connection established: version/capabilities/algorithms negotiated OK
-
----- STEP 4-5: libspdm_get_certificate() (GET_DIGESTS -> GET_CERTIFICATE, slot 0) ----
-request (offset 0x0, size 0x3ff7):
-libspdm_send_spdm_request[0] msg SPDM_GET_CERTIFICATE(0x82), size (0x8):
-0000: 14 82 00 00 00 00 f7 3f
-[transport][modbus] ENCODE: wrapped 8-byte request SPDM message -> 9-byte transport message (marker=0x5A)
-[requester][device_io] SEND: 9-byte transport message -> 1 Modbus frame(s)
-[requester][hexdump] outgoing transport msg (9 bytes): 5A 14 82 00 00 00 00 F7 3F
-[requester][device_io]   -> frag 1/1: 9 payload bytes, ADU=17 bytes (addr=0x11 func=0x45)
-[requester][device_io] SEND: complete (1 frame(s) on the wire)
-[requester][device_io] RECV: waiting for Modbus frame(s)...
-[requester][device_io]   <- frag 1/6: addr=0x11 func=0x45 248 payload bytes (CRC OK)
-[requester][device_io]   <- frag 2/6: addr=0x11 func=0x45 248 payload bytes (CRC OK)
-[requester][device_io]   <- frag 3/6: addr=0x11 func=0x45 248 payload bytes (CRC OK)
-[requester][device_io]   <- frag 4/6: addr=0x11 func=0x45 248 payload bytes (CRC OK)
-[requester][device_io]   <- frag 5/6: addr=0x11 func=0x45 248 payload bytes (CRC OK)
-[requester][device_io]   <- frag 6/6: addr=0x11 func=0x45 223 payload bytes (CRC OK)
-[requester][device_io] RECV: complete -- reassembled 1463-byte transport message from 6 frame(s)
-[requester][hexdump] incoming transport msg (1463 bytes): 5A 14 02 00 00 AE 05 00 00 AE 05 00 00 50 42 6D BB 1D 8B 60 CC 7D E6 3E 32 54 23 FC 19 1F 56 8C 28 F8 A3 86 2C 57 B8 14 E8 81 83 CC 3D 30 82 01 97 30 82 01 3D A0 03 02 01 02 02 14 38 E6 2D 01 F6 DA A4 BA 23 D3 51 38 0D 17 D4 3E F8 65 25 B6 30 0A 06 08 2A 86 48 CE 3D 04 03 02 30 21 31 1F 30 1D 06 03 55 04 03 0C 16 44 4D 54 46 20 6C 69 62 73 70 64 6D 20 45 43 50 32 35 36 20 43 41 30 1E 17 0D 32 36 30 36 32 33 30 32 35 38 33 39 5A 17 0D 33 36 30 36 32 30 30 32 35 38 33 39 5A 30 21 31 1F 30 1D 06 03 55 04 03 0C 16 44 4D 54 46 20 6C 69 62 73 70 64 6D 20 45 43 50 32 35 36 20 43 41 30 59 30 13 06 07 2A 86 48 CE 3D 02 01 06 08 2A 86 48 CE 3D 03 01 07 03 42 00 04 F6 FF 00 B6 57 6F 2C A4 8E 0A 18 6C 43 B8 53 97 C2 5D 60 66 7B 49 26 B5 14 2C 54 DB C7 E1 4C 53 7D E9 64 97 47 2C 6F 33 44 65 99 00 DE 6B 3C B2 56 2D 50 91 62 FE 34 3B 70 6B 23 1D 51 4E 40 10 A3 53 30 51 30 1D 06 03 55 1D 0E 04 16 04 14 C7 BE CA CA 9E 01 A3 34 13 77 F8 DB 36 22 D2 47 ED DC 37 6B 30 1F 06 03 55 1D 23 04 18 30 16 80 14 C7 BE CA CA 9E 01 A3 34 13 77 F8 DB 36 22 D2 47 ED DC 37 6B 30 0F 06 03 55 1D 13 01 01 FF 04 05 30 03 01 01 FF 30 0A 06 08 2A 86 48 CE 3D 04 03 02 03 48 00 30 45 02 21 00 C5 1C 62 80 50 6A 6B DD 4A 5A 0B E7 55 8F BB 9D 20 94 6D C4 91 EC 80 69 C6 F8 63 D0 D9 26 37 F3 02 20 41 75 C9 57 50 B7 76 CE C6 43 27 A5 27 2B 93 E1 3C B5 77 8D 2B 4F 1A 60 AB 2A 8A 56 76 68 0C 3C 30 82 01 BE 30 82 01 65 A0 03 02 01 02 02 01 01 30 0A 06 08 2A 86 48 CE 3D 04 03 02 30 21 31 1F 30 1D 06 03 55 04 03 0C 16 44 4D 54 46 20 6C 69 62 73 70 64 6D 20 45 43 50 32 35 36 20 43 41 30 1E 17 0D 32 36 30 36 32 33 30 32 35 38 33 39 5A 17 0D 33 36 30 36 32 30 30 32 35 38 33 39 5A 30 30 31 2E 30 2C 06 03 55 04 03 0C 25 44 4D 54 46 20 6C 69 62 73 70 64 6D 20 45 43 50 32 35 36 20 69 6E 74 65 72 6D 65 64 69 61 74 65 20 63 65 72 74 30 59 30 13 06 07 2A 86 48 CE 3D 02 01 06 08 2A 86 48 CE 3D 03 01 07 03 42 00 04 BF 1C 25 E0 AD 16 C4 BC 07 9F A7 DD 27 94 1A CF 3B 45 B1 D0 4E C4 8B 2E CB 57 82 BB D2 8F BF 69 44 2E 52 F3 54 7A 38 86 38 00 57 5F 85 09 36 8A B4 3C 83 90 D2 F2 2E 76 FF 62 98 BE CA FE A6 C4 A3 7F 30 7D 30 0C 06 03 55 1D 13 04 05 30 03 01 01 FF 30 0B 06 03 55 1D 0F 04 04 03 02 01 FE 30 1D 06 03 55 1D 0E 04 16 04 14 98 98 BD 4D 22 C9 5B 21 C0 6A 69 61 EA 20 76 02 B7 C9 E3 FB 30 20 06 03 55 1D 25 01 01 FF 04 16 30 14 06 08 2B 06 01 05 05 07 03 01 06 08 2B 06 01 05 05 07 03 02 30 1F 06 03 55 1D 23 04 18 30 16 80 14 C7 BE CA CA 9E 01 A3 34 13 77 F8 DB 36 22 D2 47 ED DC 37 6B 30 0A 06 08 2A 86 48 CE 3D 04 03 02 03 47 00 30 44 02 20 7D 69 4E 82 7A 1D D6 75 7D BC 9B 42 FA 34 31 13 B7 B5 65 CA 1B 35 94 4B 1B 2D 07 EC 28 84 86 30 02 20 63 2F F9 AF 34 21 FF 21 1E 77 2C BE 02 E7 82 BB 83 F8 F4 37 7B 04 DC 38 14 43 DD BF 1B DE 36 49 30 82 02 29 30 82 01 D0 A0 03 02 01 02 02 01 03 30 0A 06 08 2A 86 48 CE 3D 04 03 02 30 30 31 2E 30 2C 06 03 55 04 03 0C 25 44 4D 54 46 20 6C 69 62 73 70 64 6D 20 45 43 50 32 35 36 20 69 6E 74 65 72 6D 65 64 69 61 74 65 20 63 65 72 74 30 1E 17 0D 32 36 30 36 32 33 30 32 35 38 33 39 5A 17 0D 33 36 30 36 32 30 30 32 35 38 33 39 5A 30 2D 31 2B 30 29 06 03 55 04 03 0C 22 44 4D 54 46 20 6C 69 62 73 70 64 6D 20 45 43 50 32 35 36 20 72 65 73 70 6F 6E 64 65 72 20 63 65 72 74 30 59 30 13 06 07 2A 86 48 CE 3D 02 01 06 08 2A 86 48 CE 3D 03 01 07 03 42 00 04 69 BE DF AA 22 2D B7 BE C2 02 71 B9 9F 83 D4 10 89 78 35 A4 0B DC 5C 5D 70 40 57 DA 24 C2 CC BC 1F 88 E8 46 AF 80 C7 E6 B1 B5 0A D8 3D 41 84 99 B1 A9 5A 92 36 B3 08 01 C8 54 E5 F4 64 61 DB 4F A3 81 DD 30 81 DA 30 0C 06 03 55 1D 13 01 01 FF 04 02 30 00 30 0B 06 03 55 1D 0F 04 04 03 02 05 E0 30 1D 06 03 55 1D 0E 04 16 04 14 7E 3E D9 B0 AF A2 58 44 BD C2 0A 0C DE B5 11 5D 0B D6 7F 10 30 31 06 03 55 1D 11 04 2A 30 28 A0 26 06 0A 2B 06 01 04 01 83 1C 82 12 01 A0 18 0C 16 41 43 4D 45 3A 57 49 44 47 45 54 3A 31 32 33 34 35 36 37 38 39 30 30 2A 06 03 55 1D 25 01 01 FF 04 20 30 1E 06 08 2B 06 01 05 05 07 03 01 06 08 2B 06 01 05 05 07 03 02 06 08 2B 06 01 05 05 07 03 09 30 1E 06 0A 2B 06 01 04 01 83 1C 82 12 06 04 10 30 0E 30 0C 06 0A 2B 06 01 04 01 83 1C 82 12 02 30 1F 06 03 55 1D 23 04 18 30 16 80 14 98 98 BD 4D 22 C9 5B 21 C0 6A 69 61 EA 20 76 02 B7 C9 E3 FB 30 0A 06 08 2A 86 48 CE 3D 04 03 02 03 47 00 30 44 02 20 6B 24 7D C9 0A 01 21 FF 9C E7 DF 21 16 33 45 D1 51 AF 58 90 7D 37 9E BE B6 A4 01 09 C6 91 2B 46 02 20 58 38 B9 87 3B 21 1F 91 39 EE 97 58 81 2E 0D 65 A2 7A 1F 1F 11 DD 0C E3 4C 8C FA 28 F6 8F 37 98
-[transport][modbus] DECODE: unwrapped 1463-byte transport message -> 1462-byte SPDM message
-libspdm_receive_spdm_response[0] msg SPDM_CERTIFICATE(0x2), size (0x5b6):
-0000: 14 02 00 00 ae 05 00 00 ae 05 00 00 50 42 6d bb 1d 8b 60 cc 7d e6 3e 32 54 23 fc 19 1f 56 8c 28
-0020: f8 a3 86 2c 57 b8 14 e8 81 83 cc 3d 30 82 01 97 30 82 01 3d a0 03 02 01 02 02 14 38 e6 2d 01 f6
-0040: da a4 ba 23 d3 51 38 0d 17 d4 3e f8 65 25 b6 30 0a 06 08 2a 86 48 ce 3d 04 03 02 30 21 31 1f 30
-0060: 1d 06 03 55 04 03 0c 16 44 4d 54 46 20 6c 69 62 73 70 64 6d 20 45 43 50 32 35 36 20 43 41 30 1e
-0080: 17 0d 32 36 30 36 32 33 30 32 35 38 33 39 5a 17 0d 33 36 30 36 32 30 30 32 35 38 33 39 5a 30 21
-00a0: 31 1f 30 1d 06 03 55 04 03 0c 16 44 4d 54 46 20 6c 69 62 73 70 64 6d 20 45 43 50 32 35 36 20 43
-00c0: 41 30 59 30 13 06 07 2a 86 48 ce 3d 02 01 06 08 2a 86 48 ce 3d 03 01 07 03 42 00 04 f6 ff 00 b6
-00e0: 57 6f 2c a4 8e 0a 18 6c 43 b8 53 97 c2 5d 60 66 7b 49 26 b5 14 2c 54 db c7 e1 4c 53 7d e9 64 97
-0100: 47 2c 6f 33 44 65 99 00 de 6b 3c b2 56 2d 50 91 62 fe 34 3b 70 6b 23 1d 51 4e 40 10 a3 53 30 51
-0120: 30 1d 06 03 55 1d 0e 04 16 04 14 c7 be ca ca 9e 01 a3 34 13 77 f8 db 36 22 d2 47 ed dc 37 6b 30
-0140: 1f 06 03 55 1d 23 04 18 30 16 80 14 c7 be ca ca 9e 01 a3 34 13 77 f8 db 36 22 d2 47 ed dc 37 6b
-0160: 30 0f 06 03 55 1d 13 01 01 ff 04 05 30 03 01 01 ff 30 0a 06 08 2a 86 48 ce 3d 04 03 02 03 48 00
-0180: 30 45 02 21 00 c5 1c 62 80 50 6a 6b dd 4a 5a 0b e7 55 8f bb 9d 20 94 6d c4 91 ec 80 69 c6 f8 63
-01a0: d0 d9 26 37 f3 02 20 41 75 c9 57 50 b7 76 ce c6 43 27 a5 27 2b 93 e1 3c b5 77 8d 2b 4f 1a 60 ab
-01c0: 2a 8a 56 76 68 0c 3c 30 82 01 be 30 82 01 65 a0 03 02 01 02 02 01 01 30 0a 06 08 2a 86 48 ce 3d
-01e0: 04 03 02 30 21 31 1f 30 1d 06 03 55 04 03 0c 16 44 4d 54 46 20 6c 69 62 73 70 64 6d 20 45 43 50
-0200: 32 35 36 20 43 41 30 1e 17 0d 32 36 30 36 32 33 30 32 35 38 33 39 5a 17 0d 33 36 30 36 32 30 30
-0220: 32 35 38 33 39 5a 30 30 31 2e 30 2c 06 03 55 04 03 0c 25 44 4d 54 46 20 6c 69 62 73 70 64 6d 20
-0240: 45 43 50 32 35 36 20 69 6e 74 65 72 6d 65 64 69 61 74 65 20 63 65 72 74 30 59 30 13 06 07 2a 86
-0260: 48 ce 3d 02 01 06 08 2a 86 48 ce 3d 03 01 07 03 42 00 04 bf 1c 25 e0 ad 16 c4 bc 07 9f a7 dd 27
-0280: 94 1a cf 3b 45 b1 d0 4e c4 8b 2e cb 57 82 bb d2 8f bf 69 44 2e 52 f3 54 7a 38 86 38 00 57 5f 85
-02a0: 09 36 8a b4 3c 83 90 d2 f2 2e 76 ff 62 98 be ca fe a6 c4 a3 7f 30 7d 30 0c 06 03 55 1d 13 04 05
-02c0: 30 03 01 01 ff 30 0b 06 03 55 1d 0f 04 04 03 02 01 fe 30 1d 06 03 55 1d 0e 04 16 04 14 98 98 bd
-02e0: 4d 22 c9 5b 21 c0 6a 69 61 ea 20 76 02 b7 c9 e3 fb 30 20 06 03 55 1d 25 01 01 ff 04 16 30 14 06
-0300: 08 2b 06 01 05 05 07 03 01 06 08 2b 06 01 05 05 07 03 02 30 1f 06 03 55 1d 23 04 18 30 16 80 14
-0320: c7 be ca ca 9e 01 a3 34 13 77 f8 db 36 22 d2 47 ed dc 37 6b 30 0a 06 08 2a 86 48 ce 3d 04 03 02
-0340: 03 47 00 30 44 02 20 7d 69 4e 82 7a 1d d6 75 7d bc 9b 42 fa 34 31 13 b7 b5 65 ca 1b 35 94 4b 1b
-0360: 2d 07 ec 28 84 86 30 02 20 63 2f f9 af 34 21 ff 21 1e 77 2c be 02 e7 82 bb 83 f8 f4 37 7b 04 dc
-0380: 38 14 43 dd bf 1b de 36 49 30 82 02 29 30 82 01 d0 a0 03 02 01 02 02 01 03 30 0a 06 08 2a 86 48
-03a0: ce 3d 04 03 02 30 30 31 2e 30 2c 06 03 55 04 03 0c 25 44 4d 54 46 20 6c 69 62 73 70 64 6d 20 45
-03c0: 43 50 32 35 36 20 69 6e 74 65 72 6d 65 64 69 61 74 65 20 63 65 72 74 30 1e 17 0d 32 36 30 36 32
-03e0: 33 30 32 35 38 33 39 5a 17 0d 33 36 30 36 32 30 30 32 35 38 33 39 5a 30 2d 31 2b 30 29 06 03 55
-0400: 04 03 0c 22 44 4d 54 46 20 6c 69 62 73 70 64 6d 20 45 43 50 32 35 36 20 72 65 73 70 6f 6e 64 65
-0420: 72 20 63 65 72 74 30 59 30 13 06 07 2a 86 48 ce 3d 02 01 06 08 2a 86 48 ce 3d 03 01 07 03 42 00
-0440: 04 69 be df aa 22 2d b7 be c2 02 71 b9 9f 83 d4 10 89 78 35 a4 0b dc 5c 5d 70 40 57 da 24 c2 cc
-0460: bc 1f 88 e8 46 af 80 c7 e6 b1 b5 0a d8 3d 41 84 99 b1 a9 5a 92 36 b3 08 01 c8 54 e5 f4 64 61 db
-0480: 4f a3 81 dd 30 81 da 30 0c 06 03 55 1d 13 01 01 ff 04 02 30 00 30 0b 06 03 55 1d 0f 04 04 03 02
-04a0: 05 e0 30 1d 06 03 55 1d 0e 04 16 04 14 7e 3e d9 b0 af a2 58 44 bd c2 0a 0c de b5 11 5d 0b d6 7f
-04c0: 10 30 31 06 03 55 1d 11 04 2a 30 28 a0 26 06 0a 2b 06 01 04 01 83 1c 82 12 01 a0 18 0c 16 41 43
-04e0: 4d 45 3a 57 49 44 47 45 54 3a 31 32 33 34 35 36 37 38 39 30 30 2a 06 03 55 1d 25 01 01 ff 04 20
-0500: 30 1e 06 08 2b 06 01 05 05 07 03 01 06 08 2b 06 01 05 05 07 03 02 06 08 2b 06 01 05 05 07 03 09
-0520: 30 1e 06 0a 2b 06 01 04 01 83 1c 82 12 06 04 10 30 0e 30 0c 06 0a 2b 06 01 04 01 83 1c 82 12 02
-0540: 30 1f 06 03 55 1d 23 04 18 30 16 80 14 98 98 bd 4d 22 c9 5b 21 c0 6a 69 61 ea 20 76 02 b7 c9 e3
-0560: fb 30 0a 06 08 2a 86 48 ce 3d 04 03 02 03 47 00 30 44 02 20 6b 24 7d c9 0a 01 21 ff 9c e7 df 21
-0580: 16 33 45 d1 51 af 58 90 7d 37 9e be b6 a4 01 09 c6 91 2b 46 02 20 58 38 b9 87 3b 21 1f 91 39 ee
-05a0: 97 58 81 2e 0d 65 a2 7a 1f 1f 11 dd 0c e3 4c 8c fa 28 f6 8f 37 98
-cert_info - 0x00
-Certificate (offset 0x0, size 0x5ae):
-0000: ae 05 00 00 50 42 6d bb 1d 8b 60 cc 7d e6 3e 32 54 23 fc 19 1f 56 8c 28 f8 a3 86 2c 57 b8 14 e8
-0020: 81 83 cc 3d 30 82 01 97 30 82 01 3d a0 03 02 01 02 02 14 38 e6 2d 01 f6 da a4 ba 23 d3 51 38 0d
-0040: 17 d4 3e f8 65 25 b6 30 0a 06 08 2a 86 48 ce 3d 04 03 02 30 21 31 1f 30 1d 06 03 55 04 03 0c 16
-0060: 44 4d 54 46 20 6c 69 62 73 70 64 6d 20 45 43 50 32 35 36 20 43 41 30 1e 17 0d 32 36 30 36 32 33
-0080: 30 32 35 38 33 39 5a 17 0d 33 36 30 36 32 30 30 32 35 38 33 39 5a 30 21 31 1f 30 1d 06 03 55 04
-00a0: 03 0c 16 44 4d 54 46 20 6c 69 62 73 70 64 6d 20 45 43 50 32 35 36 20 43 41 30 59 30 13 06 07 2a
-00c0: 86 48 ce 3d 02 01 06 08 2a 86 48 ce 3d 03 01 07 03 42 00 04 f6 ff 00 b6 57 6f 2c a4 8e 0a 18 6c
-00e0: 43 b8 53 97 c2 5d 60 66 7b 49 26 b5 14 2c 54 db c7 e1 4c 53 7d e9 64 97 47 2c 6f 33 44 65 99 00
-0100: de 6b 3c b2 56 2d 50 91 62 fe 34 3b 70 6b 23 1d 51 4e 40 10 a3 53 30 51 30 1d 06 03 55 1d 0e 04
-0120: 16 04 14 c7 be ca ca 9e 01 a3 34 13 77 f8 db 36 22 d2 47 ed dc 37 6b 30 1f 06 03 55 1d 23 04 18
-0140: 30 16 80 14 c7 be ca ca 9e 01 a3 34 13 77 f8 db 36 22 d2 47 ed dc 37 6b 30 0f 06 03 55 1d 13 01
-0160: 01 ff 04 05 30 03 01 01 ff 30 0a 06 08 2a 86 48 ce 3d 04 03 02 03 48 00 30 45 02 21 00 c5 1c 62
-0180: 80 50 6a 6b dd 4a 5a 0b e7 55 8f bb 9d 20 94 6d c4 91 ec 80 69 c6 f8 63 d0 d9 26 37 f3 02 20 41
-01a0: 75 c9 57 50 b7 76 ce c6 43 27 a5 27 2b 93 e1 3c b5 77 8d 2b 4f 1a 60 ab 2a 8a 56 76 68 0c 3c 30
-01c0: 82 01 be 30 82 01 65 a0 03 02 01 02 02 01 01 30 0a 06 08 2a 86 48 ce 3d 04 03 02 30 21 31 1f 30
-01e0: 1d 06 03 55 04 03 0c 16 44 4d 54 46 20 6c 69 62 73 70 64 6d 20 45 43 50 32 35 36 20 43 41 30 1e
-0200: 17 0d 32 36 30 36 32 33 30 32 35 38 33 39 5a 17 0d 33 36 30 36 32 30 30 32 35 38 33 39 5a 30 30
-0220: 31 2e 30 2c 06 03 55 04 03 0c 25 44 4d 54 46 20 6c 69 62 73 70 64 6d 20 45 43 50 32 35 36 20 69
-0240: 6e 74 65 72 6d 65 64 69 61 74 65 20 63 65 72 74 30 59 30 13 06 07 2a 86 48 ce 3d 02 01 06 08 2a
-0260: 86 48 ce 3d 03 01 07 03 42 00 04 bf 1c 25 e0 ad 16 c4 bc 07 9f a7 dd 27 94 1a cf 3b 45 b1 d0 4e
-0280: c4 8b 2e cb 57 82 bb d2 8f bf 69 44 2e 52 f3 54 7a 38 86 38 00 57 5f 85 09 36 8a b4 3c 83 90 d2
-02a0: f2 2e 76 ff 62 98 be ca fe a6 c4 a3 7f 30 7d 30 0c 06 03 55 1d 13 04 05 30 03 01 01 ff 30 0b 06
-02c0: 03 55 1d 0f 04 04 03 02 01 fe 30 1d 06 03 55 1d 0e 04 16 04 14 98 98 bd 4d 22 c9 5b 21 c0 6a 69
-02e0: 61 ea 20 76 02 b7 c9 e3 fb 30 20 06 03 55 1d 25 01 01 ff 04 16 30 14 06 08 2b 06 01 05 05 07 03
-0300: 01 06 08 2b 06 01 05 05 07 03 02 30 1f 06 03 55 1d 23 04 18 30 16 80 14 c7 be ca ca 9e 01 a3 34
-0320: 13 77 f8 db 36 22 d2 47 ed dc 37 6b 30 0a 06 08 2a 86 48 ce 3d 04 03 02 03 47 00 30 44 02 20 7d
-0340: 69 4e 82 7a 1d d6 75 7d bc 9b 42 fa 34 31 13 b7 b5 65 ca 1b 35 94 4b 1b 2d 07 ec 28 84 86 30 02
-0360: 20 63 2f f9 af 34 21 ff 21 1e 77 2c be 02 e7 82 bb 83 f8 f4 37 7b 04 dc 38 14 43 dd bf 1b de 36
-0380: 49 30 82 02 29 30 82 01 d0 a0 03 02 01 02 02 01 03 30 0a 06 08 2a 86 48 ce 3d 04 03 02 30 30 31
-03a0: 2e 30 2c 06 03 55 04 03 0c 25 44 4d 54 46 20 6c 69 62 73 70 64 6d 20 45 43 50 32 35 36 20 69 6e
-03c0: 74 65 72 6d 65 64 69 61 74 65 20 63 65 72 74 30 1e 17 0d 32 36 30 36 32 33 30 32 35 38 33 39 5a
-03e0: 17 0d 33 36 30 36 32 30 30 32 35 38 33 39 5a 30 2d 31 2b 30 29 06 03 55 04 03 0c 22 44 4d 54 46
-0400: 20 6c 69 62 73 70 64 6d 20 45 43 50 32 35 36 20 72 65 73 70 6f 6e 64 65 72 20 63 65 72 74 30 59
-0420: 30 13 06 07 2a 86 48 ce 3d 02 01 06 08 2a 86 48 ce 3d 03 01 07 03 42 00 04 69 be df aa 22 2d b7
-0440: be c2 02 71 b9 9f 83 d4 10 89 78 35 a4 0b dc 5c 5d 70 40 57 da 24 c2 cc bc 1f 88 e8 46 af 80 c7
-0460: e6 b1 b5 0a d8 3d 41 84 99 b1 a9 5a 92 36 b3 08 01 c8 54 e5 f4 64 61 db 4f a3 81 dd 30 81 da 30
-0480: 0c 06 03 55 1d 13 01 01 ff 04 02 30 00 30 0b 06 03 55 1d 0f 04 04 03 02 05 e0 30 1d 06 03 55 1d
-04a0: 0e 04 16 04 14 7e 3e d9 b0 af a2 58 44 bd c2 0a 0c de b5 11 5d 0b d6 7f 10 30 31 06 03 55 1d 11
-04c0: 04 2a 30 28 a0 26 06 0a 2b 06 01 04 01 83 1c 82 12 01 a0 18 0c 16 41 43 4d 45 3a 57 49 44 47 45
-04e0: 54 3a 31 32 33 34 35 36 37 38 39 30 30 2a 06 03 55 1d 25 01 01 ff 04 20 30 1e 06 08 2b 06 01 05
-0500: 05 07 03 01 06 08 2b 06 01 05 05 07 03 02 06 08 2b 06 01 05 05 07 03 09 30 1e 06 0a 2b 06 01 04
-0520: 01 83 1c 82 12 06 04 10 30 0e 30 0c 06 0a 2b 06 01 04 01 83 1c 82 12 02 30 1f 06 03 55 1d 23 04
-0540: 18 30 16 80 14 98 98 bd 4d 22 c9 5b 21 c0 6a 69 61 ea 20 76 02 b7 c9 e3 fb 30 0a 06 08 2a 86 48
-0560: ce 3d 04 03 02 03 47 00 30 44 02 20 6b 24 7d c9 0a 01 21 ff 9c e7 df 21 16 33 45 d1 51 af 58 90
-0580: 7d 37 9e be b6 a4 01 09 c6 91 2b 46 02 20 58 38 b9 87 3b 21 1f 91 39 ee 97 58 81 2e 0d 65 a2 7a
-05a0: 1f 1f 11 dd 0c e3 4c 8c fa 28 f6 8f 37 98
-!!! VerifyCertificateChainBuffer - PASS (cert root hash match) !!!
-!!! verify_peer_cert_chain_buffer - PASS !!!
-[requester][main      ] received certificate chain: 1454 bytes
-[requester] first 32 of 1454 bytes: AE 05 00 00 50 42 6D BB 1D 8B 60 CC 7D E6 3E 32 54 23 FC 19 1F 56 8C 28 F8 A3 86 2C 57 B8 14 E8 ...
-
----- STEP 6: libspdm_get_measurement() (GET_MEASUREMENTS, all blocks, signature requested) ----
-RequesterNonce - 27 ac 3a 8a 8b ab d6 ef 64 cb e0 78 a0 aa af d9 66 b1 ce 96 c7 e8 45 98 3f 50 22 97 ad 36 36 d4
-RequesterContext - 00 00 00 00 00 00 00 00
-libspdm_send_spdm_request[0] msg SPDM_GET_MEASUREMENTS(0xe0), size (0x2d):
-0000: 14 e0 01 ff 27 ac 3a 8a 8b ab d6 ef 64 cb e0 78 a0 aa af d9 66 b1 ce 96 c7 e8 45 98 3f 50 22 97
-0020: ad 36 36 d4 00 00 00 00 00 00 00 00 00
-[transport][modbus] ENCODE: wrapped 45-byte request SPDM message -> 46-byte transport message (marker=0x5A)
-[requester][device_io] SEND: 46-byte transport message -> 1 Modbus frame(s)
-[requester][hexdump] outgoing transport msg (46 bytes): 5A 14 E0 01 FF 27 AC 3A 8A 8B AB D6 EF 64 CB E0 78 A0 AA AF D9 66 B1 CE 96 C7 E8 45 98 3F 50 22 97 AD 36 36 D4 00 00 00 00 00 00 00 00 00
-[requester][device_io]   -> frag 1/1: 46 payload bytes, ADU=54 bytes (addr=0x11 func=0x45)
-[requester][device_io] SEND: complete (1 frame(s) on the wire)
-[requester][device_io] RECV: waiting for Modbus frame(s)...
-[requester][device_io]   <- frag 1/1: addr=0x11 func=0x45 5 payload bytes (CRC OK)
-[requester][device_io] RECV: complete -- reassembled 5-byte transport message from 1 frame(s)
-[requester][hexdump] incoming transport msg (5 bytes): 5A 14 7F 05 00
-[transport][modbus] DECODE: unwrapped 5-byte transport message -> 4-byte SPDM message
-libspdm_receive_spdm_response[0] msg SPDM_ERROR(0x7f), size (0x4):
-0000: 14 7f 05 00
-[requester][main      ] GET_MEASUREMENTS failed: 0x8001000A (expected until you implement a real measurement-collection callback on the responder side -- see spdm_responder.c)
+Also, make the pmc Monitor 'Manual' by default
 
 
-===== REQUESTER DONE =====
+Also, if you can, when opening vscode via this app, make it already full screen
