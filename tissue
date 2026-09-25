@@ -1,3 +1,4 @@
+all passed now except the GET_MEASUREMENTS?? if so, can you give me a summary of what we've done to fix from start to finish, I mean like the first issue, the length, upto this cert verify
 ./spdm-responder /tmp/spdm_uart_responder  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/bundle_responder.certchain.der
 
 ===== SPDM-over-Modbus RESPONDER =====
@@ -354,5 +355,6 @@ libspdm_send_spdm_request[0] msg SPDM_GET_MEASUREMENTS(0xe0), size (0x2d):
 libspdm_receive_spdm_response[0] msg SPDM_ERROR(0x7f), size (0x4):
 0000: 14 7f 05 00
 [requester][main      ] GET_MEASUREMENTS failed: 0x8001000A (expected until you implement a real measurement-collection callback on the responder side -- see spdm_responder.c)
+
 
 ===== REQUESTER DONE =====
