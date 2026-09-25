@@ -1,4 +1,4 @@
-take note these errors:
+wait take note these errors: i forgot to include the logs thats why I gave the code
 make
 gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/spdm_responder.c -o build/spdm_responder.o
 src/spdm_responder.c:48:10: fatal error: hal/library/cryptlib_cert.h: No such file or directory
