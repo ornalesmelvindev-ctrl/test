@@ -1,196 +1,115 @@
-#include "internal/libspdm_common_lib.h" 
-libspdm_return_t libspdm_get_response_capabilities(libspdm_context_t *spdm_context,
-                                                   size_t request_size,
-                                                   const void *request,
-                                                   size_t *response_size,
-                                                   void *response)
+static bool libspdm_check_request_flag_compatibility(uint32_t capabilities_flag, uint8_t version)
 {
-    const spdm_get_capabilities_request_t *spdm_request;
-    spdm_capabilities_response_t *spdm_response;
-    libspdm_return_t status;
+    const uint8_t cert_cap = (uint8_t)(capabilities_flag >> 1) & 0x01;
+    const uint8_t chal_cap = (uint8_t)(capabilities_flag >> 2) & 0x01;
+    const uint8_t encrypt_cap = (uint8_t)(capabilities_flag >> 6) & 0x01;
+    const uint8_t mac_cap = (uint8_t)(capabilities_flag >> 7) & 0x01;
+    const uint8_t mut_auth_cap = (uint8_t)(capabilities_flag >> 8) & 0x01;
+    const uint8_t key_ex_cap = (uint8_t)(capabilities_flag >> 9) & 0x01;
+    const uint8_t psk_cap = (uint8_t)(capabilities_flag >> 10) & 0x03;
+    const uint8_t encap_cap = (uint8_t)(capabilities_flag >> 12) & 0x01;
+    const uint8_t hbeat_cap = (uint8_t)(capabilities_flag >> 13) & 0x01;
+    const uint8_t key_upd_cap = (uint8_t)(capabilities_flag >> 14) & 0x01;
+    const uint8_t handshake_in_the_clear_cap = (uint8_t)(capabilities_flag >> 15) & 0x01;
+    const uint8_t pub_key_id_cap = (uint8_t)(capabilities_flag >> 16) & 0x01;
+    const uint8_t ep_info_cap = (uint8_t)(capabilities_flag >> 22) & 0x03;
+    const uint8_t event_cap = (uint8_t)(capabilities_flag >> 25) & 0x01;
+    const uint8_t multi_key_cap = (uint8_t)(capabilities_flag >> 26) & 0x03;
 
-    spdm_request = request;
+    /* Checks common to 1.1 and higher */
+    if (version >= SPDM_MESSAGE_VERSION_11) {
+        /* Illegal to return reserved values. */
+        if ((psk_cap == 2) || (psk_cap == 3)) {
+            return false;
+        }
 
-    /* -=[Check Parameters Phase]=- */
-    LIBSPDM_ASSERT(spdm_request->header.request_response_code == SPDM_GET_CAPABILITIES);
-
-    /* -=[Verify State Phase]=- */
-    if (spdm_context->response_state != LIBSPDM_RESPONSE_STATE_NORMAL) {
-        return libspdm_responder_handle_response_state(
-            spdm_context, spdm_request->header.request_response_code,  response_size, response);
-    }
-    if (spdm_context->connection_info.connection_state != LIBSPDM_CONNECTION_STATE_AFTER_VERSION) {
-        return libspdm_generate_error_response(spdm_context,
-                                               SPDM_ERROR_CODE_UNEXPECTED_REQUEST,
-                                               0, response_size, response);
-    }
-
-    /* -=[Validate Request Phase]=- */
-    if (!libspdm_check_request_version_compatibility(
-            spdm_context, spdm_request->header.spdm_version)) {
-        return libspdm_generate_error_response(spdm_context,
-                                               SPDM_ERROR_CODE_VERSION_MISMATCH, 0,
-                                               response_size, response);
-    }
-    if (spdm_request->header.spdm_version >= SPDM_MESSAGE_VERSION_12) {
-        if (request_size < sizeof(spdm_get_capabilities_request_t)) {
-            LIBSPDM_DEBUG((LIBSPDM_DEBUG_ERROR, "[DEBUG] reject: request_size=%zu < sizeof(struct)=%zu\n",
-                    request_size, sizeof(spdm_get_capabilities_request_t)));
-            return libspdm_generate_error_response(
-                spdm_context, SPDM_ERROR_CODE_INVALID_REQUEST, 0, response_size, response);
+        /* Checks that originate from key exchange capabilities. */
+        if ((key_ex_cap == 1) || (psk_cap != 0)) {
+            if ((mac_cap == 0) && (encrypt_cap == 0)) {
+                return false;
+            }
         } else {
-            request_size = sizeof(spdm_get_capabilities_request_t);
+            if ((mac_cap == 1) || (encrypt_cap == 1) || (handshake_in_the_clear_cap == 1) ||
+                (hbeat_cap == 1) || (key_upd_cap == 1)) {
+                return false;
+            }
+            if (version >= SPDM_MESSAGE_VERSION_13) {
+                if (event_cap == 1) {
+                    return false;
+                }
+            }
         }
-    } else if (spdm_request->header.spdm_version >= SPDM_MESSAGE_VERSION_11) {
-        if (request_size < sizeof(spdm_get_capabilities_request_t) -
-            sizeof(spdm_request->data_transfer_size) - sizeof(spdm_request->max_spdm_msg_size)) {
-            return libspdm_generate_error_response(
-                spdm_context, SPDM_ERROR_CODE_INVALID_REQUEST, 0, response_size, response);
+        if ((key_ex_cap == 0) && (psk_cap == 1)) {
+            if (handshake_in_the_clear_cap == 1) {
+                return false;
+            }
+        }
+
+        /* Checks that originate from certificate or public key capabilities. */
+        if ((cert_cap == 1) || (pub_key_id_cap == 1)) {
+            /* Certificate capabilities and public key capabilities cannot both be set. */
+            if ((cert_cap == 1) && (pub_key_id_cap == 1)) {
+                return false;
+            }
+            /* If certificates or public keys are enabled then at least one of these capabilities
+             * must be enabled to use the key. */
+            if ((chal_cap == 0) && (key_ex_cap == 0)) {
+                if (version >= SPDM_MESSAGE_VERSION_13) {
+                    if ((ep_info_cap == 0) || (ep_info_cap == 1)) {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            }
         } else {
-            request_size = sizeof(spdm_get_capabilities_request_t) -
-                           sizeof(spdm_request->data_transfer_size) -
-                           sizeof(spdm_request->max_spdm_msg_size);
+            /* If certificates or public keys are not enabled then these capabilities
+             * cannot be enabled. */
+            if ((chal_cap == 1) || (mut_auth_cap == 1)) {
+                return false;
+            }
+            if (version >= SPDM_MESSAGE_VERSION_13) {
+                if (ep_info_cap == 2) {
+                    return false;
+                }
+            }
         }
-    } else {
-        if (request_size < sizeof(spdm_message_header_t)) {
-            return libspdm_generate_error_response(
-                spdm_context, SPDM_ERROR_CODE_INVALID_REQUEST, 0, response_size, response);
-        } else {
-            request_size = sizeof(spdm_message_header_t);
-        }
-    }
-    if (!libspdm_check_request_flag_compatibility(
-            spdm_request->flags, spdm_request->header.spdm_version)) {
-        LIBSPDM_DEBUG((LIBSPDM_DEBUG_ERROR, "[DEBUG] reject: flag_compatibility failed, flags=0x%08X version=0x%04X\n",
-                spdm_request->flags, spdm_request->header.spdm_version));
-        return libspdm_generate_error_response(spdm_context,
-                                               SPDM_ERROR_CODE_INVALID_REQUEST, 0,
-                                               response_size, response);
-    }
-    if (spdm_request->header.spdm_version >= SPDM_MESSAGE_VERSION_12) {
-        if ((spdm_request->data_transfer_size < SPDM_MIN_DATA_TRANSFER_SIZE_VERSION_12) ||
-            (spdm_request->data_transfer_size > spdm_request->max_spdm_msg_size)) {
-            LIBSPDM_DEBUG((LIBSPDM_DEBUG_ERROR, "[DEBUG] reject: DTS=%u MaxMsg=%u MIN=%u\n",
-                    spdm_request->data_transfer_size, spdm_request->max_spdm_msg_size,
-                    SPDM_MIN_DATA_TRANSFER_SIZE_VERSION_12));
-            return libspdm_generate_error_response(spdm_context,
-                                                   SPDM_ERROR_CODE_INVALID_REQUEST, 0,
-                                                   response_size, response);
-        }
-        if (((spdm_request->flags & SPDM_GET_CAPABILITIES_REQUEST_FLAGS_CHUNK_CAP) == 0) &&
-            (spdm_request->data_transfer_size != spdm_request->max_spdm_msg_size)) {
-            LIBSPDM_DEBUG((LIBSPDM_DEBUG_ERROR, "[DEBUG] reject: DTS!=MaxMsg without CHUNK_CAP, DTS=%u MaxMsg=%u\n",
-                    spdm_request->data_transfer_size, spdm_request->max_spdm_msg_size));
-            return libspdm_generate_error_response(spdm_context,
-                                                   SPDM_ERROR_CODE_INVALID_REQUEST, 0,
-                                                   response_size, response);
-        }
-    }
-    if (spdm_request->header.spdm_version >= SPDM_MESSAGE_VERSION_11) {
-        if (spdm_request->ct_exponent > LIBSPDM_MAX_CT_EXPONENT) {
-            LIBSPDM_DEBUG((LIBSPDM_DEBUG_ERROR, "[DEBUG] reject: ct_exponent=%u > MAX=%u\n",
-                    spdm_request->ct_exponent, LIBSPDM_MAX_CT_EXPONENT));
-            return libspdm_generate_error_response(spdm_context,
-                                                   SPDM_ERROR_CODE_INVALID_REQUEST, 0,
-                                                   response_size, response);
+
+        /* Checks that originate from mutual authentication capabilities. */
+        if (mut_auth_cap == 1) {
+            /* Mutual authentication with asymmetric keys can only occur through the basic mutual
+             * authentication flow (CHAL_CAP == 1) or the session-based mutual authentication flow
+             * (KEY_EX_CAP == 1). */
+            if ((key_ex_cap == 0) && (chal_cap == 0)) {
+                return false;
+            }
         }
     }
 
-    /* Check that if Param1[0] is set, Requester must have CHUNK_CAP */
-    if (spdm_request->header.spdm_version >= SPDM_MESSAGE_VERSION_13 &&
-        (spdm_request->header.param1 & SPDM_GET_CAPABILITIES_REQUEST_PARAM1_SUPPORTED_ALGORITHMS) &&
-        ((spdm_request->flags & SPDM_GET_CAPABILITIES_REQUEST_FLAGS_CHUNK_CAP) == 0)) {
-        LIBSPDM_DEBUG((LIBSPDM_DEBUG_ERROR, "[DEBUG] reject: SUPPORTED_ALGORITHMS param1 set without CHUNK_CAP\n"));
-        return libspdm_generate_error_response(spdm_context,
-                                               SPDM_ERROR_CODE_INVALID_REQUEST,
-                                               0,
-                                               response_size,
-                                               response);
+    /* Checks specific to 1.1. */
+    if (version == SPDM_MESSAGE_VERSION_11) {
+        if ((mut_auth_cap == 1) && (encap_cap == 0)) {
+            return false;
+        }
     }
 
-./spdm-responder /tmp/spdm_uart_responder  /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/bundle_responder.certchain.der
+    /* Checks specific to 1.3 and higher. */
+    if (version >= SPDM_MESSAGE_VERSION_13) {
+        /* Illegal to return reserved values. */
+        if ((ep_info_cap == 3) || (multi_key_cap == 3)) {
+            return false;
+        }
+        if ((multi_key_cap != 0) && ((pub_key_id_cap == 1) || (cert_cap == 0))) {
+            return false;
+        }
+    }
 
-===== SPDM-over-Modbus RESPONDER =====
-[responder][main      ] uart_path=/tmp/spdm_uart_responder cert_chain_path=/home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/bundle_responder.certchain.der
-[responder][device_io] initialized on fd=3
-[responder][setup_capabilities_and_algorithms] advertised: ct_exp=12 cap_flags=0x00000032 asym=ECDSA_P256 hash=SHA256
-[responder][read_file_to_buffer] loaded '/home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/bundle_responder.certchain.der' (1418 bytes)
-[responder][setup_local_cert_chain] local certificate chain (slot 0) installed (1418 bytes)
+    /* Checks that are deferred to when a message is received.
+     *
+     * If the Requester supports key exchange then MAC_CAP must be set. In addition, if the
+     * negotiated SPDM version is greater than 1.1 then the negotiated opaque data format must be
+     * OpaqueDataFmt1.
+     */
 
----- responder ready, waiting for requester on '/tmp/spdm_uart_responder' ----
----- (each incoming request is logged as it arrives; Ctrl-C to stop) ----
-
-[responder][device_io] RECV: waiting for Modbus frame(s)...
-[responder][device_io]   <- frag 1/1: addr=0x11 func=0x45 5 payload bytes (CRC OK)
-[responder][device_io] RECV: complete -- reassembled 5-byte transport message from 1 frame(s)
-[responder][hexdump] incoming transport msg (5 bytes): 5A 10 84 00 00
-SpdmReceiveRequest[.] ...
-[transport][modbus] DECODE: unwrapped 5-byte transport message -> 4-byte SPDM message
-SpdmReceiveRequest[0] msg SPDM_GET_VERSION(0x84), size (0x4):
-0000: 10 84 00 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_VERSION(0x4), size (0x10):
-0000: 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00 14
-[transport][modbus] ENCODE: wrapped 16-byte response SPDM message -> 17-byte transport message (marker=0x5A)
-[responder][device_io] SEND: 17-byte transport message -> 1 Modbus frame(s)
-[responder][hexdump] outgoing transport msg (17 bytes): 5A 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00 14
-[responder][device_io]   -> frag 1/1: 17 payload bytes, ADU=25 bytes (addr=0x11 func=0x45)
-[responder][device_io] SEND: complete (1 frame(s) on the wire)
-[responder][device_io] RECV: waiting for Modbus frame(s)...
-[responder][device_io]   <- frag 1/1: addr=0x11 func=0x45 21 payload bytes (CRC OK)
-[responder][device_io] RECV: complete -- reassembled 21-byte transport message from 1 frame(s)
-[responder][hexdump] incoming transport msg (21 bytes): 5A 14 E1 00 00 00 0C 00 00 02 00 00 00 FF 3F 00 00 FF 3F 00 00
-SpdmReceiveRequest[.] ...
-[transport][modbus] DECODE: unwrapped 21-byte transport message -> 20-byte SPDM message
-SpdmReceiveRequest[0] msg SPDM_GET_CAPABILITIES(0xe1), size (0x14):
-0000: 14 e1 00 00 00 0c 00 00 02 00 00 00 ff 3f 00 00 ff 3f 00 00
-SpdmSendResponse[0] ...
-[DEBUG] reject: flag_compatibility failed, flags=0x00000002 version=0x0014
-SpdmSendResponse[0]: msg SPDM_ERROR(0x7f), size (0x4):
-0000: 14 7f 01 00
-[transport][modbus] ENCODE: wrapped 4-byte response SPDM message -> 5-byte transport message (marker=0x5A)
-[responder][device_io] SEND: 5-byte transport message -> 1 Modbus frame(s)
-[responder][hexdump] outgoing transport msg (5 bytes): 5A 14 7F 01 00
-[responder][device_io]   -> frag 1/1: 5 payload bytes, ADU=13 bytes (addr=0x11 func=0x45)
-[responder][device_io] SEND: complete (1 frame(s) on the wire)
-[responder][device_io] RECV: waiting for Modbus frame(s)...
-
-./spdm-requester /tmp/spdm_uart_requester /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der
-
-===== SPDM-over-Modbus REQUESTER =====
-[requester][main      ] uart_path=/tmp/spdm_uart_requester root_cert_path=/home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der
-[requester][device_io] initialized on fd=3
-[requester][setup_capabilities_and_algorithms] advertised: ct_exp=12 cap_flags=0x00000002 asym=ECDSA_P256 hash=SHA256
-[requester][read_file_to_buffer] loaded '/home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der' (411 bytes)
-[requester][setup_trusted_root] trusted root certificate installed (411 bytes)
-
----- STEP 1-3: libspdm_init_connection() (GET_VERSION -> GET_CAPABILITIES -> NEGOTIATE_ALGORITHMS) ----
-libspdm_send_spdm_request[0] msg SPDM_GET_VERSION(0x84), size (0x4):
-0000: 10 84 00 00
-[transport][modbus] ENCODE: wrapped 4-byte request SPDM message -> 5-byte transport message (marker=0x5A)
-[requester][device_io] SEND: 5-byte transport message -> 1 Modbus frame(s)
-[requester][hexdump] outgoing transport msg (5 bytes): 5A 10 84 00 00
-[requester][device_io]   -> frag 1/1: 5 payload bytes, ADU=13 bytes (addr=0x11 func=0x45)
-[requester][device_io] SEND: complete (1 frame(s) on the wire)
-[requester][device_io] RECV: waiting for Modbus frame(s)...
-[requester][device_io]   <- frag 1/1: addr=0x11 func=0x45 17 payload bytes (CRC OK)
-[requester][device_io] RECV: complete -- reassembled 17-byte transport message from 1 frame(s)
-[requester][hexdump] incoming transport msg (17 bytes): 5A 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00 14
-[transport][modbus] DECODE: unwrapped 17-byte transport message -> 16-byte SPDM message
-libspdm_receive_spdm_response[0] msg SPDM_VERSION(0x4), size (0x10):
-0000: 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00 14
-libspdm_send_spdm_request[0] msg SPDM_GET_CAPABILITIES(0xe1), size (0x14):
-0000: 14 e1 00 00 00 0c 00 00 02 00 00 00 ff 3f 00 00 ff 3f 00 00
-[transport][modbus] ENCODE: wrapped 20-byte request SPDM message -> 21-byte transport message (marker=0x5A)
-[requester][device_io] SEND: 21-byte transport message -> 1 Modbus frame(s)
-[requester][hexdump] outgoing transport msg (21 bytes): 5A 14 E1 00 00 00 0C 00 00 02 00 00 00 FF 3F 00 00 FF 3F 00 00
-[requester][device_io]   -> frag 1/1: 21 payload bytes, ADU=29 bytes (addr=0x11 func=0x45)
-[requester][device_io] SEND: complete (1 frame(s) on the wire)
-[requester][device_io] RECV: waiting for Modbus frame(s)...
-[requester][device_io]   <- frag 1/1: addr=0x11 func=0x45 5 payload bytes (CRC OK)
-[requester][device_io] RECV: complete -- reassembled 5-byte transport message from 1 frame(s)
-[requester][hexdump] incoming transport msg (5 bytes): 5A 14 7F 01 00
-[transport][modbus] DECODE: unwrapped 5-byte transport message -> 4-byte SPDM message
-libspdm_receive_spdm_response[0] msg SPDM_ERROR(0x7f), size (0x4):
-0000: 14 7f 01 00
-[requester][main      ] FATAL: libspdm_init_connection failed: 0x8001000A
+    return true;
+}
