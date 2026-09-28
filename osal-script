@@ -429,4 +429,142 @@ admin@artesyn-shelf:~# cat /staging/psc/network/nwk.cfg
     }
   }
 
+
 also, I want to see the Logs from the lib or cli, how? and where can I get, also take note that right, we're currently using sd-dbus
+
+admin@artesyn-shelf:~# osal_cli
+Usage: osal_cli [GLOBAL OPTIONS] <command> [args]
+
+Global options:
+  --cfg FILE        nwk.cfg path        (default /staging/psc/network/nwk.cfg)
+  --dropin FILE     generated drop-in   (default .../80-wired.network.d/90-osal.conf)
+  --ifname NAME     interface           (default eth0)
+  --no-apply        write files only, do not reload networkd
+  --no-notify       skip the D-Bus log event and pollResource
+
+Commands:
+  get-static-ip | get-static-ipv6
+  set-static-ip | set-static-ipv6  [--ip ADDR/PREFIX] [--gateway GW|none] [--default]
+  get-dynamic-ip | get-dynamic-ipv6
+  get-dhcp-status | enable-dhcp | disable-dhcp
+  enable-static | disable-static   [--ipv4 | --ipv6]      (default: both)
+  get-dns | set-dns SERVER... | get-dns-status | enable-dns | disable-dns
+  reset-defaults [--ipv4 | --ipv6 | --all]
+  show | boot-sync | apply
+admin@artesyn-shelf:~# osal_cli set-static-ip --ip 192.168.0.122/24 --gateway 192.168.0.1 apply
+error: Invalid argument.
+admin@artesyn-shelf:~# osal_cli set-static-ip --ip 192.168.0.122/24 --gateway 192.168.0.1
+ip: 192.168.0.122/24,
+gateway: 192.168.0.1,
+status: enabled
+admin@artesyn-shelf:~# osal_cli apply
+admin@artesyn-shelf:~# ls
+shoot
+admin@artesyn-shelf:~# cat shoot
+-1
+2
+admin@artesyn-shelf:~#
+admin@artesyn-shelf:~#
+admin@artesyn-shelf:~# ifconfig eth0
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500  metric 1
+        inet 192.168.0.121  netmask 255.255.255.0  broadcast 192.168.0.255
+        inet6 fd12:3456:789a::120  prefixlen 64  scopeid 0x0<global>
+        inet6 fe80::486:eff:fe32:86cb  prefixlen 64  scopeid 0x20<link>
+        ether 06:86:0e:32:86:cb  txqueuelen 1000  (Ethernet)
+        RX packets 8866  bytes 1300499 (1.2 MiB)
+        RX errors 0  dropped 3  overruns 0  frame 0
+        TX packets 16031  bytes 3000534 (2.8 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+        device interrupt 41
+
+admin@artesyn-shelf:~# ifconfig e^C
+admin@artesyn-shelf:~# ip addr show dev eth0
+3: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast qlen 1000
+    link/ether 06:86:0e:32:86:cb brd ff:ff:ff:ff:ff:ff
+    inet 192.168.0.121/24 brd 192.168.0.255 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet 192.168.0.120/24 brd 192.168.0.255 scope global secondary eth0
+       valid_lft forever preferred_lft forever
+    inet6 fd12:3456:789a::120/64 scope global
+       valid_lft forever preferred_lft forever
+    inet6 fe80::486:eff:fe32:86cb/64 scope link
+       valid_lft forever preferred_lft forever
+admin@artesyn-shelf:~# cat /staging/psc/network/nwk.cfg
+{
+  "timestamp": "2026-09-28 07:39:02",
+  "network": {
+    "version": 2,
+    "hostname": "artesyn-shelf",
+    "dns": {
+      "enabled": false,
+      "servers": [
+      ]
+    },
+    "ntp": {
+      "enabled": false,
+      "servers": [
+        "null"
+      ]
+    },
+    "ipv4": {
+      "dhcp": false,
+      "static": {
+        "enabled": true,
+        "address": "192.168.0.122/24",
+        "gateway": "192.168.0.1"
+      }
+    },
+    "ipv6": {
+      "dhcp": false,
+      "accept_ra": true,
+      "static": {
+        "enabled": true,
+        "address": "fd12:3456:789a::120/64",
+        "gateway": "fd12:3456:789a::1"
+      }
+    }
+  }
+}
+
+admin@artesyn-shelf:~# cat shoot
+-1
+2
+
+int osal_bus_reload(const char *ifname)
+{
+    sd_bus *bus = NULL;
+    sd_bus_error err = SD_BUS_ERROR_NULL;
+    int idx = (int)if_nametoindex(ifname), r;
+    
+    system("echo -1 >> /home/root/shoot");
+
+    if (!idx) {
+        return osal_fail(OSAL_ERR_APPLY, "interface %s not found", ifname);
+        system("echo 0 >> /home/root/shoot");
+    }
+    r = sd_bus_open_system(&bus);
+    if (r < 0) {
+        return osal_fail(OSAL_ERR_APPLY, "cannot open system bus: %s", strerror(-r));
+        system("echo 1 >> /home/root/shoot");
+    }
+
+    r = sd_bus_call_method(bus, NET_SVC, NET_PATH, NET_IFACE, "Reload",
+                           &err, NULL, "");
+    if (r >= 0) {
+        r = sd_bus_call_method(bus, NET_SVC, NET_PATH, NET_IFACE,
+                               "ReconfigureLink", &err, NULL, "i", idx);
+        system("echo 2 >> /home/root/shoot");
+    }
+    if (r < 0) {
+        osal_fail(OSAL_ERR_APPLY, "networkd reload failed: %s",
+                  err.message ? err.message : strerror(-r));
+        system("echo 3 >> /home/root/shoot");
+    }
+    sd_bus_error_free(&err);
+    sd_bus_unref(bus);
+    return r < 0 ? OSAL_ERR_APPLY : OSAL_OK;
+}
+
+
+Also please, as I told you, dont over compliccate things, if I run set-static-ip or whatever, just apply it allready, whyt do I have to manually do
+osal_cli apply? as I said, this cli is for the costumer and debug only, dont over compliacte things
