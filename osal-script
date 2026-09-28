@@ -1,3 +1,7 @@
 wait, I will give you my progress so far, and judge it based on the performance
 I mean dont fix it yet okay? just judge, and what could be improved, I mean this is just done for testing
 I am not yet sure what is the best move for this
+
+as you can see, I want it to be maintainable
+also, maybe if only I can use the netlink or socket for getting ip, maybe just stick on reading and writing it in the conf file? or up to you which is the best
+as long as the functionality is there
