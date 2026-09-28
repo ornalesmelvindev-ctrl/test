@@ -1,28 +1,22 @@
-familiar with systemd-networkd? is there any way to edit configuration rather than modifying this config file?
-admin@artesyn-shelf:~# cat /etc/systemd/network/80-wired.network.d/80-wired.conf
-[Match]
-Name=eth0
+because currently, this is the implementation, like there's a service that executes these scripts, then parses the necessary, like ip address, then it is the one stored
+in the database, to be shown in the webui, but I think running scripts and systemcall inside C program is somehow slower
 
-[Network]
-DNS=8.8.8.8 1.1.1.1
-# Enable Both IPv4 and IPv6
-DHCP=yes
+Dont implement yet, I am planning now, is there other better way than this?
 
-# --- IPv4 Static ---
-Address=192.168.0.20/24
-Gateway=192.168.0.1
+take note, these screipts were also done for the clients, to just see the config by just running
 
-# --- IPv6 Static ---
-Address=fd12:3456:789a::121/64
-Gateway=fd12:3456:789a::1
+for example
+    admin@artesyn-shelf:~# set_static_ip.sh --ip 192.168.0.20/24 --gateway 192.168.0.1
+ip: 192.168.0.20/24,
+gateway: 192.168.0.1,
+status: enabled
+admin@artesyn-shelf:~# get_static_ip.sh
+ip: 192.168.0.20/24,
+gateway: 192.168.0.1,
+status: enabled
 
-LinkLocalAddressing=ipv6
-IPv6AcceptRA=yes
+then in the systemd service, just calls like set_static_ip.sh --args
+then for get, get_static_ip.sh then parse the necessary ones
 
-[DHCP]
-RouteMetric=200
-UseMTU=true
-VendorClassIdentifier=Artesyn_700_015496_0000
-
-I mean for example, in getting ip address, I can use netlink lib in C right?
-my question is is there any way to set config? Or systemd-networkd really just reads this config file?
+I mean it can be better right? Can you give me the better approach to this
+take note of the persistency okay? not just runtime
