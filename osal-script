@@ -1,64 +1,21 @@
-ow, so because every set I made, I write it on the nwk.cfg via set_persistent_config.sh
-
-I can just read there always, on creating the 90-osal.conf?
-wait, am I on the right direction?
-
-So maybe, I just really need to edit that one? the configable ones? then write the 90-osal.conf based on that json file, 
-then restart systemd-networkd???
-wait is this better? dont be biased okay? trust your intuition and creativity(optimized)
-
-you can still suggest better if you think this one is not
-
-because you're right, I think that nwk.cfg is the source of truth
-
-if so, you can also suggest the right format for the json(nwk.cfg) if you think the current one misses something
-
-because take note as well, like we have one shot service every boot ofcourse or firmware upgrade, that replaces taht 80-wired.conf
-based on the content of the nwk.cfg, 
-
-I think the replace_network_config.sh do that
-or the replace_*.sh scripts
-
-btw this is the oneshot service(script called by the one shot service)
-and also of course, this will also be changed
-
+this is the one being ran by the pmc-nwk.path service
 #!/bin/bash
 
-# Checks whether the config file is empty or missing. If yes, regenerate it based from persistent configuration
+# Trigger sync of network config with persistent config whenever there is a change
 
 NETWORK_CONFIG_PATH='/etc/systemd/network/80-wired.network.d'
 NETWORK_CONFIG_FILE="$NETWORK_CONFIG_PATH/80-wired.conf"
-BYTE_COUNT_LIMIT=5
 
-# persistent settings
-PERSISTENT_NETWORK_CONFIG_PATH='/staging/psc/network'
-PERSISTENT_NETWORK_CONFIG_FILE="$PERSISTENT_NETWORK_CONFIG_PATH/nwk.cfg"
 
-# defaults
-DEFAULT_STATIC_IP='192.168.0.120/24'
-DEFAULT_STATIC_GW='192.168.0.1'
-DEFAULT_DHCP_STATE='ipv4'
-
-DEFAULT_STATIC_IPV6='fd12:3456:789a::120/64'
-DEFAULT_STATIC_IPV6_GW='fd12:3456:789a::1'
-
-GET_STATIC_IP_CFG=$(get_static_ip.sh | awk '/ip:/ {print}' | awk -F': ' '{print $2}' | tr -d ',\n')
-GET_STATIC_GW_CFG=$(get_static_ip.sh | awk '/gateway:/ {print}' | awk -F': ' '{print $2}'  | tr -d ',\n')
-
-GET_STATIC_IPV6_CFG=$(get_static_ipv6.sh | awk '/ip:/ {print}' | awk -F': ' '{print $2}' | tr -d ',\n')
-CFG_IPV6_GW=$(get_static_ipv6.sh | awk '/gateway:/ {print}' | awk -F': ' '{print $2}' | tr -d ',\n')
-
-GET_STATIC_IPV6_CFG=$(get_static_ipv6.sh | awk '/ip:/ {print}' | awk -F': ' '{print $2}' | tr -d ',\n')
-GET_STATIC_IPV6_GW_CFG=$(get_static_ipv6.sh | awk '/gateway:/ {print}' | awk -F': ' '{print $2}' | tr -d ',\n')
-
-DBUS_SIGNAL_INTERFACE_NAME='aei.osal.pmcsvc1.signals.logs'
+# event logs
+DBUS_SIGNAL_INTERFACE_NAME='aei.osal.pmcnwk1.signals.logs'
 LOGS_DM_DBUS_LOG_TABLE='managers'
 
 TIMESTAMP=$(date +"%Y-%m-%d %T")
 EVENT_NAME='PscSupervisory'
 EVENT_DESCRIPTION='Configuration Update'
 EVENT_TYPE='StatusChange'
-EVENT_MESSAGE="80-wired.conf has been regenerated."
+EVENT_MESSAGE="Network Configuration has been updated."
 
 function dmlogsEntry() {
     TIMESTAMP=$(date +"%Y-%m-%d %T")
@@ -67,177 +24,22 @@ function dmlogsEntry() {
         string:"$LOGS_MSG" > /dev/null 2>&1
 }
 
-process_regenerate_network_config()
-{
-    sudo mkdir $NETWORK_CONFIG_PATH
-    output=$(sudo RECREATE_CONFIG=true \
-        /usr/bin/replace_network_config.sh 2>&1)
+sync # making it sure all buffers are already written
 
-    ret=$?
-    [[ $ret -ne 0 ]] && error "Failed to recreate network config file"
-    
-sync
-}
-
-process_static_network_settings()
-{
-    IS_STATIC_ENABLED=$(cat $PERSISTENT_NETWORK_CONFIG_FILE | jq -r '.network.static.enabled')
-    CFG_IP=$(cat $PERSISTENT_NETWORK_CONFIG_FILE | jq -r '.network.static.ipv4.ip')
-    CFG_GW=$(cat $PERSISTENT_NETWORK_CONFIG_FILE | jq -r '.network.static.ipv4.gateway')  
-    SYSTEM_IP=$GET_STATIC_IP_CFG
-    SYSTEM_GW=$GET_STATIC_GW_CFG
-
-    if [[ "$IS_STATIC_ENABLED" == "true" ]]; then
-        sudo enable_static_network.sh
-    else
-        sudo disable_static_network.sh
-    fi
-    
-    if [ -z $CFG_IP ]; then
-        CFG_IP=$DEFAULT_STATIC_IP
-        CFG_GW=$DEFAULT_STATIC_GW
-    fi
-
-    if [[ "$CFG_IP" != "$SYSTEM_IP" ]] || [[ "$CFG_GW" != "$SYSTEM_GW" ]]; then            
-        sudo set_static_ip.sh --ip $CFG_IP --gateway $CFG_GW
-
-        echo "Persistent Static IP and Gateway has been loaded."
-    fi
-}
-
-process_static_ipv6_settings()
-{
-    CFG_IPV6_IP=$(cat $PERSISTENT_NETWORK_CONFIG_FILE | jq -r '.network.static.ipv6.ip')
-    CFG_IPV6_GW=$(cat $PERSISTENT_NETWORK_CONFIG_FILE | jq -r '.network.static.ipv6.gateway')
-
-    SYSTEM_IPV6_IP=$GET_STATIC_IPV6_CFG
-    SYSTEM_IPV6_GW=$GET_STATIC_IPV6_GW_CFG
-
-    if [ -z "$CFG_IPV6_IP" ] || [ "$CFG_IPV6_IP" = "null" ]; then
-        CFG_IPV6_IP=$DEFAULT_STATIC_IPV6
-        CFG_IPV6_GW=$DEFAULT_STATIC_IPV6_GW
-    fi
-
-    if [[ "$CFG_IPV6_IP" != "$SYSTEM_IPV6_IP" ]] || [[ "$CFG_IPV6_GW" != "$SYSTEM_IPV6_GW" ]]; then
-
-        sudo set_static_ipv6.sh --ip "$CFG_IPV6_IP" --gateway "$CFG_IPV6_GW"
-
-        echo "Persistent Static IPv6 and Gateway has been loaded."
-    fi
-}
-
-process_dhcp_network_settings()
-{
-    IS_DCHP_ENABLED=$(cat $PERSISTENT_NETWORK_CONFIG_FILE | jq -r '.network.dhcp.enabled')
-    SYSTEM_DHCP_STATUS=$(get_dhcp_status.sh | awk -F': ' '{print $2}' | tr -d '\n')
-    
-    if [[ "$IS_DCHP_ENABLED" == "true" ]]; then
-        if [[ "$SYSTEM_DHCP_STATUS" != "enabled" ]]; then
-            sudo enable_dhcp.sh
-        fi
-    else
-        if [[ "$SYSTEM_DHCP_STATUS" != "disabled" ]]; then
-            sudo disable_dhcp.sh
-        fi        
-    fi
-}
-
-process_dns_settings()
-{
-    CFG_SERVER_LIST=$(cat $PERSISTENT_NETWORK_CONFIG_FILE | jq -r '.network.dns.server' | sed -E ':a;N;$!ba; s/[]["]//g; s/,[[:space:]]*/ /g; s/[[:space:]]+/ /g; s/^ +//; s/ +$//')
-    SYSTEM_SERVER_LIST=$(read_dns_servers.sh | sed -E 's/.*\[//; s/\]//; s/, */ /g' | tr -d '\n')
-    if [[ "$SYSTEM_SERVER_LIST" != "$CFG_SERVER_LIST" ]]; then
-        [[ "$CFG_SERVER_LIST" == "[]" ]] && CFG_SERVER_LIST=" "
-        replace_dns_servers.sh --servers "$CFG_SERVER_LIST"
-    fi  
-
-    IS_DNS_ENABLED=$(cat $PERSISTENT_NETWORK_CONFIG_FILE | jq -r '.network.dns.enabled')
-    SYSTEM_DNS_STATUS=$(get_dns_status.sh | awk -F': ' '{print $2}' | tr -d '\n')
-
-    if [[ "$IS_DNS_ENABLED" == "true" ]]; then
-        if [[ "$SYSTEM_DNS_STATUS" != "enabled" ]]; then
-            sudo enable_dns.sh --no-sync
-        fi
-    else
-        if [[ "$SYSTEM_DNS_STATUS" != "disabled" ]]; then
-            sudo disable_dns.sh --no-sync
-        fi        
-    fi
-    
-}
-
-process_ntp_settings()
-{
-    CFG_SERVER_LIST=$(cat $PERSISTENT_NETWORK_CONFIG_FILE | jq -r '.network.ntp.server' | sed -E ':a;N;$!ba; s/[]["]//g; s/,[[:space:]]*/ /g; s/[[:space:]]+/ /g; s/^ +//; s/ +$//')
-    SYSTEM_SERVER_LIST=$(read_ntp_servers.sh | sed -E 's/.*\[//; s/\]//; s/, */ /g' | tr -d '\n')
-    if [[ "$SYSTEM_SERVER_LIST" != "$CFG_SERVER_LIST" ]]; then
-
-        [[ "$CFG_SERVER_LIST" == "[]" ]] && CFG_SERVER_LIST=" "
-        sudo replace_ntp_servers.sh --servers "$CFG_SERVER_LIST"
-    fi
-
-    IS_NTP_ENABLED=$(cat $PERSISTENT_NETWORK_CONFIG_FILE | jq -r '.network.ntp.enabled')
-    SYSTEM_NTP_STATUS=$(get_ntp_status.sh | awk -F': ' '{print $2}' | tr -d '\n')
-
-    if [[ "$IS_NTP_ENABLED" == "true" ]]; then
-        if [[ "$SYSTEM_NTP_STATUS" != "enabled" ]]; then
-            sudo enable_ntp.sh --no-sync
-        fi
-    else
-        if [[ "$SYSTEM_NTP_STATUS" != "disabled" ]]; then
-            sudo disable_ntp.sh --no-sync
-        fi        
-    fi
-    
-}
-
-systemctl stop pmc-nwk.path
-
-if [ ! -f $NETWORK_CONFIG_FILE ] || [ $BYTE_COUNT_LIMIT -gt $(wc -c < $NETWORK_CONFIG_FILE) ]; then
-    echo "Config file is missing/empty."    
-    process_regenerate_network_config
-
-    if [ -f $PERSISTENT_NETWORK_CONFIG_FILE ]; then # recover and sync
-        process_dhcp_network_settings
-        process_static_network_settings            
-        process_static_ipv6_settings
-        process_dns_settings
-        process_ntp_settings      
-    else # recover network config file and reflect to persistent config
-        echo "Missing network config file. Resetting Network Settings to default."
-
-        CFG_DNS_STATE=$(get_dns_status.sh | awk -F': ' '{print $2}' | tr -d '\n')
-        if [[ "$CFG_DNS_STATE" == "enabled" ]]; then
-            sudo enable_dns.sh --no-sync
-        else
-            sudo disable_dns.sh --no-sync
-        fi
-
-        CFG_NTP_STATE=$(get_ntp_status.sh | awk -F': ' '{print $2}' | tr -d '\n')
-        if [[ "$CFG_NTP_STATE" == "enabled" ]]; then
-            sudo enable_ntp.sh --no-sync
-        else
-            sudo disable_ntp.sh --no-sync
-        fi
-                
-        sudo systemctl restart systemd-networkd
-        sudo set_persistent_config.sh --sync
-    fi
-
+# do not override persistent config if network config is missing
+if [ -f "$NETWORK_CONFIG_FILE" ]; then
+    sudo set_persistent_config.sh --sync
     # create event log
     dmlogsEntry $EVENT_MESSAGE
-else # sync
-    if [ -f $PERSISTENT_NETWORK_CONFIG_FILE ]; then
-        process_dns_settings
-        process_ntp_settings
-        process_dhcp_network_settings
-        process_static_network_settings    
-        process_static_ipv6_settings   
-    else
-        sudo set_persistent_config.sh --sync
-    fi  
 fi
 
-systemctl start pmc-nwk.path
-
 exit 0
+
+
+
+for now, can you summarize all what we've talked(in a one block only okay, copy-able one)
+because I dont know when this thread or session will reach it limit, so I might consider talking to my other claude ai account
+and what I want ofcourse is the prompt there the best plans we made for far in this thread,
+also take note that I will also send there the osal-script.tar.gz and the network-osal.tar.gz
+take into consideration all okay
+Also, we're using json-c lib
