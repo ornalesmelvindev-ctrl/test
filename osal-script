@@ -1,7 +1,55 @@
-wait, I will give you my progress so far, and judge it based on the performance
-I mean dont fix it yet okay? just judge, and what could be improved, I mean this is just done for testing
-I am not yet sure what is the best move for this
+I mean my problem with override is like for example
+admin@artesyn-shelf:~# cat /etc/systemd/network/80-wired.network.d/80-wired.conf
+[Match]
+Name=eth0
 
-as you can see, I want it to be maintainable
-also, maybe if only I can use the netlink or socket for getting ip, maybe just stick on reading and writing it in the conf file? or up to you which is the best
-as long as the functionality is there
+[Network]
+DNS=8.8.8.8 1.1.1.1
+# Enable Both IPv4 and IPv6
+DHCP=yes
+
+# --- IPv4 Static ---
+Address=192.168.0.20/24
+Gateway=192.168.0.1
+
+# --- IPv6 Static ---
+Address=fd12:3456:789a::121/64
+Gateway=fd12:3456:789a::1
+
+LinkLocalAddressing=ipv6
+IPv6AcceptRA=yes
+
+[DHCP]
+RouteMetric=200
+UseMTU=true
+VendorClassIdentifier=Artesyn_700_015496_0000
+
+then for example, I override the ip
+
+# 90-ip-override.conf
+[Network]
+Address=192.168.0.50/24
+Gateway=192.168.0.254
+
+it will apply right?
+
+but what if I disable the static ipv6?
+
+I cant do
+
+# 90-ip-override.conf
+[Network]
+# Address=192.168.0.50/24
+# Gateway=192.168.0.254
+
+also cant do
+# 90-ip-override.conf
+[Network]
+Address=
+Gateway=
+
+since what if I reenable? so the last set will be gone?
+
+I mean take into consideration all of that
+
+Dont focus on the oither which is not network related okay
