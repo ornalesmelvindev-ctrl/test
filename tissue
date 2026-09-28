@@ -1,4 +1,3 @@
-hey why
 === Sourcing Yocto build environment ===
 
 ### Shell environment set up for builds. ###
@@ -22,14 +21,18 @@ Install output already present - skipping a redundant do_install re-run.
 Using: /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/image
 Binary found in output: osal_cli (deploying as systemd unit: osal-network-boot)
 === Archiving /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/image (whole install output) ===
-=== Deploying to root@192.168.0.20 ===
-ssh: connect to host 192.168.0.20 port 22: Connection timed out
-ERROR: could not reach 192.168.0.20 over SSH with the configured device credentials.
+=== Relay mode: leaving archive for the app to finish this deploy ===
+RELAY_DEVICE_DEST: /
+RELAY_TARBALL: /tmp/osal-network_deploy.tar.gz
+DEPLOYMENT STAGED FOR RELAY: osal-network
 
-but i can ssh it locally (this is static ip, not from our network)
-ssh root@192.168.0.20
-root@192.168.0.20's password:
-Last login: Mon Sep 28 04:09:02 2026 from 192.168.0.11
-admin@artesyn-shelf:~#
+=== Relaying through this PC to 192.168.0.20 ===
+Device target: /
+Pulling archive from the build server...
+Stopping osal-network-boot on the device...
+Pushing archive to the device...
 
-maybe put as well in the app, ssh to static ip and fix that deploy thing, ofcourse that must work since I can ssh that ip locally
+also, why it takes too long? Also, where is the ssh for local/static devices?
+I mean is what you're doing like compress from build. compy to this device(depending if powershgell or wsl), then copy to the device(root@192.168.0.20 in this case)
+then remove the tarball in all?
+please optimize and dont take so loing
