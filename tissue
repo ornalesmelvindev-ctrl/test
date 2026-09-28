@@ -1,94 +1,35 @@
-Becauase sometimes, after firmware upgrade, webui is available but ssh is off by default, so need to do this
-first create session, then execute the ssh, then delete session
+hey why
+=== Sourcing Yocto build environment ===
 
-#create session
-admin@artesyn-shelf:~# curl -kX POST "https://10.152.12.25/redfish/v1/SessionService/Sessions" -H "accept: application/json" -H "Content-Type: a
-pplication/json" -d "{\"Password\":\"admin1234\",\"UserName\":\"admin\"}"
-expected response
-{
-  "@odata.id": "/redfish/v1/SessionService/Sessions/392d26283ee9c361",
-  "CreatedTime": "2026-09-25T07:36:06.376Z",
-  "Description": "SessionDetails",
-  "UserName": "admin",
-  "@odata.type": "#Session.v1_8_0.Session",
-  "Id": "392d26283ee9c361",
-  "ExpirationTime": "2026-09-25T07:51:06.376Z",
-  "Name": "SessionDetails"
-  
+### Shell environment set up for builds. ###
 
-#enable ssh
-curl -kX PATCH "https://10.152.12.25/redfish/v1/Managers/PSC/NetworkProtocol" -H "accept: application/json" -H "X-Auth-Token: f7f24375080b1938" -H "Content-Type: application/json" -d "{\"SSH\":{\"ProtocolEnabled\":false}}"
-expected response
-{
-  "Status": {
-    "Health": "OK",
-    "State": "Enabled"
-  },
-  "Description": "PMC Network Protocols",
-  "@odata.type": "#ManagerNetworkProtocol.v1_12_0.ManagerNetworkProtocol",
-  "DNS": {
-    "Port": 53,
-    "ProtocolEnabled": false,
-    "DNSServers": [
-      ""
-    ]
-  },
-  "SSH": {
-    "Port": 22,
-    "ProtocolEnabled": false
-  },
-  "HTTP": {
-    "Port": 80,
-    "ProtocolEnabled": false
-  },
-  "SSDP": {
-    "Port": 1900,
-    "ProtocolEnabled": true,
-    "NotifyIPv6Scope": "LINK",
-    "NotifyMulticastIntervalSeconds": 600,
-    "NotifyTTL": 5
-  },
-  "NTP": {
-    "Port": 123,
-    "ProtocolEnabled": false,
-    "NTPServers": [
-      ""
-    ]
-  },
-  "DHCP": {
-    "Port": 64,
-    "ProtocolEnabled": true
-  },
-  "DHCPv6": {
-    "Port": 546,
-    "ProtocolEnabled": true
-  },
-  "Name": "Manager Network Protocol",
-  "@odata.id": "/redfish/v1/Managers/PSC/NetworkProtocol",
-  "HTTPS": {
-    "Port": 443,
-    "ProtocolEnabled": true
-  },
-  "Id": "Id",
-  "HostName": "Artesyn"
-}
+You can now run 'bitbake <target>'
 
-#delete seesion
-curl -kX DELETE "https://10.152.12.25/redfish/v1/SessionService/Sessions/f7f24375080b1938" -H "accept: application/json" -H "X-Auth-Token: f7f24375080b1938"
+Common targets are:
+    core-image-minimal
+    core-image-sato
+    meta-toolchain
+    meta-ide-support
 
-expected response
-{
-  "@odata.id": "/redfish/v1/SessionService/Sessions/f7f24375080b1938",
-  "CreatedTime": "2026-09-25T07:37:44.784Z",
-  "Description": "SessionDetails",
-  "UserName": "admin",
-  "@odata.type": "#Session.v1_8_0.Session",
-  "Id": "f7f24375080b1938",
-  "ExpirationTime": "2026-09-25T07:54:56.526Z",
-  "Name": "SessionDetails"
-}
+You can also run generated qemu images with a command like 'runqemu qemux86'
 
-Also, make the pmc Monitor 'Manual' by default
+Other commonly useful commands are:
+ - 'devtool' and 'recipetool' handle common recipe tasks
+ - 'bitbake-layers' handles common layer tasks
+ - 'oe-pkgdata-util' handles common target package tasks
+=== Determining install output for osal-network ===
+Install output already present - skipping a redundant do_install re-run.
+Using: /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/image
+Binary found in output: osal_cli (deploying as systemd unit: osal-network-boot)
+=== Archiving /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/image (whole install output) ===
+=== Deploying to root@192.168.0.20 ===
+ssh: connect to host 192.168.0.20 port 22: Connection timed out
+ERROR: could not reach 192.168.0.20 over SSH with the configured device credentials.
 
+but i can ssh it locally (this is static ip, not from our network)
+ssh root@192.168.0.20
+root@192.168.0.20's password:
+Last login: Mon Sep 28 04:09:02 2026 from 192.168.0.11
+admin@artesyn-shelf:~#
 
-Also, if you can, when opening vscode via this app, make it already full screen
+maybe put as well in the app, ssh to static ip and fix that deploy thing, ofcourse that must work since I can ssh that ip locally
