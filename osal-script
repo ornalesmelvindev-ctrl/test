@@ -1,0 +1,28 @@
+familiar with systemd-networkd? is there any way to edit configuration rather than modifying this config file?
+admin@artesyn-shelf:~# cat /etc/systemd/network/80-wired.network.d/80-wired.conf
+[Match]
+Name=eth0
+
+[Network]
+DNS=8.8.8.8 1.1.1.1
+# Enable Both IPv4 and IPv6
+DHCP=yes
+
+# --- IPv4 Static ---
+Address=192.168.0.20/24
+Gateway=192.168.0.1
+
+# --- IPv6 Static ---
+Address=fd12:3456:789a::121/64
+Gateway=fd12:3456:789a::1
+
+LinkLocalAddressing=ipv6
+IPv6AcceptRA=yes
+
+[DHCP]
+RouteMetric=200
+UseMTU=true
+VendorClassIdentifier=Artesyn_700_015496_0000
+
+I mean for example, in getting ip address, I can use netlink lib in C right?
+my question is is there any way to set config? Or systemd-networkd really just reads this config file?
