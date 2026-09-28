@@ -568,3 +568,22 @@ int osal_bus_reload(const char *ifname)
 
 Also please, as I told you, dont over compliccate things, if I run set-static-ip or whatever, just apply it allready, whyt do I have to manually do
 osal_cli apply? as I said, this cli is for the costumer and debug only, dont over compliacte things
+
+please remove the unnecesary ones, as long as the function is there, 
+also replace the CMakeLists and recipe okay, I already providfed,
+
+Also also, dont forgot that I want ot see the logs in the terminal, rhight now I cant see,
+
+Also, can you do like busybox i think? like when I execuyte for example
+get_static_ip.sh, it will execute inside the osal_cli get-static-ip, same with the rest of  the scripts, I mean for now, slighlty rename the scripts because as you know
+the oprignal scripts are existing
+
+so maybe like get-static-ip1.sh, put just '1' in the names
+
+also like put all the source in src dir, dont separate cli from src, just name the file
+
+Take your time in this,
+take note also that maybe address in conf file is a list so that it doesnt override the exsiting ip for example, isntead, it jsut appeneds
+
+as long as our first esired output is there, like write to nwk.cfg, then based on that, create the conf file then reload or restart systemd-networkd, like that, I just dont
+ want to overcompilcate things for now, remove the unnecesary ones
