@@ -1,3 +1,5 @@
+can you reaLLY FIX IT?  also, why it takes so long?
+
 === Sourcing Yocto build environment ===
 
 ### Shell environment set up for builds. ###
@@ -17,7 +19,7 @@ Other commonly useful commands are:
  - 'bitbake-layers' handles common layer tasks
  - 'oe-pkgdata-util' handles common target package tasks
 === Determining install output for osal-network ===
-Install output already present - skipping a redundant do_install re-run.
+Install output already present - skipping a redundant do_install re-run. qq
 Using: /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/image
 Binary found in output: osal_cli (deploying as systemd unit: osal-network-boot)
 === Archiving /home/melvin/dev/project/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/image (whole install output) ===
@@ -28,11 +30,16 @@ DEPLOYMENT STAGED FOR RELAY: osal-network
 
 === Relaying through this PC to 192.168.0.20 ===
 Device target: /
-Pulling archive from the build server...
 Stopping osal-network-boot on the device...
-Pushing archive to the device...
+Streaming archive from the build server to the device...
 
-also, why it takes too long? Also, where is the ssh for local/static devices?
-I mean is what you're doing like compress from build. compy to this device(depending if powershgell or wsl), then copy to the device(root@192.168.0.20 in this case)
-then remove the tarball in all?
-please optimize and dont take so loing
+I mean I need -O flag for local
+sshpass -p 'gEd2Be&v' \
+scp -O \
+-o StrictHostKeyChecking=no \
+-o UserKnownHostsFile=/dev/null \
+/tmp/osal-network_deploy.tar.gz \
+root@192.168.0.20:/tmp/
+Warning: Permanently added '192.168.0.20' (ED25519) to the list of known hosts.
+
+I tried manually
