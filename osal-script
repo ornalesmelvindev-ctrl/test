@@ -324,3 +324,109 @@ do_install_append() {
         done
     fi
 }
+
+admin@artesyn-shelf:~# ifconfig
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500  metric 1
+        inet 192.168.0.120  netmask 255.255.255.0  broadcast 192.168.0.255
+        inet6 fd12:3456:789a::120  prefixlen 64  scopeid 0x0<global>
+        inet6 fe80::486:eff:fe32:86cb  prefixlen 64  scopeid 0x20<link>
+        ether 06:86:0e:32:86:cb  txqueuelen 1000  (Ethernet)
+        RX packets 7225  bytes 823884 (804.5 KiB)
+        RX errors 0  dropped 3  overruns 0  frame 0
+        TX packets 13168  bytes 2459521 (2.3 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+        device interrupt 41
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536  metric 1
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 3395  bytes 414169 (404.4 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 3395  bytes 414169 (404.4 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+admin@artesyn-shelf:~# ifconfig
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500  metric 1
+        inet 192.168.0.120  netmask 255.255.255.0  broadcast 192.168.0.255
+        inet6 fd12:3456:789a::120  prefixlen 64  scopeid 0x0<global>
+        inet6 fe80::486:eff:fe32:86cb  prefixlen 64  scopeid 0x20<link>
+        ether 06:86:0e:32:86:cb  txqueuelen 1000  (Ethernet)
+        RX packets 7255  bytes 826908 (807.5 KiB)
+        RX errors 0  dropped 3  overruns 0  frame 0
+        TX packets 13268  bytes 2483341 (2.3 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+        device interrupt 41
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536  metric 1
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 3536  bytes 431062 (420.9 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 3536  bytes 431062 (420.9 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+admin@artesyn-shelf:~# ip addr show dev eth0
+3: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast qlen 1000
+    link/ether 06:86:0e:32:86:cb brd ff:ff:ff:ff:ff:ff
+    inet 192.168.0.120/24 brd 192.168.0.255 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet 192.168.0.121/24 brd 192.168.0.255 scope global secondary eth0
+       valid_lft forever preferred_lft forever
+    inet6 fd12:3456:789a::120/64 scope global
+       valid_lft forever preferred_lft forever
+    inet6 fe80::486:eff:fe32:86cb/64 scope link
+       valid_lft forever preferred_lft forever
+admin@artesyn-shelf:~# osal_cli set-static-ip --ip 192.168.0.122/24 --gateway 192.168.0.1
+ip: 192.168.0.122/24,
+gateway: 192.168.0.1,
+status: enabled
+admin@artesyn-shelf:~# ip addr show dev eth0
+3: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast qlen 1000
+    link/ether 06:86:0e:32:86:cb brd ff:ff:ff:ff:ff:ff
+    inet 192.168.0.120/24 brd 192.168.0.255 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet 192.168.0.121/24 brd 192.168.0.255 scope global secondary eth0
+       valid_lft forever preferred_lft forever
+    inet6 fd12:3456:789a::120/64 scope global
+       valid_lft forever preferred_lft forever
+    inet6 fe80::486:eff:fe32:86cb/64 scope link
+       valid_lft forever preferred_lft forever
+admin@artesyn-shelf:~# cat /staging/psc/network/nwk.cfg
+{
+  "timestamp": "2026-09-28 07:14:34",
+  "network": {
+    "version": 2,
+    "hostname": "artesyn-shelf",
+    "dns": {
+      "enabled": false,
+      "servers": [
+      ]
+    },
+    "ntp": {
+      "enabled": false,
+      "servers": [
+        "null"
+      ]
+    },
+    "ipv4": {
+      "dhcp": false,
+      "static": {
+        "enabled": true,
+        "address": "192.168.0.122/24",
+        "gateway": "192.168.0.1"
+      }
+    },
+    "ipv6": {
+      "dhcp": false,
+      "accept_ra": true,
+      "static": {
+        "enabled": true,
+        "address": "fd12:3456:789a::120/64",
+        "gateway": "fd12:3456:789a::1"
+      }
+    }
+  }
+
+also, I want to see the Logs from the lib or cli, how? and where can I get, also take note that right, we're currently using sd-dbus
