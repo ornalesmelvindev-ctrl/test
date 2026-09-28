@@ -1,22 +1,3 @@
-because currently, this is the implementation, like there's a service that executes these scripts, then parses the necessary, like ip address, then it is the one stored
-in the database, to be shown in the webui, but I think running scripts and systemcall inside C program is somehow slower
-
-Dont implement yet, I am planning now, is there other better way than this?
-
-take note, these screipts were also done for the clients, to just see the config by just running
-
-for example
-    admin@artesyn-shelf:~# set_static_ip.sh --ip 192.168.0.20/24 --gateway 192.168.0.1
-ip: 192.168.0.20/24,
-gateway: 192.168.0.1,
-status: enabled
-admin@artesyn-shelf:~# get_static_ip.sh
-ip: 192.168.0.20/24,
-gateway: 192.168.0.1,
-status: enabled
-
-then in the systemd service, just calls like set_static_ip.sh --args
-then for get, get_static_ip.sh then parse the necessary ones
-
-I mean it can be better right? Can you give me the better approach to this
-take note of the persistency okay? not just runtime
+wait, I will give you my progress so far, and judge it based on the performance
+I mean dont fix it yet okay? just judge, and what could be improved, I mean this is just done for testing
+I am not yet sure what is the best move for this
