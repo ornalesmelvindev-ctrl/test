@@ -1,48 +1,106 @@
-like look, they are jsut for client and tester, we're actually using them
-thats why I came up with this library/cli
+how can I use that test?
+  want: 1
+  got :
+grep: /tmp/tmp.REV9jA6qHA/net/80-wired.conf: No such file or directory
+FAIL conf has ^UseMTU=true
+  want: 1
+  got :
+grep: /tmp/tmp.REV9jA6qHA/net/80-wired.conf: No such file or directory
+FAIL conf has ^VendorClassIdentifier=
+  want: 1
+  got :
+/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 82: /work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/osal-network-1.0+git999/osal_cli: cannot execute binary file: Exec format error
+FAIL canonical cfg readable
+  want: ip: 192.168.5.7/24,
+  got :
+/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 83: /work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/osal-network-1.0+git999/osal_cli: cannot execute binary file: Exec format error
+ok   canonical schema retained
+ok   canonical DNS key retained
+ok   no v2 ipv4 object emitted
+/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 90: /work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/osal-network-1.0+git999/osal_network_boot: cannot execute binary file: Exec format error
+FAIL corrupt cfg kept as .bad
+  want: yes
+  got :
+/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 92: /work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/osal-network-1.0+git999/osal_cli: cannot execute binary file: Exec format error
+FAIL defaults restored
+  want: ip: 192.168.0.120/24,
+  got :
+FAIL concurrent writes leave valid JSON
+  want: 1
+  got :
+ls: cannot access '/tmp/tmp.REV9jA6qHA/net': No such file or directory
+ok   no temp files left
+FAIL journal logging: stdout stays clean
+  want: ip: 192.168.0.130/24,
+gateway: 192.168.0.1,
+status: enabled
+  got :
+FAIL journal logging: stderr stays clean
+  want: 0
+  got : 291
+/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 109: /work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/osal-network-1.0+git999/osal_cli: cannot execute binary file: Exec format error
+/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 110: /tmp/tmp.REV9jA6qHA/bin/super_get_static_ip.sh: No such file or directory
+FAIL alias super_get_static_ip.sh = old script output
+  want: ip: 192.168.0.130/24,
+gateway: 192.168.0.1,
+status: enabled
+  got :
+/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 111: /tmp/tmp.REV9jA6qHA/bin/super_set_static_ip.sh: No such file or directory
+FAIL alias super_set_static_ip.sh
+  want: ip: 192.168.0.132/24,
+gateway: 192.168.0.1,
+status: enabled
+  got :
+FAIL alias error goes to stdout, exit 1
+  want: error: IP is not in a valid Private Range (RFC 1918). IP is Public Address|1
+  got : |127
+/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 114: /tmp/tmp.REV9jA6qHA/bin/super_replace_dns_servers.sh: No such file or directory
+FAIL alias super_replace_dns_servers.sh --servers
+  want: servers: [8.8.8.8, 1.1.1.1]
+  got :
+/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 115: /tmp/tmp.REV9jA6qHA/bin/super_read_dns_servers.sh: No such file or directory
+FAIL alias super_read_dns_servers.sh
+  want: servers: [8.8.8.8, 1.1.1.1]
+  got :
+/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 116: /tmp/tmp.REV9jA6qHA/bin/super_get_dhcp_status.sh: No such file or directory
+FAIL alias super_get_dhcp_status.sh (defaults: DHCP on)
+  want: status: enabled
+  got :
+/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 117: /tmp/tmp.REV9jA6qHA/bin/super_disable_static_network.sh: No such file or directory
+FAIL alias super_disable_static_network.sh
+  want: status: disabled
+  got :
+/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 129: /work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/osal-network-1.0+git999/osal_network_boot: cannot execute binary file: Exec format error
+/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 130: /work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/osal-network-1.0+git999/osal_cli: cannot execute binary file: Exec format error
+/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 131: /work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/osal-network-1.0+git999/osal_cli: cannot execute binary file: Exec format error
+grep: /tmp/tmp.REV9jA6qHA/net/80-wired.conf: No such file or directory
+FAIL standard: DHCP=ipv4 right after enable
+  want: DHCP=ipv4
+  got :
+/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 133: /work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/osal-network-1.0+git999/osal_cli: cannot execute binary file: Exec format error
+grep: /tmp/tmp.REV9jA6qHA/net/80-wired.conf: No such file or directory
+FAIL standard: still DHCP=ipv4 after unrelated set-dns
+  want: DHCP=ipv4
+  got :
+/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 137: /work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/osal-network-1.0+git999/osal_network_boot: cannot execute binary file: Exec format error
+/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 138: /work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/osal-network-1.0+git999/osal_cli: cannot execute binary file: Exec format error
+grep: /tmp/tmp.REV9jA6qHA/net/80-wired.conf: No such file or directory
+FAIL hpr-v2: DHCP=yes
+  want: DHCP=yes
+  got :
+grep: /tmp/tmp.REV9jA6qHA/net/80-wired.conf: No such file or directory
+FAIL hpr-v2: IPv6AcceptRA=yes
+  want: IPv6AcceptRA=yes
+  got :
 
-some example
-static const char GET_ETHERNET_STATIC_IP_ADDRESS_CMD[] =
-    "get_static_ip.sh | grep 'ip' | awk '{print $2}' | cut -d'/' -f1 | cut -d',' -f1";
 
-static const char GET_ETHERNET_DYNAMIC_IP_ADDRESS_CMD[] =
-    "get_dynamic_ip.sh | grep 'ip' | awk '{print $2}' | cut -d'/' -f1 | cut -d',' -f1";
+0% tests passed, 3 tests failed out of 3
 
-static const char GET_ETHERNET_STATIC_GATEWAY_CMD[] =
-    "get_static_ip.sh | grep 'gateway' | awk '{print $2}' | cut -d'/' -f1 | cut -d',' -f1";
+Total Test time (real) =   0.13 sec
 
-static const char GET_ETHERNET_DHCP_STATUS_CMD[] = 
-    "get_dhcp_status.sh | grep 'status: '| awk '{print $2}'";
-
-static const char GET_ETHERNET_DYNAMIC_GATEWAY_CMD[] =
-    "get_dynamic_ip.sh | grep 'gateway' | awk '{print $2}' | cut -d'/' -f1 | cut -d',' -f1";
-
-static const char GET_ETHERNET_DYNAMIC_SUBNET_MASK_CMD[] =
-    "get_dynamic_ip.sh | grep 'ip' | awk '{print $2}' | cut -d'/' -f2 | cut -d',' -f1";
-
-static const char GET_ETHERNET_STATIC_SUBNET_MASK_CMD[] =
-    "get_static_ip.sh | grep 'ip' | awk '{print $2}' | cut -d'/' -f2 | cut -d',' -f1";
-
-static const char GET_SERIAL_DEBUG_PORT_DETAILS_CMD[] =
-    "dmesg | grep -i \"Kernel command line:\" | awk '{ print $6; }'";
-
-static const char GET_HTTPS_CERT_INFO[] =
-    "read_https_cert_info.sh";
-
-static const char GET_DYNAMIC_IPV6_PREFIX_LENGTH[] =
-    "get_dynamic_ipv6.sh | awk -F'/' '/ip:/{if ($2+0 > 0) print $2+0; else print 64}'";
-
-static const char GET_DYNAMIC_IPV6_ADDRESS[] =
-    "get_dynamic_ipv6.sh | awk '/ip:/{split($2, a, \"/\"); print a[1]}'";
-
-static const char GET_DYNAMIC_IPV6_GATEWAY[] =
-    "get_dynamic_ipv6.sh | awk '/gateway:/{print $2}'";
-
-static const char GET_STATIC_IPV6_PREFIX_LENGTH[] =
-    "get_static_ipv6.sh | awk -F'/' '/ip:/{if ($2+0 > 0) print $2+0; else print 64}'";
-
-static const char GET_STATIC_IPV6_ADDRESS[] =
-    "get_static_ipv6.sh | awk '/ip:/{split($2, a, \"/\"); print a[1]}'";
-
-static const char GET_STATIC_IPV6_GATEWAY[] =
-    "get_static_ipv6.sh | awk '/gateway:/{print $2}'";
+The following tests FAILED:
+          1 - query (Failed)
+          2 - validate (Failed)
+          3 - cli (Failed)
+Errors while running CTest
+melvin@yocto-builder:/work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/osal-network-1.0+git999$
