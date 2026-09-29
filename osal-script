@@ -1,46 +1,6 @@
-because I called it in cmpmc but
-Sep 29 06:57:01 artesyn-shelf cmpmc[769]: [!!!] Setting static IPv4 address=192.168.0.123 gateway=192.168.0.1
-Sep 29 06:57:01 artesyn-shelf osal_network[769]: set static IPv4 address=192.168.0.123 gateway=192.168.0.1
-Sep 29 06:57:01 artesyn-shelf cmpmc[769]: [!!!] Failed to set static IPv4 address=192.168.0.123 gateway=192.168.0.1
+what's the best move in here?
+Sep 29 07:26:21 artesyn-shelf cmpmc[1939]: [!!!] Failed to set static IPv4 address=192.168.0.123 gateway=192.168.0.1: Invalid IPv4 address '192.168.0.123' (expected a.b.c.d/nn)
 
-and this is just the log
-Sep 29 06:55:14 artesyn-shelf osal_network[18319]: boot sync
-Sep 29 06:55:14 artesyn-shelf osal_network[18319]: wrote /etc/systemd/network/80-wired.network.d/80-wired.conf (378 bytes)
-Sep 29 06:57:01 artesyn-shelf osal_network[769]: set static IPv4 address=192.168.0.123 gateway=192.168.0.1
+because from webui, all the way to cmpmc, it is just sending ip and gateway(no subnet)
+that subnet is only needed in the cli ones,
 
-
-also, whats the sense of osal_fail if I cant see it in journalctl like
-admin@artesyn-shelf:~# journalctl -t osal_network -f
--- Logs begin at Tue 2026-09-29 06:24:27 UTC. --
-Sep 29 06:34:21 artesyn-shelf osal_network[16146]: set static IPv4 address=192.168.0.123 gateway=192.168.0.1
-Sep 29 06:41:28 artesyn-shelf osal_network[28170]: boot sync
-Sep 29 06:41:28 artesyn-shelf osal_network[28170]: wrote /etc/systemd/network/80-wired.network.d/80-wired.conf (378 bytes)
-
-
-
-
-Sep 29 06:44:53 artesyn-shelf osal_network[1701]: boot sync
-Sep 29 06:44:53 artesyn-shelf osal_network[1701]: wrote /etc/systemd/network/80-wired.network.d/80-wired.conf (378 bytes)
-Sep 29 06:45:00 artesyn-shelf osal_network[769]: set static IPv4 address=192.168.0.123 gateway=192.168.0.1
-Sep 29 06:49:33 artesyn-shelf osal_network[9305]: boot sync
-Sep 29 06:49:33 artesyn-shelf osal_network[9305]: wrote /etc/systemd/network/80-wired.network.d/80-wired.conf (378 bytes)
-
-Sep 29 06:49:50 artesyn-shelf osal_network[769]: set static IPv4 address=192.168.0.123 gateway=192.168.0.1
-
-
-
-
-Sep 29 06:55:14 artesyn-shelf osal_network[18319]: boot sync
-Sep 29 06:55:14 artesyn-shelf osal_network[18319]: wrote /etc/systemd/network/80-wired.network.d/80-wired.conf (378 bytes)
-Sep 29 06:57:01 artesyn-shelf osal_network[769]: set static IPv4 address=192.168.0.123 gateway=192.168.0.1
-????
-
-thats why I lack of logs to configure why this happened
-this is the way I called the function
-    ERROR_PRINT("Setting static IPv4 address=%s gateway=%s\n", ipAddr, gwAddr);
-    r = osal_set_static(OSAL_V4, ipAddr, gwAddr);
-    if (0 != r)
-    {
-        ERROR_PRINT("Failed to set static IPv4 address=%s gateway=%s\n", ipAddr, gwAddr);
-        return r;
-    }
