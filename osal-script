@@ -1,120 +1,48 @@
-Do you think this version is the best final form or could be improved? Do you think creating template for 80-wired.conf is a must or just 
-create like this one????
-Also do you think the json reading/modifying/creating (nwk.cfg) is already maintainable enough? So we just need to modify the existing table and no need to 
-modify the logic? I mean I am seeing like this
-if (!strcmp(f->path, "network.static.enabled")) or
-            } else if (!strcmp(f->path, "network.static.enabled")) {
-            c->ipv6.st.enabled = *dst;
-        }
-could it be avoided or not? but dont over compilcated muchg okay? all developers must understand it, so I prefer a small comment on what this function do
+like look, they are jsut for client and tester, we're actually using them
+thats why I came up with this library/cli
 
-also for the determining if if it i hpr, hpr-v2, standard, bnecause these are the fiels for that
-admin@artesyn-shelf:/etc/ae-config/device-profiles# cat device-profile-hpr-v2.cfg
-{
-    "ae_modbus_device_profile":
-    {
-        "version": 1.0,
+some example
+static const char GET_ETHERNET_STATIC_IP_ADDRESS_CMD[] =
+    "get_static_ip.sh | grep 'ip' | awk '{print $2}' | cut -d'/' -f1 | cut -d',' -f1";
 
-        "profile_name": "hpr-v2",
+static const char GET_ETHERNET_DYNAMIC_IP_ADDRESS_CMD[] =
+    "get_dynamic_ip.sh | grep 'ip' | awk '{print $2}' | cut -d'/' -f1 | cut -d',' -f1";
 
-        "config":
-        {
-            "baudrate": 115200,
-            "start_address": 128,
-            "max_device_count": 6,
+static const char GET_ETHERNET_STATIC_GATEWAY_CMD[] =
+    "get_static_ip.sh | grep 'gateway' | awk '{print $2}' | cut -d'/' -f1 | cut -d',' -f1";
 
-            "timeouts":
-            {
-                "rx": 100,
-                "interbyte": 105,
-                "tx_offset": -50,
-                "interframe": -50
-            }
-        },
+static const char GET_ETHERNET_DHCP_STATUS_CMD[] = 
+    "get_dhcp_status.sh | grep 'status: '| awk '{print $2}'";
 
-        "isp":
-        {
-            "flash_block_size": 68
-        },
+static const char GET_ETHERNET_DYNAMIC_GATEWAY_CMD[] =
+    "get_dynamic_ip.sh | grep 'gateway' | awk '{print $2}' | cut -d'/' -f1 | cut -d',' -f1";
 
-        "debug":
-        {
-            "enabled": "false"
-        },
+static const char GET_ETHERNET_DYNAMIC_SUBNET_MASK_CMD[] =
+    "get_dynamic_ip.sh | grep 'ip' | awk '{print $2}' | cut -d'/' -f2 | cut -d',' -f1";
 
-        "registers":
-        {
-            "index": "0x7D"
-        }
-    }
-}admin@artesyn-shelf:/etc/ae-config/device-profiles# cat device-profile-hpr.cfg
-{
-    "ae_modbus_device_profile":
-    {
-        "version": 1.0,
+static const char GET_ETHERNET_STATIC_SUBNET_MASK_CMD[] =
+    "get_static_ip.sh | grep 'ip' | awk '{print $2}' | cut -d'/' -f2 | cut -d',' -f1";
 
-        "profile_name": "hpr",
+static const char GET_SERIAL_DEBUG_PORT_DETAILS_CMD[] =
+    "dmesg | grep -i \"Kernel command line:\" | awk '{ print $6; }'";
 
-        "config":
-        {
-            "baudrate": 115200,
-            "start_address": 128,
-            "max_device_count": 6,
+static const char GET_HTTPS_CERT_INFO[] =
+    "read_https_cert_info.sh";
 
-            "timeouts":
-            {
-                "rx": 100,
-                "interbyte": 105,
-                "tx_offset": -50,
-                "interframe": -50
-            }
-        },
+static const char GET_DYNAMIC_IPV6_PREFIX_LENGTH[] =
+    "get_dynamic_ipv6.sh | awk -F'/' '/ip:/{if ($2+0 > 0) print $2+0; else print 64}'";
 
-        "isp":
-        {
-            "flash_block_size": 68
-        },
+static const char GET_DYNAMIC_IPV6_ADDRESS[] =
+    "get_dynamic_ipv6.sh | awk '/ip:/{split($2, a, \"/\"); print a[1]}'";
 
-        "debug":
-        {
-            "enabled": "false"
-        },
+static const char GET_DYNAMIC_IPV6_GATEWAY[] =
+    "get_dynamic_ipv6.sh | awk '/gateway:/{print $2}'";
 
-        "registers":
-        {
-            "to-do": null
-        }
-    }
-}admin@artesyn-shelf:/etc/ae-config/device-profiles# cat device-profile-standard.cfg
-{
-    "ae_modbus_device_profile":
-    {
-        "version": 1.0,
+static const char GET_STATIC_IPV6_PREFIX_LENGTH[] =
+    "get_static_ipv6.sh | awk -F'/' '/ip:/{if ($2+0 > 0) print $2+0; else print 64}'";
 
-        "profile_name": "standard",
+static const char GET_STATIC_IPV6_ADDRESS[] =
+    "get_static_ipv6.sh | awk '/ip:/{split($2, a, \"/\"); print a[1]}'";
 
-        "config":
-        {
-            "baudrate": 19200,
-            "start_address": 192,
-            "max_device_count": 6
-        },
-
-        "isp":
-        {
-            "flash_block_size": 64
-        },
-
-        "debug":
-        {
-            "enabled": "false"
-        }
-    }
-}admin@artesyn-shelf:/etc/ae-config/device-profiles#
-
-also for the tables, and for the commands.def, plase align the columns weklll
-
-also I dont prefer single line like this
-static int enable_static(int argc, char **argv)  { return static_toggle(1, argc, argv); }
-always use newline for readability
-as well as in the switch-case
+static const char GET_STATIC_IPV6_GATEWAY[] =
+    "get_static_ipv6.sh | awk '/gateway:/{print $2}'";
