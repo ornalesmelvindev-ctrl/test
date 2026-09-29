@@ -1,6 +1,75 @@
-what's the best move in here?
-Sep 29 07:26:21 artesyn-shelf cmpmc[1939]: [!!!] Failed to set static IPv4 address=192.168.0.123 gateway=192.168.0.1: Invalid IPv4 address '192.168.0.123' (expected a.b.c.d/nn)
+ow, wait, I think I will just do what they are doing, my bad
+uint8_t calculateSubnetPrefixLength(char *subnet)
+{
+    uint8_t prefix = 0;
+    uint8_t prefixLength = 0;
+    char *lasts = NULL;
+    char *token = strtok_r(subnet, ".", &lasts);
 
-because from webui, all the way to cmpmc, it is just sending ip and gateway(no subnet)
-that subnet is only needed in the cli ones,
+    while (token != NULL)
+    {
+        prefix = (uint8_t)atoi(token);
+
+        for (uint8_t i = 0; i < 8; i++)
+        {
+            if (prefix & 0x01)
+            {
+                prefixLength++;
+            }
+
+            prefix >>= 1;
+        }
+
+        token = strtok_r(NULL, ".", &lasts);
+    }
+
+    return prefixLength;
+}
+
+because this is the full context
+    strcpy(subMask, json_object_get_string(jsonSubnetMask));
+    subnetPrefixLength = calculateSubnetPrefixLength(subMask);
+
+    if (0 == json_object_object_get_ex(jsonBuffer, "gateway", &jsonGatewayAddress))
+    {
+        return r;
+    }
+
+    strcpy(gwAddr, json_object_get_string(jsonGatewayAddress));
+#ifdef SUPER_DEFAULT
+    (void)snprintf(&reqBuffer[0], (sizeof(reqBuffer) - 1), "%.100s %.100s %.100s/%d %.100s %.100s",
+                   SET_STATIC_IP_SCRIPT,
+                   "--ip", ipAddr, subnetPrefixLength,
+                   "--gateway", gwAddr);
+
+    if (0 != exec_cmd(reqBuffer, respBuffer, UPDATE_CONFIG_BUFFER_SIZE))
+    {
+        return r;
+    }
+#else
+/*
+OSAL_API int osal_set_static(int family, const char *cidr, const char *gateway);
+
+OSAL_API int osal_set_static(int family, const char *cidr, const char *gw)
+{
+    struct set_static_arg a = { family, cidr, gw };
+
+    if (family != OSAL_V4 && family != OSAL_V6)
+        return osal_fail(OSAL_ERR_INVALID, "family must be 4 or 6");
+    osal_log(LOG_INFO, "set static IPv%d address=%s gateway=%s", family,
+             cidr ? cidr : "(keep)", gw ? gw : "(keep)");
+    return transact(do_set_static, &a);
+}
+*/
+
+    ERROR_PRINT("Setting static IPv4 address=%s gateway=%s\n", ipAddr, gwAddr);
+    r = osal_set_static(OSAL_V4, ipAddr, gwAddr);
+    if (0 != r)
+    {
+        ERROR_PRINT("Failed to set static IPv4 address=%s gateway=%s: %s\n", ipAddr, gwAddr, osal_last_error());
+        return r;
+    }
+
+#endif
+
 
