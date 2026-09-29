@@ -1,106 +1,46 @@
-how can I use that test?
-  want: 1
-  got :
-grep: /tmp/tmp.REV9jA6qHA/net/80-wired.conf: No such file or directory
-FAIL conf has ^UseMTU=true
-  want: 1
-  got :
-grep: /tmp/tmp.REV9jA6qHA/net/80-wired.conf: No such file or directory
-FAIL conf has ^VendorClassIdentifier=
-  want: 1
-  got :
-/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 82: /work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/osal-network-1.0+git999/osal_cli: cannot execute binary file: Exec format error
-FAIL canonical cfg readable
-  want: ip: 192.168.5.7/24,
-  got :
-/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 83: /work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/osal-network-1.0+git999/osal_cli: cannot execute binary file: Exec format error
-ok   canonical schema retained
-ok   canonical DNS key retained
-ok   no v2 ipv4 object emitted
-/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 90: /work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/osal-network-1.0+git999/osal_network_boot: cannot execute binary file: Exec format error
-FAIL corrupt cfg kept as .bad
-  want: yes
-  got :
-/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 92: /work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/osal-network-1.0+git999/osal_cli: cannot execute binary file: Exec format error
-FAIL defaults restored
-  want: ip: 192.168.0.120/24,
-  got :
-FAIL concurrent writes leave valid JSON
-  want: 1
-  got :
-ls: cannot access '/tmp/tmp.REV9jA6qHA/net': No such file or directory
-ok   no temp files left
-FAIL journal logging: stdout stays clean
-  want: ip: 192.168.0.130/24,
-gateway: 192.168.0.1,
-status: enabled
-  got :
-FAIL journal logging: stderr stays clean
-  want: 0
-  got : 291
-/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 109: /work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/osal-network-1.0+git999/osal_cli: cannot execute binary file: Exec format error
-/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 110: /tmp/tmp.REV9jA6qHA/bin/super_get_static_ip.sh: No such file or directory
-FAIL alias super_get_static_ip.sh = old script output
-  want: ip: 192.168.0.130/24,
-gateway: 192.168.0.1,
-status: enabled
-  got :
-/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 111: /tmp/tmp.REV9jA6qHA/bin/super_set_static_ip.sh: No such file or directory
-FAIL alias super_set_static_ip.sh
-  want: ip: 192.168.0.132/24,
-gateway: 192.168.0.1,
-status: enabled
-  got :
-FAIL alias error goes to stdout, exit 1
-  want: error: IP is not in a valid Private Range (RFC 1918). IP is Public Address|1
-  got : |127
-/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 114: /tmp/tmp.REV9jA6qHA/bin/super_replace_dns_servers.sh: No such file or directory
-FAIL alias super_replace_dns_servers.sh --servers
-  want: servers: [8.8.8.8, 1.1.1.1]
-  got :
-/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 115: /tmp/tmp.REV9jA6qHA/bin/super_read_dns_servers.sh: No such file or directory
-FAIL alias super_read_dns_servers.sh
-  want: servers: [8.8.8.8, 1.1.1.1]
-  got :
-/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 116: /tmp/tmp.REV9jA6qHA/bin/super_get_dhcp_status.sh: No such file or directory
-FAIL alias super_get_dhcp_status.sh (defaults: DHCP on)
-  want: status: enabled
-  got :
-/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 117: /tmp/tmp.REV9jA6qHA/bin/super_disable_static_network.sh: No such file or directory
-FAIL alias super_disable_static_network.sh
-  want: status: disabled
-  got :
-/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 129: /work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/osal-network-1.0+git999/osal_network_boot: cannot execute binary file: Exec format error
-/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 130: /work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/osal-network-1.0+git999/osal_cli: cannot execute binary file: Exec format error
-/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 131: /work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/osal-network-1.0+git999/osal_cli: cannot execute binary file: Exec format error
-grep: /tmp/tmp.REV9jA6qHA/net/80-wired.conf: No such file or directory
-FAIL standard: DHCP=ipv4 right after enable
-  want: DHCP=ipv4
-  got :
-/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 133: /work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/osal-network-1.0+git999/osal_cli: cannot execute binary file: Exec format error
-grep: /tmp/tmp.REV9jA6qHA/net/80-wired.conf: No such file or directory
-FAIL standard: still DHCP=ipv4 after unrelated set-dns
-  want: DHCP=ipv4
-  got :
-/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 137: /work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/osal-network-1.0+git999/osal_network_boot: cannot execute binary file: Exec format error
-/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/tests/cli_test.sh: line 138: /work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/osal-network-1.0+git999/osal_cli: cannot execute binary file: Exec format error
-grep: /tmp/tmp.REV9jA6qHA/net/80-wired.conf: No such file or directory
-FAIL hpr-v2: DHCP=yes
-  want: DHCP=yes
-  got :
-grep: /tmp/tmp.REV9jA6qHA/net/80-wired.conf: No such file or directory
-FAIL hpr-v2: IPv6AcceptRA=yes
-  want: IPv6AcceptRA=yes
-  got :
+because I called it in cmpmc but
+Sep 29 06:57:01 artesyn-shelf cmpmc[769]: [!!!] Setting static IPv4 address=192.168.0.123 gateway=192.168.0.1
+Sep 29 06:57:01 artesyn-shelf osal_network[769]: set static IPv4 address=192.168.0.123 gateway=192.168.0.1
+Sep 29 06:57:01 artesyn-shelf cmpmc[769]: [!!!] Failed to set static IPv4 address=192.168.0.123 gateway=192.168.0.1
+
+and this is just the log
+Sep 29 06:55:14 artesyn-shelf osal_network[18319]: boot sync
+Sep 29 06:55:14 artesyn-shelf osal_network[18319]: wrote /etc/systemd/network/80-wired.network.d/80-wired.conf (378 bytes)
+Sep 29 06:57:01 artesyn-shelf osal_network[769]: set static IPv4 address=192.168.0.123 gateway=192.168.0.1
 
 
-0% tests passed, 3 tests failed out of 3
+also, whats the sense of osal_fail if I cant see it in journalctl like
+admin@artesyn-shelf:~# journalctl -t osal_network -f
+-- Logs begin at Tue 2026-09-29 06:24:27 UTC. --
+Sep 29 06:34:21 artesyn-shelf osal_network[16146]: set static IPv4 address=192.168.0.123 gateway=192.168.0.1
+Sep 29 06:41:28 artesyn-shelf osal_network[28170]: boot sync
+Sep 29 06:41:28 artesyn-shelf osal_network[28170]: wrote /etc/systemd/network/80-wired.network.d/80-wired.conf (378 bytes)
 
-Total Test time (real) =   0.13 sec
 
-The following tests FAILED:
-          1 - query (Failed)
-          2 - validate (Failed)
-          3 - cli (Failed)
-Errors while running CTest
-melvin@yocto-builder:/work/ewd-orv3-pmc/artesyn-shelf/build/tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/osal-network/1.0+git999-r0/osal-network-1.0+git999$
+
+
+Sep 29 06:44:53 artesyn-shelf osal_network[1701]: boot sync
+Sep 29 06:44:53 artesyn-shelf osal_network[1701]: wrote /etc/systemd/network/80-wired.network.d/80-wired.conf (378 bytes)
+Sep 29 06:45:00 artesyn-shelf osal_network[769]: set static IPv4 address=192.168.0.123 gateway=192.168.0.1
+Sep 29 06:49:33 artesyn-shelf osal_network[9305]: boot sync
+Sep 29 06:49:33 artesyn-shelf osal_network[9305]: wrote /etc/systemd/network/80-wired.network.d/80-wired.conf (378 bytes)
+
+Sep 29 06:49:50 artesyn-shelf osal_network[769]: set static IPv4 address=192.168.0.123 gateway=192.168.0.1
+
+
+
+
+Sep 29 06:55:14 artesyn-shelf osal_network[18319]: boot sync
+Sep 29 06:55:14 artesyn-shelf osal_network[18319]: wrote /etc/systemd/network/80-wired.network.d/80-wired.conf (378 bytes)
+Sep 29 06:57:01 artesyn-shelf osal_network[769]: set static IPv4 address=192.168.0.123 gateway=192.168.0.1
+????
+
+thats why I lack of logs to configure why this happened
+this is the way I called the function
+    ERROR_PRINT("Setting static IPv4 address=%s gateway=%s\n", ipAddr, gwAddr);
+    r = osal_set_static(OSAL_V4, ipAddr, gwAddr);
+    if (0 != r)
+    {
+        ERROR_PRINT("Failed to set static IPv4 address=%s gateway=%s\n", ipAddr, gwAddr);
+        return r;
+    }
