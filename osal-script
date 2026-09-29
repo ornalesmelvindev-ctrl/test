@@ -1,45 +1,120 @@
-I mean I think we have the control on that file, like when we reset to default, or what
-up to us what will be the format of that nwk.cfg since only osal scripts use that
-as long as the info were all there like that of
-  "timestamp": "2026-09-29 01:45:27",
-  "network": {
-    "version": 1,
-    "hostname": "artesyn-shelf",
-    "dhcp": {
-      "enabled": true
-    },
-etc....
+Do you think this version is the best final form or could be improved? Do you think creating template for 80-wired.conf is a must or just 
+create like this one????
+Also do you think the json reading/modifying/creating (nwk.cfg) is already maintainable enough? So we just need to modify the existing table and no need to 
+modify the logic? I mean I am seeing like this
+if (!strcmp(f->path, "network.static.enabled")) or
+            } else if (!strcmp(f->path, "network.static.enabled")) {
+            c->ipv6.st.enabled = *dst;
+        }
+could it be avoided or not? but dont over compilcated muchg okay? all developers must understand it, so I prefer a small comment on what this function do
 
-as you noticed on the osal scripts, theyre the one createing and modifying that 
-this is the default structure of that
-
+also for the determining if if it i hpr, hpr-v2, standard, bnecause these are the fiels for that
+admin@artesyn-shelf:/etc/ae-config/device-profiles# cat device-profile-hpr-v2.cfg
 {
-  "timestamp": "2026-09-18 06:08:46",
-  "network": {
-    "version": 1,
-    "hostname": "artesyn-shelf",
-    "dhcp": {
-      "enabled": true
-    },
-    "static": {
-      "enabled": false,
-      "ipv4": {
-        "ip": "192.168.0.120/24",
-        "gateway": "192.168.0.1"
-      },
-      "ipv6": {
-        "ip": "fd12:3456:789a::120/64",
-        "gateway": "fd12:3456:789a::1"
-      }
-    },
-    "dns": {
-      "enabled": false,
-      "server": []
-    },
-    "ntp": {
-      "enabled": false,
-      "server": []
+    "ae_modbus_device_profile":
+    {
+        "version": 1.0,
+
+        "profile_name": "hpr-v2",
+
+        "config":
+        {
+            "baudrate": 115200,
+            "start_address": 128,
+            "max_device_count": 6,
+
+            "timeouts":
+            {
+                "rx": 100,
+                "interbyte": 105,
+                "tx_offset": -50,
+                "interframe": -50
+            }
+        },
+
+        "isp":
+        {
+            "flash_block_size": 68
+        },
+
+        "debug":
+        {
+            "enabled": "false"
+        },
+
+        "registers":
+        {
+            "index": "0x7D"
+        }
     }
-  }
-}
-well for easy maintainability, what we want is when if the user jsut add or modify the table, all will go well
+}admin@artesyn-shelf:/etc/ae-config/device-profiles# cat device-profile-hpr.cfg
+{
+    "ae_modbus_device_profile":
+    {
+        "version": 1.0,
+
+        "profile_name": "hpr",
+
+        "config":
+        {
+            "baudrate": 115200,
+            "start_address": 128,
+            "max_device_count": 6,
+
+            "timeouts":
+            {
+                "rx": 100,
+                "interbyte": 105,
+                "tx_offset": -50,
+                "interframe": -50
+            }
+        },
+
+        "isp":
+        {
+            "flash_block_size": 68
+        },
+
+        "debug":
+        {
+            "enabled": "false"
+        },
+
+        "registers":
+        {
+            "to-do": null
+        }
+    }
+}admin@artesyn-shelf:/etc/ae-config/device-profiles# cat device-profile-standard.cfg
+{
+    "ae_modbus_device_profile":
+    {
+        "version": 1.0,
+
+        "profile_name": "standard",
+
+        "config":
+        {
+            "baudrate": 19200,
+            "start_address": 192,
+            "max_device_count": 6
+        },
+
+        "isp":
+        {
+            "flash_block_size": 64
+        },
+
+        "debug":
+        {
+            "enabled": "false"
+        }
+    }
+}admin@artesyn-shelf:/etc/ae-config/device-profiles#
+
+also for the tables, and for the commands.def, plase align the columns weklll
+
+also I dont prefer single line like this
+static int enable_static(int argc, char **argv)  { return static_toggle(1, argc, argv); }
+always use newline for readability
+as well as in the switch-case
