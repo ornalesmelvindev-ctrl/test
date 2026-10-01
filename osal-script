@@ -1,145 +1,29 @@
-are you just guessing?
-admin@artesyn-shelf:~# test_get_dns_status.sh
-status: disabled
-admin@artesyn-shelf:~# test_enable_dns.sh
-error: configuration saved, but enabling systemd-resolved.service failed: Connection reset by peer
-admin@artesyn-shelf:~# test_enable_ntp.sh
-error: configuration saved, but enabling systemd-timesyncd.service failed: Connection reset by peer
-admin@artesyn-shelf:~# enable_dns.sh
-status: enabled
-admin@artesyn-shelf:~# test_get_dns_status.sh
-status: enabled
-admin@artesyn-shelf:~# enable_ntp.sh
-status: enabled
-admin@artesyn-shelf:~# test_get_ntp_status.sh
-status: enabled
-admin@artesyn-shelf:~# ^C
-admin@artesyn-shelf:~# busctl tree org.freedesktop.systemd1 | grep timesyncd
-        |-/org/freedesktop/systemd1/unit/systemd_2dtimesyncd_2eservice
-admin@artesyn-shelf:~# busctl tree org.freedesktop.systemd1 | grep resolved
-        |-/org/freedesktop/systemd1/unit/systemd_2dresolved_2eservice
-admin@artesyn-shelf:~# ls /etc/bash_completion.d/
-osal_cli  quilt
-admin@artesyn-shelf:~# ls /etc/bash_completion.d/osal_cli
-/etc/bash_completion.d/osal_cli
-admin@artesyn-shelf:~# clear
-admin@artesyn-shelf:~# test_get_dns_status.sh
-status: enabled
-admin@artesyn-shelf:~# test_disable_dns.sh
-error: configuration saved, but disabling systemd-resolved.service failed: Connection reset by peer
-admin@artesyn-shelf:~# test_get_ntp_status.sh
-status: enabled
-admin@artesyn-shelf:~# test_disable_ntp.sh
-error: configuration saved, but disabling systemd-timesyncd.service failed: Connection reset by peer
-admin@artesyn-shelf:~# cat /usr/bin/disable_dns.sh
-#!/bin/bash
+do you think it is better to put in the commands.def the --help, argument of all?
+like
+OSAL_COMMAND("set-static-ip",            "test_set_static_ip.sh",            set_static_ip, "usage")
+OSAL_COMMAND("get-static-ip",            "test_get_static_ip.sh",            get_static_ip, NULL) // if no --help flag
+also when the flag is not available, like that of test_replace_dns_servers.sh
+admin@artesyn-shelf:~# test_replace_dns_servers.sh --super
+error: invalid DNS address --super
 
-DBUS_SIGNAL_INTERFACE_NAME='aei.osal.scripts1.signals.logs'
+return like this
+admin@artesyn-shelf:~# replace_dns_servers.sh --super
+error: Invalid argument.
 
-PM_PMC_DBUS_SERVICE_NAME='aei.mc.pollmanager1'
-PM_PMC_DBUS_OBJECT_PATH='/aei/mc/pollmanager1'
-PM_PMC_DBUS_INTERFACE='aei.mc.pollmanager1.actions'
-PM_PMC_DBUS_METHOD='pollResource'
 
-# common
-LOGTABLE='managers'
+like for example we have
+admin@artesyn-shelf:~# replace_dns_servers.sh --help
+Usage: replace_dns_servers.sh [OPTIONS...]
 
-# for osal script logs
-EVENT_NAME_1='DisableDns'
-EVENT_DESCRIPTION_1='DNS configuration event.'
-EVENT_TYPE_1='ResourceUpdated'
-EVENT_MESSAGE_1=''
+Replace the DNS server list.
 
-# for osal script poll resource fault logs
-EVENT_NAME_2='PmcPollResource'
-EVENT_DESCRIPTION_2='PMC Poll resource event.'
-EVENT_TYPE_2='Alert'
-EVENT_MESSAGE_2='Resetting PMC poll resource failed.'
 
-function helpText() {
-    echo "Usage: $(basename "$0") [OPTIONS...] "
-    echo ""
-    echo "Disable DNS service."
-    echo ""
-    echo ""
-    echo "Options:"
-    echo "  --help             Show script usage information."
-    exit 0
-}
+Options:
+  --servers [ DNS_Servers ]    Define server names (url or ip address) to replace the list.
+  --help                       Show script usage information.
+admin@artesyn-shelf:~# test_replace_dns_servers.sh --help
+Usage: test_replace_dns_servers.sh --servers SERVER...
 
-function error() {
-    echo "error: $1"
-    exit 1
-}
+also, the help in each script is not the same as the old script, do you think its worth copying too? I mean if it is worth it, you will do it for all who have --help flag
 
-function dmlogsEntry() {
-    TIMESTAMP=$(date +"%Y-%m-%d %T")
-    LOGS_MSG="{\"logtable\": \"$LOGTABLE\", \"timestamp\": \"$TIMESTAMP\", \"name\": \"$1\", \"description\": \"$2\", \"eventtype\": \"$3\", \"message\": \"$4\"}";
-    dbus-send --system --type=signal / $DBUS_SIGNAL_INTERFACE_NAME \
-        string:"$LOGS_MSG" > /dev/null 2>&1
-}
-
-function callPollResource() {
-    POLL_RESOURCE=$(sudo busctl call $PM_PMC_DBUS_SERVICE_NAME \
-                                    $PM_PMC_DBUS_OBJECT_PATH \
-                                    $PM_PMC_DBUS_INTERFACE \
-                                    $PM_PMC_DBUS_METHOD 2>/dev/null | awk '{print $2;}');
-
-    if [[ $POLL_RESOURCE != "0" ]]; then
-        POLL_RESOURCE=$(sudo busctl call $PM_PMC_DBUS_SERVICE_NAME \
-                                        $PM_PMC_DBUS_OBJECT_PATH \
-                                        $PM_PMC_DBUS_INTERFACE \
-                                        $PM_PMC_DBUS_METHOD 2>/dev/null | awk '{print $2;}');
-        if [[ $POLL_RESOURCE != "0" ]]; then
-            dmlogsEntry "$EVENT_NAME_2" "$EVENT_DESCRIPTION_2" "$EVENT_TYPE_2" "$EVENT_MESSAGE_2";
-        fi
-    fi
-}
-
-function disableDns(){
-    local IS_SYNC=$1
-
-    STATUS_SYSTEMD_RESOLVED=$(systemctl status systemd-resolved.service | grep Active | awk '{print $2}')
-    if [[ "$STATUS_SYSTEMD_RESOLVED" != "inactive" ]]; then
-        sudo systemctl disable systemd-resolved.service > /dev/null 2>&1
-        sudo systemctl stop systemd-resolved.service
-        [[ $? -ne 0 ]] && error "Failed to disable the DNS."
-
-        if [[ "$IS_SYNC" == true ]]; then
-            sudo set_persistent_config.sh --dns-state disabled
-        fi
-
-        callPollResource
-
-        EVENT_MESSAGE_1="DNS was disabled."
-        dmlogsEntry "$EVENT_NAME_1" "$EVENT_DESCRIPTION_1" "$EVENT_TYPE_1" "$EVENT_MESSAGE_1";
-    fi
-    echo "status: disabled"
-    exit 0
-}
-
-case "$1" in
---help)
-    [ ! -z $2 ] && error "Invalid argument." || helpText
-    ;;
-"--no-sync")
-    disableDns false
-    ;;
-"")
-    disableDns true
-    ;;
-*)
-    error "Invalid argument."
-    ;;
-esac
-
-admin@artesyn-shelf:~# osal_cli disable-dns --help
-error: configuration saved, but disabling systemd-resolved.service failed: Connection reset by peer
-admin@artesyn-shelf:~# osal_cli disable-dns
-error: configuration saved, but disabling systemd-resolved.service failed: Connection reset by peer
-admin@artesyn-shelf:~# osal_cli disable-ntp
-error: configuration saved, but disabling systemd-timesyncd.service failed: Connection reset by peer
-admin@artesyn-shelf:~# osal_cli disable-nt
-error: Invalid argument disable-nt
-admin@artesyn-shelf:~#
-
+also I think the osal_cli --help is not much powerful
