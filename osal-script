@@ -1,54 +1,4 @@
-look
-admin@artesyn-shelf:~# test_set_static_ip.sh --gateway 192.168.0.2
-ip: 192.168.0.120/24,
-gateway: 192.168.0.2,
-status: disabled
-admin@artesyn-shelf:~# cat /staging/psc/network/super_nwk.cfg
-{
-  "timestamp": "2026-10-01 06:43:35",
-  "network": {
-    "version": 1,
-    "hostname": "artesyn-shelf",
-    "dhcp": {
-      "enabled": true
-    },
-    "static": {
-      "enabled": false,
-      "ipv4": {
-        "ip": "192.168.0.120/24",
-        "gateway": "192.168.0.2"
-      },
-      "ipv6": {
-        "ip": "fd12:3456:789a::120/64",
-        "gateway": "fd12:3456:789a::1"
-      }
-    },
-    "dns": {
-      "enabled": false,
-      "server": [
-      ]
-    },
-    "ntp": {
-      "enabled": false,
-      "server": [
-      ]
-    }
-  }
-admin@artesyn-shelf:~# test_set_static_ip.sh --ip 192.168.0.121/24
-ip: 192.168.0.121/24,
-gateway: 192.168.0.2,
-status: disabled
-admin@artesyn-shelf:~# ifconfig eth0
-eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500  metric 1
-        inet 10.152.12.16  netmask 255.255.254.0  broadcast 10.152.13.255
-        inet6 fe80::486:eff:fe32:86cb  prefixlen 64  scopeid 0x20<link>
-        ether 06:86:0e:32:86:cb  txqueuelen 1000  (Ethernet)
-        RX packets 1019728  bytes 82742736 (78.9 MiB)
-        RX errors 0  dropped 10  overruns 0  frame 0
-        TX packets 49867  bytes 6260999 (5.9 MiB)
-        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-        device interrupt 41
-
+are you just guessing?
 admin@artesyn-shelf:~# test_get_dns_status.sh
 status: disabled
 admin@artesyn-shelf:~# test_enable_dns.sh
@@ -63,31 +13,133 @@ admin@artesyn-shelf:~# enable_ntp.sh
 status: enabled
 admin@artesyn-shelf:~# test_get_ntp_status.sh
 status: enabled
-admin@artesyn-shelf:~#
-
-
-logs:
-Oct 01 06:42:51 artesyn-shelf systemd[1]: Starting Generate networkd 80-wired.conf from nwk.cfg...
-Oct 01 06:42:51 artesyn-shelf osal_network[6342]: boot sync
-Oct 01 06:42:51 artesyn-shelf osal_network[6342]: /staging/psc/network/super_nwk.cfg not found, using defaults
-Oct 01 06:42:51 artesyn-shelf osal_network[6342]: wrote /etc/systemd/network/80-wired.network.d/80-wired.conf (276 bytes)
-Oct 01 06:42:51 artesyn-shelf systemd[1]: Started Generate networkd 80-wired.conf from nwk.cfg.
-Oct 01 06:43:35 artesyn-shelf osal_network[7573]: set static IPv4 address=(keep) gateway=192.168.0.2
-Oct 01 06:43:35 artesyn-shelf osal_network[7573]: saved /staging/psc/network/super_nwk.cfg
-Oct 01 06:44:00 artesyn-shelf osal_network[8908]: set static IPv4 address=192.168.0.121/24 gateway=(keep)
-Oct 01 06:44:00 artesyn-shelf osal_network[8908]: saved /staging/psc/network/super_nwk.cfg
-Oct 01 06:44:24 artesyn-shelf osal_network[9820]: enable DNS
-Oct 01 06:44:24 artesyn-shelf osal_network[9820]: saved /staging/psc/network/super_nwk.cfg
-Oct 01 06:44:36 artesyn-shelf osal_network[9962]: enable NTP
-Oct 01 06:44:36 artesyn-shelf osal_network[9962]: saved /staging/psc/network/super_nwk.cfg
-
-fix please
-
-
+admin@artesyn-shelf:~# ^C
 admin@artesyn-shelf:~# busctl tree org.freedesktop.systemd1 | grep timesyncd
         |-/org/freedesktop/systemd1/unit/systemd_2dtimesyncd_2eservice
 admin@artesyn-shelf:~# busctl tree org.freedesktop.systemd1 | grep resolved
         |-/org/freedesktop/systemd1/unit/systemd_2dresolved_2eservice
+admin@artesyn-shelf:~# ls /etc/bash_completion.d/
+osal_cli  quilt
+admin@artesyn-shelf:~# ls /etc/bash_completion.d/osal_cli
+/etc/bash_completion.d/osal_cli
+admin@artesyn-shelf:~# clear
+admin@artesyn-shelf:~# test_get_dns_status.sh
+status: enabled
+admin@artesyn-shelf:~# test_disable_dns.sh
+error: configuration saved, but disabling systemd-resolved.service failed: Connection reset by peer
+admin@artesyn-shelf:~# test_get_ntp_status.sh
+status: enabled
+admin@artesyn-shelf:~# test_disable_ntp.sh
+error: configuration saved, but disabling systemd-timesyncd.service failed: Connection reset by peer
+admin@artesyn-shelf:~# cat /usr/bin/disable_dns.sh
+#!/bin/bash
+
+DBUS_SIGNAL_INTERFACE_NAME='aei.osal.scripts1.signals.logs'
+
+PM_PMC_DBUS_SERVICE_NAME='aei.mc.pollmanager1'
+PM_PMC_DBUS_OBJECT_PATH='/aei/mc/pollmanager1'
+PM_PMC_DBUS_INTERFACE='aei.mc.pollmanager1.actions'
+PM_PMC_DBUS_METHOD='pollResource'
+
+# common
+LOGTABLE='managers'
+
+# for osal script logs
+EVENT_NAME_1='DisableDns'
+EVENT_DESCRIPTION_1='DNS configuration event.'
+EVENT_TYPE_1='ResourceUpdated'
+EVENT_MESSAGE_1=''
+
+# for osal script poll resource fault logs
+EVENT_NAME_2='PmcPollResource'
+EVENT_DESCRIPTION_2='PMC Poll resource event.'
+EVENT_TYPE_2='Alert'
+EVENT_MESSAGE_2='Resetting PMC poll resource failed.'
+
+function helpText() {
+    echo "Usage: $(basename "$0") [OPTIONS...] "
+    echo ""
+    echo "Disable DNS service."
+    echo ""
+    echo ""
+    echo "Options:"
+    echo "  --help             Show script usage information."
+    exit 0
+}
+
+function error() {
+    echo "error: $1"
+    exit 1
+}
+
+function dmlogsEntry() {
+    TIMESTAMP=$(date +"%Y-%m-%d %T")
+    LOGS_MSG="{\"logtable\": \"$LOGTABLE\", \"timestamp\": \"$TIMESTAMP\", \"name\": \"$1\", \"description\": \"$2\", \"eventtype\": \"$3\", \"message\": \"$4\"}";
+    dbus-send --system --type=signal / $DBUS_SIGNAL_INTERFACE_NAME \
+        string:"$LOGS_MSG" > /dev/null 2>&1
+}
+
+function callPollResource() {
+    POLL_RESOURCE=$(sudo busctl call $PM_PMC_DBUS_SERVICE_NAME \
+                                    $PM_PMC_DBUS_OBJECT_PATH \
+                                    $PM_PMC_DBUS_INTERFACE \
+                                    $PM_PMC_DBUS_METHOD 2>/dev/null | awk '{print $2;}');
+
+    if [[ $POLL_RESOURCE != "0" ]]; then
+        POLL_RESOURCE=$(sudo busctl call $PM_PMC_DBUS_SERVICE_NAME \
+                                        $PM_PMC_DBUS_OBJECT_PATH \
+                                        $PM_PMC_DBUS_INTERFACE \
+                                        $PM_PMC_DBUS_METHOD 2>/dev/null | awk '{print $2;}');
+        if [[ $POLL_RESOURCE != "0" ]]; then
+            dmlogsEntry "$EVENT_NAME_2" "$EVENT_DESCRIPTION_2" "$EVENT_TYPE_2" "$EVENT_MESSAGE_2";
+        fi
+    fi
+}
+
+function disableDns(){
+    local IS_SYNC=$1
+
+    STATUS_SYSTEMD_RESOLVED=$(systemctl status systemd-resolved.service | grep Active | awk '{print $2}')
+    if [[ "$STATUS_SYSTEMD_RESOLVED" != "inactive" ]]; then
+        sudo systemctl disable systemd-resolved.service > /dev/null 2>&1
+        sudo systemctl stop systemd-resolved.service
+        [[ $? -ne 0 ]] && error "Failed to disable the DNS."
+
+        if [[ "$IS_SYNC" == true ]]; then
+            sudo set_persistent_config.sh --dns-state disabled
+        fi
+
+        callPollResource
+
+        EVENT_MESSAGE_1="DNS was disabled."
+        dmlogsEntry "$EVENT_NAME_1" "$EVENT_DESCRIPTION_1" "$EVENT_TYPE_1" "$EVENT_MESSAGE_1";
+    fi
+    echo "status: disabled"
+    exit 0
+}
+
+case "$1" in
+--help)
+    [ ! -z $2 ] && error "Invalid argument." || helpText
+    ;;
+"--no-sync")
+    disableDns false
+    ;;
+"")
+    disableDns true
+    ;;
+*)
+    error "Invalid argument."
+    ;;
+esac
+
+admin@artesyn-shelf:~# osal_cli disable-dns --help
+error: configuration saved, but disabling systemd-resolved.service failed: Connection reset by peer
+admin@artesyn-shelf:~# osal_cli disable-dns
+error: configuration saved, but disabling systemd-resolved.service failed: Connection reset by peer
+admin@artesyn-shelf:~# osal_cli disable-ntp
+error: configuration saved, but disabling systemd-timesyncd.service failed: Connection reset by peer
+admin@artesyn-shelf:~# osal_cli disable-nt
+error: Invalid argument disable-nt
 admin@artesyn-shelf:~#
 
-I dont know why set dns/ntp in the lib is not woirking, and as you can see, the osal is,
