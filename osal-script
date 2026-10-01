@@ -1,104 +1,170 @@
-super why???
-admin@artesyn-shelf:~# get_ntp_status.sh --any-options
+take note, our design is even when static ip is disabled, we msut still can get the last set, for 
+
+
+admin@artesyn-shelf:~# test_get_static_ip.sh
+ip: 192.168.0.120/24,
+gateway: 192.168.0.1,
 status: disabled
+admin@artesyn-shelf:~# cat /staging/psc/network/nwk.cfg
+{
+  "timestamp": "2026-10-01 05:32:31",
+  "network": {
+    "version": 1,
+    "hostname": "artesyn-shelf",
+    "dhcp": {
+      "enabled": true
+    },
+    "static": {
+      "enabled": true,
+      "ipv4": {
+        "ip": "None",
+        "gateway": "None"
+      },
+      "ipv6": {
+        "ip": "None",
+        "gateway": "None"
+      }
+    },
+    "dns": {
+      "enabled": false,
+      "server": []
+    },
+    "ntp": {
+      "enabled": false,
+      "server": [
+        "null"
+      ]
+    }
+  }
+}
+admin@artesyn-shelf:~# test_get_static_ip.sh ^C
+admin@artesyn-shelf:~# cat /staging/psc/network/nwk.cfg
+nwk.cfg       nwk.cfg.bad   nwk.cfg.lock  nwk.cfg~
+admin@artesyn-shelf:~# cat /staging/psc/network/nwk.cfg.bad
+{
+  "timestamp": "2026-10-01 05:30:26",
+  "network": {
+    "version": 1,
+    "hostname": "artesyn-shelf",
+    "dhcp": {
+      "enabled": true
+    },
+    "static": {
+      "enabled": true,
+      "ipv4": {
+        "ip": "None",
+        "gateway": "None"
+      },
+      "ipv6": {
+        "ip": "None",
+        "gateway": "None"
+      }
+    },
+    "dns": {
+      "enabled": false,
+      "server": []
+    },
+    "ntp": {
+      "enabled": false,
+      "server": [
+        "null"
+      ]
+    }
+  }
+}
+admin@artesyn-shelf:~# ^C
+admin@artesyn-shelf:~# ifconfig eth0
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500  metric 1
+        inet 10.152.12.16  netmask 255.255.254.0  broadcast 10.152.13.255
+        inet6 fe80::486:eff:fe32:86cb  prefixlen 64  scopeid 0x20<link>
+        ether 06:86:0e:32:86:cb  txqueuelen 1000  (Ethernet)
+        RX packets 719246  bytes 57283795 (54.6 MiB)
+        RX errors 0  dropped 7  overruns 0  frame 0
+        TX packets 29788  bytes 3013438 (2.8 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+        device interrupt 41
+
+admin@artesyn-shelf:~# ^C
+admin@artesyn-shelf:~# ^C
+admin@artesyn-shelf:~# test_set_static_ip.sh --ip 192.168.0.121
+error: Invalid IPv4 address '192.168.0.121' (expected a.b.c.d/nn)
+admin@artesyn-shelf:~# test_set_static_ip.sh --ip 192.168.0.121/24
+ip: 192.168.0.121/24,
+gateway: 192.168.0.1,
+status: enabled
 admin@artesyn-shelf:~#
-admin@artesyn-shelf:~# test_get_ntp_status.sh --any-options
+admin@artesyn-shelf:~#
+admin@artesyn-shelf:~#
+admin@artesyn-shelf:~#
+admin@artesyn-shelf:~#
+admin@artesyn-shelf:~# cat /staging/psc/network/nwk.cfg
+{
+  "timestamp": "2026-10-01 05:37:14",
+  "network": {
+    "version": 1,
+    "hostname": "artesyn-shelf",
+    "dhcp": {
+      "enabled": true
+    },
+    "static": {
+      "enabled": true,
+      "ipv4": {
+        "ip": "192.168.0.121/24",
+        "gateway": "192.168.0.1"
+      },
+      "ipv6": {
+        "ip": "fd12:3456:789a::120/64",
+        "gateway": "fd12:3456:789a::1"
+      }
+    },
+    "dns": {
+      "enabled": false,
+      "server": []
+    },
+    "ntp": {
+      "enabled": false,
+      "server": [
+        "null"
+      ]
+    }
+  }
+}
+
+Oct 01 05:30:24 artesyn-shelf osal_network[25276]: wrote /etc/systemd/network/80-wired.network.d/80-wired.conf (276 bytes)
+Oct 01 05:30:24 artesyn-shelf osal_network[25276]: restarting systemd-networkd
+Oct 01 05:30:24 artesyn-shelf osal_network[25276]: systemd-networkd restart queued
+Oct 01 05:32:29 artesyn-shelf osal_network[28631]: boot sync
+Oct 01 05:32:29 artesyn-shelf osal_network[28631]: /staging/psc/network/nwk.cfg holds an invalid value (Invalid IPv4 address 'None' (expected a.b.c.d/nn)), using defaults
+Oct 01 05:32:29 artesyn-shelf osal_network[28631]: unusable config kept as /staging/psc/network/nwk.cfg.bad
+Oct 01 05:32:29 artesyn-shelf osal_network[28631]: wrote /etc/systemd/network/80-wired.network.d/80-wired.conf (276 bytes)
+Oct 01 05:35:47 artesyn-shelf osal_network[907]: /staging/psc/network/nwk.cfg holds an invalid value (Invalid IPv4 address 'None' (expected a.b.c.d/nn)), using defaults
+Oct 01 05:37:09 artesyn-shelf osal_network[3025]: set static IPv4 address=192.168.0.121 gateway=(keep)
+Oct 01 05:37:09 artesyn-shelf osal_network[3025]: /staging/psc/network/nwk.cfg holds an invalid value (Invalid IPv4 address 'None' (expected a.b.c.d/nn)), using defaults
+Oct 01 05:37:09 artesyn-shelf osal_network[3025]: unusable config kept as /staging/psc/network/nwk.cfg.bad
+Oct 01 05:37:11 artesyn-shelf osal_network[3043]: set static IPv4 address=192.168.0.121/24 gateway=(keep)
+Oct 01 05:37:11 artesyn-shelf osal_network[3043]: /staging/psc/network/nwk.cfg not found, using defaults
+Oct 01 05:37:11 artesyn-shelf osal_network[3043]: saved /staging/psc/network/nwk.cfg
+Oct 01 05:37:11 artesyn-shelf osal_network[3043]: wrote /etc/systemd/network/80-wired.network.d/80-wired.conf (378 bytes)
+Oct 01 05:37:11 artesyn-shelf osal_network[3043]: restarting systemd-networkd
+Oct 01 05:37:12 artesyn-shelf osal_network[3043]: systemd-networkd restart queued
+
+
+then,for this one, why still
+
+admin@artesyn-shelf:~# test_get_ntp_status.sh
 status: disabled
-admin@artesyn-shelf:~# get_ntp_status.sh --any-options
-status: disabled
-admin@artesyn-shelf:~# test_get_ntp_status.sh --any-options
-status: disabled
+admin@artesyn-shelf:~# test_get_ntp_status.sh ^C
 admin@artesyn-shelf:~# disable_ntp.sh
 NTP service already disabled.
+admin@artesyn-shelf:~#
 admin@artesyn-shelf:~# test_disable_ntp.sh
 error: configuration saved, but disabling systemd-timesyncd.service failed: Connection reset by peer
-admin@artesyn-shelf:~# test_disable_ntp.sh^C
-admin@artesyn-shelf:~# get_ntp_status.sh
-status: disabled
-admin@artesyn-shelf:~# test_get_ntp_status.sh
-status: disabled
-admin@artesyn-shelf:~# disable_ntp.sh --default
-NTP service already disabled.
+admin@artesyn-shelf:~# [ 8808.545381] IPv4: martian source 10.152.12.74 from 172.217.27.78, on dev eth0
+[ 8808.553507] ll header: 00000000: 06 86 0e 32 86 cb c0 f8 7f c7 3f 67 08 00
+
 admin@artesyn-shelf:~#
-admin@artesyn-shelf:~# test_disable_ntp.sh --default
-error: configuration saved, but disabling systemd-timesyncd.service failed: Connection reset by peer
-admin@artesyn-shelf:~# enable_ntp.sh
-status: enabled
-admin@artesyn-shelf:~# get_ntp_status.sh
-status: enabled
-admin@artesyn-shelf:~# test_get_ntp_status.sh
-status: enabled
-admin@artesyn-shelf:~# get_ntp_status.sh
-status: enabled
-admin@artesyn-shelf:~# test_get_ntp_status.sh
-status: enabled
-admin@artesyn-shelf:~# disable_ntp.sh
-status: disabled
+admin@artesyn-shelf:~#
 admin@artesyn-shelf:~# test_enable_ntp.sh
 error: configuration saved, but enabling systemd-timesyncd.service failed: Connection reset by peer
-admin@artesyn-shelf:~# journalctl -fu systemd-timesyncd
--- Logs begin at Thu 2026-10-01 03:31:41 UTC. --
-Oct 01 03:46:03 artesyn-shelf systemd[1]: Starting Network Time Synchronization...
-Oct 01 03:46:04 artesyn-shelf systemd[1]: Started Network Time Synchronization.
-Oct 01 03:46:05 artesyn-shelf systemd-timesyncd[1438]: Network configuration changed, trying to establish connection.
-Oct 01 03:46:29 artesyn-shelf systemd[1]: Stopping Network Time Synchronization...
-Oct 01 03:46:29 artesyn-shelf systemd[1]: systemd-timesyncd.service: Succeeded.
-Oct 01 03:46:29 artesyn-shelf systemd[1]: Stopped Network Time Synchronization.
 
-
-also, i told you for readability, do like these in all
-struct out { 
-    char *buf; 
-    size_t len; 
-    size_t pos; 
-    int overflow; 
-};
-
-instead of one line
-
-also, change super_ prefix into test_,
-and delete comments pertaining redfish, but retain the thought of some
-
-admin@artesyn-shelf:~# test_enable_ntp.sh
-error: configuration saved, but enabling systemd-timesyncd.service failed: Connection reset by peer
-admin@artesyn-shelf:~# journalctl -fu systemd-timesyncd
--- Logs begin at Thu 2026-10-01 03:31:41 UTC. --
-Oct 01 03:46:03 artesyn-shelf systemd[1]: Starting Network Time Synchronization...
-Oct 01 03:46:04 artesyn-shelf systemd[1]: Started Network Time Synchronization.
-Oct 01 03:46:05 artesyn-shelf systemd-timesyncd[1438]: Network configuration changed, trying to establish connection.
-Oct 01 03:46:29 artesyn-shelf systemd[1]: Stopping Network Time Synchronization...
-Oct 01 03:46:29 artesyn-shelf systemd[1]: systemd-timesyncd.service: Succeeded.
-Oct 01 03:46:29 artesyn-shelf systemd[1]: Stopped Network Time Synchronization.
-^C
-admin@artesyn-shelf:~# get_dns_status.sh
-status: disabled
-admin@artesyn-shelf:~# test_get_dns_status.sh
-status: disabled
-admin@artesyn-shelf:~# disable_dns.sh --default
-error: Invalid argument.
-admin@artesyn-shelf:~# test_disable_dns.sh --default
-error: configuration saved, but disabling systemd-resolved.service failed: Connection reset by peer
-admin@artesyn-shelf:~# enable_dns.sh
-status: enabled
-admin@artesyn-shelf:~# get_dns_status.sh
-status: enabled
-admin@artesyn-shelf:~# test_get_dns_status.sh
-status: enabled
-admin@artesyn-shelf:~# test_get_dns_status.sh ^C
-admin@artesyn-shelf:~# disable_dns.sh
-status: disabled
-admin@artesyn-shelf:~# test_disable_dns.sh
-error: configuration saved, but disabling systemd-resolved.service failed: Connection reset by peer
-
-
-admin@artesyn-shelf:~# test_read_dns_servers.sh
-servers: []
-admin@artesyn-shelf:~# test_patch_dns_servers.sh --servers 8.8.8.8
-servers: [8.8.8.8]
-admin@artesyn-shelf:~# test_read_dns_servers.sh
-servers: [8.8.8.8]
-admin@artesyn-shelf:~# test_read_dns_servers.sh
-servers: []
-admin@artesyn-shelf:~# test_read_dns_servers.sh
-servers: []
-
+i thought you already fixed this?
