@@ -1,7 +1,61 @@
-wait, heres the important thing
-for example, static network is currently disabled, if I set static ip like to 192.168.0.121/24
-it must just set it in the nwk.cfg, not in the wired.confg also and not automatically enable, because that's why we have separate for
-test_enable_static_network right?
-this is just one of the behaviour I told you to adapt from the default osal scripts
+i thought you already fixed it in all the scripts
+admin@artesyn-shelf:~# test_set_static_ip.sh --help
+Usage: set-static-ip[v6] [--ip ADDR/PREFIX] [--gateway GW|none] [--default]
+admin@artesyn-shelf:~# test_set_static_ip.sh --help^[[A^C
+admin@artesyn-shelf:~# test_patch_dns_servers.sh --help
+Usage: test_patch_dns_servers.sh --servers SERVER...
 
-please fix that
+
+just take note
+admin@artesyn-shelf:~# osal_cli --help
+Usage: osal_cli [-v] <command> [args]
+
+Every set command is applied immediately (nwk.cfg -> 80-wired.conf ->
+systemd-networkd restart). -v shows debug lines; logs: journalctl -t osal_network
+
+Commands:
+  get-static-ip | get-static-ipv6
+  set-static-ip | set-static-ipv6  [--ip ADDR/PREFIX] [--gateway GW|none] [--default]
+  get-dynamic-ip | get-dynamic-ipv6
+  get-dhcp-status | enable-dhcp | disable-dhcp
+  enable-static | disable-static   (IPv4+IPv6)
+  get-dns | set-dns SERVER...
+  get-ntp | set-ntp SERVER...
+  get-hostname | set-hostname --name NAME
+  get-mac-address | get-static-network-status
+  reset-defaults
+admin@artesyn-shelf:~# osal_cli set-static-ip --help
+Usage: set-static-ip[v6] [--ip ADDR/PREFIX] [--gateway GW|none] [--default]
+admin@artesyn-shelf:~# osal_cli set-dns --help
+error: invalid DNS address --help
+admin@artesyn-shelf:~# osal_cli add-dns --help
+Usage: add-dns --servers SERVER...
+
+
+is the usage complete? wheres the other?
+
+
+also
+admin@artesyn-shelf:~# test_enable_dns.sh
+Segmentation fault
+admin@artesyn-shelf:~# test_enable_ntp.sh
+Segmentation fault
+admin@artesyn-shelf:~# test_get_dns_status.sh
+status: disabled
+admin@artesyn-shelf:~# test_get_ntp_status.sh
+status: disabled
+
+
+and
+take note to remove this on the CMakelists.txt
+install(
+    FILES
+        systemd/osal-network-boot.service
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/systemd/system
+)
+
+then you have mistyped this on sysbus.c
+r = sd_bus_call_methodv
+
+
+please, before you send back the lib, make sure all is working as intended
