@@ -1,13 +1,34 @@
-I mean look, why sometimes, this is empty, but when I set, it has, PLEASE FIX IT
-error: configuration saved, but disabling systemd-timesyncd.service failed: Connection reset by peer
-admin@artesyn-shelf:~# test_disable_ntp.sh
-error: configuration saved, but disabling systemd-timesyncd.service failed: Connection reset by peer
-admin@artesyn-shelf:~# test_disable_ntp.shc^C
-admin@artesyn-shelf:~# ccat^C
-admin@artesyn-shelf:~# ^C
+too many bugs?
+Oct 01 05:58:22 artesyn-shelf systemd-networkd[4460]: eth0: DHCPv4 address 10.152.12.16/23 via 10.152.12.1
+Oct 01 05:58:30 artesyn-shelf osal_network[4821]: /staging/psc/network/nwk.cfg holds an invalid value (Invalid IPv4 address 'None' (expected a.b.c.d/nn)), using defaults
+Oct 01 05:58:31 artesyn-shelf osal_network[4821]: set 2 DNS server(s)
+Oct 01 05:58:31 artesyn-shelf osal_network[4821]: /staging/psc/network/nwk.cfg holds an invalid value (Invalid IPv4 address 'None' (expected a.b.c.d/nn)), using defaults
+Oct 01 05:58:31 artesyn-shelf osal_network[4821]: unusable config kept as /staging/psc/network/nwk.cfg.bad
+Oct 01 05:58:31 artesyn-shelf osal_network[4821]: saved /staging/psc/network/nwk.cfg
+Oct 01 05:58:31 artesyn-shelf osal_network[4821]: wrote /etc/systemd/network/80-wired.network.d/80-wired.conf (276 bytes)
+Oct 01 05:58:31 artesyn-shelf osal_network[4821]: restarting systemd-networkd
+Oct 01 05:58:31 artesyn-shelf osal_network[4821]: systemd-networkd restart queued
+Oct 01 05:58:31 artesyn-shelf systemd[1]: systemd-networkd.service: Succeeded.
+Oct 01 05:58:31 artesyn-shelf systemd-networkd[4825]: eth0: Gained IPv6LL
+Oct 01 05:58:31 artesyn-shelf systemd-networkd[4825]: Enumeration completed
+Oct 01 05:58:31 artesyn-shelf systemd-networkd[4825]: eth0: IPv6 successfully enabled
+Oct 01 05:58:31 artesyn-shelf systemd-networkd[4825]: eth0: DHCPv4 address 10.152.12.16/23 via 10.152.12.1
+
+admin@artesyn-shelf:~# test_enable_dns.sh ^C
+admin@artesyn-shelf:~# test_patch_dns_servers.sh
+error: No parameters supplied.
+admin@artesyn-shelf:~# test_patch_dns_servers.sh --help
+Usage: add-dns --servers SERVER...
+admin@artesyn-shelf:~# test_patch_dns_servers.sh --servers 8.8.8.8
+servers: [8.8.8.8]
+admin@artesyn-shelf:~# test_patch_dns_servers.sh --help^C
+admin@artesyn-shelf:~# test_get_dns_status.sh
+status: disabled
+admin@artesyn-shelf:~# test_get_d
+test_get_dhcp_status.sh   test_get_dns_status.sh    test_get_dynamic_ip.sh    test_get_dynamic_ipv6.sh
 admin@artesyn-shelf:~# cat /staging/psc/network/nwk.cfg
 {
-  "timestamp": "2026-10-01 05:51:37",
+  "timestamp": "2026-10-01 05:57:44",
   "network": {
     "version": 1,
     "hostname": "artesyn-shelf",
@@ -37,9 +58,13 @@ admin@artesyn-shelf:~# cat /staging/psc/network/nwk.cfg
     }
   }
 }
+admin@artesyn-shelf:~# test_enable_dns.sh
+error: configuration saved, but enabling systemd-resolved.service failed: Connection reset by peer
+admin@artesyn-shelf:~# test_patch_dns_servers.sh --servers 8.8.8.8 1.1.1.1
+servers: [8.8.8.8, 1.1.1.1]
 admin@artesyn-shelf:~# cat /staging/psc/network/nwk.cfg
 {
-  "timestamp": "2026-10-01 05:51:37",
+  "timestamp": "2026-10-01 05:58:33",
   "network": {
     "version": 1,
     "hostname": "artesyn-shelf",
@@ -70,84 +95,4 @@ admin@artesyn-shelf:~# cat /staging/psc/network/nwk.cfg
   }
 }
 admin@artesyn-shelf:~#
-admin@artesyn-shelf:~# cat /staging/psc/network/nwk.cfg^C
-admin@artesyn-shelf:~# set_static_ip.sh --ip 192.168.0.123
-error: Invalid Subnet mask
-admin@artesyn-shelf:~# test_set_static_ip.sh --ip 192.168.0.123/24
-ip: 192.168.0.123/24,
-gateway: 192.168.0.1,
-status: enabled
-admin@artesyn-shelf:~# [10173.129331] IPv6: eth0: IPv6 duplicate address fd12:3456:789a::120 used by 02:bb:e3:c2:69:69 detected!
-
-admin@artesyn-shelf:~# set_static_ip.sh --ip 192.168.0.123^C
-admin@artesyn-shelf:~# test_get_static_ip.sh
-ip: 192.168.0.123/24,
-gateway: 192.168.0.1,
-status: enabled
-admin@artesyn-shelf:~# test_get_static_ip.sh
-ip: 192.168.0.123/24,
-gateway: 192.168.0.1,
-status: enabled
-admin@artesyn-shelf:~# cat /staging/psc/network/nwk.cfg
-{
-  "timestamp": "2026-10-01 05:53:00",
-  "network": {
-    "version": 1,
-    "hostname": "artesyn-shelf",
-    "dhcp": {
-      "enabled": true
-    },
-    "static": {
-      "enabled": true,
-      "ipv4": {
-        "ip": "192.168.0.123/24",
-        "gateway": "192.168.0.1"
-      },
-      "ipv6": {
-        "ip": "fd12:3456:789a::120/64",
-        "gateway": "fd12:3456:789a::1"
-      }
-    },
-    "dns": {
-      "enabled": false,
-      "server": []
-    },
-    "ntp": {
-      "enabled": false,
-      "server": [
-        "null"
-      ]
-    }
-  }
-}
-admin@artesyn-shelf:~#
-
-
-then the logs
-admin@artesyn-shelf:~# journalctl -f | grep -E 'osal|networkd'
-Oct 01 05:51:34 artesyn-shelf osal_network[25858]: disable NTP
-Oct 01 05:51:34 artesyn-shelf osal_network[25858]: /staging/psc/network/nwk.cfg holds an invalid value (Invalid IPv4 address 'None' (expected a.b.c.d/nn)), using defaults
-Oct 01 05:51:34 artesyn-shelf osal_network[25858]: unusable config kept as /staging/psc/network/nwk.cfg.bad
-Oct 01 05:51:35 artesyn-shelf osal_network[25858]: saved /staging/psc/network/nwk.cfg
-Oct 01 05:51:35 artesyn-shelf osal_network[25858]: wrote /etc/systemd/network/80-wired.network.d/80-wired.conf (276 bytes)
-Oct 01 05:51:35 artesyn-shelf osal_network[25858]: restarting systemd-networkd
-Oct 01 05:51:35 artesyn-shelf osal_network[25858]: systemd-networkd restart queued
-Oct 01 05:51:35 artesyn-shelf systemd[1]: systemd-networkd.service: Succeeded.
-Oct 01 05:51:35 artesyn-shelf systemd-networkd[25863]: eth0: Gained IPv6LL
-Oct 01 05:51:35 artesyn-shelf systemd-networkd[25863]: Enumeration completed
-Oct 01 05:51:35 artesyn-shelf systemd-networkd[25863]: eth0: IPv6 successfully enabled
-Oct 01 05:51:35 artesyn-shelf systemd-networkd[25863]: eth0: DHCPv4 address 10.152.12.16/23 via 10.152.12.1
-Oct 01 05:52:58 artesyn-shelf osal_network[28016]: set static IPv4 address=192.168.0.123/24 gateway=(keep)
-Oct 01 05:52:58 artesyn-shelf osal_network[28016]: /staging/psc/network/nwk.cfg holds an invalid value (Invalid IPv4 address 'None' (expected a.b.c.d/nn)), using defaults
-Oct 01 05:52:58 artesyn-shelf osal_network[28016]: unusable config kept as /staging/psc/network/nwk.cfg.bad
-Oct 01 05:52:58 artesyn-shelf osal_network[28016]: saved /staging/psc/network/nwk.cfg
-Oct 01 05:52:58 artesyn-shelf osal_network[28016]: wrote /etc/systemd/network/80-wired.network.d/80-wired.conf (378 bytes)
-Oct 01 05:52:58 artesyn-shelf osal_network[28016]: restarting systemd-networkd
-Oct 01 05:52:58 artesyn-shelf osal_network[28016]: systemd-networkd restart queued
-Oct 01 05:52:58 artesyn-shelf systemd[1]: systemd-networkd.service: Succeeded.
-Oct 01 05:52:58 artesyn-shelf systemd-networkd[28028]: eth0: Gained IPv6LL
-Oct 01 05:52:58 artesyn-shelf systemd-networkd[28028]: Enumeration completed
-Oct 01 05:52:58 artesyn-shelf systemd-networkd[28028]: eth0: IPv6 successfully enabled
-Oct 01 05:52:58 artesyn-shelf systemd-networkd[28028]: eth0: DHCPv4 address 10.152.12.16/23 via 10.152.12.1
-
 
