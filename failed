@@ -1,6 +1,0 @@
-also why no image dir in here? like no pmpsu created as well
-ls tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/psu-poll-manager/1.0+gitAUTOINC+cd43a70703-r0
-deploy-rpms               pkgdata-pdata-input                      sstate-install-packagedata        sstate-install-populate_lic      temp
-deploy-source-date-epoch  source-date-epoch                        sstate-install-package_qa         sstate-install-populate_sysroot
-license-destdir           sstate-install-deploy_source_date_epoch  sstate-install-package_write_rpm  sysroot-destdir
-
