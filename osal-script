@@ -1,4 +1,15 @@
+Are you sure all is working as intended?
 wait, in systemd-timesyncd, is there other way to patch the ntp servers besides modifying /etc/systemd/timesyncd.conf? the NTP=?
+maybe instead of mnually modifying that, maybe we can set it in 80-wired.conf as well? and also, we need to really make sure that
+those dns, ntp, other config really run/comaptible with the runtime before we really set in the nwk,cfg, if if restart of service fails, fall back to the previous nwk.cfg before those changes
+we need to really consider all
+
+Please check again the whole source code, this feature must be foillowed, not just keep on setting in the nwk.cfg
+but of course as well talked, if ntp/dns/others is disabled, no need to set in the conf, instead, in the nwk.cfg only
+but when enabled then currently nwk.cfg has values for those, ofcourse we must apply
+
+and also like we habe the get-dns/ ntp functionality, so maybe we can read(to be used on the library in other service), stripping the [] for example? I mean upto
+
 
 admin@artesyn-shelf:~# test_get_dns_status.sh
 status: enabled
@@ -216,3 +227,78 @@ NTP=7.7.7.7
 RouteMetric=200
 UseMTU=true
 VendorClassIdentifier=Artesyn_700_015496_0000
+
+admin@artesyn-shelf:~# ping 7.7.7.7
+PING 7.7.7.7 (7.7.7.7) 56(84) bytes of data.
+^C
+--- 7.7.7.7 ping statistics ---
+1 packets transmitted, 0 received, 100% packet loss, time 0ms
+
+admin@artesyn-shelf:~# timedatectl timesync-status
+       Server: 7.7.7.7 (7.7.7.7)
+Poll interval: 34min 8s (min: 32s; max 34min 8s)
+ Packet count: 0
+admin@artesyn-shelf:~# timedatectl timesync-status^C
+admin@artesyn-shelf:~# ping 1.1.1.1
+PING 1.1.1.1 (1.1.1.1) 56(84) bytes of data.
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=57 time=1.25 ms
+^C
+--- 1.1.1.1 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 1.249/1.249/1.249/0.000 ms
+admin@artesyn-shelf:~# ^C
+admin@artesyn-shelf:~# ^C
+admin@artesyn-shelf:~# vi /etc/systemd/network/80-wired.network.d/80-wired.conf
+admin@artesyn-shelf:~# systemctl restart systemd-networkd
+admin@artesyn-shelf:~# timedatectl timesync-status
+       Server: (null) (1.1.1.1)
+Poll interval: 34min 8s (min: 32s; max 34min 8s)
+ Packet count: 0
+admin@artesyn-shelf:~# cat /etc/systemd/timesyncd.conf
+#  This file is part of systemd.
+#
+#  systemd is free software; you can redistribute it and/or modify it
+#  under the terms of the GNU Lesser General Public License as published by
+#  the Free Software Foundation; either version 2.1 of the License, or
+#  (at your option) any later version.
+#
+# Entries in this file show the compile time defaults.
+# You can change settings by editing this file.
+# Defaults can be restored by simply deleting this file.
+#
+# See timesyncd.conf(5) for details.
+
+[Time]
+NTP=null 1.1.1.1
+#FallbackNTP=time1.google.com time2.google.com time3.google.com time4.google.com
+#RootDistanceMaxSec=5
+#PollIntervalMinSec=32
+#PollIntervalMaxSec=2048
+admin@artesyn-shelf:~# vi /etc/systemd/timesyncd.conf
+admin@artesyn-shelf:~# systemctl restart systemd-timesyncd
+admin@artesyn-shelf:~# vi /etc/systemd/timesyncd.conf
+admin@artesyn-shelf:~# systemctl restart systemd-networkd
+admin@artesyn-shelf:~# vi /etc/systemd/timesyncd.conf
+admin@artesyn-shelf:~# timedatectl timesync-status
+       Server: 8.8.8.8 (8.8.8.8)
+Poll interval: 8min 32s (min: 32s; max 34min 8s)
+ Packet count: 0
+admin@artesyn-shelf:~# timedatectl timesync-status
+       Server: 8.8.8.8 (8.8.8.8)
+Poll interval: 8min 32s (min: 32s; max 34min 8s)
+ Packet count: 0
+admin@artesyn-shelf:~# timedatectl show-timesync --all
+LinkNTPServers=8.8.8.8
+SystemNTPServers=
+FallbackNTPServers=time1.google.com time2.google.com time3.google.com time4.google.com
+ServerName=8.8.8.8
+ServerAddress=8.8.8.8
+RootDistanceMaxUSec=5s
+PollIntervalMinUSec=32s
+PollIntervalMaxUSec=34min 8s
+PollIntervalUSec=8min 32s
+Frequency=0
+
+
+
+we really need to consider all the possibilites
