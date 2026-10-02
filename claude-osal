@@ -1,0 +1,20 @@
+Do you think all of these were met in the current implementation? Also make sure that the all changes from the default osal scripts were documented
+because I will manually check the functionality of each, like changing the way ntp servers are populated, like instead of manually modifying /etc/systemd/timesyncd.conf,
+we now all move it to systemd-networkd, addting NTP=, like that
+
+I mean, we dont like redundancy here okay? like for example 
+static const char GET_NTP_SERVER_LIST_CMD[] =
+    "cat /etc/systemd/timesyncd.conf | grep NTP | cut -d= -f2 | sed -n '1 p'";
+
+    if (0 == exec_cmd(GET_NTP_SERVER_LIST_CMD, &buffer[0], ARRAY_SIZE(buffer)))
+    {
+        // TODO: fix, split data
+        (void)sprintf(&strbuf[0], "%s", removeCharacter(&buffer[0], '\n'));
+        (void)sprintf(&s_configData.s_network.ntp.s_config.s_serverNames[0], "%s", &strbuf[0]);
+    }
+
+but we already have like function that returns [x.x.x.x y.y.y.y]
+
+I mean also improve that part, and also, we really need to verify the functionality(based on the legacy osal scripts) were not lost
+
+number 1 rule, we dont need too much complexity okay? what we want is readability, optimized and maintainability
