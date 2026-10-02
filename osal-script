@@ -1,3 +1,11 @@
-admin@artesyn-shelf:~# source /etc/bash_completion.d/osal_network
--sh: /etc/bash_completion.d/osal_network: line 42: syntax error near unexpected token `<'
--sh: /etc/bash_completion.d/osal_network: line 42: `    done < <(osal_cli --list-aliases 2>/dev/null)'
+f.in
+| install: cannot stat '/work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/src/osal_cli_completion': No such file or directory
+| WARNING: exit code 1 from a shell command.
+|
+ERROR: Task (/work/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/osal-network/osal-network.bb:do_install) failed with exit code '1'
+NOTE: Tasks Summary: Attempted 866 tasks of which 860 didn't need to be rerun and 1 failed.
+
+Summary: 1 task failed:
+  /work/ewd-orv3-pmc/artesyn-shelf/build/../ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/osal-network/osal-network.bb:do_install
+Summary: There was 1 WARNING message shown.
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
