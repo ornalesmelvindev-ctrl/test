@@ -1,3 +1,43 @@
-src/runtime/sysbus.c.o -MF CMakeFiles/osal_network.dir/src/runtime/sysbus.c.o.d -o CMakeFiles/osal_network.dir/src/runtime/sysbus.c.o   -c /work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/src/runtime/sysbus.c
-| /work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/osal-network/src/runtime/sysbus.c:26:10: fatal error: systemd/sd-network.h: No such file or directory
-|    26 | #include <systemd/sd-network.h>
+grep -n -A20 -B20 "sd-network.h" \
+tmp/work/armv7ahf-vfpv4d16-poky-linux-gnueabi/systemd/1_244.5-r0/git/src/systemd/meson.build
+12-        sd-journal.h
+13-        sd-login.h
+14-        sd-messages.h
+15-'''.split()
+16-
+17-# https://github.com/mesonbuild/meson/issues/1633
+18-systemd_headers = files(_systemd_headers)
+19-
+20-_not_installed_headers = '''
+21-        sd-dhcp6-client.h
+22-        sd-dhcp6-lease.h
+23-        sd-dhcp-client.h
+24-        sd-dhcp-lease.h
+25-        sd-dhcp-option.h
+26-        sd-dhcp-server.h
+27-        sd-ipv4acd.h
+28-        sd-ipv4ll.h
+29-        sd-lldp.h
+30-        sd-ndisc.h
+31-        sd-netlink.h
+32:        sd-network.h
+33-        sd-path.h
+34-        sd-radv.h
+35-        sd-resolve.h
+36-        sd-utf8.h
+37-'''.split()
+38-
+39-install_headers(
+40-        systemd_headers,
+41-        '_sd-common.h',
+42-        subdir : 'systemd')
+43-
+44-
+45-############################################################
+46-
+47-opts = [['c'],
+48-        ['c', '-ansi'],
+49-        ['c', '-std=iso9899:1990'],
+50-        ['c', '-std=iso9899:2011']]
+51-
+52-if cc.has_argument('-std=iso9899:2017')
