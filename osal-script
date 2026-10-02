@@ -1,0 +1,101 @@
+this is the current
+# Recipe created by recipetool
+# This is the basis of a recipe and may need further editing in order to be fully functional.
+# (Feel free to remove these comments when editing.)
+
+# Unable to find any files that looked like license statements. Check the accompanying
+# documentation and source headers and set LICENSE and LIC_FILES_CHKSUM accordingly.
+#
+# NOTE: LICENSE is being set to "CLOSED" to allow you to at least start building - if
+# this is not accurate with respect to the licensing of the software being built (it
+# will not be in most cases) you must specify the correct value before using this
+# recipe for anything other than initial testing/development!
+LICENSE = "CLOSED"
+LIC_FILES_CHKSUM = ""
+
+SRC_URI = " \
+        git://git@bitbucket.org/advenergy/ewd-orv3-pmc-poll-manager.git;protocol=ssh;branch=develop\
+    "
+
+# Modify these as desired
+PV = "1.0+git${SRCPV}"
+
+# ${AUTOREV} can work if you want latest commit
+SRCREV = "${AUTOREV}"
+
+
+S = "${WORKDIR}/git"
+
+OECMAKE_SOURCEPATH = "${S}/src"
+SRC_CONFIG = "${S}/config"
+
+DEPENDS = "systemd json-c sqlite3 osal-network"
+
+inherit cmake systemd features_check
+
+# As this package is tied to systemd, only build it when we're also building systemd.
+REQUIRED_DISTRO_FEATURES = "systemd"
+
+# This is enabled by default in class
+# SYSTEMD_AUTO_ENABLE = "disable"
+SYSTEMD_SERVICE_${PN} = "pmpmc.service"
+
+DBUS_SERVICE_FILE = "aei.mc.pollmanager.service"
+DBUS_CONF_FILE = "aei.mc.pollmanager1.conf"
+
+FILES_${PN} += " \
+			${datadir}/dbus-1/system-services \
+			${datadir}/dbus-1/systemd.d \
+			${datadir}/dbus-1/system-services/${DBUS_SERVICE_FILE} \
+			${datadir}/dbus-1/system.d/${DBUS_CONF_FILE} \
+		"
+
+do_install_append() {
+	if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
+		install -d ${D}${systemd_unitdir}/system
+		for service in ${SYSTEMD_SERVICE_${PN}}; do
+			install -m 0644 ${SRC_CONFIG}/systemd-config/${service} ${D}${systemd_unitdir}/system/
+			sed -i -e 's,@BINDIR@,${bindir},g' ${D}${systemd_unitdir}/system/${service}
+		done
+	fi
+
+	# D-bus
+	install -d ${D}${datadir}/dbus-1/system-services
+	install -d ${D}${datadir}/dbus-1/system.d
+	install -m 0644 ${SRC_CONFIG}/dbus-config/${DBUS_SERVICE_FILE} ${D}${datadir}/dbus-1/system-services/
+	install -m 0644 ${SRC_CONFIG}/dbus-config/${DBUS_CONF_FILE} ${D}${datadir}/dbus-1/system.d/
+	sed -i -e 's,@BINDIR@,${bindir},g' ${D}${datadir}/dbus-1/system-services/${DBUS_SERVICE_FILE}
+	sed -i -e 's,@BINDIR@,${bindir},g' ${D}${datadir}/dbus-1/system.d/${DBUS_CONF_FILE}
+}
+
+# Specify any options you want to pass to cmake using EXTRA_OECMAKE:
+EXTRA_OECMAKE = ""
+
+also, I think this is also netter for the completion, like rg, it has definition,
+ rg --no-auto-hybrid-regex
+--no-auto-hybrid-regex             -- don't dynamically use PCRE2 if necessary
+--no-binary                        -- don't search binary files
+--no-block-buffered                -- don't force block buffering
+--no-column                        -- don't show column numbers for matches
+--no-config                        -- don't load configuration files
+--no-crlf                          -- don't use CRLF as line terminator
+--no-encoding                      -- use default text encoding
+--no-filename                      -- don't show file name for matches
+--no-fixed-strings                 -- don't treat pattern as literal string
+--no-follow                        -- don't follow symlinks
+--no-glob-case-insensitive         -- treat -g/--glob patterns case sensitively
+--no-heading                       -- don't show matches grouped by file name
+--no-hidden                        -- don't search hidden files and directories
+--no-ignore                        -- don't respect ignore files
+--no-ignore-dot                    -- don't respect .ignore files
+--no-ignore-file-case-insensitive  -- process ignore files case sensitively
+--no-ignore-global                 -- don't respect global ignore files
+--no-ignore-messages               -- don't show ignore-file parse error messages
+--no-ignore-parent                 -- don't respect ignore files in parent directories
+--no-ignore-vcs                    -- don't respect version control ignore files
+--no-json                          -- don't output results in JSON Lines format
+
+
+and also, must work with the test_* with arguments, but in here, you can use just what you use in the modern cli
+so we also need to remove the installation of isal completetion in the cmake
+
