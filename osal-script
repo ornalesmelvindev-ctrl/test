@@ -1,31 +1,30 @@
-why do you think systemd, as we talked last night, didnt include sd-network.h by default? when the functions there just really parses
-the /run/systemd/netif?
-admin@artesyn-shelf:~# cat /run/systemd/netif/state
-# This is private data. Do not parse.
-OPER_STATE=routable
-CARRIER_STATE=carrier
-ADDRESS_STATE=routable
-DNS=192.168.0.15 10.152.128.10 10.208.128.10 10.152.128.11
-admin@artesyn-shelf:~# cat /run/systemd/netif/links/3
-# This is private data. Do not parse.
-ADMIN_STATE=configured
-OPER_STATE=routable
-CARRIER_STATE=carrier
-ADDRESS_STATE=routable
-REQUIRED_FOR_ONLINE=yes
-REQUIRED_OPER_STATE_FOR_ONLINE=degraded
-NETWORK_FILE=/lib/systemd/network/80-wired.network
-DNS=192.168.0.15 10.152.128.10 10.208.128.10 10.152.128.11
-NTP=
-SIP=
-DOMAINS=
-ROUTE_DOMAINS=
-LLMNR=yes
-MDNS=no
-ADDRESSES=
-ROUTES=0.0.0.0/0/0/200/254/18446744073709551615 10.152.12.1/32/0/200/254/18446744073709551615
-DHCP4_ADDRESS=10.152.12.172
-DHCP_LEASE=/run/systemd/netif/leases/3
+upon your searching in the libsystemd, are you familiar with this
+const sd_bus_vtable manager_vtable[] = {
+        SD_BUS_VTABLE_START(0),
 
+        SD_BUS_PROPERTY("OperationalState", "s", property_get_operational_state, offsetof(Manager, operational_state), SD_BUS_VTABLE_PROPERTY_EMITS_CHANGE),
+        SD_BUS_PROPERTY("CarrierState", "s", property_get_carrier_state, offsetof(Manager, carrier_state), SD_BUS_VTABLE_PROPERTY_EMITS_CHANGE),
+        SD_BUS_PROPERTY("AddressState", "s", property_get_address_state, offsetof(Manager, address_state), SD_BUS_VTABLE_PROPERTY_EMITS_CHANGE),
 
+        SD_BUS_METHOD("ListLinks", NULL, "a(iso)", method_list_links, SD_BUS_VTABLE_UNPRIVILEGED),
+        SD_BUS_METHOD("GetLinkByName", "s", "io", method_get_link_by_name, SD_BUS_VTABLE_UNPRIVILEGED),
+        SD_BUS_METHOD("GetLinkByIndex", "i", "so", method_get_link_by_index, SD_BUS_VTABLE_UNPRIVILEGED),
+        SD_BUS_METHOD("SetLinkNTP", "ias", NULL, bus_method_set_link_ntp_servers, SD_BUS_VTABLE_UNPRIVILEGED),
+        SD_BUS_METHOD("SetLinkDNS", "ia(iay)", NULL, bus_method_set_link_dns_servers, SD_BUS_VTABLE_UNPRIVILEGED),
+        SD_BUS_METHOD("SetLinkDomains", "ia(sb)", NULL, bus_method_set_link_domains, SD_BUS_VTABLE_UNPRIVILEGED),
+        SD_BUS_METHOD("SetLinkDefaultRoute", "ib", NULL, bus_method_set_link_default_route, SD_BUS_VTABLE_UNPRIVILEGED),
+        SD_BUS_METHOD("SetLinkLLMNR", "is", NULL, bus_method_set_link_llmnr, SD_BUS_VTABLE_UNPRIVILEGED),
+        SD_BUS_METHOD("SetLinkMulticastDNS", "is", NULL, bus_method_set_link_mdns, SD_BUS_VTABLE_UNPRIVILEGED),
+        SD_BUS_METHOD("SetLinkDNSOverTLS", "is", NULL, bus_method_set_link_dns_over_tls, SD_BUS_VTABLE_UNPRIVILEGED),
+        SD_BUS_METHOD("SetLinkDNSSEC", "is", NULL, bus_method_set_link_dnssec, SD_BUS_VTABLE_UNPRIVILEGED),
+        SD_BUS_METHOD("SetLinkDNSSECNegativeTrustAnchors", "ias", NULL, bus_method_set_link_dnssec_negative_trust_anchors, SD_BUS_VTABLE_UNPRIVILEGED),
+        SD_BUS_METHOD("RevertLinkNTP", "i", NULL, bus_method_revert_link_ntp, SD_BUS_VTABLE_UNPRIVILEGED),
+        SD_BUS_METHOD("RevertLinkDNS", "i", NULL, bus_method_revert_link_dns, SD_BUS_VTABLE_UNPRIVILEGED),
+        SD_BUS_METHOD("RenewLink", "i", NULL, bus_method_renew_link, SD_BUS_VTABLE_UNPRIVILEGED),
+        SD_BUS_METHOD("ReconfigureLink", "i", NULL, bus_method_reconfigure_link, SD_BUS_VTABLE_UNPRIVILEGED),
+        SD_BUS_METHOD("Reload", NULL, NULL, bus_method_reload, SD_BUS_VTABLE_UNPRIVILEGED),
 
+        SD_BUS_VTABLE_END
+}
+
+I mean this is just one of the tables, and I think if they have this, they have for anything? like for set dns or ntp or ip using dbus call instlead of manually editting the ocnf file?
