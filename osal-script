@@ -1,27 +1,37 @@
-static int bus_method_set_link_dns_servers(sd_bus_message *message, void *userdata, sd_bus_error *error) {
-        return call_link_method(userdata, message, bus_link_method_set_dns_servers, error);
-}
-
-static int call_link_method(Manager *m, sd_bus_message *message, sd_bus_message_handler_t handler, sd_bus_error *error) {
-        int ifindex, r;
-        Link *l;
-
-        assert(m);
-        assert(message);
-        assert(handler);
-
-        assert_cc(sizeof(int) == sizeof(int32_t));
-        r = sd_bus_message_read(message, "i", &ifindex);
-        if (r < 0)
-                return r;
-
-        if (ifindex <= 0)
-                return sd_bus_error_setf(error, SD_BUS_ERROR_INVALID_ARGS, "Invalid interface index");
-
-        l = hashmap_get(m->links, INT_TO_PTR(ifindex));
-        if (!l)
-                return sd_bus_error_setf(error, BUS_ERROR_NO_SUCH_LINK, "Link %i not known", ifindex);
-
-        return handler(message, l, error);
-}
-
+admin@artesyn-shelf:~# busctl call \
+>   org.freedesktop.network1 \
+>   /org/freedesktop/network1 \
+>   org.freedesktop.network1.Manager \
+>   GetLinkByName s eth0
+io 3 "/org/freedesktop/network1/link/_33"
+admin@artesyn-shelf:~# busctl introspect org.freedesktop.network1 /org/freedesktop/network1/link/_33
+NAME                                TYPE      SIGNATURE RESULT/VALUE                             FLAGS
+org.freedesktop.DBus.Introspectable interface -         -                                        -
+.Introspect                         method    -         s                                        -
+org.freedesktop.DBus.Peer           interface -         -                                        -
+.GetMachineId                       method    -         s                                        -
+.Ping                               method    -         -                                        -
+org.freedesktop.DBus.Properties     interface -         -                                        -
+.Get                                method    ss        v                                        -
+.GetAll                             method    s         a{sv}                                    -
+.Set                                method    ssv       -                                        -
+.PropertiesChanged                  signal    sa{sv}as  -                                        -
+org.freedesktop.network1.Link       interface -         -                                        -
+.Reconfigure                        method    -         -                                        -
+.Renew                              method    -         -                                        -
+.RevertDNS                          method    -         -                                        -
+.RevertNTP                          method    -         -                                        -
+.SetDNS                             method    a(iay)    -                                        -
+.SetDNSOverTLS                      method    s         -                                        -
+.SetDNSSEC                          method    s         -                                        -
+.SetDNSSECNegativeTrustAnchors      method    as        -                                        -
+.SetDefaultRoute                    method    b         -                                        -
+.SetDomains                         method    a(sb)     -                                        -
+.SetLLMNR                           method    s         -                                        -
+.SetMulticastDNS                    method    s         -                                        -
+.SetNTP                             method    as        -                                        -
+.AddressState                       property  s         "routable"                               emits-change
+.AdministrativeState                property  s         "configured"                             emits-change
+.BitRates                           property  (tt)      18446744073709551615 184467440737095516… -
+.CarrierState                       property  s         "carrier"                                emits-change
+.OperationalState                   property  s         "routable"                               emits-change
