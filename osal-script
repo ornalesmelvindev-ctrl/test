@@ -1,3 +1,12 @@
-can you tell me what to modify or add in the tarball, I need to have feature to empty the dns and ntp server list
-maybe you can add function for that or just support empty --servers(i.e. test_replace_dns_servers.sh --servers " ")?
-which do ytou think is  better? I dont need the whole tarball, just the changes
+ this is my latest and you should refer to this, not the one you just sent
+
+ because I am having problem with the one who will use our library
+
+cmpmc service
+
+output of json_object_get_string(jsonServerNames) is [ "8.8.8.8", "1.1.1.1" ]
+and after trimming, becomes "8.8.8.8, 1.1.1.1"(this is the default one okay) and my goal is to not change too much on the other services since what I will just be
+chagning is the call of our interfaces
+
+my problem is, should we adjust the parameter of add-dns, set-dns, same with ntp, like instead of array, it should accept
+strings that we will be parsing in the lib, or should I just implement string to array help, so we dont need to change in the library?
