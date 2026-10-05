@@ -1,12 +1,5 @@
- this is my latest and you should refer to this, not the one you just sent
+okay, give me the full tarball with that change, also on hwo can I use in the other services
 
- because I am having problem with the one who will use our library
+also take note that I added there like ssh, so we need to add that on the changes, or readme, and in the tests
 
-cmpmc service
-
-output of json_object_get_string(jsonServerNames) is [ "8.8.8.8", "1.1.1.1" ]
-and after trimming, becomes "8.8.8.8, 1.1.1.1"(this is the default one okay) and my goal is to not change too much on the other services since what I will just be
-chagning is the call of our interfaces
-
-my problem is, should we adjust the parameter of add-dns, set-dns, same with ntp, like instead of array, it should accept
-strings that we will be parsing in the lib, or should I just implement string to array help, so we dont need to change in the library?
+and please, just modify the necessary and add the needed, dont modify the other, its already worrking fine
