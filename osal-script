@@ -1,75 +1,176 @@
-Do you super think that we're doing the right thing? I mean what I am thinking is change the flow
+can you super explain to me for what is this?
+#!/bin/bash
 
-like
-set -> store -> validate -> 80-wired.conf -> check/read saved config(this is the one to be set in the nwk,cfg) -> set the read config
-in nwk.cfg
-
-I mean I think this is the right thing/flow? Since our source of truth is the nwk.cfg so all configs there must be really true?
-
-Also, I want all the readings to be in the nkw.cfg(the available) like when we do osal_get_dns_status, 
-we must read this in the nwk.cfg but the checking/reading before setting to nwk.cfg, ofcourse
-the read msut be runtime like if dns/ntp is active via dbus because that must be 100% true
-
-Also the runtime I am telling you is this
-admin@artesyn-shelf:~# cat /run/systemd/netif/links/3
-# This is private data. Do not parse.
-ADMIN_STATE=configured
-OPER_STATE=routable
-CARRIER_STATE=carrier
-ADDRESS_STATE=routable
-REQUIRED_FOR_ONLINE=yes
-REQUIRED_OPER_STATE_FOR_ONLINE=degraded
-NETWORK_FILE=/lib/systemd/network/80-wired.network
-DNS=1.1.1.1 10.152.128.10 10.208.128.10 10.152.128.11
-NTP=
-SIP=
-DOMAINS=
-ROUTE_DOMAINS=
-LLMNR=yes
-MDNS=no
-ADDRESSES=
-ROUTES=10.152.12.1/32/0/200/254/18446744073709551615 0.0.0.0/0/0/200/254/18446744073709551615
-DHCP4_ADDRESS=10.152.12.20
-DHCP_LEASE=/run/systemd/netif/leases/3
-admin@artesyn-shelf:~# cat /run/systemd/netif/state
-# This is private data. Do not parse.
-OPER_STATE=routable
-CARRIER_STATE=carrier
-ADDRESS_STATE=routable
-DNS=1.1.1.1 10.152.128.10 10.208.128.10 10.152.128.11
-
-we will use sd-network.h(v244.5)
-And do you think we need to patch sd-network.c to also capture ADDRESSES or DHCP4_ADDRESS?
-I mean because I noticed in static mode, and sometimes I am also seeing there the 
-ADDRESSES=192.168.0.120/24 fd12:3456:789a::120/64
-
-admin@artesyn-shelf:~# cat /run/systemd/netif/links/3
-# This is private data. Do not parse.
-ADMIN_STATE=configured
-OPER_STATE=routable
-CARRIER_STATE=carrier
-ADDRESS_STATE=routable
-REQUIRED_FOR_ONLINE=yes
-REQUIRED_OPER_STATE_FOR_ONLINE=degraded
-NETWORK_FILE=/lib/systemd/network/80-wired.network
-DNS=10.152.128.10 10.208.128.10 10.152.128.11
-NTP=
-SIP=
-DOMAINS=
-ROUTE_DOMAINS=
-LLMNR=yes
-MDNS=no
-ADDRESSES=10.152.12.47/23
-ROUTES=10.152.12.1/32/0/200/254/18446744073709551615 0.0.0.0/0/0/200/254/18446744073709551615
-DHCP4_ADDRESS=10.152.12.47
-DHCP_LEASE=/run/systemd/netif/leases/3
-
-I mean by this change, I need you to give me the full refactored implemementation of our osal lib, together with the service that exposes this lib(to be used later)
-please take note the runtime and nwk.cfg read okay? also ofcourse, modify the readme and everything,
-also i think at this moment, we dont need runtime.c anymore because ofcourse systemd use that also to get and set the ip
-in the links/3
-
-if we need patch for sd-network for the other parser, just give me in separate file what must be added
+# Copyright (c) 2026, ADVANCED ENERGY INDUSTRIES, INC.
+# All Rights Reserved. Please see the license.txt file for full details 
+# Author: Giancarlo Acelajado <g.acelajado@aei.com>
 
 
+# TODO: make this a generic script to read an extenal file for list of files to be executed
 
+function fatal() {
+    echo "FATAL: $@"
+    exit 1
+}
+
+# TODO: make an external file template for this
+PERSISTENT_NETWORK_CONFIG_PATH='/staging/psc/network'
+PERSISTENT_NETWORK_CONFIG_FILE="$PERSISTENT_NETWORK_CONFIG_PATH/nwk.cfg"
+# NOTE: this version must match the latest implementation in pmc-supervisory
+PERSISTENT_NETWORK_CONFIG_VERSION=1.1
+
+NETWORK_CONFIG_FILE='/etc/systemd/network/80-wired.network.d/80-wired.conf'
+GET_HOSTNAME=($(get_hostname.sh | awk -F': ' '{print $2}' | tr -d '\n'))
+
+NWK_CFG_VERSION=($(cat $PERSISTENT_NETWORK_CONFIG_FILE | jq -r '.network.version'))
+
+function update_persistent_config()
+{
+    local tmp=$(mktemp)    
+    local TIMESTAMP="$(date +"%Y-%m-%d %T")"
+    local VERSION="$1"
+    local HOSTNAME="$2"
+    local DHCP_STATUS="$3"
+    local STATIC_NWK_STATUS="$4"
+    local STATIC_IP="$5"
+    local STATIC_GW="$6"
+    local DNS_STATUS="$7"
+    local DNS_SERVER_LIST="$8"
+    local NTP_STATUS="$9"
+    local NTP_SERVER_LIST="${10}"
+    local IPV6_IP="${11}"
+    local IPV6_GW="${12}"
+
+    # handle empty arrays
+    [[ -z "$DNS_SERVER_LIST" ]] && DNS_SERVER_LIST='[]'
+    [[ -z "$NTP_SERVER_LIST" ]] && NTP_SERVER_LIST='[]'
+
+    if [ ! -d $PERSISTENT_NETWORK_CONFIG_PATH ]; then
+        mkdir -p $PERSISTENT_NETWORK_CONFIG_PATH
+    fi
+
+    jq -n \
+        --arg      TIMESTAMP "$TIMESTAMP" \
+        --arg      HOSTNAME "$HOSTNAME" \
+        --arg      STATIC_IP "$STATIC_IP" \
+        --arg      STATIC_GW "$STATIC_GW" \
+        --arg      IPV6_IP "$IPV6_IP" \
+        --arg      IPV6_GW "$IPV6_GW" \
+        --argjson  VERSION "$VERSION" \
+        --argjson  DHCP_STATUS "$DHCP_STATUS" \
+        --argjson  STATIC_NWK_STATUS "$STATIC_NWK_STATUS" \
+        --argjson  DNS_STATUS "$DNS_STATUS" \
+        --argjson  NTP_STATUS "$NTP_STATUS" \
+        --argjson  DNS_SERVER_LIST "$DNS_SERVER_LIST" \
+        --argjson  NTP_SERVER_LIST "$NTP_SERVER_LIST" \
+        '{
+            timestamp: $TIMESTAMP,
+            network: {
+            version: $VERSION,
+            hostname: $HOSTNAME,
+            dhcp:   { enabled: $DHCP_STATUS },
+            static: {
+                enabled: $STATIC_NWK_STATUS,
+                ipv4: {
+                    ip: $STATIC_IP,
+                    gateway: $STATIC_GW
+                },
+                ipv6: {
+                    ip: $IPV6_IP,
+                    gateway: $IPV6_GW
+                }
+            },
+            dns:    { enabled: $DNS_STATUS, server: $DNS_SERVER_LIST },
+            ntp:    { enabled: $NTP_STATUS,  server: $NTP_SERVER_LIST }
+            }
+        }' \
+        > "$tmp" && mv "$tmp" "$PERSISTENT_NETWORK_CONFIG_FILE"
+
+}
+
+echo "Starting Prescript..."
+
+# network config
+PERFORM_NETWORK_CONFIG_UPDATE='false'
+CFG_VERSION=$PERSISTENT_NETWORK_CONFIG_VERSION
+
+if [[ ! -f $PERSISTENT_NETWORK_CONFIG_FILE ]]; then
+    echo "generate network config."
+    PERFORM_NETWORK_CONFIG_UPDATE='true'
+else
+    if awk "BEGIN {exit !($PERSISTENT_NETWORK_CONFIG_VERSION > $NWK_CFG_VERSION)}"; then
+        echo "perform network config update."
+        PERFORM_NETWORK_CONFIG_UPDATE='true'
+    fi
+fi
+
+if [[ "$PERFORM_NETWORK_CONFIG_UPDATE" == 'true' ]]; then # do not use local set_persistent_config.sh osal as the purpose of this script is to migrate into the latest version
+
+    # hostname
+    CFG_HOSTNAME=$GET_HOSTNAME
+
+    # dhcp settings
+    CFG_DHCP_STATE=$(get_dhcp_status.sh | awk -F': ' '{print $2}' | tr -d '\n')
+    if [[ "$CFG_DHCP_STATE" == "disabled" ]]; then
+        CFG_DHCP_STATUS='false'
+    else
+        CFG_DHCP_STATUS='true'
+    fi
+
+    # static ipv4 settings
+    CFG_STATIC_IP=$(get_static_ip.sh | awk '/ip:/ {print}' | awk -F': ' '{print $2}' | tr -d ',\n')
+
+    CFG_STATIC_GW=$(get_static_ip.sh | awk '/gateway:/ {print}' | awk -F': ' '{print $2}' | tr -d ',\n')
+
+    CFG_STATIC_IP_STATUS=$(get_static_ip.sh | awk '/status:/ {print}' | awk -F': ' '{print $2}' | tr -d ',\n')
+
+    if [[ "$CFG_STATIC_IP_STATUS" == "enabled" ]]; then
+        CFG_STATIC_STATUS='true'
+    else
+        CFG_STATIC_STATUS='false'
+    fi
+
+    # static ipv6 settings
+    CFG_IPV6_IP=$(get_static_ipv6.sh | awk '/ip:/ {print}' | awk -F': ' '{print $2}' | tr -d ',\n')
+
+    CFG_IPV6_GW=$(get_static_ipv6.sh | awk '/gateway:/ {print}' | awk -F': ' '{print $2}' | tr -d ',\n')
+
+    # dns settings
+    CFG_DNS_STATE=$(get_dns_status.sh | awk -F': ' '{print $2}' | tr -d '\n')
+    if [[ "$CFG_DNS_STATE" == "enabled" ]]; then
+        CFG_DNS_STATUS='true'
+    else
+        CFG_DNS_STATUS='false'
+    fi
+    CFG_DNS_SERVER_LIST=$(read_dns_servers.sh | sed -E 's/.*(\[.*\]).*/\1/; s/[[:space:]]+//g; s/\[/\["/; s/,/","/g; s/\]/"\]/; s/\[""\]/\[\]/' | tr -d '\n')
+
+    # ntp settings
+    CFG_NTP_STATE=$(get_ntp_status.sh | awk -F': ' '{print $2}' | tr -d '\n')
+    if [[ "$CFG_NTP_STATE" == "enabled" ]]; then
+        CFG_NTP_STATUS='true'
+    else
+        CFG_NTP_STATUS='false'
+    fi
+    CFG_NTP_SERVER_LIST=$(read_ntp_servers.sh | sed -E 's/.*(\[.*\]).*/\1/; s/[[:space:]]+//g; s/\[/\["/; s/,/","/g; s/\]/"\]/; s/\[""\]/\[\]/' | tr -d '\n')
+
+    # update config file
+    update_persistent_config "$CFG_VERSION" \
+                             "$CFG_HOSTNAME" \
+                             "$CFG_DHCP_STATUS" \
+                             "$CFG_STATIC_STATUS" \
+                             "$CFG_STATIC_IP" \
+                             "$CFG_STATIC_GW" \
+                             "$CFG_DNS_STATUS" \
+                             "$CFG_DNS_SERVER_LIST" \
+                             "$CFG_NTP_STATUS" \
+                             "$CFG_NTP_SERVER_LIST" \
+                             "$CFG_IPV6_IP" \
+                             "$CFG_IPV6_GW"
+    sync
+
+    echo "network config process done."
+fi
+
+echo "Update Prescript Done."
+
+I mean this is a script called during software update, and ofcourse I need to modify this based on our current library
