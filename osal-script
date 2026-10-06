@@ -1,178 +1,239 @@
-can you super explain to me for what is this?
-#!/bin/bash
+this is my latest, I added ssh enable/disable so please add this on the readme or everywhere it is needed like in the test
 
-# Copyright (c) 2026, ADVANCED ENERGY INDUSTRIES, INC.
-# All Rights Reserved. Please see the license.txt file for full details 
-# Author: Giancarlo Acelajado <g.acelajado@aei.com>
+also, I want you to fully implement the service, and provide separate readme for this, explaining how it works, expected arguments, etc
+also, columns must be porperly aligned okay?
 
 
-# TODO: make this a generic script to read an extenal file for list of files to be executed
+also can you put the CMAkelist and include inside the src, just name dir/files accordingly
 
-function fatal() {
-    echo "FATAL: $@"
-    exit 1
+i want you to pattern like this
+
+pattern only okay? doesnt mean you need to implement like bitbucket-pipelines.yml, etc
+
+ ls    
+README.md  bitbucket-pipelines.yml  config  doc  oe-logs  oe-workdir  script  sonar-project.properties  src  test  tools
+╭─░▒▓    ~/de/project/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/pmc-poll-manager    test-osal-network ·································································· ✔  system   05:36:23 PM  ▓▒░
+╰─ ls config               
+dbus-config  systemd-config
+╭─░▒▓    ~/de/project/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/pmc-poll-manager    test-osal-network ·································································· ✔  system   05:36:26 PM  ▓▒░
+╰─ ls config/dbus-config   
+aei.mc.pollmanager.service  aei.mc.pollmanager1.conf
+╭─░▒▓    ~/de/project/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/pmc-poll-manager    test-osal-network ·································································· ✔  system   05:36:30 PM  ▓▒░
+╰─ ls config/systemd-config/pmpmc.service 
+config/systemd-config/pmpmc.service
+
+this is the CMakelist of that
+cmake_minimum_required(VERSION 3.12)
+
+
+
+# Version Information ---------------------------------------------------------
+SET (VERSION_MAJOR 1)
+SET (VERSION_MINOR 4)
+SET (VERSION_FEATURE 0)
+SET (VERSION_PATCH 0)
+SET (VERSION "${VERSION_MAJOR}.${VERSION_MINOR}")
+SET (VERSION "${VERSION}.${VERSION_FEATURE}.${VERSION_PATCH}")
+MESSAGE ("Version: ${VERSION}")
+
+# generated config.h ---------------------------------------
+configure_file(include/config.h.in include/config.h)
+
+# Configure Projects ---------------------------------------
+project(pmpmc
+        DESCRIPTION "module to communicate/monitor with PMC peripherals/processes and provide data in json format to pmc datamanager")
+
+        # Configure Source & Binary Directories ---------------------------------------
+
+        
+MESSAGE ("Source path: ${PROJECT_SOURCE_DIR}")
+MESSAGE ("Binary path: ${PROJECT_BINARY_DIR}")
+MESSAGE ("CMAKE_CURRENT_SOURCE_DIR: ${CMAKE_CURRENT_SOURCE_DIR}")
+
+# Option to enable test-only hooks (for coverage / behave tests)
+option(ENABLE_TEST_HOOKS "Enable test hooks for coverage" OFF)
+
+set(SOURCES 
+    poll-manager.c
+    monitor-list.c
+    monitor-static.c
+    monitor-config.c
+    monitor-dynamic.c
+    monitor-reset.c
+    ae-json.c
+    device-profile.c
+    led-control.c
+    led-control-v2.c
+    led-manager.c
+    data-schema.c
+    dbus-pub.c
+    dbus-service.c
+    dbus-actions.c    
+    common.c
+    helpers.c
+    queue.c
+    )
+
+add_executable(pmpmc ${SOURCES})
+
+# Enable test hooks macro
+if(ENABLE_TEST_HOOKS)
+    target_compile_definitions(pmpmc PRIVATE ENABLE_TEST_HOOKS)
+endif()
+
+# target_compile_definitions(pmpmc PRIVATE OSAL_NETWORK)
+
+target_include_directories(pmpmc PRIVATE 
+        ${PROJECT_SOURCE_DIR}/include
+        ${PROJECT_BINARY_DIR}/include
+        )
+target_link_libraries(pmpmc systemd pthread json-c sqlite3 osal_network m)
+
+install(TARGETS pmpmc DESTINATION /usr/bin)
+
+this is the recipe
+# Recipe created by recipetool
+# This is the basis of a recipe and may need further editing in order to be fully functional.
+# (Feel free to remove these comments when editing.)
+
+# Unable to find any files that looked like license statements. Check the accompanying
+# documentation and source headers and set LICENSE and LIC_FILES_CHKSUM accordingly.
+#
+# NOTE: LICENSE is being set to "CLOSED" to allow you to at least start building - if
+# this is not accurate with respect to the licensing of the software being built (it
+# will not be in most cases) you must specify the correct value before using this
+# recipe for anything other than initial testing/development!
+LICENSE = "CLOSED"
+LIC_FILES_CHKSUM = ""
+
+SRC_URI = " \
+        git://git@bitbucket.org/advenergy/ewd-orv3-pmc-poll-manager.git;protocol=ssh;branch=develop\
+    "
+
+# Modify these as desired
+PV = "1.0+git${SRCPV}"
+
+# ${AUTOREV} can work if you want latest commit
+SRCREV = "${AUTOREV}"
+
+
+S = "${WORKDIR}/git"
+
+OECMAKE_SOURCEPATH = "${S}/src"
+SRC_CONFIG = "${S}/config"
+
+DEPENDS = "systemd json-c sqlite3 osal-network"
+
+inherit cmake systemd features_check
+
+# As this package is tied to systemd, only build it when we're also building systemd.
+REQUIRED_DISTRO_FEATURES = "systemd"
+
+# This is enabled by default in class
+# SYSTEMD_AUTO_ENABLE = "disable"
+SYSTEMD_SERVICE_${PN} = "pmpmc.service"
+
+DBUS_SERVICE_FILE = "aei.mc.pollmanager.service"
+DBUS_CONF_FILE = "aei.mc.pollmanager1.conf"
+
+FILES_${PN} += " \
+			${datadir}/dbus-1/system-services \
+			${datadir}/dbus-1/systemd.d \
+			${datadir}/dbus-1/system-services/${DBUS_SERVICE_FILE} \
+			${datadir}/dbus-1/system.d/${DBUS_CONF_FILE} \
+		"
+
+do_install_append() {
+	if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
+		install -d ${D}${systemd_unitdir}/system
+		for service in ${SYSTEMD_SERVICE_${PN}}; do
+			install -m 0644 ${SRC_CONFIG}/systemd-config/${service} ${D}${systemd_unitdir}/system/
+			sed -i -e 's,@BINDIR@,${bindir},g' ${D}${systemd_unitdir}/system/${service}
+		done
+	fi
+
+	# D-bus
+	install -d ${D}${datadir}/dbus-1/system-services
+	install -d ${D}${datadir}/dbus-1/system.d
+	install -m 0644 ${SRC_CONFIG}/dbus-config/${DBUS_SERVICE_FILE} ${D}${datadir}/dbus-1/system-services/
+	install -m 0644 ${SRC_CONFIG}/dbus-config/${DBUS_CONF_FILE} ${D}${datadir}/dbus-1/system.d/
+	sed -i -e 's,@BINDIR@,${bindir},g' ${D}${datadir}/dbus-1/system-services/${DBUS_SERVICE_FILE}
+	sed -i -e 's,@BINDIR@,${bindir},g' ${D}${datadir}/dbus-1/system.d/${DBUS_CONF_FILE}
 }
 
-# TODO: make an external file template for this
-PERSISTENT_NETWORK_CONFIG_PATH='/staging/psc/network'
-PERSISTENT_NETWORK_CONFIG_FILE="$PERSISTENT_NETWORK_CONFIG_PATH/nwk.cfg"
-# NOTE: this version must match the latest implementation in pmc-supervisory
-PERSISTENT_NETWORK_CONFIG_VERSION=1.1
+# Specify any options you want to pass to cmake using EXTRA_OECMAKE:
+EXTRA_OECMAKE = ""
 
-NETWORK_CONFIG_FILE='/etc/systemd/network/80-wired.network.d/80-wired.conf'
-GET_HOSTNAME=($(get_hostname.sh | awk -F': ' '{print $2}' | tr -d '\n'))
+by the way, this is currently I am using
+SUMMARY = "OSAL network library, CLI, and D-Bus service"
+LICENSE = "CLOSED"
 
-NWK_CFG_VERSION=($(cat $PERSISTENT_NETWORK_CONFIG_FILE | jq -r '.network.version'))
+SRC_URI = " \
+    git://git@bitbucket.org/advenergy/network-osal.git;protocol=ssh;branch=develop \
+"
 
-function update_persistent_config()
-{
-    local tmp=$(mktemp)    
-    local TIMESTAMP="$(date +"%Y-%m-%d %T")"
-    local VERSION="$1"
-    local HOSTNAME="$2"
-    local DHCP_STATUS="$3"
-    local STATIC_NWK_STATUS="$4"
-    local STATIC_IP="$5"
-    local STATIC_GW="$6"
-    local DNS_STATUS="$7"
-    local DNS_SERVER_LIST="$8"
-    local NTP_STATUS="$9"
-    local NTP_SERVER_LIST="${10}"
-    local IPV6_IP="${11}"
-    local IPV6_GW="${12}"
+PV = "1.0+git${SRCPV}"
+SRCREV = "${AUTOREV}"
 
-    # handle empty arrays
-    [[ -z "$DNS_SERVER_LIST" ]] && DNS_SERVER_LIST='[]'
-    [[ -z "$NTP_SERVER_LIST" ]] && NTP_SERVER_LIST='[]'
+S = "${WORKDIR}/git"
 
-    if [ ! -d $PERSISTENT_NETWORK_CONFIG_PATH ]; then
-        mkdir -p $PERSISTENT_NETWORK_CONFIG_PATH
+DEPENDS = "json-c systemd"
+
+inherit cmake pkgconfig systemd features_check
+
+REQUIRED_DISTRO_FEATURES = "systemd"
+
+SYSTEMD_SERVICE_${PN} = " \
+    osal-network.service \
+    osal-network-boot.service \
+    osal-network-verify.service \
+"
+
+SYSTEMD_AUTO_ENABLE = "enable"
+
+DBUS_SERVICE_FILE = "aei.osal.network1.service"
+DBUS_CONF_FILE = "aei.osal.network1.conf"
+
+RDEPENDS_${PN} += "bash-completion"
+
+FILES_${PN} += " \
+    ${sysconfdir}/bash_completion.d/osal_network \
+    ${datadir}/dbus-1/system-services \
+    ${datadir}/dbus-1/system.d \
+    ${datadir}/dbus-1/system-services/${DBUS_SERVICE_FILE} \
+    ${datadir}/dbus-1/system.d/${DBUS_CONF_FILE} \
+"
+
+EXTRA_OECMAKE = " \
+    -DOSAL_BUILD_TESTS=OFF \
+"
+
+do_install_append() {
+    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
+
+        install -d ${D}${systemd_unitdir}/system
+
+        for service in ${SYSTEMD_SERVICE_${PN}}; do
+            install -m 0644 \
+                ${S}/systemd/${service} \
+                ${D}${systemd_unitdir}/system/
+        done
+
+        install -d ${D}${datadir}/dbus-1/system-services
+        install -d ${D}${datadir}/dbus-1/system.d
+
+        install -m 0644 \
+            ${S}/dbus/${DBUS_SERVICE_FILE} \
+            ${D}${datadir}/dbus-1/system-services/
+
+        install -m 0644 \
+            ${S}/dbus/${DBUS_CONF_FILE} \
+            ${D}${datadir}/dbus-1/system.d/
     fi
 
-    jq -n \
-        --arg      TIMESTAMP "$TIMESTAMP" \
-        --arg      HOSTNAME "$HOSTNAME" \
-        --arg      STATIC_IP "$STATIC_IP" \
-        --arg      STATIC_GW "$STATIC_GW" \
-        --arg      IPV6_IP "$IPV6_IP" \
-        --arg      IPV6_GW "$IPV6_GW" \
-        --argjson  VERSION "$VERSION" \
-        --argjson  DHCP_STATUS "$DHCP_STATUS" \
-        --argjson  STATIC_NWK_STATUS "$STATIC_NWK_STATUS" \
-        --argjson  DNS_STATUS "$DNS_STATUS" \
-        --argjson  NTP_STATUS "$NTP_STATUS" \
-        --argjson  DNS_SERVER_LIST "$DNS_SERVER_LIST" \
-        --argjson  NTP_SERVER_LIST "$NTP_SERVER_LIST" \
-        '{
-            timestamp: $TIMESTAMP,
-            network: {
-            version: $VERSION,
-            hostname: $HOSTNAME,
-            dhcp:   { enabled: $DHCP_STATUS },
-            static: {
-                enabled: $STATIC_NWK_STATUS,
-                ipv4: {
-                    ip: $STATIC_IP,
-                    gateway: $STATIC_GW
-                },
-                ipv6: {
-                    ip: $IPV6_IP,
-                    gateway: $IPV6_GW
-                }
-            },
-            dns:    { enabled: $DNS_STATUS, server: $DNS_SERVER_LIST },
-            ntp:    { enabled: $NTP_STATUS,  server: $NTP_SERVER_LIST }
-            }
-        }' \
-        > "$tmp" && mv "$tmp" "$PERSISTENT_NETWORK_CONFIG_FILE"
+    install -d ${D}${sysconfdir}/bash_completion.d
 
+    install -m 0644 \
+        ${S}/src/osal_cli_completion \
+        ${D}${sysconfdir}/bash_completion.d/osal_network
 }
-
-echo "Starting Prescript..."
-
-# network config
-PERFORM_NETWORK_CONFIG_UPDATE='false'
-CFG_VERSION=$PERSISTENT_NETWORK_CONFIG_VERSION
-
-if [[ ! -f $PERSISTENT_NETWORK_CONFIG_FILE ]]; then
-    echo "generate network config."
-    PERFORM_NETWORK_CONFIG_UPDATE='true'
-else
-    if awk "BEGIN {exit !($PERSISTENT_NETWORK_CONFIG_VERSION > $NWK_CFG_VERSION)}"; then
-        echo "perform network config update."
-        PERFORM_NETWORK_CONFIG_UPDATE='true'
-    fi
-fi
-
-if [[ "$PERFORM_NETWORK_CONFIG_UPDATE" == 'true' ]]; then # do not use local set_persistent_config.sh osal as the purpose of this script is to migrate into the latest version
-
-    # hostname
-    CFG_HOSTNAME=$GET_HOSTNAME
-
-    # dhcp settings
-    CFG_DHCP_STATE=$(get_dhcp_status.sh | awk -F': ' '{print $2}' | tr -d '\n')
-    if [[ "$CFG_DHCP_STATE" == "disabled" ]]; then
-        CFG_DHCP_STATUS='false'
-    else
-        CFG_DHCP_STATUS='true'
-    fi
-
-    # static ipv4 settings
-    CFG_STATIC_IP=$(get_static_ip.sh | awk '/ip:/ {print}' | awk -F': ' '{print $2}' | tr -d ',\n')
-
-    CFG_STATIC_GW=$(get_static_ip.sh | awk '/gateway:/ {print}' | awk -F': ' '{print $2}' | tr -d ',\n')
-
-    CFG_STATIC_IP_STATUS=$(get_static_ip.sh | awk '/status:/ {print}' | awk -F': ' '{print $2}' | tr -d ',\n')
-
-    if [[ "$CFG_STATIC_IP_STATUS" == "enabled" ]]; then
-        CFG_STATIC_STATUS='true'
-    else
-        CFG_STATIC_STATUS='false'
-    fi
-
-    # static ipv6 settings
-    CFG_IPV6_IP=$(get_static_ipv6.sh | awk '/ip:/ {print}' | awk -F': ' '{print $2}' | tr -d ',\n')
-
-    CFG_IPV6_GW=$(get_static_ipv6.sh | awk '/gateway:/ {print}' | awk -F': ' '{print $2}' | tr -d ',\n')
-
-    # dns settings
-    CFG_DNS_STATE=$(get_dns_status.sh | awk -F': ' '{print $2}' | tr -d '\n')
-    if [[ "$CFG_DNS_STATE" == "enabled" ]]; then
-        CFG_DNS_STATUS='true'
-    else
-        CFG_DNS_STATUS='false'
-    fi
-    CFG_DNS_SERVER_LIST=$(read_dns_servers.sh | sed -E 's/.*(\[.*\]).*/\1/; s/[[:space:]]+//g; s/\[/\["/; s/,/","/g; s/\]/"\]/; s/\[""\]/\[\]/' | tr -d '\n')
-
-    # ntp settings
-    CFG_NTP_STATE=$(get_ntp_status.sh | awk -F': ' '{print $2}' | tr -d '\n')
-    if [[ "$CFG_NTP_STATE" == "enabled" ]]; then
-        CFG_NTP_STATUS='true'
-    else
-        CFG_NTP_STATUS='false'
-    fi
-    CFG_NTP_SERVER_LIST=$(read_ntp_servers.sh | sed -E 's/.*(\[.*\]).*/\1/; s/[[:space:]]+//g; s/\[/\["/; s/,/","/g; s/\]/"\]/; s/\[""\]/\[\]/' | tr -d '\n')
-
-    # update config file
-    update_persistent_config "$CFG_VERSION" \
-                             "$CFG_HOSTNAME" \
-                             "$CFG_DHCP_STATUS" \
-                             "$CFG_STATIC_STATUS" \
-                             "$CFG_STATIC_IP" \
-                             "$CFG_STATIC_GW" \
-                             "$CFG_DNS_STATUS" \
-                             "$CFG_DNS_SERVER_LIST" \
-                             "$CFG_NTP_STATUS" \
-                             "$CFG_NTP_SERVER_LIST" \
-                             "$CFG_IPV6_IP" \
-                             "$CFG_IPV6_GW"
-    sync
-
-    echo "network config process done."
-fi
-
-echo "Update Prescript Done."
-
-I mean this is a script called during software update, and ofcourse I need to modify this based on our current library
-
-provide me the modified one with explaination
