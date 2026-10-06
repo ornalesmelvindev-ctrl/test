@@ -174,3 +174,5 @@ fi
 echo "Update Prescript Done."
 
 I mean this is a script called during software update, and ofcourse I need to modify this based on our current library
+
+provide me the modified one with explaination
