@@ -1,5 +1,75 @@
-okay, give me the full tarball with that change, also on hwo can I use in the other services
+Do you super think that we're doing the right thing? I mean what I am thinking is change the flow
 
-also take note that I added there like ssh, so we need to add that on the changes, or readme, and in the tests
+like
+set -> store -> validate -> 80-wired.conf -> check/read saved config(this is the one to be set in the nwk,cfg) -> set the read config
+in nwk.cfg
 
-and please, just modify the necessary and add the needed, dont modify the other, its already worrking fine
+I mean I think this is the right thing/flow? Since our source of truth is the nwk.cfg so all configs there must be really true?
+
+Also, I want all the readings to be in the nkw.cfg(the available) like when we do osal_get_dns_status, 
+we must read this in the nwk.cfg but the checking/reading before setting to nwk.cfg, ofcourse
+the read msut be runtime like if dns/ntp is active via dbus because that must be 100% true
+
+Also the runtime I am telling you is this
+admin@artesyn-shelf:~# cat /run/systemd/netif/links/3
+# This is private data. Do not parse.
+ADMIN_STATE=configured
+OPER_STATE=routable
+CARRIER_STATE=carrier
+ADDRESS_STATE=routable
+REQUIRED_FOR_ONLINE=yes
+REQUIRED_OPER_STATE_FOR_ONLINE=degraded
+NETWORK_FILE=/lib/systemd/network/80-wired.network
+DNS=1.1.1.1 10.152.128.10 10.208.128.10 10.152.128.11
+NTP=
+SIP=
+DOMAINS=
+ROUTE_DOMAINS=
+LLMNR=yes
+MDNS=no
+ADDRESSES=
+ROUTES=10.152.12.1/32/0/200/254/18446744073709551615 0.0.0.0/0/0/200/254/18446744073709551615
+DHCP4_ADDRESS=10.152.12.20
+DHCP_LEASE=/run/systemd/netif/leases/3
+admin@artesyn-shelf:~# cat /run/systemd/netif/state
+# This is private data. Do not parse.
+OPER_STATE=routable
+CARRIER_STATE=carrier
+ADDRESS_STATE=routable
+DNS=1.1.1.1 10.152.128.10 10.208.128.10 10.152.128.11
+
+we will use sd-network.h(v244.5)
+And do you think we need to patch sd-network.c to also capture ADDRESSES or DHCP4_ADDRESS?
+I mean because I noticed in static mode, and sometimes I am also seeing there the 
+ADDRESSES=192.168.0.120/24 fd12:3456:789a::120/64
+
+admin@artesyn-shelf:~# cat /run/systemd/netif/links/3
+# This is private data. Do not parse.
+ADMIN_STATE=configured
+OPER_STATE=routable
+CARRIER_STATE=carrier
+ADDRESS_STATE=routable
+REQUIRED_FOR_ONLINE=yes
+REQUIRED_OPER_STATE_FOR_ONLINE=degraded
+NETWORK_FILE=/lib/systemd/network/80-wired.network
+DNS=10.152.128.10 10.208.128.10 10.152.128.11
+NTP=
+SIP=
+DOMAINS=
+ROUTE_DOMAINS=
+LLMNR=yes
+MDNS=no
+ADDRESSES=10.152.12.47/23
+ROUTES=10.152.12.1/32/0/200/254/18446744073709551615 0.0.0.0/0/0/200/254/18446744073709551615
+DHCP4_ADDRESS=10.152.12.47
+DHCP_LEASE=/run/systemd/netif/leases/3
+
+I mean by this change, I need you to give me the full refactored implemementation of our osal lib, together with the service that exposes this lib(to be used later)
+please take note the runtime and nwk.cfg read okay? also ofcourse, modify the readme and everything,
+also i think at this moment, we dont need runtime.c anymore because ofcourse systemd use that also to get and set the ip
+in the links/3
+
+if we need patch for sd-network for the other parser, just give me in separate file what must be added
+
+
+
