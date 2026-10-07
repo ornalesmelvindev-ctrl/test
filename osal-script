@@ -1,44 +1,52 @@
-admin@artesyn-shelf:~# ^C
-admin@artesyn-shelf:~# ^C
-admin@artesyn-shelf:~# ^C
-admin@artesyn-shelf:~# ^C
-admin@artesyn-shelf:~# ^C
-admin@artesyn-shelf:~# test_read_dns_servers.sh
-servers: [2.2.2.2, 1.1.1.1]
-admin@artesyn-shelf:~# cat /run/systemd/
-ask-password/       generator/          journal/            notify              seats/              shutdown/           unit-root/
-ask-password-block/ inaccessible/       machines/           private             sessions/           system/             units/
-dynamic-uid/        inhibit/            netif/              resolve/            show-status         timesync/           users/
-admin@artesyn-shelf:~# cat /run/systemd/netif/state
-# This is private data. Do not parse.
-OPER_STATE=routable
-CARRIER_STATE=carrier
-ADDRESS_STATE=routable
-DNS=2.2.2.2 1.1.1.1
-admin@artesyn-shelf:~# test_read_dns_servers.sh
-servers: []
-admin@artesyn-shelf:~# cat /run/systemd/netif/state
-# This is private data. Do not parse.
-OPER_STATE=routable
-CARRIER_STATE=carrier
-ADDRESS_STATE=routable
-DNS=2.2.2.2
-admin@artesyn-shelf:~# grep osal /proc/$(pidof cmpmc)/maps
-76cf1000-76d01000 r-xp 00000000 b3:05 40316      /usr/lib/libosal_network.so.1.0.0
-76d01000-76d10000 ---p 00010000 b3:05 40316      /usr/lib/libosal_network.so.1.0.0
-76d10000-76d11000 r--p 0000f000 b3:05 40316      /usr/lib/libosal_network.so.1.0.0
-76d11000-76d12000 rw-p 00010000 b3:05 40316      /usr/lib/libosal_network.so.1.0.0
-admin@artesyn-shelf:~#
-admin@artesyn-shelf:~# ldd /usr/bin/osal_cli
-        linux-vdso.so.1 (0x7efa3000)
-        libosal_network.so.1 => /usr/lib/libosal_network.so.1 (0x76f7d000)
-        libc.so.6 => /lib/libc.so.6 (0x76e39000)
-        /lib/ld-linux-armhf.so.3 (0x76fb6000)
-        libjson-c.so.5 => /usr/lib/libjson-c.so.5 (0x76e1b000)
-        libsystemd.so.0 => /lib/libsystemd.so.0 (0x76d62000)
-        librt.so.1 => /lib/librt.so.1 (0x76d4b000)
-        liblzma.so.5 => /usr/lib/liblzma.so.5 (0x76d19000)
-        libcap.so.2 => /lib/libcap.so.2 (0x76d03000)
-        libpthread.so.0 => /lib/libpthread.so.0 (0x76cd9000)
-admin@artesyn-shelf:~#
+Oct 07 02:06:28 artesyn-shelf osal_network[1676]: set 1 DNS server(s)
+Oct 07 02:06:28 artesyn-shelf osal_network[1676]: staged /etc/systemd/network/80-wired.network.d/80-wired.conf (403 bytes)
+Oct 07 02:06:28 artesyn-shelf osal_network[1676]: restarting systemd-networkd
+Oct 07 02:06:29 artesyn-shelf osal_network[1676]: systemd-networkd restart completed
+Oct 07 02:06:29 artesyn-shelf osal_network[1676]: committed /staging/psc/network/test_nwk.cfg
+Oct 07 02:06:58 artesyn-shelf osal_network[1676]: enable DNS
+Oct 07 02:06:58 artesyn-shelf osal_network[1676]: committed /staging/psc/network/test_nwk.cfg
+Oct 07 02:06:58 artesyn-shelf osal_network[1676]: set 2 DNS server(s)
+Oct 07 02:06:58 artesyn-shelf osal_network[1676]: staged /etc/systemd/network/80-wired.network.d/80-wired.conf (415 bytes)
+Oct 07 02:06:58 artesyn-shelf osal_network[1676]: restarting systemd-networkd
+Oct 07 02:06:58 artesyn-shelf osal_network[1676]: systemd-networkd restart completed
+Oct 07 02:06:59 artesyn-shelf osal_network[1676]: committed /staging/psc/network/test_nwk.cfg
+Oct 07 02:07:30 artesyn-shelf osal_network[1676]: enable DNS
+Oct 07 02:07:30 artesyn-shelf osal_network[1676]: committed /staging/psc/network/test_nwk.cfg
+Oct 07 02:07:30 artesyn-shelf osal_network[1676]: set 1 DNS server(s)
+Oct 07 02:07:30 artesyn-shelf osal_network[1676]: staged /etc/systemd/network/80-wired.network.d/80-wired.conf (403 bytes)
+Oct 07 02:07:30 artesyn-shelf osal_network[1676]: restarting systemd-networkd
+Oct 07 02:07:30 artesyn-shelf osal_network[1676]: systemd-networkd restart completed
+Oct 07 02:07:30 artesyn-shelf osal_network[1676]: committed /staging/psc/network/test_nwk.cfg
+Oct 07 02:07:39 artesyn-shelf osal_network[1676]: enable DNS
+Oct 07 02:07:39 artesyn-shelf osal_network[1676]: committed /staging/psc/network/test_nwk.cfg
+Oct 07 02:07:39 artesyn-shelf osal_network[1676]: set 0 DNS server(s)
+Oct 07 02:07:39 artesyn-shelf osal_network[1676]: staged /etc/systemd/network/80-wired.network.d/80-wired.conf (390 bytes)
+Oct 07 02:07:39 artesyn-shelf osal_network[1676]: restarting systemd-networkd
+Oct 07 02:07:40 artesyn-shelf osal_network[1676]: systemd-networkd restart completed
+Oct 07 02:07:40 artesyn-shelf osal_network[1676]: committed /staging/psc/network/test_nwk.cfg
+
+admin@artesyn-shelf:~# strings /usr/lib/libosal_network.so |grep UseDNS
+UseDNS=false
+
+admin@artesyn-shelf:~# networkctl status eth0
+* 3: eth0
+             Link File: /lib/systemd/network/99-default.link
+          Network File: /lib/systemd/network/80-wired.network
+                  Type: ether
+                 State: routable (configuring)
+                  Path: platform-1e690000.ftgmac
+                Driver: ftgmac100
+            HW Address: 06:86:0e:32:86:cb
+                   MTU: 1500 (min: 68, max: 1500)
+  Queue Length (Tx/Rx): 1/1
+      Auto negotiation: yes
+                 Speed: 100Mbps
+                Duplex: full
+                  Port: mii
+               Address: 192.168.0.122
+                        fd12:3456:789a::125
+                        fe80::486:eff:fe32:86cb
+               Gateway: 192.168.0.2
+                        fd12:3456:789a::5
+                   DNS: 2.2.2.2
 
