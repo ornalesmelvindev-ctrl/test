@@ -1,7 +1,38 @@
 see?
 admin@artesyn-shelf:~# test_read_dns_servers.sh
 servers: [1.1.1.1, 2.2.2.2]
-admin@artesyn-shelf:~# # in here, I will remove 2.2.2.2 in the webui(this is calling cmpmc inside)
+admin@artesyn-shelf:~# # in here, I will remove 2.2.2.2 in the webui(this is calling cmpmc inside) (take note, this is the way cmpmc calls the api)
+/*
+when replacing
+
+    char pool[OSAL_MAX_SERVERS][OSAL_HOST_LEN];
+    const char *servers[OSAL_MAX_SERVERS];
+    int count = 0;
+
+    if (OSAL_OK != osal_parse_server_list(strbuf, pool, servers, &count))
+    {
+        ERROR_PRINT("Failed to parse DNS server names: %s\n", osal_last_error());
+        return -1;
+    }
+
+    if(OSAL_OK != osal_set_dns(servers, count))
+    {
+        ERROR_PRINT("Failed to set DNS server names: %s\n", osal_last_error());
+        return -1;
+    }
+when emptying
+    if (0 == json_object_array_length(jsonServerNames))
+    {
+#ifndef USE_DEFAULT
+        if (OSAL_OK != osal_set_dns(" ", 0))
+        {
+            ERROR_PRINT("Failed to clear NTP server names: %s\n", osal_last_error());
+            return -1;
+        }
+take note as well that when I call test_read_dns_servers.sh instead of osal_set_dns(), its working and being cleared
+ * */
+
+
 admin@artesyn-shelf:~# test_read_dns_servers.sh
 servers: [1.1.1.1]
 admin@artesyn-shelf:~# grep DNS /run/systemd/netif/state
@@ -79,5 +110,11 @@ Oct 07 08:02:03 artesyn-shelf osal_network[217]: staged /etc/systemd/network/80-
 Oct 07 08:02:03 artesyn-shelf osal_network[217]: restarting systemd-networkd
 Oct 07 08:02:03 artesyn-shelf osal_network[217]: systemd-networkd restart completed
 Oct 07 08:02:03 artesyn-shelf osal_network[217]: committed /staging/psc/network/test_nwk.cfg
+
+admin@artesyn-shelf:~# test_replace_dns_servers.sh --servers
+servers: []
+admin@artesyn-shelf:~# grep DNS /run/systemd/netif/state
+admin@artesyn-shelf:~#
+
 
 
