@@ -1,52 +1,152 @@
-Oct 07 02:06:28 artesyn-shelf osal_network[1676]: set 1 DNS server(s)
-Oct 07 02:06:28 artesyn-shelf osal_network[1676]: staged /etc/systemd/network/80-wired.network.d/80-wired.conf (403 bytes)
-Oct 07 02:06:28 artesyn-shelf osal_network[1676]: restarting systemd-networkd
-Oct 07 02:06:29 artesyn-shelf osal_network[1676]: systemd-networkd restart completed
-Oct 07 02:06:29 artesyn-shelf osal_network[1676]: committed /staging/psc/network/test_nwk.cfg
-Oct 07 02:06:58 artesyn-shelf osal_network[1676]: enable DNS
-Oct 07 02:06:58 artesyn-shelf osal_network[1676]: committed /staging/psc/network/test_nwk.cfg
-Oct 07 02:06:58 artesyn-shelf osal_network[1676]: set 2 DNS server(s)
-Oct 07 02:06:58 artesyn-shelf osal_network[1676]: staged /etc/systemd/network/80-wired.network.d/80-wired.conf (415 bytes)
-Oct 07 02:06:58 artesyn-shelf osal_network[1676]: restarting systemd-networkd
-Oct 07 02:06:58 artesyn-shelf osal_network[1676]: systemd-networkd restart completed
-Oct 07 02:06:59 artesyn-shelf osal_network[1676]: committed /staging/psc/network/test_nwk.cfg
-Oct 07 02:07:30 artesyn-shelf osal_network[1676]: enable DNS
-Oct 07 02:07:30 artesyn-shelf osal_network[1676]: committed /staging/psc/network/test_nwk.cfg
-Oct 07 02:07:30 artesyn-shelf osal_network[1676]: set 1 DNS server(s)
-Oct 07 02:07:30 artesyn-shelf osal_network[1676]: staged /etc/systemd/network/80-wired.network.d/80-wired.conf (403 bytes)
-Oct 07 02:07:30 artesyn-shelf osal_network[1676]: restarting systemd-networkd
-Oct 07 02:07:30 artesyn-shelf osal_network[1676]: systemd-networkd restart completed
-Oct 07 02:07:30 artesyn-shelf osal_network[1676]: committed /staging/psc/network/test_nwk.cfg
-Oct 07 02:07:39 artesyn-shelf osal_network[1676]: enable DNS
-Oct 07 02:07:39 artesyn-shelf osal_network[1676]: committed /staging/psc/network/test_nwk.cfg
-Oct 07 02:07:39 artesyn-shelf osal_network[1676]: set 0 DNS server(s)
-Oct 07 02:07:39 artesyn-shelf osal_network[1676]: staged /etc/systemd/network/80-wired.network.d/80-wired.conf (390 bytes)
-Oct 07 02:07:39 artesyn-shelf osal_network[1676]: restarting systemd-networkd
-Oct 07 02:07:40 artesyn-shelf osal_network[1676]: systemd-networkd restart completed
-Oct 07 02:07:40 artesyn-shelf osal_network[1676]: committed /staging/psc/network/test_nwk.cfg
+take note
+int osal_bus_verify_runtime_state(const osal_net_config_t *cfg)
+{
+    osal_log(LOG_INFO, "returning nothing");
+    return 0;
+#ifdef OSAL_HAVE_SDBUS
+    int ifindex, rc;
 
-admin@artesyn-shelf:~# strings /usr/lib/libosal_network.so |grep UseDNS
-UseDNS=false
+Oct 07 02:27:35 artesyn-shelf osal_network[26266]: systemd-networkd restart completed
+Oct 07 02:27:35 artesyn-shelf osal_network[26266]: committed /staging/psc/network/test_nwk.cfg
+Oct 07 02:36:44 artesyn-shelf osal_network[8583]: boot sync
+Oct 07 02:36:44 artesyn-shelf osal_network[8583]: wrote /etc/systemd/network/80-wired.network.d/80-wired.conf (378 bytes)
+Oct 07 02:37:08 artesyn-shelf osal_network[8934]: set 2 DNS server(s)
+Oct 07 02:37:08 artesyn-shelf osal_network[8934]: staged /etc/systemd/network/80-wired.network.d/80-wired.conf (415 bytes)
+Oct 07 02:37:08 artesyn-shelf osal_network[8934]: restarting systemd-networkd
+Oct 07 02:37:09 artesyn-shelf osal_network[8934]: systemd-networkd restart completed
+Oct 07 02:37:09 artesyn-shelf osal_network[8934]: returning nothing
+Oct 07 02:37:09 artesyn-shelf osal_network[8934]: committed /staging/psc/network/test_nwk.cfg
+Oct 07 02:38:43 artesyn-shelf osal_network[8762]: enable DNS
+Oct 07 02:38:43 artesyn-shelf osal_network[8762]: returning nothing
+Oct 07 02:38:43 artesyn-shelf osal_network[8762]: committed /staging/psc/network/test_nwk.cfg
+Oct 07 02:38:43 artesyn-shelf osal_network[8762]: set 1 DNS server(s)
+Oct 07 02:38:43 artesyn-shelf osal_network[8762]: staged /etc/systemd/network/80-wired.network.d/80-wired.conf (403 bytes)
+Oct 07 02:38:43 artesyn-shelf osal_network[8762]: restarting systemd-networkd
+Oct 07 02:38:44 artesyn-shelf osal_network[8762]: systemd-networkd restart completed
+Oct 07 02:38:44 artesyn-shelf osal_network[8762]: returning nothing
+Oct 07 02:38:44 artesyn-shelf osal_network[8762]: committed /staging/psc/network/test_nwk.cfg
+Oct 07 02:38:49 artesyn-shelf osal_network[8762]: enable DNS
+Oct 07 02:38:49 artesyn-shelf osal_network[8762]: returning nothing
+Oct 07 02:38:49 artesyn-shelf osal_network[8762]: committed /staging/psc/network/test_nwk.cfg
+Oct 07 02:38:49 artesyn-shelf osal_network[8762]: set 0 DNS server(s)
+Oct 07 02:38:49 artesyn-shelf osal_network[8762]: staged /etc/systemd/network/80-wired.network.d/80-wired.conf (390 bytes)
+Oct 07 02:38:49 artesyn-shelf osal_network[8762]: restarting systemd-networkd
+Oct 07 02:38:49 artesyn-shelf osal_network[8762]: systemd-networkd restart completed
+Oct 07 02:38:49 artesyn-shelf osal_network[8762]: returning nothing
+Oct 07 02:38:49 artesyn-shelf osal_network[8762]: committed /staging/psc/network/test_nwk.cfg
 
-admin@artesyn-shelf:~# networkctl status eth0
-* 3: eth0
-             Link File: /lib/systemd/network/99-default.link
-          Network File: /lib/systemd/network/80-wired.network
-                  Type: ether
-                 State: routable (configuring)
-                  Path: platform-1e690000.ftgmac
-                Driver: ftgmac100
-            HW Address: 06:86:0e:32:86:cb
-                   MTU: 1500 (min: 68, max: 1500)
-  Queue Length (Tx/Rx): 1/1
-      Auto negotiation: yes
-                 Speed: 100Mbps
-                Duplex: full
-                  Port: mii
-               Address: 192.168.0.122
-                        fd12:3456:789a::125
-                        fe80::486:eff:fe32:86cb
-               Gateway: 192.168.0.2
-                        fd12:3456:789a::5
-                   DNS: 2.2.2.2
+
+but still
+admin@artesyn-shelf:~# test_read_dns_servers.sh
+servers: []
+admin@artesyn-shelf:~# test_replace_dns_servers.sh 1.1.1.1 2.2.2.2
+servers: [1.1.1.1, 2.2.2.2]
+admin@artesyn-shelf:~# test_read_dns_servers.sh
+servers: [1.1.1.1, 2.2.2.2]
+admin@artesyn-shelf:~# cat /run/systemd/netif/links/3
+# This is private data. Do not parse.
+ADMIN_STATE=configuring
+OPER_STATE=routable
+CARRIER_STATE=carrier
+ADDRESS_STATE=routable
+REQUIRED_FOR_ONLINE=yes
+REQUIRED_OPER_STATE_FOR_ONLINE=degraded
+NETWORK_FILE=/lib/systemd/network/80-wired.network
+DNS=1.1.1.1 2.2.2.2
+NTP=
+SIP=
+DOMAINS=
+ROUTE_DOMAINS=
+LLMNR=yes
+MDNS=no
+ADDRESSES=fd12:3456:789a::125/64 192.168.0.122/24
+ROUTES=0.0.0.0/0/0/0/254/18446744073709551615
+admin@artesyn-shelf:~#
+admin@artesyn-shelf:~#
+admin@artesyn-shelf:~#
+admin@artesyn-shelf:~# strings /usr/lib/libosal_network.so | grep nothing
+returning nothing
+admin@artesyn-shelf:~# cat /run/systemd/netif/links/3
+# This is private data. Do not parse.
+ADMIN_STATE=configuring
+OPER_STATE=routable
+CARRIER_STATE=carrier
+ADDRESS_STATE=routable
+REQUIRED_FOR_ONLINE=yes
+REQUIRED_OPER_STATE_FOR_ONLINE=degraded
+NETWORK_FILE=/lib/systemd/network/80-wired.network
+DNS=2.2.2.2
+NTP=
+SIP=
+DOMAINS=
+ROUTE_DOMAINS=
+LLMNR=yes
+MDNS=no
+ADDRESSES=fd12:3456:789a::125/64 192.168.0.122/24
+ROUTES=0.0.0.0/0/0/0/254/18446744073709551615
+
+and I replaced in pmpmc
+#ifndef USE_DEFAULT
+        // if (OSAL_OK != osal_set_dns(" ", 0))
+        if (system("test_replace_dns_servers.sh"))
+
+Oct 07 02:45:42 artesyn-shelf systemd[1]: Starting PMC Config Manager Service...
+Oct 07 02:45:42 artesyn-shelf systemd[1]: Started PMC Config Manager Service.
+Oct 07 02:45:46 artesyn-shelf cmpmc[21815]: [!!!] no systemTime
+Oct 07 02:45:47 artesyn-shelf osal_network[21815]: enable DNS
+Oct 07 02:45:47 artesyn-shelf osal_network[21815]: returning nothing
+Oct 07 02:45:47 artesyn-shelf osal_network[21815]: committed /staging/psc/network/test_nwk.cfg
+Oct 07 02:45:47 artesyn-shelf osal_network[21904]: set 0 DNS server(s)
+Oct 07 02:45:47 artesyn-shelf osal_network[21904]: staged /etc/systemd/network/80-wired.network.d/80-wired.conf (378 bytes)
+Oct 07 02:45:47 artesyn-shelf osal_network[21904]: restarting systemd-networkd
+Oct 07 02:45:47 artesyn-shelf osal_network[21904]: systemd-networkd restart completed
+Oct 07 02:45:48 artesyn-shelf osal_network[21904]: returning nothing
+Oct 07 02:45:48 artesyn-shelf osal_network[21904]: committed /staging/psc/network/test_nwk.cfg
+Oct 07 02:45:48 artesyn-shelf cmpmc[21904]: servers: []
+
+admin@artesyn-shelf:~# test_replace_dns_servers.sh 2.2.2.2
+servers: [2.2.2.2]
+admin@artesyn-shelf:~# cat /run/systemd/netif/links/3
+# This is private data. Do not parse.
+ADMIN_STATE=configuring
+OPER_STATE=routable
+CARRIER_STATE=carrier
+ADDRESS_STATE=routable
+REQUIRED_FOR_ONLINE=yes
+REQUIRED_OPER_STATE_FOR_ONLINE=degraded
+NETWORK_FILE=/lib/systemd/network/80-wired.network
+DNS=2.2.2.2
+NTP=
+SIP=
+DOMAINS=
+ROUTE_DOMAINS=
+LLMNR=yes
+MDNS=no
+ADDRESSES=fd12:3456:789a::125/64 192.168.0.122/24
+ROUTES=0.0.0.0/0/0/0/254/18446744073709551615
+admin@artesyn-shelf:~#
+admin@artesyn-shelf:~#
+admin@artesyn-shelf:~# cat /run/systemd/netif/links/3
+# This is private data. Do not parse.
+ADMIN_STATE=configuring
+OPER_STATE=routable
+CARRIER_STATE=carrier
+ADDRESS_STATE=routable
+REQUIRED_FOR_ONLINE=yes
+REQUIRED_OPER_STATE_FOR_ONLINE=degraded
+NETWORK_FILE=/lib/systemd/network/80-wired.network
+DNS=
+NTP=
+SIP=
+DOMAINS=
+ROUTE_DOMAINS=
+LLMNR=yes
+MDNS=no
+ADDRESSES=fd12:3456:789a::125/64 192.168.0.122/24
+ROUTES=0.0.0.0/0/0/0/254/18446744073709551615
+admin@artesyn-shelf:~# test_read_dns_servers.sh
+servers: []
+admin@artesyn-shelf:~#
+
+so the bug really happens on osal_set_dns/ntp?
 
