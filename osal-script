@@ -1,40 +1,48 @@
-admin@artesyn-shelf:~# ls -l --full-time /staging/psc/network/
-total 8
--rw------- 1 admin root 519 2026-10-07 02:45:50.689874098 +0000 nwk.cfg
--rw-r--r-- 1 admin root 532 2026-10-07 02:45:48.149874159 +0000 test_nwk.cfg
--rw------- 1 admin root   0 2026-10-06 05:06:35.589983392 +0000 test_nwk.cfg.lock
+admin@artesyn-shelf:~# test_replace_dns_servers.sh 1.1.1.1
+servers: [1.1.1.1]
+admin@artesyn-shelf:~# cat /run/systemd/netif/state
+# This is private data. Do not parse.
+OPER_STATE=routable
+CARRIER_STATE=carrier
+ADDRESS_STATE=routable
+DNS=1.1.1.1
+admin@artesyn-shelf:~# cat /run/systemd/netif/state
+# This is private data. Do not parse.
+OPER_STATE=routable
+CARRIER_STATE=carrier
+ADDRESS_STATE=routable
+DNS=1.1.1.1
 
-IO dont hane inotify or auditctl
-and take note in here, we're using the test_nwk.cfg
 
-admin@artesyn-shelf:~# cat /staging/psc/network/nwk.cfg
-{
-  "timestamp": "2026-10-07 02:45:49",
-  "network": {
-    "version": 1,
-    "hostname": "artesyn-shelf",
-    "dhcp": {
-      "enabled": true
-    },
-    "static": {
-      "enabled": true,
-      "ipv4": {
-        "ip": "192.168.0.122/24",
-        "gateway": "192.168.0.2"
-      },
-      "ipv6": {
-        "ip": "fd12:3456:789a::125/64",
-        "gateway": "fd12:3456:789a::5"
-      }
-    },
-    "dns": {
-      "enabled": true,
-      "server": []
-    },
-    "ntp": {
-      "enabled": true,
-      "server": []
-    }
-  }
-}
-
+/etc/systemd/network/80-wired.network.d/80-wired.conf 2026-10-07 02:57:54.629856838 +0000 403
+/staging/psc/network/nwk.cfg 2026-10-07 02:57:58.399856748 +0000 544
+/staging/psc/network/test_nwk.cfg 2026-10-07 02:57:55.149856826 +0000 550
+/etc/systemd/network/80-wired.network.d/80-wired.conf 2026-10-07 02:57:54.629856838 +0000 403
+/staging/psc/network/nwk.cfg 2026-10-07 02:57:58.399856748 +0000 544
+/staging/psc/network/test_nwk.cfg 2026-10-07 02:57:55.149856826 +0000 550
+/etc/systemd/network/80-wired.network.d/80-wired.conf 2026-10-07 02:57:54.629856838 +0000 403
+/staging/psc/network/nwk.cfg 2026-10-07 02:57:58.399856748 +0000 544
+/staging/psc/network/test_nwk.cfg 2026-10-07 02:57:55.149856826 +0000 550
+/etc/systemd/network/80-wired.network.d/80-wired.conf 2026-10-07 02:57:54.629856838 +0000 403
+/staging/psc/network/nwk.cfg 2026-10-07 02:57:58.399856748 +0000 544
+/staging/psc/network/test_nwk.cfg 2026-10-07 02:57:55.149856826 +0000 550
+/etc/systemd/network/80-wired.network.d/80-wired.conf 2026-10-07 02:57:54.629856838 +0000 403
+/staging/psc/network/nwk.cfg 2026-10-07 02:57:58.399856748 +0000 544
+/staging/psc/network/test_nwk.cfg 2026-10-07 02:57:55.149856826 +0000 550
+/etc/systemd/network/80-wired.network.d/80-wired.conf 2026-10-07 02:57:54.629856838 +0000 403
+/staging/psc/network/nwk.cfg 2026-10-07 02:57:58.399856748 +0000 544
+/staging/psc/network/test_nwk.cfg 2026-10-07 02:57:55.149856826 +0000 550
+/etc/systemd/network/80-wired.network.d/80-wired.conf 2026-10-07 02:57:54.629856838 +0000 403
+/staging/psc/network/nwk.cfg 2026-10-07 02:57:58.399856748 +0000 544
+/staging/psc/network/test_nwk.cfg 2026-10-07 02:58:27.339856058 +0000 550
+/etc/systemd/network/80-wired.network.d/80-wired.conf 2026-10-07 02:58:27.349856058 +0000 390
+/staging/psc/network/nwk.cfg 2026-10-07 02:57:58.399856748 +0000 544
+/staging/psc/network/test_nwk.cfg 2026-10-07 02:58:28.079856040 +0000 532
+/etc/systemd/network/80-wired.network.d/80-wired.conf 2026-10-07 02:58:27.349856058 +0000 390
+/staging/psc/network/nwk.cfg 2026-10-07 02:57:58.399856748 +0000 544
+/staging/psc/network/test_nwk.cfg 2026-10-07 02:58:28.079856040 +0000 532
+/etc/systemd/network/80-wired.network.d/80-wired.conf 2026-10-07 02:58:27.349856058 +0000 390
+/staging/psc/network/nwk.cfg 2026-10-07 02:57:58.399856748 +0000 544
+/staging/psc/network/test_nwk.cfg 2026-10-07 02:58:28.079856040 +0000 532
+/etc/systemd/network/80-wired.network.d/80-wired.conf 2026-10-07 02:58:27.349856058 +0000 390
+/staging/psc/network/nwk.cfg 2026-10-07 02:58:31.179855967 +0000 544
