@@ -1,3 +1,138 @@
+who do you think is the culpit?
+
+╰─ rg '80-wired.conf' --glob='!spec' --glob='!test'
+ewd-osal-scripts/disable_dhcp.sh
+14:CONFIG_FILE=/etc/systemd/network/80-wired.network.d/80-wired.conf
+
+ewd-osal-scripts/disable_static_network.sh
+14:CONFIG_FILE=/etc/systemd/network/80-wired.network.d/80-wired.conf
+
+ewd-osal-scripts/enable_dhcp.sh
+14:CONFIG_FILE=/etc/systemd/network/80-wired.network.d/80-wired.conf
+
+ewd-osal-scripts/enable_static_network.sh
+14:CONFIG_FILE=/etc/systemd/network/80-wired.network.d/80-wired.conf
+
+ewd-osal-scripts/get_dhcp_status.sh
+6:CONFIG_FILE=/etc/systemd/network/80-wired.network.d/80-wired.conf
+
+ewd-osal-scripts/get_static_network_status.sh
+9:CONFIG_FILE=/etc/systemd/network/80-wired.network.d/80-wired.conf
+
+ewd-osal-scripts/get_static_ip.sh
+29:CONFIG_FILE="${CONFIG_FILE:-/etc/systemd/network/80-wired.network.d/80-wired.conf}"
+
+ewd-osal-scripts/get_static_ipv6.sh
+8:CONFIG_FILE="${CONFIG_FILE:-/etc/systemd/network/80-wired.network.d/80-wired.conf}"
+
+ewd-osal-scripts/read_dns_servers.sh
+8:CONFIG_FILE="/etc/systemd/network/80-wired.network.d/80-wired.conf"
+
+ewd-osal-scripts/patch_dns_servers.sh
+66:CONFIG_FILE="/etc/systemd/network/80-wired.network.d/80-wired.conf"
+
+ewd-osal-scripts/replace_network_config.sh
+5:CONFIG_FILE="/etc/systemd/network/80-wired.network.d/80-wired.conf"
+
+ewd-osal-scripts/replace_ntp_servers.sh
+5:NETWORK_CONFIG_FILE="$NETWORK_CONFIG_PATH/80-wired.conf"
+
+ewd-osal-scripts/replace_dns_servers.sh
+66:CONFIG_FILE="/etc/systemd/network/80-wired.network.d/80-wired.conf"
+
+ewd-osal-scripts/set_persistent_config.sh
+11:NETWORK_CONFIG_FILE="$NETWORK_CONFIG_PATH/80-wired.conf"
+
+ewd-osal-scripts/set_static_ip.sh
+414:CONFIG_FILE=/etc/systemd/network/80-wired.network.d/80-wired.conf
+541:# TODO: this may happen when 80-wired.conf was accidentally deleted without restarting the system
+
+ewd-osal-scripts/set_static_ipv6.sh
+22:CONFIG_FILE="/etc/systemd/network/80-wired.network.d/80-wired.conf"
+
+ewd-pmc-supervisory/pmc-nwk-process.sh
+6:NETWORK_CONFIG_FILE="$NETWORK_CONFIG_PATH/80-wired.conf"
+
+ewd-pmc-supervisory/pmc-svc.sh
+6:NETWORK_CONFIG_FILE="$NETWORK_CONFIG_PATH/80-wired.conf"
+37:EVENT_MESSAGE="80-wired.conf has been regenerated."
+
+ewd-sysapps-psc-designs/scripts-registry.md
+223:- cat <<EOF >/etc/systemd/network/80-wired.network.d/80-wired.conf {configuration file}
+331:- cat <<EOF >/etc/systemd/network/80-wired.network.d/80-wired.conf {configuration file}
+1740:- cat /lib/systemd/network/80-wired.network.d/80-wired.conf | grep "^DNS"
+1777:- sed -i {patch arguments} /lib/systemd/network/80-wired.network.d/80-wired.conf
+1820:- sed -i {replace arguments} /lib/systemd/network/80-wired.network.d/80-wired.conf
+
+network-osal/README.md
+80:- Base file must NOT contain Address/Gateway/DNS/DHCP lines; move the old `80-wired.conf`
+
+ewd-orv3-pmc-poll-manager/src/monitor-config.c
+23:    "cat /etc/systemd/network/80-wired.network.d/80-wired.conf | grep DNS | cut -d= -f2 | sed -n '1 p'";
+
+ewd-pmc-supervisory/design/pmcsvc.uxf
+12:    <panel_attributes>80-wired.conf
+52:# if 80-wired-conf changed
+54:PathChanged=/etc/systemd/network/80-wired.network.d/80-wired.conf
+162:80-wired.conf
+233:80-wired.conf</panel_attributes>
+
+ewd-pmc-supervisory/design/network-persistent-settings.uxf
+14:# if 80-wired.conf changed
+16:Description=Trigger a service whenever there is a changed in 80-wired.conf file
+19:PathChanged=/etc/systemd/network/80-wired.network.d/80-wired.conf
+88:    <panel_attributes>80-wired.conf
+163:    <panel_attributes>Mode 1 - 80-wired.conf:
+185:    <panel_attributes>Mode 2 - 80-wired.conf
+207:    <panel_attributes>Mode 3 - 80-wired.conf
+242:80-wired.conf</panel_attributes>
+344:80-wired.conf</panel_attributes>
+413:80-wired.conf</panel_attributes>
+471:80-wired.conf</panel_attributes>
+676:80-wired.conf</panel_attributes>
+721:80-wired.conf</panel_attributes>
+835:80-wired.conf</panel_attributes>
+880:80-wired.conf</panel_attributes>
+937:80-wired.conf</panel_attributes>
+1040:80-wired.conf</panel_attributes>
+1097:80-wired.conf</panel_attributes>
+1222:80-wired.conf</panel_attributes>
+
+ewd-osal-scripts/script/dev-scripts/environment.sh
+7:touch /etc/systemd/network/80-wired.network.d/80-wired.conf
+8:cat <<'EOF'> /etc/systemd/network/80-wired.network.d/80-wired.conf
+
+ewd-meta-orv3-artesyn/meta-orv3/recipes-artesyn/network-utilities/network-utilities_git.bb
+17:        file://80-wired.conf \
+30:            /lib/systemd/network/80-wired.network.d/80-wired.conf \
+52:    install -m 644 ${WORKDIR}/80-wired.conf ${D}${systemd_unitdir}/network/80-wired.network.d/
+
+ewd-meta-orv3-artesyn/meta-orv3/recipes-extended/sudoers/sudo/psc_user
+26:%operator ALL=(ALL) NOPASSWD: /bin/sed * /etc/systemd/network/80-wired.network.d/80-wired.conf
+28:%operator ALL=(ALL) NOPASSWD: /bin/chmod o+w /lib/systemd/network/80-wired.network.d/80-wired.conf
+29:%operator ALL=(ALL) NOPASSWD: /bin/chmod o+w /etc/systemd/network/80-wired.network.d/80-wired.conf
+34:%operator ALL=(ALL) NOPASSWD: /usr/bin/tee /etc/systemd/network/80-wired.network.d/80-wired.conf
+
+ewd-meta-orv3-artesyn/meta-artesyn-bsp/recipes-bsp/artesyn-boot/artesyn-update/artesyn-update-prescript.sh
+21:NETWORK_CONFIG_FILE='/etc/systemd/network/80-wired.network.d/80-wired.conf'
+
+ewd-pmc-supervisory/service_config_files/etc/systemd/system/pmc-nwk.path
+5:PathChanged=/etc/systemd/network/80-wired.network.d/80-wired.conf
+
+
+take note, nwk.cfg now is not created
+admin@artesyn-shelf:/staging/psc/network# ls
+foo  test_nwk.cfg  test_nwk.cfg.lock
+admin@artesyn-shelf:/staging/psc/network#
+
+
+OPER_STATE=routable
+CARRIER_STATE=carrier
+ADDRESS_STATE=routable
+DNS=1.1.1.1
+admin@artesyn-shelf:~# test_read_dns_servers.sh ^C
+admin@artesyn-shelf:~# test_replace_dns_servers.sh 1.1.1.1
+servers: [1.1.1.1]
 admin@artesyn-shelf:~# test_replace_dns_servers.sh 1.1.1.1
 servers: [1.1.1.1]
 admin@artesyn-shelf:~# cat /run/systemd/netif/state
@@ -6,43 +141,9 @@ OPER_STATE=routable
 CARRIER_STATE=carrier
 ADDRESS_STATE=routable
 DNS=1.1.1.1
-admin@artesyn-shelf:~# cat /run/systemd/netif/state
-# This is private data. Do not parse.
-OPER_STATE=routable
-CARRIER_STATE=carrier
-ADDRESS_STATE=routable
-DNS=1.1.1.1
+admin@artesyn-shelf:~# test_read_
+-sh: test_read_: command not found
+admin@artesyn-shelf:~# test_read_dns_servers.sh
+servers: []
 
 
-/etc/systemd/network/80-wired.network.d/80-wired.conf 2026-10-07 02:57:54.629856838 +0000 403
-/staging/psc/network/nwk.cfg 2026-10-07 02:57:58.399856748 +0000 544
-/staging/psc/network/test_nwk.cfg 2026-10-07 02:57:55.149856826 +0000 550
-/etc/systemd/network/80-wired.network.d/80-wired.conf 2026-10-07 02:57:54.629856838 +0000 403
-/staging/psc/network/nwk.cfg 2026-10-07 02:57:58.399856748 +0000 544
-/staging/psc/network/test_nwk.cfg 2026-10-07 02:57:55.149856826 +0000 550
-/etc/systemd/network/80-wired.network.d/80-wired.conf 2026-10-07 02:57:54.629856838 +0000 403
-/staging/psc/network/nwk.cfg 2026-10-07 02:57:58.399856748 +0000 544
-/staging/psc/network/test_nwk.cfg 2026-10-07 02:57:55.149856826 +0000 550
-/etc/systemd/network/80-wired.network.d/80-wired.conf 2026-10-07 02:57:54.629856838 +0000 403
-/staging/psc/network/nwk.cfg 2026-10-07 02:57:58.399856748 +0000 544
-/staging/psc/network/test_nwk.cfg 2026-10-07 02:57:55.149856826 +0000 550
-/etc/systemd/network/80-wired.network.d/80-wired.conf 2026-10-07 02:57:54.629856838 +0000 403
-/staging/psc/network/nwk.cfg 2026-10-07 02:57:58.399856748 +0000 544
-/staging/psc/network/test_nwk.cfg 2026-10-07 02:57:55.149856826 +0000 550
-/etc/systemd/network/80-wired.network.d/80-wired.conf 2026-10-07 02:57:54.629856838 +0000 403
-/staging/psc/network/nwk.cfg 2026-10-07 02:57:58.399856748 +0000 544
-/staging/psc/network/test_nwk.cfg 2026-10-07 02:57:55.149856826 +0000 550
-/etc/systemd/network/80-wired.network.d/80-wired.conf 2026-10-07 02:57:54.629856838 +0000 403
-/staging/psc/network/nwk.cfg 2026-10-07 02:57:58.399856748 +0000 544
-/staging/psc/network/test_nwk.cfg 2026-10-07 02:58:27.339856058 +0000 550
-/etc/systemd/network/80-wired.network.d/80-wired.conf 2026-10-07 02:58:27.349856058 +0000 390
-/staging/psc/network/nwk.cfg 2026-10-07 02:57:58.399856748 +0000 544
-/staging/psc/network/test_nwk.cfg 2026-10-07 02:58:28.079856040 +0000 532
-/etc/systemd/network/80-wired.network.d/80-wired.conf 2026-10-07 02:58:27.349856058 +0000 390
-/staging/psc/network/nwk.cfg 2026-10-07 02:57:58.399856748 +0000 544
-/staging/psc/network/test_nwk.cfg 2026-10-07 02:58:28.079856040 +0000 532
-/etc/systemd/network/80-wired.network.d/80-wired.conf 2026-10-07 02:58:27.349856058 +0000 390
-/staging/psc/network/nwk.cfg 2026-10-07 02:57:58.399856748 +0000 544
-/staging/psc/network/test_nwk.cfg 2026-10-07 02:58:28.079856040 +0000 532
-/etc/systemd/network/80-wired.network.d/80-wired.conf 2026-10-07 02:58:27.349856058 +0000 390
-/staging/psc/network/nwk.cfg 2026-10-07 02:58:31.179855967 +0000 544
