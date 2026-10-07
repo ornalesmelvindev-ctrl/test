@@ -1,48 +1,83 @@
-same issue, even if I now use nwk.cfg instead of test_nwk.cfg
-admin@artesyn-shelf:~# clear
-admin@artesyn-shelf:~# tr '\0' '\n' < /proc/$(pidof cmpmc)/environ | grep -E OSAL|LD_'
-> ^C
-admin@artesyn-shelf:~# tr '\0' '\n' < /proc/$(pidof cmpmc)/environ | grep -E 'OSAL|LD_'
-admin@artesyn-shelf:~# env | grep -E 'OSAL|LD_'
-admin@artesyn-shelf:~# systemctl cat cmpmc | grep -i environment
-admin@artesyn-shelf:~# cat /usr/bin/test_
-test_disable_dhcp.sh               test_enable_ntp.sh                 test_get_hostname.sh               test_patch_dns_servers.sh          test_set_mac_address.sh
-test_disable_dns.sh                test_enable_ssh.sh                 test_get_mac_address.sh            test_patch_ntp_servers.sh          test_set_static_ip.sh
-test_disable_ntp.sh                test_enable_static_network.sh      test_get_ntp_status.sh             test_read_dns_servers.sh           test_set_static_ipv6.sh
-test_disable_ssh.sh                test_get_dhcp_status.sh            test_get_ssh_status.sh             test_read_ntp_servers.sh
-test_disable_static_network.sh     test_get_dns_status.sh             test_get_static_ip.sh              test_replace_dns_servers.sh
-test_enable_dhcp.sh                test_get_dynamic_ip.sh             test_get_static_ipv6.sh            test_replace_ntp_servers.sh
-test_enable_dns.sh                 test_get_dynamic_ipv6.sh           test_get_static_network_status.sh  test_set_hostname.sh
-admin@artesyn-shelf:~# cat /usr/bin/test_
-test_disable_dhcp.sh               test_enable_ntp.sh                 test_get_hostname.sh               test_patch_dns_servers.sh          test_set_mac_address.sh
-test_disable_dns.sh                test_enable_ssh.sh                 test_get_mac_address.sh            test_patch_ntp_servers.sh          test_set_static_ip.sh
-test_disable_ntp.sh                test_enable_static_network.sh      test_get_ntp_status.sh             test_read_dns_servers.sh           test_set_static_ipv6.sh
-test_disable_ssh.sh                test_get_dhcp_status.sh            test_get_ssh_status.sh             test_read_ntp_servers.sh
-test_disable_static_network.sh     test_get_dns_status.sh             test_get_static_ip.sh              test_replace_dns_servers.sh
-test_enable_dhcp.sh                test_get_dynamic_ip.sh             test_get_static_ipv6.sh            test_replace_ntp_servers.sh
-test_enable_dns.sh                 test_get_dynamic_ipv6.sh           test_get_static_network_status.sh  test_set_hostname.sh
-admin@artesyn-shelf:~# cat /usr/bin/test_
-test_disable_dhcp.sh               test_enable_ntp.sh                 test_get_hostname.sh               test_patch_dns_servers.sh          test_set_mac_address.sh
-test_disable_dns.sh                test_enable_ssh.sh                 test_get_mac_address.sh            test_patch_ntp_servers.sh          test_set_static_ip.sh
-test_disable_ntp.sh                test_enable_static_network.sh      test_get_ntp_status.sh             test_read_dns_servers.sh           test_set_static_ipv6.sh
-test_disable_ssh.sh                test_get_dhcp_status.sh            test_get_ssh_status.sh             test_read_ntp_servers.sh
-test_disable_static_network.sh     test_get_dns_status.sh             test_get_static_ip.sh              test_replace_dns_servers.sh
-test_enable_dhcp.sh                test_get_dynamic_ip.sh             test_get_static_ipv6.sh            test_replace_ntp_servers.sh
-test_enable_dns.sh                 test_get_dynamic_ipv6.sh           test_get_static_network_status.sh  test_set_hostname.sh
-admin@artesyn-shelf:~# cat /usr/bin/test_replace_dns_servers.sh
-ELF(▒l94        (&%p
-\
-\
-444  TTT\\▒i▒i▒iL8▒m▒m▒mpppDDQ▒tdR▒td▒i▒i▒iDD/lib/ld-linux-armhf.so.3GNU▒▒▒%▒i7        d▒\▒▒*GNU▒
-                                                                                                  p.vg" ▒▒▒3L▒7`▒qYJ▒`▒C.}2 [▒▒▒
-                                                                                                                                ▒▒▒ ▒▒m▒▒▒▒'▒▒#A F▒-▒▒▒mQlibosal_network.so.1_ITM_deregisterTMCloneTable__gmon_start___ITM_registerTMCloneTableosal_get_dynamic_infoosal_get_hostnameosal_set_ntposal_config_loadosal_set_staticosal_get_dhcp_statusosal_log_configosal_get_dns_configosal_set_hostnameosal_parse_server_listosal_notify_logosal_reset_defaultsosal_get_mac_addressosal_get_dns_statusosal_add_dnsosal_set_ntp_enabledosal_set_dhcposal_set_static_enabledosal_add_ntposal_get_ssh_statusosal_set_ssh_enabledosal_last_errorosal_get_ntp_configosal_set_mac_addressosal_get_static_statusosal_set_paths_from_envosal_poll_resourceosal_get_ntp_statusosal_get_serial_debug_portosal_set_dns_enabledosal_get_static_infoosal_set_dnslibc.so.6__printf_chkstrncmpstrrchr__stack_chk_failabortisattystrlenmemset__fprintf_chkstdoutfputcfputs__vsnprintf_chkgetenvstderr__snprintf_chkfwrite__cxa_finalizestrcmp__libc_start_mainld-linux-armhf.so.3__sta▒▒i▒i▒i▒i▒i▒i▒i▒i▒i▒i▒i▒i▒i▒i▒i▒ijj
-jjjj j$j(j,j0j4j8j<j@jDjHjLjPjTjXj`jdjhjljpjtjxj▒j▒j▒j▒j▒j▒j▒j▒j▒j▒j▒j▒j▒j▒j▒j▒j▒j▒j▒j▒j▒j▒j▒j▒j▒j▒j▒j▒j▒j▒jkk
-kkkkk k$k(k,k0k4k8k<k@kDkHkLkPkTkXk`kdkhklkpktkxk▒k▒k▒k▒k▒k▒k▒k▒k▒k▒k▒k▒k▒k▒k▒k▒k▒k▒k▒k▒k▒k▒k▒k▒k▒k▒k▒k▒k▒k▒k▒k▒kll
-llll l$l(l,l0l4l8l<l@lDlHlLlPlTlXl\l`ldlhlllpltlxl▒l▒l▒l▒l▒l▒l▒l▒l▒l▒l▒l▒l▒l▒l▒l▒l▒l▒l▒l▒l▒l▒l▒l▒l▒l▒l▒l▒l▒l▒l▒lmm
-mmmmm m$m(m,m0m4m8m@mDmHmLmPmTmXm\m`mdmhmlmpmtmxm▒m▒m▒m▒m▒m▒m▒m▒m▒m▒m▒m▒m▒m▒m▒m▒m▒m▒m▒m▒m▒m▒o▒o▒o▒o▒op▒o▒o▒o
-▒o▒oo'▒o3oo
-oo      o
-         o
-$o(o,o0o4o8o<o@oDoHoLoPoTo
-                          ▒▒T▒▒▒▒▒▒▒▒@▒▒P▒▒▒▒Bn▒▒▒▒▒P▒▒▒▒▒▒Q▒
+see?
+admin@artesyn-shelf:~# test_read_dns_servers.sh
+servers: [1.1.1.1, 2.2.2.2]
+admin@artesyn-shelf:~# # in here, I will remove 2.2.2.2 in the webui(this is calling cmpmc inside)
+admin@artesyn-shelf:~# test_read_dns_servers.sh
+servers: [1.1.1.1]
+admin@artesyn-shelf:~# grep DNS /run/systemd/netif/state
+DNS=1.1.1.1
+admin@artesyn-shelf:~# # I will remove 1.1.1.1 now
+admin@artesyn-shelf:~# test_read_dns_servers.sh
+servers: []
+admin@artesyn-shelf:~# grep DNS /run/systemd/netif/state
+DNS=1.1.1.1
+admin@artesyn-shelf:~# ls /staging/psc/network/
+test_nwk.cfg  test_nwk.cfg.lock
+admin@artesyn-shelf:~# grep -r 80-wired.conf /usr/bin/*.sh
+admin@artesyn-shelf:~#
+
+logs
+Oct 07 08:00:22 artesyn-shelf pmpmc[283]: [!!!] [performGetDns]: active: 1        server_list: 1.1.1.1 2.2.2.2
+Oct 07 08:00:22 artesyn-shelf pmpmc[283]: [!!!] [performGetNtp]: active: 1        server_list: 3.3.3.3 4.4.4.4
+Oct 07 08:00:22 artesyn-shelf pmpmc[283]: [!!!] DHCP IPv6 dynamic: , gateway: , prefix length: 0
+Oct 07 08:00:22 artesyn-shelf pmpmc[283]: Static: fd12:3456:789a::120, gateway: fd12:3456:789a::1, prefix length: 64
+
+Oct 07 08:01:09 artesyn-shelf pmpmc[283]: [!!!] DHCP IPv4 dynamic: , gateway: , prefix length: 0
+Oct 07 08:01:09 artesyn-shelf pmpmc[283]: Static: 192.168.0.120, gateway: 192.168.0.1, prefix length: 24
+Oct 07 08:01:09 artesyn-shelf pmpmc[283]: [!!!] SSH status: enabled
+Oct 07 08:01:10 artesyn-shelf pmpmc[283]: [!!!] [performGetDns]: active: 1        server_list: 1.1.1.1
+Oct 07 08:01:10 artesyn-shelf pmpmc[283]: [!!!] [performGetNtp]: active: 1        server_list: 3.3.3.3 4.4.4.4
+Oct 07 08:01:10 artesyn-shelf pmpmc[283]: [!!!] DHCP IPv6 dynamic: , gateway: , prefix length: 0
+Oct 07 08:01:10 artesyn-shelf pmpmc[283]: Static: fd12:3456:789a::120, gateway: fd12:3456:789a::1, prefix length: 64
+Oct 07 08:01:57 artesyn-shelf pmpmc[283]: [!!!] DHCP IPv4 dynamic: , gateway: , prefix length: 0
+Oct 07 08:01:57 artesyn-shelf pmpmc[283]: Static: 192.168.0.120, gateway: 192.168.0.1, prefix length: 24
+Oct 07 08:01:57 artesyn-shelf pmpmc[283]: [!!!] SSH status: enabled
+Oct 07 08:01:58 artesyn-shelf pmpmc[283]: [!!!] [performGetDns]: active: 1        server_list: 1.1.1.1
+Oct 07 08:01:58 artesyn-shelf pmpmc[283]: [!!!] [performGetNtp]: active: 1        server_list: 3.3.3.3 4.4.4.4
+Oct 07 08:01:58 artesyn-shelf pmpmc[283]: [!!!] DHCP IPv6 dynamic: , gateway: , prefix length: 0
+Oct 07 08:01:58 artesyn-shelf pmpmc[283]: Static: fd12:3456:789a::120, gateway: fd12:3456:789a::1, prefix length: 64
+Oct 07 08:02:04 artesyn-shelf pmpmc[283]: [!!!] PolL Resource Called
+
+Oct 07 08:02:06 artesyn-shelf pmpmc[283]: [!!!] DHCP IPv4 dynamic: , gateway: , prefix length: 0
+Oct 07 08:02:06 artesyn-shelf pmpmc[283]: Static: 192.168.0.120, gateway: 192.168.0.1, prefix length: 24
+Oct 07 08:02:06 artesyn-shelf pmpmc[283]: [!!!] SSH status: enabled
+Oct 07 08:02:06 artesyn-shelf pmpmc[283]: [!!!] [performGetDns]: active: 1        server_list:
+Oct 07 08:02:06 artesyn-shelf pmpmc[283]: [!!!] [performGetNtp]: active: 1        server_list: 3.3.3.3 4.4.4.4
+Oct 07 08:02:06 artesyn-shelf pmpmc[283]: [!!!] DHCP IPv6 dynamic: , gateway: , prefix length: 0
+Oct 07 08:02:06 artesyn-shelf pmpmc[283]: Static: fd12:3456:789a::120, gateway: fd12:3456:789a::1, prefix length: 64
+
+in the cmpmc
+Oct 07 07:56:46 artesyn-shelf cmpmc[217]: [!!!] no systemTime
+Oct 07 07:56:46 artesyn-shelf osal_network[217]: enable DNS
+Oct 07 07:56:46 artesyn-shelf osal_network[217]: committed /staging/psc/network/test_nwk.cfg
+Oct 07 07:56:46 artesyn-shelf osal_network[217]: set 1 DNS server(s)
+Oct 07 07:56:46 artesyn-shelf osal_network[217]: staged /etc/systemd/network/80-wired.network.d/80-wired.conf (440 bytes)
+Oct 07 07:56:46 artesyn-shelf osal_network[217]: restarting systemd-networkd
+Oct 07 07:56:47 artesyn-shelf osal_network[217]: systemd-networkd restart completed
+Oct 07 07:56:47 artesyn-shelf osal_network[217]: committed /staging/psc/network/test_nwk.cfg
+Oct 07 07:57:27 artesyn-shelf cmpmc[217]: [!!!] no systemTime
+Oct 07 07:57:27 artesyn-shelf osal_network[217]: enable DNS
+Oct 07 07:57:27 artesyn-shelf osal_network[217]: committed /staging/psc/network/test_nwk.cfg
+Oct 07 07:57:27 artesyn-shelf osal_network[217]: set 0 DNS server(s)
+Oct 07 07:57:27 artesyn-shelf osal_network[217]: staged /etc/systemd/network/80-wired.network.d/80-wired.conf (427 bytes)
+Oct 07 07:57:27 artesyn-shelf osal_network[217]: restarting systemd-networkd
+Oct 07 07:57:27 artesyn-shelf osal_network[217]: systemd-networkd restart completed
+Oct 07 07:57:27 artesyn-shelf osal_network[217]: committed /staging/psc/network/test_nwk.cfg
+Oct 07 08:00:55 artesyn-shelf cmpmc[217]: [!!!] no systemTime
+Oct 07 08:00:56 artesyn-shelf osal_network[217]: enable DNS
+Oct 07 08:00:56 artesyn-shelf osal_network[217]: committed /staging/psc/network/test_nwk.cfg
+Oct 07 08:00:56 artesyn-shelf osal_network[217]: set 1 DNS server(s)
+Oct 07 08:00:56 artesyn-shelf osal_network[217]: staged /etc/systemd/network/80-wired.network.d/80-wired.conf (440 bytes)
+Oct 07 08:00:56 artesyn-shelf osal_network[217]: restarting systemd-networkd
+Oct 07 08:00:57 artesyn-shelf osal_network[217]: systemd-networkd restart completed
+Oct 07 08:00:57 artesyn-shelf osal_network[217]: committed /staging/psc/network/test_nwk.cfg
+Oct 07 08:02:03 artesyn-shelf cmpmc[217]: [!!!] no systemTime
+Oct 07 08:02:03 artesyn-shelf osal_network[217]: enable DNS
+Oct 07 08:02:03 artesyn-shelf osal_network[217]: committed /staging/psc/network/test_nwk.cfg
+Oct 07 08:02:03 artesyn-shelf osal_network[217]: set 0 DNS server(s)
+Oct 07 08:02:03 artesyn-shelf osal_network[217]: staged /etc/systemd/network/80-wired.network.d/80-wired.conf (427 bytes)
+Oct 07 08:02:03 artesyn-shelf osal_network[217]: restarting systemd-networkd
+Oct 07 08:02:03 artesyn-shelf osal_network[217]: systemd-networkd restart completed
+Oct 07 08:02:03 artesyn-shelf osal_network[217]: committed /staging/psc/network/test_nwk.cfg
+
 
