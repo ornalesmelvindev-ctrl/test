@@ -1,27 +1,36 @@
-why the fuck is this one working? I just called osal_set_dns() as well?
-
+like a bug like wtf, like it seems DNS is really empty because the other dhcp dns are present
+}admin@artesyn-shelf:~# test_replace_dns_servers.sh 1.1.1.1
+servers: [1.1.1.1]
+admin@artesyn-shelf:~# ls
+admin@artesyn-shelf:~# vi test.c
+admin@artesyn-shelf:~# gcc test.c -o test -losal_network
 admin@artesyn-shelf:~# ./test
-okay
-admin@artesyn-shelf:~# grep DNS /run/systemd/netif/state
-admin@artesyn-shelf:~# ./test "1.1.1.1"
-okay
-admin@artesyn-shelf:~# grep DNS /run/systemd/netif/state
-DNS=1.1.1.1
-admin@artesyn-shelf:~# ./test
-okay
-admin@artesyn-shelf:~# grep DNS /run/systemd/netif/state
-admin@artesyn-shelf:~# ./test "1.1.1.1 2.2.2.2"
-okay
-admin@artesyn-shelf:~# grep DNS /run/systemd/netif/state
-DNS=1.1.1.1 2.2.2.2
-admin@artesyn-shelf:~# ./test "1.1.1.1"
-okay
-admin@artesyn-shelf:~# grep DNS /run/systemd/netif/state
-DNS=1.1.1.1
-admin@artesyn-shelf:~# ./test
-okay
-admin@artesyn-shelf:~# grep DNS /run/systemd/netif/state
 admin@artesyn-shelf:~# cat test.c
+#include <osal_network.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main(int argc, char **argv)
+{
+        osal_set_dns_enabled(1);
+        osal_set_dns(NULL, 0);
+    return 0;
+}
+admin@artesyn-shelf:~#
+
+# before running ./test
+admin@artesyn-shelf:~# test_replace_dns_servers.sh
+servers: []
+admin@artesyn-shelf:~# grep DNS /run/systemd/netif/state
+DNS=1.1.1.1
+#after running ./test
+admin@artesyn-shelf:~# grep DNS /run/systemd/netif/state
+DNS=1.1.1.1 10.152.128.10 10.208.128.10 10.152.128.11
+admin@artesyn-shelf:~#
+
+
+but this one is working?
 #include <osal_network.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -40,7 +49,7 @@ int main(int argc, char **argv)
         // 2. Only parse if the string is not completely empty
         if (input_str != NULL && input_str[0] != '\0') {
                 ip_string_copy = strdup(input_str);
-                int max_ips = 4;
+                int max_ips = 4; 
                 ip_array = malloc(max_ips * sizeof(char *));
 
                 char *token = strtok(ip_string_copy, " ");
@@ -49,7 +58,7 @@ int main(int argc, char **argv)
                                 max_ips *= 2;
                                 ip_array = realloc(ip_array, max_ips * sizeof(char *));
                         }
-
+                        
                         ip_array[ip_count] = token;
                         ip_count++;
                         token = strtok(NULL, " ");
@@ -58,7 +67,7 @@ int main(int argc, char **argv)
         // If input_str was empty, ip_array remains NULL and ip_count remains 0
 
         // 3. Call the API (Passing NULL and 0 signals systemd to clear DNS entries)
-        if (!osal_set_dns(ip_array, ip_count)) {
+        if (osal_set_dns(ip_array, ip_count)) {
                 printf("okay\n");
         } else {
                 printf("not okay\n");
@@ -75,3 +84,4 @@ int main(int argc, char **argv)
         return 0;
 }
 
+take note calling system("test_replace_dns_servers.sh") in the main works
