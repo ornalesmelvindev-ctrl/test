@@ -82,4 +82,4 @@ same output as
 
 but ofcourse for the setterts, after setting, dont forget to restore default
 
-
+and also, dont create an additional helper function if this can be done in one, I mean make it simple but working
