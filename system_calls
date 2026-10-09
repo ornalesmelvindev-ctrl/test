@@ -1,7 +1,11 @@
-can you please dont overcomplicate things? What I want from you is for exmaple this one
-static const char CALL_POLL_RESOURCE[] =
-#ifndef ENABLE_TEST_HOOKS
-    "busctl call aei.mc.pollmanager1 /aei/mc/pollmanager1 aei.mc.pollmanager1.actions pollResource | awk '{print $2;}'";
+wait again, I think I interchanged the cmpmc and pmpmc, so monitor-config.c is for cmpmc
+
+###################### pmc ######################
+cmpmc
+monitor-config.c:
+static const char CALL_POLL_RESOURCE[] = "busctl call aei.mc.pollmanager1 /aei/mc/pollmanager1 aei.mc.pollmanager1.actions pollResource | awk '{print $2;}'"
+admin@artesyn-shelf:~# busctl call aei.mc.pollmanager1 /aei/mc/pollmanager1 aei.mc.pollmanager1.actions pollResource | awk '{print $2;}'
+0
 
 static int callPollResource(void)
 {
@@ -30,17 +34,857 @@ static int callPollResource(void)
 
     return r;
 }
-convert into something like
+			
+pmpmc service
+led-control-v2.c
+static const char GET_POE_STATUS_CMD[] =
+    "busctl call ewd.shelf.gpioinputmodule1 /ewd/shelf/gpioinputmodule1/SOM_POE_DETECT_H ewd.shelf.gpioinputmodule1.gpioInterface ReadGpio | awk '{print $2;}'";
+
+static int check_poe_status(void)
+{
+    int r = -1;
+    char dbus_cmd[STRING_BUFFER_SIZE_XL] = {0};
+    char dbus_response[STRING_BUFFER_SIZE_XL] = {0};
+    char buffer[STRING_BUFFER_SIZE_XL] = {0};
+
+    (void)strcpy(&dbus_cmd[0], GET_POE_STATUS_CMD);
+    if (0 == exec_cmd(dbus_cmd, &dbus_response[0], STRING_BUFFER_SIZE_XL))
+    {
+        (void)sprintf(&buffer[0], "%s", trimTrailingCharacter(&dbus_response[0], '\n'));
+
+        if (0 == strcmp("1", buffer))
+        {
+            r = 1;
+        }
+        else
+        {
+            r = 0;
+        }
+    }
+
+    return r;
+}
+
+static const char GET_BUS_VOLTAGE_STATUS_CMD[] =
+    "busctl call ewd.shelf.gpioinputmodule1 /ewd/shelf/gpioinputmodule1/POE_DETECT ewd.shelf.gpioinputmodule1.gpioInterface ReadGpio | awk '{print $2;}'";
+
+static int check_bus_voltage_status(void)
+{
+    int r = -1;
+    char dbus_cmd[STRING_BUFFER_SIZE_XL] = {0};
+    char dbus_response[STRING_BUFFER_SIZE_XL] = {0};
+    char buffer[STRING_BUFFER_SIZE_XL] = {0};
+
+    (void)strcpy(&dbus_cmd[0], GET_BUS_VOLTAGE_STATUS_CMD);
+    if (0 == exec_cmd(dbus_cmd, &dbus_response[0], STRING_BUFFER_SIZE_XL))
+    {
+        (void)sprintf(&buffer[0], "%s", trimTrailingCharacter(&dbus_response[0], '\n'));
+
+        if (0 == strcmp("1", buffer)) 
+        {
+            r = 1;
+        }
+        else
+        {
+            r = 0;
+        }
+    }
+
+    return r;
+}
+
+static const char GET_PMC_SW_UPDATE_STATUS_CMD[] =
+    "busctl get-property ewd.shelf.updatemodule1 /ewd/shelf/updatemodule1/update0 ewd.shelf.updatemodule1.updateInterface UpdateStatus | awk '{ print $2; }'";
+
+static int check_pmc_sw_update_error_status(void)
+{
+    int r = -1;
+    char dbus_cmd[STRING_BUFFER_SIZE_XL] = {0};
+    char dbus_response[STRING_BUFFER_SIZE_XL] = {0};
+    char buffer[STRING_BUFFER_SIZE_XL] = {0};
+
+    (void)strcpy(&dbus_cmd[0],
+                 GET_PMC_SW_UPDATE_STATUS_CMD);
+    if (0 == exec_cmd(dbus_cmd, &dbus_response[0], STRING_BUFFER_SIZE_XL))
+    {
+        (void)sprintf(&buffer[0], "%s", trimTrailingCharacter(&dbus_response[0], '\n'));
+
+        if (0 == strcmp("\"ERROR\"", buffer))
+        {
+            r = 1;
+        }
+        else
+        {
+            r = 0;
+        }
+    }
+
+    return r;
+}
+
+led-manager.c:
+in here, I will jsut give you the whole file
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
+
+#include "led-manager.h"
+#include "common.h"
+#include "helpers.h"
+
+
+/* private variables */
+static const char *as_led_channel_name[LED_CHANNEL_COUNT] =
+{
+    "power", "fault"
+};
+
+static const char *as_led_state_name[LED_STATE_COUNT] =
+{
+    "OFF", "ON", "BLINK"
+};
+
+/* public definitions */
+int get_led_state(led_channel_et e_led, led_state_et *pu8_state)
+{
+    int r = -1;
+    char dbus_cmd[STRING_BUFFER_SIZE_XL] = {0};
+    char dbus_response[STRING_BUFFER_SIZE_XL] = {0};
+    char buffer[STRING_BUFFER_SIZE_XL] = {0};
+
+    if (LED_CHANNEL_COUNT > e_led)
+    {
+        (void)sprintf(&dbus_cmd[0],
+                      "busctl get-property ewd.shelf.ledmodule1 /ewd/shelf/ledmodule1/%s ewd.shelf.ledmodule1.ledInterface State | awk '{ print $2; }'",
+                      as_led_channel_name[e_led]);
+
+        if (0 == exec_cmd(dbus_cmd, &dbus_response[0], STRING_BUFFER_SIZE_XL))
+        {
+            (void)sprintf(&buffer[0], "%s", trimTrailingCharacter(&dbus_response[0], '\n'));
+
+            if (0 == strcmp("\"OFF\"", buffer))
+            {
+                *pu8_state = LED_STATE_OFF;
+            }
+            else if (0 == strcmp("\"ON\"", buffer))
+            {
+                *pu8_state = LED_STATE_ON;
+            }
+            else if (0 == strcmp("\"BLINK\"", buffer))
+            {
+                *pu8_state = LED_STATE_BLINK;
+            }
+            else
+            {
+                /* TODO */
+            }
+
+            r = 0;
+        }
+    }
+
+    return r;
+}
+
+int set_led_state(led_channel_et e_led, led_state_et e_state)
+{
+    int r = -1;
+    char dbus_cmd[STRING_BUFFER_SIZE_XL] = {0};
+    char dbus_response[STRING_BUFFER_SIZE_XL] = {0};
+
+    if (LED_CHANNEL_COUNT > e_led)
+    {
+        (void)sprintf(&dbus_cmd[0],
+                      "busctl set-property ewd.shelf.ledmodule1 /ewd/shelf/ledmodule1/%s ewd.shelf.ledmodule1.ledInterface State s %s",
+                      as_led_channel_name[e_led],
+                      as_led_state_name[e_state]);
+
+        r = exec_cmd(dbus_cmd, &dbus_response[0], STRING_BUFFER_SIZE_XL);
+    }
+
+    return r;
+}
+
+int set_led_duty(led_channel_et e_led, uint16_t u16_duty)
+{
+    int r = -1;
+    char dbus_cmd[STRING_BUFFER_SIZE_XL] = {0};
+    char dbus_response[STRING_BUFFER_SIZE_XL] = {0};
+
+    if (LED_CHANNEL_COUNT > e_led)
+    {
+        (void)sprintf(&dbus_cmd[0],
+                      "busctl set-property ewd.shelf.ledmodule1 /ewd/shelf/ledmodule1/%s ewd.shelf.ledmodule1.ledInterface DutyOn y %d",
+                      as_led_channel_name[e_led],
+                      u16_duty);
+
+        r = exec_cmd(dbus_cmd, &dbus_response[0], STRING_BUFFER_SIZE_XL);
+    }
+
+    return r;
+}
+
+int set_led_period(led_channel_et e_led, uint16_t u16_period)
+{
+    int r = -1;
+    char dbus_cmd[STRING_BUFFER_SIZE_XL] = {0};
+    char dbus_response[STRING_BUFFER_SIZE_XL] = {0};
+
+    if (LED_CHANNEL_COUNT > e_led)
+    {
+        (void)sprintf(&dbus_cmd[0],
+                      "busctl set-property ewd.shelf.ledmodule1 /ewd/shelf/ledmodule1/%s ewd.shelf.ledmodule1.ledInterface Period u %d",
+                      as_led_channel_name[e_led],
+                      u16_period);
+
+        r = exec_cmd(dbus_cmd, &dbus_response[0], STRING_BUFFER_SIZE_XL);
+    }
+
+    return r;
+}
+
+led-manager.h
+#ifndef __AE_LED_MANAGER_H__
+#define __AE_LED_MANAGER_H__
+
+#include <stdint.h>
+
+typedef enum
+{
+    LED_CHANNEL_0 = 0 // power / blue
+    ,
+    LED_CHANNEL_1 = 1 // fault / amber
+
+    ,
+    LED_CHANNEL_COUNT
+} led_channel_et;
+
+typedef enum
+{
+    LED_STATE_OFF           = 0,
+    LED_STATE_ON            = 1,
+    LED_STATE_BLINK         = 2
+    // LED_CONTROL_FLAG_ALTERNATE_BLINK      = 3
+
+    ,
+    LED_STATE_COUNT
+} led_state_et;
+
+
+int get_led_state(led_channel_et e_led, led_state_et *pu8_state);
+int set_led_state(led_channel_et e_led, led_state_et e_state);
+int set_led_duty(led_channel_et e_led, uint16_t u16_duty);
+int set_led_period(led_channel_et e_led, uint16_t u16_period);
+
+#endif // __AE_LED_MANAGER_H__
+
+
+monitor-dynamic.c
+static const char GET_PMC_AMBIENT_TEMP_CMD[] =
+    "busctl get-property ewd.shelf.adctempmodule1  /ewd/shelf/adctempmodule1/temp0 ewd.shelf.adctempmodule1.adctempInterface Value  | awk '{ print $2; }'";
+	
+static int monitorDynamicParams(void)
+{
+    char buffer[MONITOR_DYNAMIC_CHAR_BUFFER_SIZE] = {0};
+
+    if (0 == exec_cmd(GET_PMC_AMBIENT_TEMP_CMD, &buffer[0], ARRAY_SIZE(buffer)))
+    {
+        s_dynamicReadOuts.d_ambientTemperature = (atof(buffer) / 1000);
+    }
+
+    return 0;
+}
+
+
+static const char GET_PMC_POE_STATUS_CMD[] =
+    "busctl call ewd.shelf.gpioinputmodule1 /ewd/shelf/gpioinputmodule1/POE_DETECT ewd.shelf.gpioinputmodule1.gpioInterface ReadGpio | awk '{print $2;}'";
+    else
+    {
+        if (0 == exec_cmd(GET_PMC_POE_STATUS_CMD, &buffer[0], ARRAY_SIZE(buffer)))
+        {
+            (void)sprintf(&strbuf[0], "%s", trimTrailingCharacter(&buffer[0], '\n'));
+            setPmcPoeStatus(strbuf, true);
+        }
+    }
+
+
+static const char GET_PMC_POE_STATUS_V2_CMD[] =
+    "busctl call ewd.shelf.gpioinputmodule1 /ewd/shelf/gpioinputmodule1/SOM_POE_DETECT_H ewd.shelf.gpioinputmodule1.gpioInterface ReadGpio | awk '{print $2;}'";
+	
+    if ( DEVICE_VARIANT_HPR_V2 == s_device_profile.variant )
+    {
+        if (0 == exec_cmd(GET_PMC_POE_STATUS_V2_CMD, &buffer[0], ARRAY_SIZE(buffer)))
+        {
+            (void)sprintf(&strbuf[0], "%s", trimTrailingCharacter(&buffer[0], '\n'));
+            setPmcPoeStatus(strbuf, false);
+        }
+    }
+	
+static const char GET_PMC_POWER_LED_STATUS_CMD[] =
+    "busctl get-property ewd.shelf.ledmodule1 /ewd/shelf/ledmodule1/power ewd.shelf.ledmodule1.ledInterface State | awk '{ print $2; }'";
+	
+    if (0 == exec_cmd(GET_PMC_POWER_LED_STATUS_CMD, &buffer[0], ARRAY_SIZE(buffer)))
+    {
+        (void)sprintf(&strbuf[0], "%s", trimTrailingCharacter(&buffer[0], '\n'));
+        setPmcPowerLedStatus(strbuf);
+    }
+
+static const char GET_PMC_FAULT_LED_STATUS_CMD[] =
+    "busctl get-property ewd.shelf.ledmodule1 /ewd/shelf/ledmodule1/fault ewd.shelf.ledmodule1.ledInterface State | awk '{ print $2; }'";
+	
+    if (0 == exec_cmd(GET_PMC_FAULT_LED_STATUS_CMD, &buffer[0], ARRAY_SIZE(buffer)))
+    {
+        (void)sprintf(&strbuf[0], "%s", trimTrailingCharacter(&buffer[0], '\n'));
+        setPmcFaultLedStatus(strbuf);
+    }
+	
+monitor-reset.c
+static const char GET_RESET_PIN_STATUS_CMD[] =
+    "busctl call ewd.shelf.gpioinputmodule1 /ewd/shelf/gpioinputmodule1/FRONT_RESET ewd.shelf.gpioinputmodule1.gpioInterface ReadGpio | awk '{print $2;}'";
+
+static button_state_value_et get_reset_pin_state(void)
+{
+    button_state_value_et r = -1;
+    char dbus_cmd[STRING_BUFFER_SIZE_XL] = {0};
+    char dbus_response[STRING_BUFFER_SIZE_XL] = {0};
+
+    (void)sprintf(&dbus_cmd[0],
+                    GET_RESET_PIN_STATUS_CMD);
+
+    exec_cmd(dbus_cmd, &dbus_response[0], STRING_BUFFER_SIZE_XL);
+
+    if ( strstr(dbus_response, MONITOR_RESET_PIN_ACTIVE_STATE) )
+    {
+        r = BUTTON_PRESSED;
+    }
+    else
+    {
+        r = BUTTON_RELEASED;
+    }
+
+    return r;
+}
+
+dmpmc: None
+hkpmc: none
+
+###################### psu ######################
+
+cmpsu service
+modbus-master.c:
+static const char s_modbus_request_cmd[] =
+    {
+        "busctl call aei.osal.modbusmanager1 /aei/osal/modbusmanager1 aei.osal.modbusmanager1.actions sendRequest s"};
+
+1st use:
+    (void)sprintf(&cmd[0], "%s '%s'", s_modbus_request_cmd, request);
+
+    if (0 != dbus_emit_method_call(MODBUS_OSAL_SUB_SERVICE, MODBUS_OSAL_SUB_OBJECT_PATH, MODBUS_OSAL_DBUS_ACTIONS_INTERFACE, MODBUS_OSAL_SUB_METHOD, request, response, ARRAY_SIZE(response))){
+        return r;
+    }
+
+2nd: // the same usage
+    (void)sprintf(&cmd[0], "%s '%s'", s_modbus_request_cmd, request);
+
+    if (0 != dbus_emit_method_call(MODBUS_OSAL_SUB_SERVICE, MODBUS_OSAL_SUB_OBJECT_PATH, MODBUS_OSAL_DBUS_ACTIONS_INTERFACE, MODBUS_OSAL_SUB_METHOD, request, response, ARRAY_SIZE(response))){
+        return -1;
+    }
+
+monitor-config.c
+static const char SET_VOUT_SEL_CMD[] =
+    "busctl call ewd.shelf.gpiomodule1 /ewd/shelf/gpiomodule1/VOUT_SEL ewd.shelf.gpiomodule1.gpioInterface SetGpio | awk '{print $2;}'";
+
+int setVoutSel(void)
+{
+    int r = -1;
+    char dbus_cmd[DBUS_COMMAND_STRING_BUFFER_LENGTH] = {0};
+    char dbus_response[DBUS_COMMAND_STRING_BUFFER_LENGTH] = {0};
+    char buffer[DBUS_COMMAND_STRING_BUFFER_LENGTH] = {0};
+
+    (void)strcpy(&dbus_cmd[0],
+                 SET_VOUT_SEL_CMD);
+    if (0 != exec_cmd(dbus_cmd, &dbus_response[0], DBUS_COMMAND_STRING_BUFFER_LENGTH))
+    {
+        return r;
+    }
+
+    (void)sprintf(&buffer[0], "%s", trimTrailingCharacter(&dbus_response[0], '\n'));
+
+    if (0 == strcmp("1", buffer))
+    {
+        r = 1;
+    }
+    else
+    {
+        r = 0;
+    }
+
+    return r;
+}
+
+static const char CLEAR_VOUT_SEL_CMD[] =
+    "busctl call ewd.shelf.gpiomodule1 /ewd/shelf/gpiomodule1/VOUT_SEL ewd.shelf.gpiomodule1.gpioInterface ClearGpio | awk '{print $2;}'";
+
+int clearVoutSel(void)
+{
+    int r = -1;
+    char dbus_cmd[DBUS_COMMAND_STRING_BUFFER_LENGTH] = {0};
+    char dbus_response[DBUS_COMMAND_STRING_BUFFER_LENGTH] = {0};
+    char buffer[DBUS_COMMAND_STRING_BUFFER_LENGTH] = {0};
+
+    (void)strcpy(&dbus_cmd[0],
+                 CLEAR_VOUT_SEL_CMD);
+    if (0 != exec_cmd(dbus_cmd, &dbus_response[0], DBUS_COMMAND_STRING_BUFFER_LENGTH))
+    {
+        return r;
+    }
+
+    (void)sprintf(&buffer[0], "%s", trimTrailingCharacter(&dbus_response[0], '\n'));
+
+    if (0 == strcmp("1", buffer))
+    {
+        r = 1;
+    }
+    else
+    {
+        r = 0;
+    }
+
+    return r;
+}
+
+pmpsu service
+static const char GET_VOUT_SEL_STATUS_CMD[] =
+    "busctl call ewd.shelf.gpiomodule1 /ewd/shelf/gpiomodule1/VOUT_SEL ewd.shelf.gpiomodule1.gpioInterface ReadGpio | awk '{print $2;}'";
+
+static int checkVoutSelStatus(void)
+{
+    int r = -1;
+    char dbus_cmd[DBUS_COMMAND_STRING_BUFFER_LENGTH] = {0};
+    char dbus_response[DBUS_COMMAND_STRING_BUFFER_LENGTH] = {0};
+    char buffer[DBUS_COMMAND_STRING_BUFFER_LENGTH] = {0};
+
+    (void)strcpy(&dbus_cmd[0],
+                 GET_VOUT_SEL_STATUS_CMD);
+    if (0 == exec_cmd(dbus_cmd, &dbus_response[0], DBUS_COMMAND_STRING_BUFFER_LENGTH))
+    {
+        (void)sprintf(&buffer[0], "%s", trimTrailingCharacter(&dbus_response[0], '\n'));
+
+        if (0 == strcmp("0", buffer))
+        {
+            r = 1;
+        }
+        else
+        {
+            r = 0;
+        }
+    }
+
+    return r;
+}
+
+dmpsu: None
+
+####################### fru ########################
+cmfru: None
+pmfru: none
+dmfru: none
+
+#################### device #####################
+pmdev
+monitor-device.c
+static const char GET_PMC_SOM_PCBREV_0_CMD[]    =
+"\
+busctl call ewd.shelf.gpioinputmodule1 /ewd/shelf/gpioinputmodule1/SOM_PCBREV_0 ewd.shelf.gpioinputmodule1.gpioInterface ReadGpio | awk '{print $2;}'\
+";
+
+static const char GET_PMC_SOM_PCBREV_1_CMD[]    =
+"\
+busctl call ewd.shelf.gpioinputmodule1 /ewd/shelf/gpioinputmodule1/SOM_PCBREV_1 ewd.shelf.gpioinputmodule1.gpioInterface ReadGpio | awk '{print $2;}'\
+";
+
+static const char GET_PMC_SOM_PCBREV_2_CMD[]    =
+"\
+busctl call ewd.shelf.gpioinputmodule1 /ewd/shelf/gpioinputmodule1/SOM_PCBREV_2 ewd.shelf.gpioinputmodule1.gpioInterface ReadGpio | awk '{print $2;}'\
+";
+
+device_variant_et monitor_device(void)
+{
+    device_variant_et type_e                            = DEVICE_VARIANT_STANDARD;
+    uint8_t u8_variant_id                               = 0x00;
+    char cmd[DBUS_COMMAND_STRING_BUFFER_LENGTH]         = { 0 };
+    char response[DBUS_COMMAND_STRING_BUFFER_LENGTH]    = { 0 };
+    char buffer[DBUS_COMMAND_STRING_BUFFER_LENGTH]      = { 0 };
+
+    /** PCBREV_ID_0 */
+    memset(&cmd[0], 0, DBUS_COMMAND_STRING_BUFFER_LENGTH);
+    (void)sprintf(&cmd[0],
+                "%s",
+                GET_PMC_SOM_PCBREV_0_CMD
+                );
+
+    if (0 == exec_cmd(cmd, &response[0], DBUS_COMMAND_STRING_BUFFER_LENGTH))
+    {
+        (void)sprintf(&buffer[0], "%s", trimTrailingCharacter(&response[0], '\n'));
+
+        if ( 0 == strcmp( "1", buffer ))
+        {
+            u8_variant_id |= MASK_ID_0;
+        }
+        else
+        {
+            u8_variant_id &= ~MASK_ID_0;
+        }
+    }
+
+    /** PCBREV_ID_1 */
+    memset(&cmd[0], 0, DBUS_COMMAND_STRING_BUFFER_LENGTH);
+    (void)sprintf(&cmd[0],
+                "%s",
+                GET_PMC_SOM_PCBREV_1_CMD
+                );
+
+    if (0 == exec_cmd(cmd, &response[0], DBUS_COMMAND_STRING_BUFFER_LENGTH))
+    {
+        (void)sprintf(&buffer[0], "%s", trimTrailingCharacter(&response[0], '\n'));
+
+        if ( 0 == strcmp( "1", buffer ))
+        {
+            u8_variant_id |= MASK_ID_1;
+        }
+        else
+        {
+            u8_variant_id &= ~MASK_ID_1;
+        }
+    }
+
+    /** PCBREV_ID_2 */
+    memset(&cmd[0], 0, DBUS_COMMAND_STRING_BUFFER_LENGTH);
+    (void)sprintf(&cmd[0],
+                "%s",
+                GET_PMC_SOM_PCBREV_2_CMD
+                );
+
+    if (0 == exec_cmd(cmd, &response[0], DBUS_COMMAND_STRING_BUFFER_LENGTH))
+    {
+        (void)sprintf(&buffer[0], "%s", trimTrailingCharacter(&response[0], '\n'));
+
+        if ( 0 == strcmp( "1", buffer ))
+        {
+            u8_variant_id |= MASK_ID_2;
+        }
+        else
+        {
+            u8_variant_id &= ~MASK_ID_2;
+        }
+    }
+
+    switch (u8_variant_id)
+    {
+        case DEVICE_VARIANT_HPR:
+        {
+            type_e = DEVICE_VARIANT_HPR;
+            break;
+        }
+
+        case DEVICE_VARIANT_HPR_V2:
+        {
+            type_e = DEVICE_VARIANT_HPR_V2;
+            break;
+        }
+
+        default:
+        {
+            type_e = DEVICE_VARIANT_STANDARD; //Default
+            break;
+        }
+    }
+
+    return type_e;
+}
+
+monitor-shelf.c
+static const char GET_PMC_SHELF_ID_0_CMD[]    =
+"\
+busctl call ewd.shelf.gpioinputmodule1 /ewd/shelf/gpioinputmodule1/SHELF_ID_0 ewd.shelf.gpioinputmodule1.gpioInterface ReadGpio | awk '{print $2;}'\
+";
+
+static const char GET_PMC_SHELF_ID_1_CMD[]    =
+"\
+busctl call ewd.shelf.gpioinputmodule1 /ewd/shelf/gpioinputmodule1/SHELF_ID_1 ewd.shelf.gpioinputmodule1.gpioInterface ReadGpio | awk '{print $2;}'\
+";
+
+static const char GET_PMC_SHELF_ID_2_CMD[]    =
+"\
+busctl call ewd.shelf.gpioinputmodule1 /ewd/shelf/gpioinputmodule1/SHELF_ID_2 ewd.shelf.gpioinputmodule1.gpioInterface ReadGpio | awk '{print $2;}'\
+";
+
+shelf_type_et monitor_shelf(void)
+{
+    shelf_type_et type_e                                = SHELF_TYPE_PSU;
+    uint8_t u8_shelf_id                                 = 0x00;
+    char cmd[DBUS_COMMAND_STRING_BUFFER_LENGTH]         = { 0 };
+    char response[DBUS_COMMAND_STRING_BUFFER_LENGTH]    = { 0 };
+    char buffer[DBUS_COMMAND_STRING_BUFFER_LENGTH]      = { 0 };
+
+    /** SHELF_ID_0 */
+    memset(&cmd[0], 0, DBUS_COMMAND_STRING_BUFFER_LENGTH);
+    (void)sprintf(&cmd[0],
+                "%s",
+                GET_PMC_SHELF_ID_0_CMD
+                );
+
+    if (0 == exec_cmd(cmd, &response[0], DBUS_COMMAND_STRING_BUFFER_LENGTH))
+    {
+        (void)sprintf(&buffer[0], "%s", trimTrailingCharacter(&response[0], '\n'));
+
+        if ( 0 == strcmp( "1", buffer ))
+        {
+            u8_shelf_id |= SHELF_ID_0;
+        }
+        else
+        {
+            u8_shelf_id &= ~SHELF_ID_0;
+        }
+    }
+
+    /** SHELF_ID_1 */
+    memset(&cmd[0], 0, DBUS_COMMAND_STRING_BUFFER_LENGTH);
+    (void)sprintf(&cmd[0],
+                "%s",
+                GET_PMC_SHELF_ID_1_CMD
+                );
+
+    if (0 == exec_cmd(cmd, &response[0], DBUS_COMMAND_STRING_BUFFER_LENGTH))
+    {
+        (void)sprintf(&buffer[0], "%s", trimTrailingCharacter(&response[0], '\n'));
+
+        if ( 0 == strcmp( "1", buffer ))
+        {
+            u8_shelf_id |= SHELF_ID_1;
+        }
+        else
+        {
+            u8_shelf_id &= ~SHELF_ID_1;
+        }
+    }
+
+    /** SHELF_ID_2 */
+    memset(&cmd[0], 0, DBUS_COMMAND_STRING_BUFFER_LENGTH);
+    (void)sprintf(&cmd[0],
+                "%s",
+                GET_PMC_SHELF_ID_2_CMD
+                );
+
+    if (0 == exec_cmd(cmd, &response[0], DBUS_COMMAND_STRING_BUFFER_LENGTH))
+    {
+        (void)sprintf(&buffer[0], "%s", trimTrailingCharacter(&response[0], '\n'));
+
+        if ( 0 == strcmp( "1", buffer ))
+        {
+            u8_shelf_id |= SHELF_ID_2;
+        }
+        else
+        {
+            u8_shelf_id &= ~SHELF_ID_2;
+        }
+    }
+
+    if (BBU_SHELF_ID == u8_shelf_id)
+    {
+        type_e = SHELF_TYPE_BBU;
+    }
+    else
+    {
+        type_e = SHELF_TYPE_PSU; //Default
+    }
+
+
+    return type_e;
+}
+
+// just reminder okay, task is to replace the busctl calls, not to fully refactor
+
+################ shelf ##############
+cmshelf: none
+
+pmshelf
+monitor-dynamic.c:
+static const char GET_ISHARE_CABLE_STATUS_CMD[] =
+    "busctl call ewd.shelf.gpioinputmodule1 /ewd/shelf/gpioinputmodule1/ISHARE_CABLE_MISSING ewd.shelf.gpioinputmodule1.gpioInterface ReadGpio | awk '{print $2;}'";
+
+    if ( DEVICE_VARIANT_HPR_V2 == device_profile_s.variant )
+    {
+        if (0 == exec_cmd(GET_ISHARE_CABLE_STATUS_CMD, &buffer[0], ARRAY_SIZE(buffer)))
+        {
+            (void)sprintf(&strbuf[0], "%s", trimTrailingCharacter(&buffer[0], '\n'));
+            if (0 == strcmp("0", strbuf))
+            {
+                s_dynamicStatus.s_other.e_ishareCableStatus = GENERAL_STATUS_ACTIVE;
+            }
+            else
+            {
+                s_dynamicStatus.s_other.e_ishareCableStatus = GENERAL_STATUS_INACTIVE;
+            }
+        }
+    }
+    
+monitor-list.c:
+static const char GET_PMC_SHELF_TYPE_CMD[] =
+    "busctl call aei.dev.pollmanager1 /aei/dev/pollmanager1/actions aei.dev.pollmanager1.actionRequests readShelfType | awk '{print $2;}'";
+
+static shelf_type_et get_shelf_type(void)
+{
+    shelf_type_et e_type = SHELF_TYPE_UNKNOWN;
+    char cmd[DBUS_COMMAND_STRING_BUFFER_LENGTH] = {0};
+    char response[DBUS_COMMAND_STRING_BUFFER_LENGTH] = {0};
+    char buffer[DBUS_COMMAND_STRING_BUFFER_LENGTH] = {0};
+
+    memset(&cmd[0], 0, DBUS_COMMAND_STRING_BUFFER_LENGTH);
+    (void)sprintf(&cmd[0],
+                  "%s",
+                  GET_PMC_SHELF_TYPE_CMD);
+
+    if (0 == exec_cmd(cmd, &response[0], DBUS_COMMAND_STRING_BUFFER_LENGTH))
+    {
+        (void)sprintf(&buffer[0], "%s", trimTrailingCharacter(&response[0], '\n'));
+
+        if (0 == strcmp("\"BBU_SHELF\"", buffer))
+        {
+            e_type = SHELF_TYPE_BBU;
+        }
+        else if (0 == strcmp("\"PSU_SHELF\"", buffer))
+        {
+            e_type = SHELF_TYPE_PSU;
+        }
+    }
+
+    return e_type;
+}
+
+
+also, can you just do simply like this?
+or yours is better? because as I told you, we need to just replace the systemcalls, not to refactor the functions
+
+#include <systemd/sd-bus.h>
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <string.h>
+
+/* ============================================================
+ * Legacy commands
+ * ============================================================ */
+#define CMD_POLL_RESOURCE \
+    "busctl call aei.mc.pollmanager1 /aei/mc/pollmanager1 " \
+    "aei.mc.pollmanager1.actions pollResource | awk '{print $2}'"
+
+#define CMD_POE_STATUS \
+    "busctl call ewd.shelf.gpioinputmodule1 " \
+    "/ewd/shelf/gpioinputmodule1/SOM_POE_DETECT_H " \
+    "ewd.shelf.gpioinputmodule1.gpioInterface ReadGpio | awk '{print $2}'"
+
+#define CMD_BUS_VOLTAGE_STATUS \
+    "busctl call ewd.shelf.gpioinputmodule1 " \
+    "/ewd/shelf/gpioinputmodule1/POE_DETECT " \
+    "ewd.shelf.gpioinputmodule1.gpioInterface ReadGpio | awk '{print $2}'"
+
+#define CMD_PMC_SW_UPDATE_STATUS \
+    "busctl get-property ewd.shelf.updatemodule1 " \
+    "/ewd/shelf/updatemodule1/update0 " \
+    "ewd.shelf.updatemodule1.updateInterface UpdateStatus | awk '{print $2}'"
+
+/* ============================================================
+ * Helper functions
+ * ============================================================ */
+
+static int exec_legacy_cmd(const char *cmd, char *buf, size_t buf_size)
+{
+    FILE *fp;
+
+    fp = popen(cmd, "r");
+    if (fp == NULL)
+    {
+        return -1;
+    }
+
+    if (fgets(buf, buf_size, fp) == NULL)
+    {
+        pclose(fp);
+        return -1;
+    }
+
+    pclose(fp);
+
+    buf[strcspn(buf, "\n")] = '\0';
+
+    return 0;
+}
+
+static int parse_int(const char *text)
+{
+    return atoi(text);
+}
+
+static int parse_update_status(const char *text)
+{
+    return (strcmp(text, "\"ERROR\"") == 0) ? 1 : 0;
+}
+
+static void compare_and_print(
+    const char *name,
+    const char *legacy_cmd,
+    int (*legacy_parser)(const char *),
+    int (*new_func)(void))
+{
+    char buffer[128] = {0};
+
+    int legacy_val;
+    int refactored_val;
+
+    printf("\n=================================================\n");
+    printf("%s\n", name);
+    printf("=================================================\n");
+
+    if (exec_legacy_cmd(legacy_cmd, buffer, sizeof(buffer)) != 0)
+    {
+        printf("Legacy command failed\n");
+        return;
+    }
+
+    legacy_val = legacy_parser(buffer);
+    refactored_val = new_func();
+
+    printf("Legacy     : %d\n", legacy_val);
+    printf("Refactored : %d\n", refactored_val);
+
+    if (legacy_val == refactored_val)
+    {
+        printf("RESULT     : PASS\n");
+    }
+    else
+    {
+        printf("RESULT     : FAIL\n");
+    }
+}
+
+/* ============================================================
+ * Refactored implementations
+ * ============================================================ */
+
 static int callPollResource(void)
 {
     sd_bus *bus = NULL;
     sd_bus_message *reply = NULL;
     int64_t value;
+    int r;
 
-    if (sd_bus_default_system(&bus) < 0)
+    if ((r = sd_bus_default_system(&bus)) < 0)
         return -1;
 
-    if (sd_bus_call_method(
+    if ((r = sd_bus_call_method(
             bus,
             "aei.mc.pollmanager1",
             "/aei/mc/pollmanager1",
@@ -48,13 +892,13 @@ static int callPollResource(void)
             "pollResource",
             NULL,
             &reply,
-            NULL) < 0)
+            NULL)) < 0)
     {
         sd_bus_unref(bus);
         return -1;
     }
 
-    if (sd_bus_message_read(reply, "x", &value) < 0)
+    if ((r = sd_bus_message_read(reply, "x", &value)) < 0)
         value = -1;
 
     sd_bus_message_unref(reply);
@@ -63,23 +907,713 @@ static int callPollResource(void)
     return (value == 0) ? 0 : -1;
 }
 
-what I just want is at each file of the service, the changes will be the same
-I mean just create common functions for each services, not for all(they're not related)
+static int readPoeStatus(void)
+{
+    sd_bus *bus = NULL;
+    sd_bus_message *reply = NULL;
+    int gpio_value = 0;
+    int r;
 
-and use Cmakelists for the testing part, additionally, for comparing, what you will just do is
-does this
-    "busctl call aei.mc.pollmanager1 /aei/mc/pollmanager1 aei.mc.pollmanager1.actions pollResource | awk '{print $2;}'";
-same output as
-    if (sd_bus_call_method(
+    if ((r = sd_bus_default_system(&bus)) < 0)
+        return -1;
+
+    if ((r = sd_bus_call_method(
             bus,
-            "aei.mc.pollmanager1",
-            "/aei/mc/pollmanager1",
-            "aei.mc.pollmanager1.actions",
-            "pollResource",
+            "ewd.shelf.gpioinputmodule1",
+            "/ewd/shelf/gpioinputmodule1/SOM_POE_DETECT_H",
+            "ewd.shelf.gpioinputmodule1.gpioInterface",
+            "ReadGpio",
             NULL,
             &reply,
-            NULL) < 0)
+            NULL)) < 0)
+    {
+        sd_bus_unref(bus);
+        return -1;
+    }
 
-but ofcourse for the setterts, after setting, dont forget to restore default
+    if ((r = sd_bus_message_read(reply, "i", &gpio_value)) < 0)
+        gpio_value = -1;
 
-and also, dont create an additional helper function if this can be done in one, I mean make it simple but working
+    sd_bus_message_unref(reply);
+    sd_bus_unref(bus);
+
+    return gpio_value;
+}
+
+static int check_bus_voltage_status(void)
+{
+    sd_bus *bus = NULL;
+    sd_bus_message *reply = NULL;
+    sd_bus_error error = SD_BUS_ERROR_NULL;
+    int gpio_value = 0;
+    int r = -1;
+
+    r = sd_bus_default_system(&bus);
+    if (r < 0)
+    {
+        goto exit;
+    }
+
+    r = sd_bus_call_method(
+            bus,
+            "ewd.shelf.gpioinputmodule1",
+            "/ewd/shelf/gpioinputmodule1/POE_DETECT",
+            "ewd.shelf.gpioinputmodule1.gpioInterface",
+            "ReadGpio",
+            &error,
+            &reply,
+            NULL);
+
+    if (r < 0)
+    {
+        goto exit;
+    }
+
+    r = sd_bus_message_read(reply, "i", &gpio_value);
+    if (r < 0)
+    {
+        goto exit;
+    }
+
+    r = (gpio_value == 1) ? 1 : 0;
+
+exit:
+    sd_bus_error_free(&error);
+    sd_bus_message_unref(reply);
+    sd_bus_unref(bus);
+
+    return r;
+}
+
+static int check_pmc_sw_update_error_status(void)
+{
+    sd_bus *bus = NULL;
+    sd_bus_message *reply = NULL;
+    sd_bus_error error = SD_BUS_ERROR_NULL;
+    const char *status = NULL;
+    int r;
+
+    if ((r = sd_bus_default_system(&bus)) < 0)
+        return -1;
+
+    r = sd_bus_get_property(
+            bus,
+            "ewd.shelf.updatemodule1",
+            "/ewd/shelf/updatemodule1/update0",
+            "ewd.shelf.updatemodule1.updateInterface",
+            "UpdateStatus",
+            &error,
+            &reply,
+            "s");
+
+    if (r < 0)
+    {
+        sd_bus_error_free(&error);
+        sd_bus_unref(bus);
+        return -1;
+    }
+
+    r = sd_bus_message_read(reply, "s", &status);
+    if (r < 0)
+    {
+        sd_bus_message_unref(reply);
+        sd_bus_error_free(&error);
+        sd_bus_unref(bus);
+        return -1;
+    }
+
+    r = (strcmp(status, "ERROR") == 0) ? 1 : 0;
+
+    sd_bus_message_unref(reply);
+    sd_bus_error_free(&error);
+    sd_bus_unref(bus);
+
+    return r;
+}
+
+typedef enum
+{
+    LED_CHANNEL_0 = 0 // power / blue
+    ,
+    LED_CHANNEL_1 = 1 // fault / amber
+
+    ,
+    LED_CHANNEL_COUNT
+} led_channel_et;
+
+typedef enum
+{
+    LED_STATE_OFF           = 0,
+    LED_STATE_ON            = 1,
+    LED_STATE_BLINK         = 2
+    // LED_CONTROL_FLAG_ALTERNATE_BLINK      = 3
+
+    ,
+    LED_STATE_COUNT
+} led_state_et;
+
+static const char *as_led_channel_name[LED_CHANNEL_COUNT] =
+{
+    "power", "fault"
+};
+
+static const char *as_led_state_name[LED_STATE_COUNT] =
+{
+    "OFF", "ON", "BLINK"
+};
+
+static led_state_et gs_default_led_state[LED_CHANNEL_COUNT];
+static uint16_t gs_default_led_duty[LED_CHANNEL_COUNT];
+static uint16_t gs_default_led_period[LED_CHANNEL_COUNT];
+
+#define STRING_BUFFER_SIZE_XL 512
+int get_led_state(led_channel_et e_led, led_state_et *pu8_state)
+{
+    int r = -1;
+    char dbus_cmd[STRING_BUFFER_SIZE_XL] = {0};
+
+    sd_bus *bus = NULL;
+    sd_bus_message *reply = NULL;
+    sd_bus_error error = SD_BUS_ERROR_NULL;
+    const char *state = NULL;
+
+    if (LED_CHANNEL_COUNT > e_led)
+    {
+        (void)sprintf(&dbus_cmd[0], "/ewd/shelf/ledmodule1/%s", as_led_channel_name[e_led]);
+
+        r = sd_bus_default_system(&bus);
+        if (r < 0)
+        {
+            goto exit;
+        }
+
+        r = sd_bus_get_property(
+                bus,
+                "ewd.shelf.ledmodule1",
+                &dbus_cmd[0],
+                "ewd.shelf.ledmodule1.ledInterface",
+                "State",
+                &error,
+                &reply,
+                "s");
+
+        if (r < 0)
+        {
+            goto exit;
+        }
+
+        r = sd_bus_message_read(reply, "s", &state);
+        if (r < 0)
+        {
+            goto exit;
+        }
+
+        if (0 == strcmp("OFF", state))
+        {
+            *pu8_state = LED_STATE_OFF;
+        }
+        else if (0 == strcmp("ON", state))
+        {
+            *pu8_state = LED_STATE_ON;
+        }
+        else if (0 == strcmp("BLINK", state))
+        {
+            *pu8_state = LED_STATE_BLINK;
+        }
+        else
+        {
+            /* TODO */
+        }
+
+        r = 0;
+    }
+
+exit:
+    sd_bus_error_free(&error);
+    sd_bus_message_unref(reply);
+    sd_bus_unref(bus);
+
+    return r;
+}
+
+int set_led_state(led_channel_et e_led, led_state_et e_state)
+{
+    int r = -1;
+    char dbus_cmd[STRING_BUFFER_SIZE_XL] = {0};
+    char dbus_response[STRING_BUFFER_SIZE_XL] = {0};
+
+    sd_bus *bus = NULL;
+    sd_bus_error error = SD_BUS_ERROR_NULL;
+
+    if (LED_CHANNEL_COUNT > e_led)
+    {
+        (void)sprintf(&dbus_cmd[0], "/ewd/shelf/ledmodule1/%s", as_led_channel_name[e_led]);
+
+        r = sd_bus_default_system(&bus);
+        if (r < 0)
+        {
+            goto exit;
+        }
+
+        r = sd_bus_set_property(bus,
+                                "ewd.shelf.ledmodule1",
+                                &dbus_cmd[0],
+                                "ewd.shelf.ledmodule1.ledInterface",
+                                "State",
+                                &error,
+                                "s",
+                                as_led_state_name[e_state]);
+        if (r < 0)
+        {
+            goto exit;
+        }
+
+        r = 0;
+    }
+
+exit:
+    sd_bus_error_free(&error);
+    sd_bus_unref(bus);
+
+    return r;
+}
+
+int set_led_duty(led_channel_et e_led, uint16_t u16_duty)
+{
+    int r = -1;
+    char dbus_cmd[STRING_BUFFER_SIZE_XL] = {0};
+    char dbus_response[STRING_BUFFER_SIZE_XL] = {0};
+
+    sd_bus *bus = NULL;
+    sd_bus_error error = SD_BUS_ERROR_NULL;
+
+    if (LED_CHANNEL_COUNT > e_led)
+    {
+        (void)sprintf(&dbus_cmd[0], "/ewd/shelf/ledmodule1/%s", as_led_channel_name[e_led]);
+
+        r = sd_bus_default_system(&bus);
+        if (r < 0)
+        {
+            goto exit;
+        }
+
+        r = sd_bus_set_property(bus,
+                                "ewd.shelf.ledmodule1",
+                                &dbus_cmd[0],
+                                "ewd.shelf.ledmodule1.ledInterface",
+                                "DutyOn",
+                                &error,
+                                "y",
+                                (uint8_t)u16_duty);
+        if (r < 0)
+        {
+            goto exit;
+        }
+
+        r = 0;
+    }
+
+exit:
+    sd_bus_error_free(&error);
+    sd_bus_unref(bus);
+
+    return r;
+}
+
+int set_led_period(led_channel_et e_led, uint16_t u16_period)
+{
+    int r = -1;
+    char dbus_cmd[STRING_BUFFER_SIZE_XL] = {0};
+    char dbus_response[STRING_BUFFER_SIZE_XL] = {0};
+
+    sd_bus *bus = NULL;
+    sd_bus_error error = SD_BUS_ERROR_NULL;
+
+    if (LED_CHANNEL_COUNT > e_led)
+    {
+        (void)sprintf(&dbus_cmd[0], "/ewd/shelf/ledmodule1/%s", as_led_channel_name[e_led]);
+
+        r = sd_bus_default_system(&bus);
+        if (r < 0)
+        {
+            goto exit;
+        }
+
+        r = sd_bus_set_property(bus,
+                                "ewd.shelf.ledmodule1",
+                                &dbus_cmd[0],
+                                "ewd.shelf.ledmodule1.ledInterface",
+                                "Period",
+                                &error,
+                                "u",
+                                (uint32_t)u16_period);
+        if (r < 0)
+        {
+            goto exit;
+        }
+
+        r = 0;
+    }
+
+exit:
+    sd_bus_error_free(&error);
+    sd_bus_unref(bus);
+
+    return r;
+}
+
+static int compare_get_led_state(led_channel_et e_led)
+{
+    char dbus_cmd[256] = {0};
+    char dbus_response[128] = {0};
+
+    int legacy_state = -1;
+    int rc;
+
+    led_state_et refactored_state = LED_STATE_COUNT;
+
+    (void)sprintf(&dbus_cmd[0],
+                  "busctl get-property ewd.shelf.ledmodule1 /ewd/shelf/ledmodule1/%s ewd.shelf.ledmodule1.ledInterface State | awk '{ print $2; }'",
+                  as_led_channel_name[e_led]);
+
+    if (0 != exec_legacy_cmd(&dbus_cmd[0], &dbus_response[0], sizeof(dbus_response)))
+    {
+        printf("%s : Legacy command failed\n", as_led_channel_name[e_led]);
+        return -1;
+    }
+
+    if (0 == strcmp("\"OFF\"", dbus_response))
+    {
+        legacy_state = LED_STATE_OFF;
+    }
+    else if (0 == strcmp("\"ON\"", dbus_response))
+    {
+        legacy_state = LED_STATE_ON;
+    }
+    else if (0 == strcmp("\"BLINK\"", dbus_response))
+    {
+        legacy_state = LED_STATE_BLINK;
+    }
+
+    rc = get_led_state(e_led, &refactored_state);
+
+    if (0 != rc)
+    {
+        printf("%s : Refactored failed\n", as_led_channel_name[e_led]);
+        return -1;
+    }
+
+    printf("\nLED Channel : %s\n", as_led_channel_name[e_led]);
+    printf("Legacy     : %d\n", legacy_state);
+    printf("Refactored : %d\n", refactored_state);
+
+    if (legacy_state == refactored_state)
+    {
+        printf("RESULT     : PASS\n");
+        return 0;
+    }
+
+    printf("RESULT     : FAIL\n");
+    return -1;
+}
+
+static int compare_set_led_state(led_channel_et e_led, led_state_et e_state)
+{
+    char dbus_cmd[STRING_BUFFER_SIZE_XL] = {0};
+    char dbus_response[STRING_BUFFER_SIZE_XL] = {0};
+
+    led_state_et state_after_legacy = LED_STATE_COUNT;
+    led_state_et state_after_refactored = LED_STATE_COUNT;
+
+    (void)sprintf(&dbus_cmd[0],
+                  "busctl set-property ewd.shelf.ledmodule1 /ewd/shelf/ledmodule1/%s ewd.shelf.ledmodule1.ledInterface State s %s",
+                  as_led_channel_name[e_led],
+                  as_led_state_name[e_state]);
+
+    if (0 != exec_legacy_cmd(&dbus_cmd[0], &dbus_response[0], sizeof(dbus_response)))
+    {
+        printf("Legacy set failed\n");
+        return -1;
+    }
+
+    if (0 != get_led_state(e_led, &state_after_legacy))
+    {
+        printf("Legacy verify failed\n");
+        return -1;
+    }
+
+    if (0 != set_led_state(e_led, e_state))
+    {
+        printf("Refactored set failed\n");
+        return -1;
+    }
+
+    if (0 != get_led_state(e_led, &state_after_refactored))
+    {
+        printf("Refactored verify failed\n");
+        return -1;
+    }
+
+    printf("\nLED Channel : %s\n", as_led_channel_name[e_led]);
+    printf("Expected    : %d\n", e_state);
+    printf("Legacy      : %d\n", state_after_legacy);
+    printf("Refactored  : %d\n", state_after_refactored);
+    printf("RESULT      : %s\n",
+           (state_after_legacy == state_after_refactored) ? "PASS" : "FAIL");
+
+    return (state_after_legacy == state_after_refactored) ? 0 : -1;
+}
+
+static int compare_set_led_duty(led_channel_et e_led, uint16_t u16_duty)
+{
+    char dbus_cmd[STRING_BUFFER_SIZE_XL] = {0};
+    char dbus_response[STRING_BUFFER_SIZE_XL] = {0};
+
+    int legacy_value;
+    int refactored_value;
+
+    (void)sprintf(&dbus_cmd[0],
+                  "busctl set-property ewd.shelf.ledmodule1 /ewd/shelf/ledmodule1/%s ewd.shelf.ledmodule1.ledInterface DutyOn y %d",
+                  as_led_channel_name[e_led],
+                  u16_duty);
+
+    if (0 != exec_legacy_cmd(&dbus_cmd[0], &dbus_response[0], sizeof(dbus_response)))
+    {
+        printf("Legacy set failed\n");
+        return -1;
+    }
+
+    (void)sprintf(&dbus_cmd[0],
+                  "busctl get-property ewd.shelf.ledmodule1 /ewd/shelf/ledmodule1/%s ewd.shelf.ledmodule1.ledInterface DutyOn | awk '{ print $2; }'",
+                  as_led_channel_name[e_led]);
+
+    if (0 != exec_legacy_cmd(&dbus_cmd[0], &dbus_response[0], sizeof(dbus_response)))
+    {
+        printf("Legacy verify failed\n");
+        return -1;
+    }
+
+    legacy_value = atoi(dbus_response);
+
+    if (0 != set_led_duty(e_led, u16_duty))
+    {
+        printf("Refactored set failed\n");
+        return -1;
+    }
+
+    if (0 != exec_legacy_cmd(&dbus_cmd[0], &dbus_response[0], sizeof(dbus_response)))
+    {
+        printf("Refactored verify failed\n");
+        return -1;
+    }
+
+    refactored_value = atoi(dbus_response);
+
+    printf("\nLED Channel : %s\n", as_led_channel_name[e_led]);
+    printf("Expected    : %u\n", u16_duty);
+    printf("Legacy      : %d\n", legacy_value);
+    printf("Refactored  : %d\n", refactored_value);
+    printf("RESULT      : %s\n", (legacy_value == refactored_value) ? "PASS" : "FAIL");
+
+    return (legacy_value == refactored_value) ? 0 : -1;
+}
+
+static int compare_set_led_period(led_channel_et e_led, uint16_t u16_period)
+{
+    char dbus_cmd[STRING_BUFFER_SIZE_XL] = {0};
+    char dbus_response[STRING_BUFFER_SIZE_XL] = {0};
+
+    int legacy_value;
+    int refactored_value;
+
+    (void)sprintf(&dbus_cmd[0],
+                  "busctl set-property ewd.shelf.ledmodule1 /ewd/shelf/ledmodule1/%s ewd.shelf.ledmodule1.ledInterface Period u %d",
+                  as_led_channel_name[e_led],
+                  u16_period);
+
+    if (0 != exec_legacy_cmd(&dbus_cmd[0], &dbus_response[0], sizeof(dbus_response)))
+    {
+        printf("Legacy set failed\n");
+        return -1;
+    }
+
+    (void)sprintf(&dbus_cmd[0],
+                  "busctl get-property ewd.shelf.ledmodule1 /ewd/shelf/ledmodule1/%s ewd.shelf.ledmodule1.ledInterface Period | awk '{ print $2; }'",
+                  as_led_channel_name[e_led]);
+
+    if (0 != exec_legacy_cmd(&dbus_cmd[0], &dbus_response[0], sizeof(dbus_response)))
+    {
+        printf("Legacy verify failed\n");
+        return -1;
+    }
+
+    legacy_value = atoi(dbus_response);
+
+    if (0 != set_led_period(e_led, u16_period))
+    {
+        printf("Refactored set failed\n");
+        return -1;
+    }
+
+    if (0 != exec_legacy_cmd(&dbus_cmd[0], &dbus_response[0], sizeof(dbus_response)))
+    {
+        printf("Refactored verify failed\n");
+        return -1;
+    }
+
+    refactored_value = atoi(dbus_response);
+
+    printf("\nLED Channel : %s\n", as_led_channel_name[e_led]);
+    printf("Expected    : %u\n", u16_period);
+    printf("Legacy      : %d\n", legacy_value);
+    printf("Refactored  : %d\n", refactored_value);
+    printf("RESULT      : %s\n", (legacy_value == refactored_value) ? "PASS" : "FAIL");
+
+    return (legacy_value == refactored_value) ? 0 : -1;
+}
+
+static int get_led_duty_default(led_channel_et e_led, uint16_t *pu16_duty)
+{
+    char dbus_cmd[STRING_BUFFER_SIZE_XL] = {0};
+    char dbus_response[STRING_BUFFER_SIZE_XL] = {0};
+
+    (void)sprintf(&dbus_cmd[0],
+                  "busctl get-property ewd.shelf.ledmodule1 /ewd/shelf/ledmodule1/%s ewd.shelf.ledmodule1.ledInterface DutyOn | awk '{ print $2; }'",
+                  as_led_channel_name[e_led]);
+
+    if (0 != exec_legacy_cmd(&dbus_cmd[0], &dbus_response[0], sizeof(dbus_response)))
+    {
+        return -1;
+    }
+
+    *pu16_duty = (uint16_t)atoi(dbus_response);
+
+    return 0;
+}
+
+static int get_led_period_default(led_channel_et e_led, uint16_t *pu16_period)
+{
+    char dbus_cmd[STRING_BUFFER_SIZE_XL] = {0};
+    char dbus_response[STRING_BUFFER_SIZE_XL] = {0};
+
+    (void)sprintf(&dbus_cmd[0],
+                  "busctl get-property ewd.shelf.ledmodule1 /ewd/shelf/ledmodule1/%s ewd.shelf.ledmodule1.ledInterface Period | awk '{ print $2; }'",
+                  as_led_channel_name[e_led]);
+
+    if (0 != exec_legacy_cmd(&dbus_cmd[0], &dbus_response[0], sizeof(dbus_response)))
+    {
+        return -1;
+    }
+
+    *pu16_period = (uint16_t)atoi(dbus_response);
+
+    return 0;
+}
+
+static void save_led_defaults(void)
+{
+    (void)get_led_state(LED_CHANNEL_0, &gs_default_led_state[LED_CHANNEL_0]);
+    (void)get_led_state(LED_CHANNEL_1, &gs_default_led_state[LED_CHANNEL_1]);
+
+    (void)get_led_duty_default(LED_CHANNEL_0, &gs_default_led_duty[LED_CHANNEL_0]);
+    (void)get_led_duty_default(LED_CHANNEL_1, &gs_default_led_duty[LED_CHANNEL_1]);
+
+    (void)get_led_period_default(LED_CHANNEL_0, &gs_default_led_period[LED_CHANNEL_0]);
+    (void)get_led_period_default(LED_CHANNEL_1, &gs_default_led_period[LED_CHANNEL_1]);
+}
+
+static void restore_led_defaults(void)
+{
+    printf("\n=== RESTORING LED DEFAULTS ===\n");
+
+    (void)set_led_state(LED_CHANNEL_0, gs_default_led_state[LED_CHANNEL_0]);
+    (void)set_led_state(LED_CHANNEL_1, gs_default_led_state[LED_CHANNEL_1]);
+
+    (void)set_led_duty(LED_CHANNEL_0, gs_default_led_duty[LED_CHANNEL_0]);
+    (void)set_led_duty(LED_CHANNEL_1, gs_default_led_duty[LED_CHANNEL_1]);
+
+    (void)set_led_period(LED_CHANNEL_0, gs_default_led_period[LED_CHANNEL_0]);
+    (void)set_led_period(LED_CHANNEL_1, gs_default_led_period[LED_CHANNEL_1]);
+}
+
+/* ============================================================
+ * Main
+ * ============================================================ */
+
+int main(int argc, char *argv[])
+{
+    if (argc != 2)
+    {
+        printf("Usage: %s <cmpmc|pmpmc>\n", argv[0]);
+        return 1;
+    }
+
+    if (strcmp(argv[1], "cmpmc") == 0)
+    {
+        compare_and_print(
+            "pollResource()",
+            CMD_POLL_RESOURCE,
+            parse_int,
+            callPollResource);
+    }
+    else if (strcmp(argv[1], "pmpmc") == 0)
+    {
+        save_led_defaults();
+        compare_and_print(
+            "ReadGpio(SOM_POE_DETECT_H)",
+            CMD_POE_STATUS,
+            parse_int,
+            readPoeStatus);
+
+        compare_and_print(
+            "ReadGpio(POE_DETECT)",
+            CMD_BUS_VOLTAGE_STATUS,
+            parse_int,
+            check_bus_voltage_status);
+
+        compare_and_print(
+            "UpdateStatus",
+            CMD_PMC_SW_UPDATE_STATUS,
+            parse_update_status,
+            check_pmc_sw_update_error_status);
+
+        printf("\n=== LED STATE : POWER ===\n");
+        compare_get_led_state(LED_CHANNEL_0);
+
+        printf("\n=== LED STATE : FAULT ===\n");
+        compare_get_led_state(LED_CHANNEL_1);
+
+        compare_set_led_state(LED_CHANNEL_0, LED_STATE_OFF);
+        compare_set_led_state(LED_CHANNEL_0, LED_STATE_ON);
+        compare_set_led_state(LED_CHANNEL_0, LED_STATE_BLINK);
+
+        compare_set_led_state(LED_CHANNEL_1, LED_STATE_OFF);
+        compare_set_led_state(LED_CHANNEL_1, LED_STATE_ON);
+        compare_set_led_state(LED_CHANNEL_1, LED_STATE_BLINK);
+
+        compare_set_led_duty(LED_CHANNEL_0, 10);
+        compare_set_led_duty(LED_CHANNEL_0, 50);
+        compare_set_led_duty(LED_CHANNEL_0, 100);
+
+        compare_set_led_duty(LED_CHANNEL_1, 10);
+        compare_set_led_duty(LED_CHANNEL_1, 50);
+        compare_set_led_duty(LED_CHANNEL_1, 100);
+
+        compare_set_led_period(LED_CHANNEL_0, 500);
+        compare_set_led_period(LED_CHANNEL_0, 1000);
+
+        compare_set_led_period(LED_CHANNEL_1, 500);
+        compare_set_led_period(LED_CHANNEL_1, 1000);
+
+        restore_led_defaults();
+    }
+    else
+    {
+        printf("Unknown command: %s\n", argv[1]);
+        return 1;
+    }
+
+    return 0;
+}
+
+thats why I said dont overcomplicate things
