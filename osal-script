@@ -1,87 +1,32 @@
-like a bug like wtf, like it seems DNS is really empty because the other dhcp dns are present
-}admin@artesyn-shelf:~# test_replace_dns_servers.sh 1.1.1.1
-servers: [1.1.1.1]
-admin@artesyn-shelf:~# ls
-admin@artesyn-shelf:~# vi test.c
-admin@artesyn-shelf:~# gcc test.c -o test -losal_network
-admin@artesyn-shelf:~# ./test
-admin@artesyn-shelf:~# cat test.c
-#include <osal_network.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+[  OK  ] Stopped Shelf Housekeeping Service.
+         Starting Shelf Housekeeping Service...
+         Starting Verify OSAL netwo…ation state against nwk.cfg...
+         Starting OSAL Network D-Bus service...
+         Starting Network Name Resolution...
+[  OK  ] Started OSAL Network D-Bus service.
+[  OK  ] Started Network Name Resolution.
+[  OK  ] Reached target Network.
+[  OK  ] Reached target Host and Network Name Lookups.
+[  OK  ] Started Respond to IPv6 Node Information Queries.
+         Starting Run Caddy supervisory...
+[  OK  ] Started Network Router Discovery Daemon.
+[  OK  ] Started Advanced Energy PowerShelf Redfish.
+         Starting Setting Ethernet Speed...
+[  OK  ] Started Xinetd A Powerful Replacement For Inetd.
+[  OK  ] Started Setting Ethernet Speed.
+[  OK  ] Started Verify OSAL networ…ivation state against nwk.cfg.
+         Stopping PSU Config Manager Service...
+[  OK  ] Stopped PSU Config Manager Service.
+[FAILED] Failed to start Run Caddy supervisory.
+See 'systemctl status pmc-certificate-svc.service' for details.
+[FAILED] Failed to start Shelf Housekeeping Service.
+See 'systemctl status hkshelf.service' for details.
+[  OK  ] Stopped Shelf Housekeeping Service.
+         Starting Shelf Housekeeping Service...
+[FAILED] Failed to start Shelf Housekeeping Service.
+See 'systemctl status hkshelf.service' for details.
+[  OK  ] Reached target Multi-User System.
+         Starting Update UTMP about System Runlevel Changes...
+[  OK  ] Started Update UTMP about System Runlevel Changes.
 
-int main(int argc, char **argv)
-{
-        osal_set_dns_enabled(1);
-        osal_set_dns(NULL, 0);
-    return 0;
-}
-admin@artesyn-shelf:~#
 
-# before running ./test
-admin@artesyn-shelf:~# test_replace_dns_servers.sh
-servers: []
-admin@artesyn-shelf:~# grep DNS /run/systemd/netif/state
-DNS=1.1.1.1
-#after running ./test
-admin@artesyn-shelf:~# grep DNS /run/systemd/netif/state
-DNS=1.1.1.1 10.152.128.10 10.208.128.10 10.152.128.11
-admin@artesyn-shelf:~#
-
-
-but this one is working?
-#include <osal_network.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-int main(int argc, char **argv)
-{
-        const char **ip_array = NULL;
-        int ip_count = 0;
-        char *ip_string_copy = NULL;
-
-        // 1. Determine if we have a valid string to process
-        // If argc >= 2, use the argument; otherwise, treat it as a blank request
-        char *input_str = (argc >= 2) ? argv[1] : "";
-
-        // 2. Only parse if the string is not completely empty
-        if (input_str != NULL && input_str[0] != '\0') {
-                ip_string_copy = strdup(input_str);
-                int max_ips = 4; 
-                ip_array = malloc(max_ips * sizeof(char *));
-
-                char *token = strtok(ip_string_copy, " ");
-                while (token != NULL) {
-                        if (ip_count >= max_ips) {
-                                max_ips *= 2;
-                                ip_array = realloc(ip_array, max_ips * sizeof(char *));
-                        }
-                        
-                        ip_array[ip_count] = token;
-                        ip_count++;
-                        token = strtok(NULL, " ");
-                }
-        }
-        // If input_str was empty, ip_array remains NULL and ip_count remains 0
-
-        // 3. Call the API (Passing NULL and 0 signals systemd to clear DNS entries)
-        if (osal_set_dns(ip_array, ip_count)) {
-                printf("okay\n");
-        } else {
-                printf("not okay\n");
-        }
-
-        // 4. Clean up allocated heap memory safely
-        if (ip_array != NULL) {
-                free(ip_array);
-        }
-        if (ip_string_copy != NULL) {
-                free(ip_string_copy);
-        }
-
-        return 0;
-}
-
-take note calling system("test_replace_dns_servers.sh") in the main works
