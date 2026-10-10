@@ -1,6 +1,512 @@
-dont talk too much, using recipe, like this then bitbake?
-╰─ ls
-files  network-watchdog_1.0.bb
-╭─░▒▓ ~/de/p/l/ewd-orv3-pmc/a/ewd-meta-orv3-artesyn/meta-o/recipes-a/network-watchdog  @35044d3e !7 ?3 ········· ✔  melvin@ewdsabuild  09:11:38 AM ▓▒░
-╰─ ls files
-network-watchdog.default  network-watchdog.service  network-watchdog.sh
+why do you think pmc-certificate-scv is not starting? well this is only when I added our osal lib
+admin@artesyn-shelf:~# ls /staging/update/
+artesyn-update-artesyn-shelf-orv3-image-artesyn-shelf-v06.05.00.tar.gz      artesyn-with-net-watchdog  updatefile.tar.gz
+artesyn-update-artesyn-shelf-orv3-image-artesyn-shelf-v06.05.01-ib7.tar.gz  update.log
+admin@artesyn-shelf:~# systemctl status caddy
+● caddy.service - Caddy
+     Loaded: loaded (/lib/systemd/system/caddy.service; static; vendor preset: enabled)
+admin@artesyn-shelf:~# systemctl status network-watchdog
+● network-watchdog.service - Network watchdog (restart networkd, then reboot, when the link stays unusable)
+     Loaded: loaded (/lib/systemd/system/network-watchdog.service; enabled; vendor preset: enabled)
+     Active: active (running) since Sat 2026-10-10 04:29:51 UTC; 27min ago
+   Main PID: 615 (network-watchdo)
+     CGroup: /system.slice/network-watchdog.service
+             ├─  615 /bin/sh /usr/sbin/network-watchdog.sh
+             └─21858 /bin/sh /usr/sbin/network-watchdog.sh
+
+Oct 10 04:56:54 artesyn-shelf network-watchdog.sh[21827]: Try 'sleep --help' for more information.
+Oct 10 04:56:54 artesyn-shelf network-watchdog.sh[615]: /usr/sbin/network-watchdog.sh: line 114: [: 120          # ignore failures during the f>
+Oct 10 04:56:54 artesyn-shelf network-watchdog.sh[615]: /usr/sbin/network-watchdog.sh: line 131: [: 600       # healthy this long -> reboot cou>
+Oct 10 04:56:54 artesyn-shelf network-watchdog.sh[21840]: sleep: invalid time interval '15       # seconds between checks'
+Oct 10 04:56:54 artesyn-shelf network-watchdog.sh[21840]: Try 'sleep --help' for more information.
+Oct 10 04:56:54 artesyn-shelf network-watchdog.sh[615]: /usr/sbin/network-watchdog.sh: line 114: [: 120          # ignore failures during the f>
+Oct 10 04:56:54 artesyn-shelf network-watchdog.sh[615]: /usr/sbin/network-watchdog.sh: line 131: [: 600       # healthy this long -> reboot cou>
+Oct 10 04:56:54 artesyn-shelf network-watchdog.sh[21854]: sleep: invalid time interval '15       # seconds between checks'
+Oct 10 04:56:54 artesyn-shelf network-watchdog.sh[21854]: Try 'sleep --help' for more information.
+Oct 10 04:56:54 artesyn-shelf network-watchdog.sh[615]: /usr/sbin/network-watchdog.sh: line 114: [: 120          # ignore failures during the f>
+admin@artesyn-shelf:~# networkctl status eth0
+● 3: eth0
+             Link File: /lib/systemd/network/99-default.link
+          Network File: /lib/systemd/network/80-wired.network
+                  Type: ether
+                 State: routable (configured)
+                  Path: platform-1e690000.ftgmac
+                Driver: ftgmac100
+            HW Address: 06:86:0e:32:86:cb
+                   MTU: 1500 (min: 68, max: 1500)
+  Queue Length (Tx/Rx): 1/1
+      Auto negotiation: yes
+                 Speed: 100Mbps
+                Duplex: full
+                  Port: mii
+               Address: 10.152.12.11 (DHCP4)
+                        fe80::486:eff:fe32:86cb
+               Gateway: 10.152.12.1 (Cisco Systems, Inc)
+          Connected To: EWDSW154.aei.com on port Gi1/0/14 (GigabitEthernet1/0/14)
+admin@artesyn-shelf:~# systemctl status caddy
+● caddy.service - Caddy
+     Loaded: loaded (/lib/systemd/system/caddy.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+       Docs: https://caddyserver.com/docs/
+admin@artesyn-shelf:~# systemctl status pmc-certificate-svc
+● pmc-certificate-svc.service - Run Caddy supervisory
+     Loaded: loaded (/lib/systemd/system/pmc-certificate-svc.service; enabled; vendor preset: enabled)
+     Active: failed (Result: exit-code) since Sat 2026-10-10 04:30:02 UTC; 27min ago
+       Docs: https://caddyserver.com/docs/
+   Main PID: 620 (code=exited, status=1/FAILURE)
+
+Warning: Journal has been rotated since unit was started. Log output is incomplete or unavailable.
+admin@artesyn-shelf:~# systemctl cat osal-network-boot
+# /lib/systemd/system/osal-network-boot.service
+[Unit]
+Description=Generate networkd 80-wired.conf from nwk.cfg
+DefaultDependencies=no
+
+# Wait for storage and network directories to be mounted
+RequiresMountsFor=/staging /etc/systemd/network
+
+# Block the network from coming online until this script finishes
+Before=network.target
+Wants=network.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/osal_network_boot
+
+[Install]
+WantedBy=network.target
+admin@artesyn-shelf:~# systemctl cat osal-network
+# /lib/systemd/system/osal-network.service
+[Unit]
+Description=OSAL Network D-Bus service
+After=dbus.service systemd-networkd.service
+Requires=dbus.service
+
+[Service]
+Type=dbus
+BusName=aei.osal.network1
+ExecStart=/usr/bin/osal_network_service
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
+but ofcourse, when I run manually
+admin@artesyn-shelf:~# systemctl staart pmc-certificate-svc
+Unknown operation staart.
+admin@artesyn-shelf:~# systemctl start pmc-certificate-svc
+admin@artesyn-shelf:~# systemctl status pmc-certificate-svc
+● pmc-certificate-svc.service - Run Caddy supervisory
+     Loaded: loaded (/lib/systemd/system/pmc-certificate-svc.service; enabled; vendor preset: enabled)
+     Active: inactive (dead) since Sat 2026-10-10 04:59:33 UTC; 5s ago
+       Docs: https://caddyserver.com/docs/
+    Process: 2677 ExecStart=/usr/bin/pmc-certificate-svc.sh (code=exited, status=0/SUCCESS)
+   Main PID: 2677 (code=exited, status=0/SUCCESS)
+
+Oct 10 04:59:25 artesyn-shelf pmc-certificate-svc.sh[3548]: {"level":"warn","ts":1791608365.4248314,"msg":"unable to determine directory for us>
+Oct 10 04:59:26 artesyn-shelf pmc-certificate-svc.sh[3548]: {"level":"info","ts":1791608366.3579884,"msg":"using provided configuration","confi>
+Oct 10 04:59:26 artesyn-shelf pmc-certificate-svc.sh[3548]: {"level":"info","ts":1791608366.4294086,"logger":"tls.cache.maintenance","msg":"sta>
+Oct 10 04:59:26 artesyn-shelf pmc-certificate-svc.sh[3548]: {"level":"info","ts":1791608366.5023715,"logger":"http","msg":"enabling automatic H>
+Oct 10 04:59:26 artesyn-shelf pmc-certificate-svc.sh[3548]: {"level":"info","ts":1791608366.5026011,"logger":"http","msg":"server is listening >
+Oct 10 04:59:26 artesyn-shelf pmc-certificate-svc.sh[3548]: {"level":"warn","ts":1791608366.5031812,"logger":"http","msg":"user server is liste>
+Oct 10 04:59:27 artesyn-shelf pmc-certificate-svc.sh[3548]: {"level":"info","ts":1791608367.077234,"logger":"tls.cache.maintenance","msg":"stop>
+Oct 10 04:59:27 artesyn-shelf pmc-certificate-svc.sh[3548]: Valid configuration
+Oct 10 04:59:33 artesyn-shelf systemd[1]: pmc-certificate-svc.service: Succeeded.
+Oct 10 04:59:33 artesyn-shelf systemd[1]: Started Run Caddy supervisory.
+admin@artesyn-shelf:~# systemctl status caddy
+● caddy.service - Caddy
+     Loaded: loaded (/lib/systemd/system/caddy.service; static; vendor preset: enabled)
+     Active: active (running) since Sat 2026-10-10 04:59:33 UTC; 13s ago
+       Docs: https://caddyserver.com/docs/
+   Main PID: 4305 (caddy)
+     CGroup: /system.slice/caddy.service
+             └─4305 /usr/bin/caddy run --config /etc/caddy/Caddyfile
+
+Oct 10 04:59:38 artesyn-shelf caddy[4305]: {"level":"warn","ts":1791608378.671794,"logger":"pki.ca.local","msg":"installing root certificate (y>
+Oct 10 04:59:38 artesyn-shelf caddy[4305]: 2026/10/10 04:59:38 Warning: "certutil" is not available, install "certutil" with "apt install libns>
+Oct 10 04:59:38 artesyn-shelf caddy[4305]: 2026/10/10 04:59:38 define JAVA_HOME environment variable to use the Java trust
+Oct 10 04:59:38 artesyn-shelf caddy[4305]: {"level":"error","ts":1791608378.6836715,"logger":"pki.ca.local","msg":"failed to install root certi>
+Oct 10 04:59:38 artesyn-shelf caddy[4305]: {"level":"debug","ts":1791608378.6849973,"logger":"http","msg":"starting server loop","address":"[::>
+Oct 10 04:59:38 artesyn-shelf caddy[4305]: {"level":"info","ts":1791608378.688298,"logger":"tls","msg":"cleaned up storage units"}
+Oct 10 04:59:38 artesyn-shelf caddy[4305]: {"level":"debug","ts":1791608378.6918652,"logger":"http","msg":"starting server loop","address":"[::>
+Oct 10 04:59:38 artesyn-shelf caddy[4305]: {"level":"debug","ts":1791608378.6956592,"logger":"http","msg":"starting server loop","address":"[::>
+Oct 10 04:59:38 artesyn-shelf caddy[4305]: {"level":"info","ts":1791608378.700011,"msg":"autosaved config","file":"/root/.config/caddy/autosave>
+Oct 10 04:59:38 artesyn-shelf caddy[4305]: {"level":"info","ts":1791608378.7010028,"msg":"serving initial configuration"}
+
+pmc-certificate-svc.sh
+#!/bin/bash
+
+#destination
+TARGET_DIR="/staging/psc/certificates"
+TARGET_CADDY_DEF="${TARGET_DIR}/default"
+TARGET_CADDY_MAN="${TARGET_DIR}/manual"
+TARGET_CADDY_ACT="${TARGET_DIR}/active"
+
+#Caddyfile
+CERT_SOURCE="/usr/share/certificates"
+
+
+#certificates
+TARGET_PUBLIC="${TARGET_DIR}/certificate.pem"
+TARGET_PRIVATE="${TARGET_DIR}/private.pem"
+
+#CADDY Des (FIXED: Uses correct target directory variables)
+TARGET_CADDYFILE_DEF="${TARGET_CADDY_DEF}/Caddyfile"
+TARGET_CADDYFILE_MAN="${TARGET_CADDY_MAN}/Caddyfile"
+
+CADDY_CER=/etc/caddy/.certificates
+PKI_CONFIG="${TARGET_CADDY_DEF}/pki.json"
+CADDY_JSON="/etc/caddy/caddy.json"
+CADDY_JSON_TMP="/etc/caddy/caddy.json.tmp"
+
+CADDYFILE_ACTIVE="/etc/caddy/Caddyfile"
+CADDYFILE_BOOTSTRAP="/etc/caddy/Caddyfile.bootstrap"
+CADDY_ADMIN_URL="http://127.0.0.1:2019"
+
+###############################################################################
+# Certificate functions
+###############################################################################
+
+certificate_files_exist() {
+    [[ -s "$TARGET_PUBLIC" ]] &&
+    [[ -s "$TARGET_PRIVATE" ]]
+}
+
+validate_certificate_files() {
+   
+    if ! openssl x509 \
+        -in "$TARGET_PUBLIC" \
+        -noout \
+        >/dev/null 2>&1; then
+        return 1
+    fi
+
+    if ! openssl pkey \
+        -in "$TARGET_PRIVATE" \
+        -noout \
+        >/dev/null 2>&1; then
+        return 1
+    fi
+}
+
+certificate_matches_private_key() {
+    local cert_public_key_hash
+    local private_public_key_hash
+
+    cert_public_key_hash="$(
+        openssl x509 \
+            -in "$TARGET_PUBLIC" \
+            -pubkey \
+            -noout |
+        openssl pkey \
+            -pubin \
+            -outform DER 2>/dev/null |
+        openssl dgst -sha256 |
+        awk '{print $NF}'
+    )"
+
+    private_public_key_hash="$(
+        openssl pkey \
+            -in "$TARGET_PRIVATE" \
+            -pubout \
+            -outform DER 2>/dev/null |
+        openssl dgst -sha256 |
+        awk '{print $NF}'
+    )"
+
+    [[ -n "$cert_public_key_hash" ]] &&
+    [[ "$cert_public_key_hash" == "$private_public_key_hash" ]]
+}
+
+
+generate_default_certificate() {
+    cd "$TARGET_DIR"
+    ln -sf "$TARGET_CADDYFILE_DEF" /etc/caddy/Caddyfile
+}
+
+
+generate_manual_certificate(){
+    cd "$TARGET_DIR"
+
+    ln -sf "$TARGET_PUBLIC" "$TARGET_CADDY_ACT/certificate.pem"
+    ln -sf "$TARGET_PRIVATE" "$TARGET_CADDY_ACT/private.pem"
+    ln -sf "$TARGET_CADDYFILE_MAN" /etc/caddy/Caddyfile
+
+    mkdir -p /etc/caddy/.certificates
+    ln -sf "$TARGET_CADDY_ACT/certificate.pem" "${CADDY_CER}/certificate.pem"
+    ln -sf "$TARGET_CADDY_ACT/private.pem" "${CADDY_CER}/private.pem"
+    ln -sf "$TARGET_CADDY_ACT/certificate.pem" /etc/caddy/certificate.pem
+}
+
+generate_caddy_json() {
+    if [[ ! -f "/etc/caddy/Caddyfile" ]]; then
+        echo "ERROR: /etc/caddy/Caddyfile was not found" >&2
+        return 1
+    fi
+
+    if [[ ! -f "$PKI_CONFIG" ]]; then
+        echo "ERROR: PKI configuration was not found: $PKI_CONFIG" >&2
+        return 1
+    fi
+
+    if ! command -v jq >/dev/null 2>&1; then
+        echo "ERROR: jq is not installed" >&2
+        return 1
+    fi
+
+    echo "Generating Caddy JSON configuration"
+
+    if ! caddy adapt \
+        --config /etc/caddy/Caddyfile \
+        --adapter caddyfile |
+        jq \
+            --slurpfile ca "$PKI_CONFIG" \
+            '.apps.pki.certificate_authorities.local = $ca[0]' \
+            > "$CADDY_JSON_TMP"; then
+
+        rm -f "$CADDY_JSON_TMP"
+        echo "ERROR: Failed to generate Caddy JSON configuration" >&2
+        return 1
+    fi
+
+    if ! caddy validate --config "$CADDY_JSON_TMP"; then
+        rm -f "$CADDY_JSON_TMP"
+        echo "ERROR: Generated Caddy JSON configuration is invalid" >&2
+        return 1
+    fi
+
+    mv "$CADDY_JSON_TMP" "$CADDY_JSON"
+
+    chmod 644 "$CADDY_JSON"
+
+    echo "Generated Caddy configuration: $CADDY_JSON"
+}
+
+
+delete_certificate() {
+    rm -rf /etc/caddy/.certificates
+    rm -rf /root/.local/share/caddy/pki/authorities/local/*
+}
+
+activate_config() {
+    if ! caddy validate --config "$CADDY_JSON"; then
+        echo "ERROR: Invalid Caddy JSON configuration" >&2
+        return 1
+    fi
+
+    if ! curl \
+        --silent \
+        --show-error \
+        --fail \
+        --request POST \
+        --header "Content-Type: application/json" \
+        --data-binary "@${CADDY_JSON}" \
+        "${CADDY_ADMIN_URL}/load"; then
+
+        echo "ERROR: Failed to load Caddy JSON configuration" >&2
+        return 1
+    fi
+} 
+
+create_bootstrap_caddyfile() {
+    cat > "$CADDYFILE_BOOTSTRAP" <<'EOF'
+{
+    debug
+}
+
+http://127.0.0.1:2018 {
+    respond "Caddy bootstrap" 200
+}
+EOF
+
+    ln -sfn "$CADDYFILE_BOOTSTRAP" "$CADDYFILE_ACTIVE"
+}
+
+wait_for_caddy_admin() {
+    local timeout=30
+    local elapsed=0
+
+    while (( elapsed < timeout )); do
+        if curl \
+            --silent \
+            --output /dev/null \
+            --connect-timeout 1 \
+            "${CADDY_ADMIN_URL}/config/"; then
+
+            return 0
+        fi
+
+        sleep 1
+        elapsed=$((elapsed + 1))
+    done
+
+    echo "ERROR: Timed out waiting for Caddy Admin API" >&2
+    return 1
+}
+
+link() {
+    local caddy_root_crt="/root/.local/share/caddy/pki/authorities/local/root.crt"
+    ln -sf "$caddy_root_crt" "$TARGET_CADDY_ACT/certificate.pem"
+    ln -sfn "$TARGET_CADDYFILE_DEF" /etc/caddy/Caddyfile
+    ln -sf "$TARGET_CADDY_ACT/certificate.pem" /etc/caddy/certificate.pem
+    systemctl restart caddy
+}
+
+ping() {
+    local ip
+
+    ip=$(
+        ip -4 -o addr show scope global |
+        awk 'NR == 1 {
+            split($4, address, "/")
+            print address[1]
+        }'
+    )
+
+    if [[ -z "$ip" ]]; then
+        echo "ERROR: No active IPv4 address found" >&2
+        return 1
+    fi
+
+    curl \
+        --insecure \
+        --silent \
+        --show-error \
+        --output /dev/null \
+        --connect-timeout 10 \
+        --max-time 30 \
+        "https://${ip}/"
+}
+
+
+run_caddy_ecc() {
+    echo "no IP"
+    cd "$TARGET_DIR"
+    ln -sf "$TARGET_CADDYFILE_DEF" /etc/caddy/Caddyfile
+    systemctl restart caddy
+}
+
+###############################################################################
+# Main flow
+###############################################################################
+
+main() {
+    PMC=$(jq -r '.ae_modbus_device_profile.profile_name' /etc/ae-config/enabled/device-profile.cfg)
+    echo "$PMC"
+
+    if [[ "$PMC" == "hpr-v2" ]]; then 
+        # If the function returns 0, it means directories were missing and just got created
+        local generate_caddy=false
+        local caddy_root_crt="/root/.local/share/caddy/pki/authorities/local/root.crt"
+        local timeout=10
+        local elapsed=0
+
+        # Copy Caddyfile from source
+        # Default Caddyfile
+        if [ ! -f "${TARGET_CADDYFILE_DEF}" ]; then
+            mkdir -p "${TARGET_CADDY_DEF}"
+            cp "${CERT_SOURCE}/default/Caddyfile" "${TARGET_CADDYFILE_DEF}"
+            echo "default Caddyfile copied"
+        else
+            echo "default Caddyfile exists. Skipping."
+        fi
+        cp "${CERT_SOURCE}/default/pki.json"  "/staging/psc/certificates/default/pki.json"
+        # Manual Caddyfile
+        if [ ! -f "${TARGET_CADDYFILE_MAN}" ]; then
+            mkdir -p "${TARGET_CADDY_MAN}"
+            cp "${CERT_SOURCE}/manual/Caddyfile" "${TARGET_CADDYFILE_MAN}"
+            echo "manual Caddyfile copied"
+        else
+            echo "manual Caddyfile exists. Skipping."
+        fi
+        mkdir -p "${TARGET_CADDY_ACT}"
+
+
+        if certificate_files_exist; then
+
+            if ! validate_certificate_files; then
+                generate_caddy=true
+            elif ! certificate_matches_private_key; then
+                generate_caddy=true
+            fi 
+
+        else
+            generate_caddy=true
+        fi
+
+        if [[ "$generate_caddy" == true ]]; then
+            echo "Generating default Caddy configuration"
+
+            # Generate JSON from the actual default Caddyfile.
+            generate_default_certificate
+            generate_caddy_json || return 1
+    
+            # Remove uploaded manual certificate links.
+            delete_certificate
+
+
+            # The unchanged unit starts /etc/caddy/Caddyfile.
+            # Point that path to an HTTP-only bootstrap configuration.
+            create_bootstrap_caddyfile
+            systemctl restart caddy || return 1
+            wait_for_caddy_admin || return 1
+            activate_config || return 1
+
+            # Trigger On-Demand TLS for the current IP.
+            ping
+            
+            # Wait up to 3 seconds for root.crt.
+            local timeout_seconds=10
+            local start_time=$SECONDS
+
+            while [[ ! -s "$caddy_root_crt" ]]; do
+                if (( SECONDS - start_time >= timeout_seconds )); then
+                    echo "ERROR: Timed out waiting for $caddy_root_crt" >&2
+                    return 1
+                fi
+
+                sleep 0.5
+            done
+
+            link
+            return 0
+
+        else
+            echo "Generating manual Caddy configuration"
+            generate_manual_certificate
+            systemctl start caddy || return 1
+        fi
+        
+        
+    else 
+        exit 1
+    fi
+}   
+
+main
+
+
+
+this is the service we removed
+[Unit]
+Description=PMC Network Supervisory Path Unit
+
+[Path]
+PathChanged=/etc/systemd/network/80-wired.network.d/80-wired.conf
+#PathChanged=/etc/systemd/timesyncd.conf commented this out because of racing condition
+Unit=pmc-nwk.service
+
+[Install]
+WantedBy=multi-user.target
+
+pmc-nwk
+[Unit]
+Description=PMC Network Supervisory Service
+After=network-online.target pmc-svc.service
+
+[Service]
+ExecStart=/usr/bin/pmc-nwk-process.sh
+
+[Install]
+WantedBy=multi-user.target
