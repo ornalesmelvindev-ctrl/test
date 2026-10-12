@@ -1,53 +1,162 @@
-cat VERSION.md
-libspdm version 4.0.0 (release candidate)
-╭─░▒▓    ~/libspdm-native/libspdm    main !1 ························································· ✔  system   04:15:20 PM  ▓▒░
-╰─ grep -n -B2 -A14 "libspdm_responder_data_sign\|libspdm_measurement_collection" \
-  include/hal/library/responder/asymsignlib.h include/hal/library/responder/measlib.h
-include/hal/library/responder/asymsignlib.h-90- * @retval false Signing fail.
-include/hal/library/responder/asymsignlib.h-91- **/
-include/hal/library/responder/asymsignlib.h:92:extern bool libspdm_responder_data_sign(
-include/hal/library/responder/asymsignlib.h-93-    void *spdm_context,
-include/hal/library/responder/asymsignlib.h-94-    spdm_version_number_t spdm_version,
-include/hal/library/responder/asymsignlib.h-95-    uint8_t key_pair_id, uint8_t op_code,
-include/hal/library/responder/asymsignlib.h-96-    uint32_t base_asym_algo, uint32_t pqc_asym_algo,
-include/hal/library/responder/asymsignlib.h-97-    uint32_t base_hash_algo, bool is_data_hash,
-include/hal/library/responder/asymsignlib.h-98-    const uint8_t *message, size_t message_size,
-include/hal/library/responder/asymsignlib.h-99-    uint8_t *signature, size_t *sig_size);
-include/hal/library/responder/asymsignlib.h-100-
-include/hal/library/responder/asymsignlib.h-101-#endif /* RESPONDER_ASYMSIGNLIB_H */
---
-include/hal/library/responder/measlib.h-77- * The maximum size is SPDM_MAX_MEASUREMENT_RECORD_LENGTH (2^24 - 1 bytes).
-include/hal/library/responder/measlib.h-78- **/
-include/hal/library/responder/measlib.h:79:extern libspdm_return_t libspdm_measurement_collection(
-include/hal/library/responder/measlib.h-80-    void *spdm_context,
-include/hal/library/responder/measlib.h-81-    const uint32_t *session_id,
-include/hal/library/responder/measlib.h-82-    spdm_version_number_t spdm_version,
-include/hal/library/responder/measlib.h-83-    uint8_t measurement_specification,
-include/hal/library/responder/measlib.h-84-    uint32_t measurement_hash_algo,
-include/hal/library/responder/measlib.h-85-    uint8_t measurement_index,
-include/hal/library/responder/measlib.h-86-    uint8_t request_attribute,
-include/hal/library/responder/measlib.h-87-    const uint8_t *requester_nonce,
-include/hal/library/responder/measlib.h-88-    uint8_t slot_id_param,
-include/hal/library/responder/measlib.h-89-    size_t request_context_size,
-include/hal/library/responder/measlib.h-90-    const void *request_context,
-include/hal/library/responder/measlib.h-91-    uint8_t *content_changed,
-include/hal/library/responder/measlib.h-92-    uint8_t *measurements_count,
-include/hal/library/responder/measlib.h-93-    void *measurements,
---
-include/hal/library/responder/measlib.h-97- * This functions returns the opaque data in a MEASUREMENTS response.
-include/hal/library/responder/measlib.h-98- *
-include/hal/library/responder/measlib.h:99: * It is called immediately after libspdm_measurement_collection() is called and allows the opaque
-include/hal/library/responder/measlib.h-100- * data field to vary based on the GET_MEASUREMENTS request.
-include/hal/library/responder/measlib.h-101- *
-include/hal/library/responder/measlib.h-102- * @param  spdm_context  A pointer to the SPDM context.
-include/hal/library/responder/measlib.h-103- * @param  spdm_version  Indicates the negotiated SPDM version.
-include/hal/library/responder/measlib.h-104- *
-include/hal/library/responder/measlib.h-105- * @param  measurement_specification  Indicates the measurement specification.
-include/hal/library/responder/measlib.h-106- * Must be a SPDM_MEASUREMENT_BLOCK_HEADER_SPECIFICATION_* value in spdm.h.
-include/hal/library/responder/measlib.h-107- *
-include/hal/library/responder/measlib.h-108- * @param  measurement_hash_algo  Indicates the measurement hash algorithm.
-include/hal/library/responder/measlib.h-109- * Must be SPDM_ALGORITHMS_MEASUREMENT_HASH_ALGO_* value in spdm.h.
-include/hal/library/responder/measlib.h-110- *
-include/hal/library/responder/measlib.h-111- * @param  measurement_index  The index of the measurement to collect.
-include/hal/library/responder/measlib.h-112- *
-include/hal/library/responder/measlib.h-113- * @param request_attribute A bitmask who fields are SPDM_GET_MEASUREMENTS_REQUEST_ATTRIBUTES_*.
+sed -n 60,100p include/hal/library/responder/measlib.h
+ * When "measurement_index" is zero, returns the total count of
+ * measurements available for the device. None of the actual measurements are
+ * returned however, and "measurements" and "measurements_size" are unmodified.
+ *
+ * When "measurement_index" is non-zero, returns the number of measurements
+ * returned in "measurements" and "measurements_size". If "measurements_index"
+ * is an invalid index not supported by the device, "measurements_count" will
+ * return 0 and the function will return LIBSPDM_STATUS_MEAS_INVALID_INDEX.
+ *
+ * @param  measurements
+ * A pointer to a destination buffer to store the concatenation of all device
+ * measurement blocks. This buffer will only be modified if "measurement_index" is non-zero.
+ *
+ * @param  measurements_size
+ * On input, indicates the size in bytes of the destination buffer.
+ * On output, indicates the total size in bytes of all device measurement
+ * blocks in the buffer. This field should only be modified if "measurement_index" is non-zero.
+ * The maximum size is SPDM_MAX_MEASUREMENT_RECORD_LENGTH (2^24 - 1 bytes).
+ **/
+extern libspdm_return_t libspdm_measurement_collection(
+    void *spdm_context,
+    const uint32_t *session_id,
+    spdm_version_number_t spdm_version,
+    uint8_t measurement_specification,
+    uint32_t measurement_hash_algo,
+    uint8_t measurement_index,
+    uint8_t request_attribute,
+    const uint8_t *requester_nonce,
+    uint8_t slot_id_param,
+    size_t request_context_size,
+    const void *request_context,
+    uint8_t *content_changed,
+    uint8_t *measurements_count,
+    void *measurements,
+    size_t *measurements_size);
+
+/**
+ * This functions returns the opaque data in a MEASUREMENTS response.
+ *
+ * It is called immediately after libspdm_measurement_collection() is called and allows the opaque
+ * data field to vary based on the GET_MEASUREMENTS request.
+╭─░▒▓    ~/libspdm-native/libspdm    main !1 ························································· ✔  system   07:49:02 AM  ▓▒░
+╰─ grep -n -A70 "^bool libspdm_responder_data_sign" os_stub/spdm_device_secret_lib_sample/cert.c
+╭─░▒▓    ~/libspdm-native/libspdm    main !1 ····················································· INT ✘  system   07:50:00 AM  ▓▒░
+╰─ fd '^cert.c$'
+╭─░▒▓    ~/libspdm-native/libspdm    main !1 ························································· ✔  system   07:50:08 AM  ▓▒░
+╰─ grep -n -A70 "^bool libspdm_responder_data_sign" os_stub/spdm_device_secret_lib_sample/cert.c
+grep: os_stub/spdm_device_secret_lib_sample/cert.c: No such file or directory
+╭─░▒▓    ~/libspdm-native/libspdm    main !1 ······················································· 2 ✘  system   07:50:39 AM  ▓▒░
+╰─ grep -n -A110 "^libspdm_return_t libspdm_measurement_collection" os_stub/spdm_device_secret_lib_sample/meas.c
+383:libspdm_return_t libspdm_measurement_collection(
+384-    void *spdm_context,
+385-    const uint32_t *session_id,
+386-    spdm_version_number_t spdm_version,
+387-    uint8_t measurement_specification,
+388-    uint32_t measurement_hash_algo,
+389-    uint8_t measurements_index,
+390-    uint8_t request_attribute,
+391-    const uint8_t *requester_nonce,
+392-    uint8_t slot_id_param,
+393-    size_t request_context_size,
+394-    const void *request_context,
+395-    uint8_t *content_changed,
+396-    uint8_t *measurements_count,
+397-    void *measurements,
+398-    size_t *measurements_size)
+399-{
+400-    spdm_measurement_block_dmtf_t *measurement_block;
+401-    size_t hash_size;
+402-    uint8_t index;
+403-    size_t total_size_needed;
+404-    bool use_bit_stream;
+405-    size_t measurement_block_size;
+406-
+407-    if ((measurement_specification != SPDM_MEASUREMENT_SPECIFICATION_DMTF) ||
+408-        (measurement_hash_algo == 0)) {
+409-        return LIBSPDM_STATUS_UNSUPPORTED_CAP;
+410-    }
+411-
+412-    if (g_check_measurement_request_context) {
+413-        if ((spdm_version >> SPDM_VERSION_NUMBER_SHIFT_BIT) >= SPDM_MESSAGE_VERSION_13) {
+414-            LIBSPDM_ASSERT(request_context_size == SPDM_REQ_CONTEXT_SIZE);
+415-            LIBSPDM_ASSERT(libspdm_read_uint64(request_context) == g_measurement_request_context);
+416-        } else {
+417-            LIBSPDM_ASSERT(request_context_size == 0);
+418-            LIBSPDM_ASSERT(request_context == NULL);
+419-        }
+420-    }
+421-
+422-    hash_size = libspdm_get_measurement_hash_size(measurement_hash_algo);
+423-    LIBSPDM_ASSERT(hash_size != 0);
+424-
+425-    use_bit_stream = false;
+426-    if ((measurement_hash_algo == SPDM_ALGORITHMS_MEASUREMENT_HASH_ALGO_RAW_BIT_STREAM_ONLY) ||
+427-        ((request_attribute & SPDM_GET_MEASUREMENTS_REQUEST_ATTRIBUTES_RAW_BIT_STREAM_REQUESTED) !=
+428-         0)) {
+429-        use_bit_stream = true;
+430-    }
+431-
+432-    if (measurements_index ==
+433-        SPDM_GET_MEASUREMENTS_REQUEST_MEASUREMENT_OPERATION_TOTAL_NUMBER_OF_MEASUREMENTS) {
+434-        *measurements_count = LIBSPDM_MEASUREMENT_BLOCK_NUMBER;
+435-        goto successful_return;
+436-    } else if (measurements_index ==
+437-               SPDM_GET_MEASUREMENTS_REQUEST_MEASUREMENT_OPERATION_ALL_MEASUREMENTS) {
+438-
+439-        /* Calculate total_size_needed based on hash algo selected.
+440-         * If we have an hash algo, then the first HASH_NUMBER elements will be
+441-         * hash values, otherwise HASH_NUMBER raw bitstream values.*/
+442-        if (!use_bit_stream) {
+443-            total_size_needed =
+444-                LIBSPDM_MEASUREMENT_BLOCK_HASH_NUMBER *
+445-                (sizeof(spdm_measurement_block_dmtf_t) + hash_size);
+446-        } else {
+447-            total_size_needed =
+448-                LIBSPDM_MEASUREMENT_BLOCK_HASH_NUMBER *
+449-                (sizeof(spdm_measurement_block_dmtf_t) + LIBSPDM_MEASUREMENT_RAW_DATA_SIZE);
+450-        }
+451-        /* Next one - SVN is always raw bitstream data.*/
+452-        total_size_needed +=
+453-            (sizeof(spdm_measurement_block_dmtf_t) +
+454-             sizeof(spdm_measurements_secure_version_number_t));
+455-        /* Next one - HEM is always digest data.*/
+456-        total_size_needed +=
+457-            (sizeof(spdm_measurement_block_dmtf_t) + hash_size);
+458-        /* Next one - manifest is always raw bitstream data.*/
+459-        total_size_needed +=
+460-            (sizeof(spdm_measurement_block_dmtf_t) + LIBSPDM_MEASUREMENT_MANIFEST_SIZE);
+461-        /* Next one - device_mode is always raw bitstream data.*/
+462-        total_size_needed +=
+463-            (sizeof(spdm_measurement_block_dmtf_t) + sizeof(spdm_measurements_device_mode_t));
+464-
+465-        LIBSPDM_ASSERT(total_size_needed <= *measurements_size);
+466-        if (total_size_needed > *measurements_size) {
+467-            return LIBSPDM_STATUS_BUFFER_TOO_SMALL;
+468-        }
+469-
+470-        *measurements_size = total_size_needed;
+471-        *measurements_count = LIBSPDM_MEASUREMENT_BLOCK_NUMBER;
+472-        measurement_block = measurements;
+473-
+474-        /* The first HASH_NUMBER blocks may be hash values or raw bitstream*/
+475-        for (index = 1; index <= LIBSPDM_MEASUREMENT_BLOCK_HASH_NUMBER; index++) {
+476-            measurement_block_size = libspdm_fill_measurement_image_hash_block (use_bit_stream,
+477-                                                                                measurement_hash_algo,
+478-                                                                                index,
+479-                                                                                measurement_block);
+480-            if (measurement_block_size == 0) {
+481-                return LIBSPDM_STATUS_MEAS_INTERNAL_ERROR;
+482-            }
+483-            measurement_block = (void *)((uint8_t *)measurement_block + measurement_block_size);
+484-        }
+485-        /* Next one - SVN is always raw bitstream data.*/
+486-        {
+487-            measurement_block_size = libspdm_fill_measurement_svn_block (measurement_block);
+488-            measurement_block = (void *)((uint8_t *)measurement_block + measurement_block_size);
+489-        }
+490-        /* Next one - HEM is always digest data.*/
+491-        {
+492-            measurement_block_size = libspdm_fill_measurement_hem_block (measurement_block,
+493-                                                                         measurement_hash_algo)
