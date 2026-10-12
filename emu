@@ -1,0 +1,16 @@
+[11:07:10.655] PASS request=0xFF response=0x60 bytes=193
+[11:07:10.655] PASS SPDM 1.0 signed MEASUREMENTS: 36-byte request, no SlotIDParam, RNR/RIR, P-384/SHA-384 signature verification
+[11:07:10.655] DRY RUN COMPLETE: all structural, CRC, CHUNK, certificate, challenge, and measurement checks passed
+[11:07:10.672] DRY RUN report: /mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/dry_run_report.txt
+[11:07:19.982] COM responder stopped by error:
+Traceback (most recent call last):
+  File "/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_fc65_responder_emulator_typeable.py", line 1845, in _serial_worker
+    with serial.Serial(
+         ^^^^^^^^^^^^^^
+  File "/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/.venv/lib/python3.12/site-packages/serial/serialutil.py", line 244, in __init__
+    self.open()
+  File "/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/.venv/lib/python3.12/site-packages/serial/serialposix.py", line 332, in open
+    self._reconfigure_port(force_update=True)
+  File "/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/.venv/lib/python3.12/site-packages/serial/serialposix.py", line 517, in _reconfigure_port
+    termios.tcsetattr(
+termios.error: (22, 'Invalid argument')
