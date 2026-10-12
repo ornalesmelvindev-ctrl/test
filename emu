@@ -1,12 +1,17 @@
-For you info, that emulator will be used in creating spdm requester and responder using C, and I already have a working one
+ make                      
+gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/modbus_transport.c -o build/modbus_transport.o
+gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/device_io.c -o build/device_io.o
+src/device_io.c:19:32: error: ‘MODBUS_MAX_SPDM_MESSAGE_SIZE’ undeclared here (not in a function)
+   19 | static uint8_t g_sender_buffer[MODBUS_MAX_SPDM_MESSAGE_SIZE];
+      |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/device_io.c:20:16: warning: ‘g_receiver_buffer’ defined but not used [-Wunused-variable]
+   20 | static uint8_t g_receiver_buffer[MODBUS_MAX_SPDM_MESSAGE_SIZE];
+      |                ^~~~~~~~~~~~~~~~~
+src/device_io.c:19:16: warning: ‘g_sender_buffer’ defined but not used [-Wunused-variable]
+   19 | static uint8_t g_sender_buffer[MODBUS_MAX_SPDM_MESSAGE_SIZE];
+      |                ^~~~~~~~~~~~~~~
+make: *** [Makefile:71: build/device_io.o] Error 1
 
-what I want you to do is to modify my existing, headers, certificate, add missing methods,
-like when I use my requester to this python responder, it must work, same thing with my responder,
+also, convert using cmake
 
-what I want you to do is add arguments
-like
-./spdm-requester get-version
-of course for all
 
-just make sure our spdm will work/compatible with the python scripts
-you can remove unnecessary things on my existing one
