@@ -1,112 +1,53 @@
-./build-cmake/spdm-responder /tmp/spdm_uart_responder /mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/root.der
-
-===== SPDM-over-Modbus RESPONDER =====
-[responder][main      ] uart_path=/tmp/spdm_uart_responder cert_chain_path=/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/root.der
-[responder][device_io] FC65 initialized fd=3 address=0x80
-[responder][setup_capabilities_and_algorithms] advertised: ct_exp=12 cap_flags=0x00000032 asym=ECDSA_P384 hash=SHA384
-[responder][read_file_to_buffer] loaded '/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/root.der' (575 bytes)
-[responder][setup_local_cert_chain] local certificate chain (slot 0) installed (575 bytes)
-
----- responder ready, waiting for requester on '/tmp/spdm_uart_responder' ----
----- (each incoming request is logged as it arrives; Ctrl-C to stop) ----
-
-[responder][device_io] RX FC65 4-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_GET_VERSION(0x84), size (0x4):
-0000: 10 84 00 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_VERSION(0x4), size (0x10):
-0000: 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00 14
-[responder][device_io] TX FC65 21 bytes (SPDM=16)
-[responder][device_io] RX FC65 20-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_GET_CAPABILITIES(0xe1), size (0x14):
-0000: 12 e1 00 00 00 00 00 00 00 00 02 00 ff 00 00 00 ff ff ff ff
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_CAPABILITIES(0x61), size (0x14):
-0000: 12 61 00 00 00 0c 00 00 32 00 00 00 fb 00 00 00 fb 00 00 00
-[responder][device_io] TX FC65 25 bytes (SPDM=20)
-[responder][device_io] RX FC65 32-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_NEGOTIATE_ALGORITHMS(0xe3), size (0x20):
-0000: 12 e3 00 00 20 00 01 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-SpdmSendResponse[0] ...
-base_hash - 0x00000002
-base_asym - 0x00000080
-dhe - 0x0000
-aead - 0x0000
-req_asym - 0x0000
-pqc_asym - 0x00000000
-req_pqc_asym - 0x0000
-kem - 0x0000
-SpdmSendResponse[0]: msg SPDM_ALGORITHMS(0x63), size (0x24):
-0000: 12 63 00 00 24 00 01 00 04 00 00 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0020: 00 00 00 00
-[responder][device_io] TX FC65 41 bytes (SPDM=36)
-[responder][device_io] RX FC65 4-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_GET_DIGESTS(0x81), size (0x4):
-0000: 12 81 00 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_DIGESTS(0x1), size (0x34):
-0000: 12 01 00 01 a2 af 1a a4 ec e2 bb e8 cb 49 92 3d 94 34 d1 c6 04 40 b4 3d 23 d9 04 94 88 16 98 b7
-0020: c3 96 86 ec c0 e0 f1 9a 2b 06 b0 ba e7 47 6f 5a 09 8e f4 81
-[responder][device_io] TX FC65 57 bytes (SPDM=52)
-[responder][device_io] RX FC65 8-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_GET_CERTIFICATE(0x82), size (0x8):
-0000: 12 82 00 00 00 00 f0 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_CERTIFICATE(0x2), size (0xf8):
-0000: 12 02 00 00 f0 00 4f 01 8b 6c b1 f2 05 00 00 00 0a 5a 34 5a 93 24 97 e2 30 0a 06 08 2a 86 48 ce
-0020: 3d 04 03 03 30 67 31 1e 30 1c 06 03 55 04 03 0c 15 41 45 49 5f 54 65 73 74 69 6e 67 5f 52 6f 6f
-0040: 74 5f 43 65 72 74 31 28 30 26 06 03 55 04 0a 0c 1f 41 64 76 61 6e 63 65 64 20 45 6e 65 72 67 79
-0060: 20 49 6e 64 75 73 74 72 69 65 73 2c 20 49 6e 63 31 1b 30 19 06 03 55 04 0b 0c 12 41 54 44 43 5f
-0080: 46 69 72 6d 77 61 72 65 5f 54 65 61 6d 30 1e 17 0d 32 35 30 31 30 31 30 30 30 30 30 30 5a 17 0d
-00a0: 34 35 31 32 33 31 32 33 35 39 35 39 5a 30 67 31 1e 30 1c 06 03 55 04 03 0c 15 41 45 49 5f 54 65
-00c0: 73 74 69 6e 67 5f 52 6f 6f 74 5f 43 65 72 74 31 28 30 26 06 03 55 04 0a 0c 1f 41 64 76 61 6e 63
-00e0: 65 64 20 45 6e 65 72 67 79 20 49 6e 64 75 73 74 72 69 65 73 2c 20 49 6e
-[responder][device_io] TX FC65 253 bytes (SPDM=248)
-[responder][device_io] RX FC65 8-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_GET_CERTIFICATE(0x82), size (0x8):
-0000: 12 82 00 00 f0 00 f0 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_CERTIFICATE(0x2), size (0xf8):
-0000: 12 02 00 00 f0 00 5f 00 63 31 1b 30 19 06 03 55 04 0b 0c 12 41 54 44 43 5f 46 69 72 6d 77 61 72
-0020: 65 5f 54 65 61 6d 30 76 30 10 06 07 2a 86 48 ce 3d 02 01 06 05 2b 81 04 00 22 03 62 00 04 03 0f
-0040: f0 2f c4 50 ba 48 2f da a5 1b e1 be 9e 24 e3 76 fe 0d f5 57 df 81 fb cb b7 87 e4 47 fa 31 a3 fb
-0060: 72 a0 69 4f 8b 14 23 58 0e b3 48 03 01 65 10 72 f5 b7 45 93 34 86 9c ff b7 71 63 42 4f fa 97 ff
-0080: 4f b8 69 9e 67 00 3f 72 45 11 7e 66 65 d7 bd c2 96 fe 75 3c 78 a0 a6 19 6c 1d f8 72 f1 d1 a3 42
-00a0: 30 40 30 0f 06 03 55 1d 13 01 01 ff 04 05 30 03 01 01 ff 30 0e 06 03 55 1d 0f 01 01 ff 04 04 03
-00c0: 02 01 86 30 1d 06 03 55 1d 0e 04 16 04 14 00 a0 13 76 8a 4e ab 7f 9e d0 9c 35 75 3c 6d 76 31 91
-00e0: c3 64 30 0a 06 08 2a 86 48 ce 3d 04 03 03 03 67 00 30 64 02 30 41 41 50
-[responder][device_io] TX FC65 253 bytes (SPDM=248)
-[responder][device_io] RX FC65 8-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_GET_CERTIFICATE(0x82), size (0x8):
-0000: 12 82 00 00 e0 01 5f 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_CERTIFICATE(0x2), size (0x67):
-0000: 12 02 00 00 5f 00 00 00 68 c7 19 55 9c 3c d1 3f 4b 82 f6 86 97 2d 15 3b 06 73 9f b7 20 71 df ea
-0020: 8f ca b3 b9 2f c4 43 f6 a8 81 24 e4 8f 1a c8 a0 45 70 a0 25 bc 02 30 68 a7 6a 8e 81 ea fa bd e4
-0040: 4c d2 20 0d 11 44 f9 0a c9 a1 42 90 d9 bf 5c 8a 74 88 9f f2 e2 26 b3 60 5e 22 a8 c8 ab 10 7e d4
-0060: f8 60 a1 c5 11 1c 7d
-[responder][device_io] TX FC65 108 bytes (SPDM=103)
-[responder][device_io] RX FC65 36-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_CHALLENGE(0x83), size (0x24):
-0000: 12 83 00 00 30 f6 4c a3 36 5b ff e1 de c6 77 25 4b 7f 07 61 88 59 cd 90 22 e4 8d b3 eb d5 7f f4
-0020: 8d 95 75 e5
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_ERROR(0x7f), size (0x4):
-0000: 12 7f 07 83
-[responder][device_io] TX FC65 9 bytes (SPDM=4)
-[responder][device_io] RX FC65 37-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_GET_MEASUREMENTS(0xe0), size (0x25):
-0000: 12 e0 01 ff 30 f6 4c a3 36 5b ff e1 de c6 77 25 4b 7f 07 61 88 59 cd 90 22 e4 8d b3 eb d5 7f f4
-0020: 8d 95 75 e5 00
-SpdmSendResponse[0] ...
-LIBSPDM_ASSERT: /home/melvin/libspdm-native/libspdm/os_stub/spdm_device_secret_lib_sample/meas.c(465): total_size_needed <= *measurements_size
-^C^C^C^C^C^C^C^C^C^C^C^C^C^C
+cat VERSION.md
+libspdm version 4.0.0 (release candidate)
+╭─░▒▓    ~/libspdm-native/libspdm    main !1 ························································· ✔  system   04:15:20 PM  ▓▒░
+╰─ grep -n -B2 -A14 "libspdm_responder_data_sign\|libspdm_measurement_collection" \
+  include/hal/library/responder/asymsignlib.h include/hal/library/responder/measlib.h
+include/hal/library/responder/asymsignlib.h-90- * @retval false Signing fail.
+include/hal/library/responder/asymsignlib.h-91- **/
+include/hal/library/responder/asymsignlib.h:92:extern bool libspdm_responder_data_sign(
+include/hal/library/responder/asymsignlib.h-93-    void *spdm_context,
+include/hal/library/responder/asymsignlib.h-94-    spdm_version_number_t spdm_version,
+include/hal/library/responder/asymsignlib.h-95-    uint8_t key_pair_id, uint8_t op_code,
+include/hal/library/responder/asymsignlib.h-96-    uint32_t base_asym_algo, uint32_t pqc_asym_algo,
+include/hal/library/responder/asymsignlib.h-97-    uint32_t base_hash_algo, bool is_data_hash,
+include/hal/library/responder/asymsignlib.h-98-    const uint8_t *message, size_t message_size,
+include/hal/library/responder/asymsignlib.h-99-    uint8_t *signature, size_t *sig_size);
+include/hal/library/responder/asymsignlib.h-100-
+include/hal/library/responder/asymsignlib.h-101-#endif /* RESPONDER_ASYMSIGNLIB_H */
+--
+include/hal/library/responder/measlib.h-77- * The maximum size is SPDM_MAX_MEASUREMENT_RECORD_LENGTH (2^24 - 1 bytes).
+include/hal/library/responder/measlib.h-78- **/
+include/hal/library/responder/measlib.h:79:extern libspdm_return_t libspdm_measurement_collection(
+include/hal/library/responder/measlib.h-80-    void *spdm_context,
+include/hal/library/responder/measlib.h-81-    const uint32_t *session_id,
+include/hal/library/responder/measlib.h-82-    spdm_version_number_t spdm_version,
+include/hal/library/responder/measlib.h-83-    uint8_t measurement_specification,
+include/hal/library/responder/measlib.h-84-    uint32_t measurement_hash_algo,
+include/hal/library/responder/measlib.h-85-    uint8_t measurement_index,
+include/hal/library/responder/measlib.h-86-    uint8_t request_attribute,
+include/hal/library/responder/measlib.h-87-    const uint8_t *requester_nonce,
+include/hal/library/responder/measlib.h-88-    uint8_t slot_id_param,
+include/hal/library/responder/measlib.h-89-    size_t request_context_size,
+include/hal/library/responder/measlib.h-90-    const void *request_context,
+include/hal/library/responder/measlib.h-91-    uint8_t *content_changed,
+include/hal/library/responder/measlib.h-92-    uint8_t *measurements_count,
+include/hal/library/responder/measlib.h-93-    void *measurements,
+--
+include/hal/library/responder/measlib.h-97- * This functions returns the opaque data in a MEASUREMENTS response.
+include/hal/library/responder/measlib.h-98- *
+include/hal/library/responder/measlib.h:99: * It is called immediately after libspdm_measurement_collection() is called and allows the opaque
+include/hal/library/responder/measlib.h-100- * data field to vary based on the GET_MEASUREMENTS request.
+include/hal/library/responder/measlib.h-101- *
+include/hal/library/responder/measlib.h-102- * @param  spdm_context  A pointer to the SPDM context.
+include/hal/library/responder/measlib.h-103- * @param  spdm_version  Indicates the negotiated SPDM version.
+include/hal/library/responder/measlib.h-104- *
+include/hal/library/responder/measlib.h-105- * @param  measurement_specification  Indicates the measurement specification.
+include/hal/library/responder/measlib.h-106- * Must be a SPDM_MEASUREMENT_BLOCK_HEADER_SPECIFICATION_* value in spdm.h.
+include/hal/library/responder/measlib.h-107- *
+include/hal/library/responder/measlib.h-108- * @param  measurement_hash_algo  Indicates the measurement hash algorithm.
+include/hal/library/responder/measlib.h-109- * Must be SPDM_ALGORITHMS_MEASUREMENT_HASH_ALGO_* value in spdm.h.
+include/hal/library/responder/measlib.h-110- *
+include/hal/library/responder/measlib.h-111- * @param  measurement_index  The index of the measurement to collect.
+include/hal/library/responder/measlib.h-112- *
+include/hal/library/responder/measlib.h-113- * @param request_attribute A bitmask who fields are SPDM_GET_MEASUREMENTS_REQUEST_ATTRIBUTES_*.
