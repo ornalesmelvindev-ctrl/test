@@ -1,14 +1,12 @@
-python - <<'E'
-import serial
-s = serial.Serial('/tmp/ttyGUI', 115200, timeout=2)
-s.write(bytes.fromhex('80 65 04 10 84 00 00 26 14'))
-print(s.read(64).hex(' '))
-E
+For you info, that emulator will be used in creating spdm requester and responder using C, and I already have a working one
 
+what I want you to do is to modify my existing, headers, certificate, add missing methods,
+like when I use my requester to this python responder, it must work, same thing with my responder,
 
-2026/10/12 11:14:09 socat[725280] N write(5, 0x634f95fe6000, 9) completed
-2026/10/12 11:15:17 socat[725280] N write(5, 0x634f95fe6000, 25) completed
-2026/10/12 11:21:00 socat[725280] N write(5, 0x634f95fe6000, 9) completed
-2026/10/12 11:21:06 socat[725280] N write(5, 0x634f95fe6000, 9) completed
+what I want you to do is add arguments
+like
+./spdm-requester get-version
+of course for all
 
-
+just make sure our spdm will work/compatible with the python scripts
+you can remove unnecessary things on my existing one
