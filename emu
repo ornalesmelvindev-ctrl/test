@@ -1,17 +1,9 @@
- make                      
-gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/modbus_transport.c -o build/modbus_transport.o
-gcc -Wall -Wextra -g -O0 -std=gnu11 -Iinclude -I/home/melvin/libspdm-native/libspdm/include -I/home/melvin/libspdm-native/libspdm/include/hal -I/home/melvin/libspdm-native/libspdm/build/include -c src/device_io.c -o build/device_io.o
-src/device_io.c:19:32: error: ‘MODBUS_MAX_SPDM_MESSAGE_SIZE’ undeclared here (not in a function)
-   19 | static uint8_t g_sender_buffer[MODBUS_MAX_SPDM_MESSAGE_SIZE];
-      |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-src/device_io.c:20:16: warning: ‘g_receiver_buffer’ defined but not used [-Wunused-variable]
-   20 | static uint8_t g_receiver_buffer[MODBUS_MAX_SPDM_MESSAGE_SIZE];
-      |                ^~~~~~~~~~~~~~~~~
-src/device_io.c:19:16: warning: ‘g_sender_buffer’ defined but not used [-Wunused-variable]
-   19 | static uint8_t g_sender_buffer[MODBUS_MAX_SPDM_MESSAGE_SIZE];
-      |                ^~~~~~~~~~~~~~~
-make: *** [Makefile:71: build/device_io.o] Error 1
+wait, what certificate will I use?
 
-also, convert using cmake
+Also take note I enabled the logs in libspdm
+./build-cmake/spdm-requester get-certificate --port /tmp/spdm_uart_requester --root /home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der
 
-
+===== SPDM-over-Modbus REQUESTER =====
+[requester][main      ] command=get-certificate uart_path=/tmp/spdm_uart_requester root_cert_path=/home/melvin/libspdm-native/libspdm/unit_test/sample_key/ecp256/ca.cert.der
+[requester][device_io] FC65 initialized fd=3 address=0x80
+LIBSPDM_ASSERT: /home/melvin/libspdm-native/libspdm/library/spdm_common_lib/libspdm_com_context_data.c(2623): context->local_context.capability.max_spdm_msg_size != 0
