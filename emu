@@ -1,67 +1,14 @@
-why can I get data even if responder is not up?
-[11:11:21.167] OPEN /tmp/ttyGUI 115200 8N1
-[11:11:22.326] TX SPDM v1.0 GET_VERSION Param1=0x00 Param2=0x00
-  10 84 00 00
-[11:11:22.327] TX FC65 (9 bytes)
-  80 65 04 10 84 00 00 26 14
-[11:11:23.376] RX TIMEOUT / no bytes
-[11:11:27.326]   SPDM 1.2 requester capabilities: Flags=0x00020000, DataTransferSize=255, MaxSPDMmsgSize=4294967295
-[11:11:27.327] TX SPDM v1.2 GET_CAPABILITIES Param1=0x00 Param2=0x00
-  12 E1 00 00 00 00 00 00 00 00 02 00 FF 00 00 00 FF FF FF FF
-[11:11:27.327] TX FC65 (25 bytes)
-  80 65 14 12 E1 00 00 00 00 00 00 00 00 02 00 FF 00 00 00 FF FF FF FF 58 98
-[11:11:28.364] RX TIMEOUT / no bytes
-[11:11:32.413] TX SPDM v1.2 NEGOTIATE_ALGORITHMS Param1=0x00 Param2=0x00
-  12 E3 00 00 20 00 01 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-[11:11:32.414] TX FC65 (37 bytes)
-  80 65 20 12 E3 00 00 20 00 01 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 29 F6
-[11:11:33.454] RX TIMEOUT / no bytes
-[11:11:37.447]   GET_DIGESTS staged: Message B resets only after successful DIGESTS
-[11:11:37.448] TX SPDM v1.2 GET_DIGESTS Param1=0x00 Param2=0x00
-  12 81 00 00
-[11:11:37.448] TX FC65 (9 bytes)
-  80 65 04 12 81 00 00 37 AD
-[11:11:38.491] RX TIMEOUT / no bytes
-[11:11:41.189]   GET_CERTIFICATE AUTO: using Offset/Length because Responder CHUNK_CAP is not advertised
-[11:11:41.189] TX SPDM v1.2 GET_CERTIFICATE Param1=0x00 Param2=0x00
-  12 82 00 00 00 00 F0 00
-[11:11:41.189] TX FC65 (13 bytes)
-  80 65 08 12 82 00 00 00 00 F0 00 BD 95
-[11:11:42.222] RX TIMEOUT / no bytes
-[11:11:44.012]   Deferred-response state cleared: new CHALLENGE
-[11:11:44.012] TX SPDM v1.2 CHALLENGE Param1=0x00 Param2=0x00
-  12 83 00 00 30 F6 4C A3 36 5B FF E1 DE C6 77 25 4B 7F 07 61 88 59 CD 90 22 E4 8D B3 EB D5 7F F4 8D 95 75 E5
-[11:11:44.012] TX FC65 (41 bytes)
-  80 65 24 12 83 00 00 30 F6 4C A3 36 5B FF E1 DE C6 77 25 4B 7F 07 61 88 59 CD 90 22 E4 8D B3 EB D5 7F F4 8D 95 75 E5 C6 86
-[11:11:45.040] RX TIMEOUT / no bytes
-[11:11:46.981]   SPDM transcript reset: pre-authentication GET_MEASUREMENTS sets Message B/C=null to match responder state; discarded Message B bytes=8
-[11:11:46.982]   Signed GET_MEASUREMENTS: Nonce included, SlotIDParam included
-[11:11:46.982]   GET_MEASUREMENTS wire length=37 bytes, operation=0xFF, signature=YES
-[11:11:46.982] TX SPDM v1.2 GET_MEASUREMENTS Param1=0x01 Param2=0xFF
-  12 E0 01 FF 30 F6 4C A3 36 5B FF E1 DE C6 77 25 4B 7F 07 61 88 59 CD 90 22 E4 8D B3 EB D5 7F F4 8D 95 75 E5 00
-[11:11:46.983] TX FC65 (42 bytes)
-  80 65 25 12 E0 01 FF 30 F6 4C A3 36 5B FF E1 DE C6 77 25 4B 7F 07 61 88 59 CD 90 22 E4 8D B3 EB D5 7F F4 8D 95 75 E5 00 D0 EE
-[11:11:48.011] RX TIMEOUT / no bytes
-[11:11:49.270] RESPOND_IF_READY skipped: no pending token
-[11:11:54.205] TX SPDM v1.0 GET_VERSION Param1=0x00 Param2=0x00
-  10 84 00 00
-[11:11:54.206] TX FC65 (9 bytes)
-  80 65 04 10 84 00 00 26 14
-[11:11:55.219] RX TIMEOUT / no bytes
-[11:11:55.321]   SPDM 1.2 requester capabilities: Flags=0x00020000, DataTransferSize=255, MaxSPDMmsgSize=4294967295
-[11:11:55.322] TX SPDM v1.2 GET_CAPABILITIES Param1=0x00 Param2=0x00
-  12 E1 00 00 00 00 00 00 00 00 02 00 FF 00 00 00 FF FF FF FF
-[11:11:55.322] TX FC65 (25 bytes)
-  80 65 14 12 E1 00 00 00 00 00 00 00 00 02 00 FF 00 00 00 FF FF FF FF 58 98
-[11:11:56.327] RX TIMEOUT / no bytes
-[11:11:56.429] TX SPDM v1.2 NEGOTIATE_ALGORITHMS Param1=0x00 Param2=0x00
-  12 E3 00 00 20 00 01 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-[11:11:56.430] TX FC65 (37 bytes)
-  80 65 20 12 E3 00 00 20 00 01 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 29 F6
-[11:11:57.435] RX TIMEOUT / no bytes
-[11:11:57.536]   GET_DIGESTS staged: Message B resets only after successful DIGESTS
-[11:11:57.537] TX SPDM v1.2 GET_DIGESTS Param1=0x00 Param2=0x00
-  12 81 00 00
-[11:11:57.537] TX FC65 (9 bytes)
-  80 65 04 12 81 00 00 37 AD
-[11:11:58.542] RX TIMEOUT / no bytes
+python - <<'E'
+import serial
+s = serial.Serial('/tmp/ttyGUI', 115200, timeout=2)
+s.write(bytes.fromhex('80 65 04 10 84 00 00 26 14'))
+print(s.read(64).hex(' '))
+E
+
+
+2026/10/12 11:14:09 socat[725280] N write(5, 0x634f95fe6000, 9) completed
+2026/10/12 11:15:17 socat[725280] N write(5, 0x634f95fe6000, 25) completed
+2026/10/12 11:21:00 socat[725280] N write(5, 0x634f95fe6000, 9) completed
+2026/10/12 11:21:06 socat[725280] N write(5, 0x634f95fe6000, 9) completed
+
+
