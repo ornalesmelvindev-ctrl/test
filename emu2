@@ -1,93 +1,6 @@
-./build-cmake/spdm-responder /tmp/spdm_uart_responder /mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/spdm_certificate_chain.bin          
-===== SPDM-over-Modbus RESPONDER =====
-[responder][main      ] uart_path=/tmp/spdm_uart_responder cert_chain_path=/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/spdm_certificate_chain.bin
-[responder][device_io] FC65 initialized fd=3 address=0x80
-[responder][setup_capabilities_and_algorithms] advertised: ct_exp=12 cap_flags=0x00020016 asym=ECDSA_P384 hash=SHA384
-[responder][read_file_to_buffer] loaded '/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/spdm_certificate_chain.bin' (2711 bytes)
-[responder][setup_local_cert_chain] local certificate chain (slot 0) installed (2711 bytes)
+I think get cert now worked? but for challenge and measurement, in the requester python, it says unspecified
 
----- responder ready, waiting for requester on '/tmp/spdm_uart_responder' ----
----- (each incoming request is logged as it arrives; Ctrl-C to stop) ----
-
-[responder][device_io] RX FC65 4-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_GET_VERSION(0x84), size (0x4):
-0000: 10 84 00 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_VERSION(0x4), size (0x10):
-0000: 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00 14
-[responder][device_io] TX FC65 21 bytes (SPDM=16)
-[responder][device_io] RX FC65 20-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_GET_CAPABILITIES(0xe1), size (0x14):
-0000: 12 e1 00 00 00 00 00 00 00 00 02 00 ff 00 00 00 ff ff ff ff
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_CAPABILITIES(0x61), size (0x14):
-0000: 12 61 00 00 00 0c 00 00 16 00 02 00 fb 00 00 00 fb 00 00 00
-[responder][device_io] TX FC65 25 bytes (SPDM=20)
-[responder][device_io] RX FC65 32-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_NEGOTIATE_ALGORITHMS(0xe3), size (0x20):
-0000: 12 e3 00 00 20 00 01 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-SpdmSendResponse[0] ...
-base_hash - 0x00000002
-base_asym - 0x00000080
-dhe - 0x0000
-aead - 0x0000
-req_asym - 0x0000
-pqc_asym - 0x00000000
-req_pqc_asym - 0x0000
-kem - 0x0000
-SpdmSendResponse[0]: msg SPDM_ALGORITHMS(0x63), size (0x24):
-0000: 12 63 00 00 24 00 01 00 04 00 00 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0020: 00 00 00 00
-[responder][device_io] TX FC65 41 bytes (SPDM=36)
-[responder][device_io] RX FC65 4-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_GET_DIGESTS(0x81), size (0x4):
-0000: 12 81 00 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_DIGESTS(0x1), size (0x34):
-0000: 12 01 00 01 00 03 54 43 4a e5 c5 9e 1f 4f 79 9e c4 ea 4e 5b 4e 50 4e d1 0a 56 c6 08 7a 53 da 4a
-0020: 65 4d 59 b1 af fd f0 f1 86 e2 c4 4c 3c b3 cb 95 45 47 ac 7e
-[responder][device_io] TX FC65 57 bytes (SPDM=52)
-[responder][device_io] RX FC65 8-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_GET_CERTIFICATE(0x82), size (0x8):
-0000: 12 82 00 00 00 00 ff ff
-SpdmSendResponse[0] ...
-LIBSPDM_ASSERT: /home/melvin/libspdm-native/libspdm/library/spdm_responder_lib/libspdm_rsp_certificate.c(197): *response_size >= rsp_msg_header_size + length
-^C^C^C^C[1]    911294 terminated  ./build-cmake/spdm-responder /tmp/spdm_uart_responder
-╭─░▒▓    /mnt/c/Users/melvin.ornales/Downloads/spdm-c-interop-final/spdm-modbus ·································· TERM ✘  14m 28s   system   09:16:57 AM  ▓▒░
-╰─ cd ../../spdm-c-interop-final2/spdm-modbus
-╭─░▒▓    /mnt/c/Users/melvin.ornales/Downloads/spdm-c-interop-final2/spdm-modbus ·················································· ✔  system   09:17:07 AM  ▓▒░
-╰─ export SPDM_UMU_KEY=/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/measurement_private_key.pem
-╭─░▒▓    /mnt/c/Users/melvin.ornales/Downloads/spdm-c-interop-final2/spdm-modbus ·················································· ✔  system   09:17:10 AM  ▓▒░
-╰─ cmake -S . -B build-cmake -DLIBSPDM_DIR="$HOME/libspdm-native/libspdm" && cmake --build build-cmake --parallel
--- The C compiler identification is GNU 13.3.0
--- Detecting C compiler ABI info
--- Detecting C compiler ABI info - done
--- Check for working C compiler: /usr/bin/cc - skipped
--- Detecting C compile features
--- Detecting C compile features - done
--- Configuring done (1.1s)
--- Generating done (0.2s)
--- Build files have been written to: /mnt/c/Users/melvin.ornales/Downloads/spdm-c-interop-final2/spdm-modbus/build-cmake
-[ 20%] Building C object CMakeFiles/spdm_modbus_common.dir/src/modbus_crc.c.o
-[ 40%] Building C object CMakeFiles/spdm_modbus_common.dir/src/modbus_transport.c.o
-[ 50%] Building C object CMakeFiles/spdm_modbus_common.dir/src/virtual_uart.c.o
-[ 50%] Building C object CMakeFiles/spdm_modbus_common.dir/src/device_io.c.o
-[ 60%] Building C object CMakeFiles/spdm_modbus_common.dir/src/common_setup.c.o
-[ 60%] Building C object CMakeFiles/spdm_modbus_common.dir/src/libspdm_sample_support.c.o
-[ 60%] Built target spdm_modbus_common
-[ 80%] Building C object CMakeFiles/spdm-responder.dir/src/spdm_responder.c.o
-[ 80%] Building C object CMakeFiles/spdm-requester.dir/src/spdm_requester.c.o
-[ 90%] Linking C executable spdm-responder
-[100%] Linking C executable spdm-requester
-[100%] Built target spdm-requester
-[100%] Built target spdm-responder
-╭─░▒▓    /mnt/c/Users/melvin.ornales/Downloads/spdm-c-interop-final2/spdm-modbus ··········································· ✔  4s   system   09:17:15 AM  ▓▒░
-╰─ ./build-cmake/spdm-responder /tmp/spdm_uart_responder /mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/spdm_certificate_chain.bin
+./build-cmake/spdm-responder /tmp/spdm_uart_responder /mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/spdm_certificate_chain.bin
 
 ===== SPDM-over-Modbus RESPONDER =====
 [responder][main      ] uart_path=/tmp/spdm_uart_responder cert_chain_path=/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/spdm_certificate_chain.bin
@@ -163,30 +76,175 @@ SpdmSendResponse[0]: msg SPDM_CHUNK_RESPONSE(0x6), size (0xff):
 00a0: 65 72 67 79 20 49 6e 64 75 73 74 72 69 65 73 2c 20 49 6e 63 31 1b 30 19 06 03 55 04 0b 0c 12 41
 00c0: 54 44 43 5f 46 69 72 6d 77 61 72 65 5f 54 65 61 6d 30 1e 17 0d 32 35 30 31 30 31 30 30 30 30 30
 00e0: 30 5a 17 0d 34 35 31 32 33 31 32 33 35 39 35 39 5a 30 67 31 1e 30 1c 06 03 55 04 03 0c 15 41
-transport_encode_message : 80010006u
-[responder][main      ] dispatch returned error 0x80010006 -- waiting for next request
-[1]    913214 terminated  ./build-cmake/spdm-responder /tmp/spdm_uart_responder
-╭─░▒▓    /mnt/c/Users/melvin.ornales/Downloads/spdm-c-interop-final2/spdm-modbus ····································· TERM ✘  28s   system   09:17:47 AM  ▓▒░
-╰─ ./build-cmake/spdm-responder /tmp/spdm_uart_responder /mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/spdm_certificate_chain.bin
-
-===== SPDM-over-Modbus RESPONDER =====
-[responder][main      ] uart_path=/tmp/spdm_uart_responder cert_chain_path=/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/spdm_certificate_chain.bin
-[responder][device_io] FC65 initialized fd=3 address=0x80
-[responder][setup_capabilities_and_algorithms] advertised: ct_exp=12 cap_flags=0x00020016 asym=ECDSA_P384 hash=SHA384
-[responder][read_file_to_buffer] loaded '/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/spdm_certificate_chain.bin' (2711 bytes)
-[responder][setup_local_cert_chain] local certificate chain (slot 0) installed (2711 bytes)
-
----- responder ready, waiting for requester on '/tmp/spdm_uart_responder' ----
----- (each incoming request is logged as it arrives; Ctrl-C to stop) ----
-
+[responder][device_io] TX FC65 260 bytes (SPDM=255)
+[responder][device_io] RX FC65 6-byte SPDM payload
+SpdmReceiveRequest[.] ...
+SpdmReceiveRequest[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
+0000: 12 86 00 01 01 00
+SpdmSendResponse[0] ...
+SpdmSendResponse[0]: msg SPDM_CHUNK_RESPONSE(0x6), size (0xff):
+0000: 12 06 00 01 01 00 00 00 f3 00 00 00 45 49 5f 54 65 73 74 69 6e 67 5f 52 6f 6f 74 5f 43 65 72 74
+0020: 31 28 30 26 06 03 55 04 0a 0c 1f 41 64 76 61 6e 63 65 64 20 45 6e 65 72 67 79 20 49 6e 64 75 73
+0040: 74 72 69 65 73 2c 20 49 6e 63 31 1b 30 19 06 03 55 04 0b 0c 12 41 54 44 43 5f 46 69 72 6d 77 61
+0060: 72 65 5f 54 65 61 6d 30 76 30 10 06 07 2a 86 48 ce 3d 02 01 06 05 2b 81 04 00 22 03 62 00 04 03
+0080: 0f f0 2f c4 50 ba 48 2f da a5 1b e1 be 9e 24 e3 76 fe 0d f5 57 df 81 fb cb b7 87 e4 47 fa 31 a3
+00a0: fb 72 a0 69 4f 8b 14 23 58 0e b3 48 03 01 65 10 72 f5 b7 45 93 34 86 9c ff b7 71 63 42 4f fa 97
+00c0: ff 4f b8 69 9e 67 00 3f 72 45 11 7e 66 65 d7 bd c2 96 fe 75 3c 78 a0 a6 19 6c 1d f8 72 f1 d1 a3
+00e0: 42 30 40 30 0f 06 03 55 1d 13 01 01 ff 04 05 30 03 01 01 ff 30 0e 06 03 55 1d 0f 01 01 ff 04
+[responder][device_io] TX FC65 260 bytes (SPDM=255)
+[responder][device_io] RX FC65 6-byte SPDM payload
+SpdmReceiveRequest[.] ...
+SpdmReceiveRequest[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
+0000: 12 86 00 01 02 00
+SpdmSendResponse[0] ...
+SpdmSendResponse[0]: msg SPDM_CHUNK_RESPONSE(0x6), size (0xff):
+0000: 12 06 00 01 02 00 00 00 f3 00 00 00 04 03 02 01 86 30 1d 06 03 55 1d 0e 04 16 04 14 00 a0 13 76
+0020: 8a 4e ab 7f 9e d0 9c 35 75 3c 6d 76 31 91 c3 64 30 0a 06 08 2a 86 48 ce 3d 04 03 03 03 67 00 30
+0040: 64 02 30 41 41 50 68 c7 19 55 9c 3c d1 3f 4b 82 f6 86 97 2d 15 3b 06 73 9f b7 20 71 df ea 8f ca
+0060: b3 b9 2f c4 43 f6 a8 81 24 e4 8f 1a c8 a0 45 70 a0 25 bc 02 30 68 a7 6a 8e 81 ea fa bd e4 4c d2
+0080: 20 0d 11 44 f9 0a c9 a1 42 90 d9 bf 5c 8a 74 88 9f f2 e2 26 b3 60 5e 22 a8 c8 ab 10 7e d4 f8 60
+00a0: a1 c5 11 1c 7d 30 82 02 65 30 82 01 eb a0 03 02 01 02 02 01 02 30 0a 06 08 2a 86 48 ce 3d 04 03
+00c0: 03 30 67 31 1e 30 1c 06 03 55 04 03 0c 15 41 45 49 5f 54 65 73 74 69 6e 67 5f 52 6f 6f 74 5f 43
+00e0: 65 72 74 31 28 30 26 06 03 55 04 0a 0c 1f 41 64 76 61 6e 63 65 64 20 45 6e 65 72 67 79 20 49
+[responder][device_io] TX FC65 260 bytes (SPDM=255)
+[responder][device_io] RX FC65 6-byte SPDM payload
+SpdmReceiveRequest[.] ...
+SpdmReceiveRequest[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
+0000: 12 86 00 01 03 00
+SpdmSendResponse[0] ...
+SpdmSendResponse[0]: msg SPDM_CHUNK_RESPONSE(0x6), size (0xff):
+0000: 12 06 00 01 03 00 00 00 f3 00 00 00 6e 64 75 73 74 72 69 65 73 2c 20 49 6e 63 31 1b 30 19 06 03
+0020: 55 04 0b 0c 12 41 54 44 43 5f 46 69 72 6d 77 61 72 65 5f 54 65 61 6d 30 1e 17 0d 32 35 30 31 30
+0040: 31 30 30 30 30 30 30 5a 17 0d 34 35 31 32 33 31 32 33 35 39 35 39 5a 30 6f 31 26 30 24 06 03 55
+0060: 04 03 0c 1d 41 45 49 5f 54 65 73 74 69 6e 67 5f 49 6e 74 65 72 6d 65 64 69 61 74 65 5f 43 65 72
+0080: 74 31 28 30 26 06 03 55 04 0a 0c 1f 41 64 76 61 6e 63 65 64 20 45 6e 65 72 67 79 20 49 6e 64 75
+00a0: 73 74 72 69 65 73 2c 20 49 6e 63 31 1b 30 19 06 03 55 04 0b 0c 12 41 54 44 43 5f 46 69 72 6d 77
+00c0: 61 72 65 5f 54 65 61 6d 30 76 30 10 06 07 2a 86 48 ce 3d 02 01 06 05 2b 81 04 00 22 03 62 00 04
+00e0: bc d0 c1 3b 4b ab 5d 7d a9 40 d9 6d ed 59 46 7f 58 2c 78 fa 00 bd c6 89 77 fa 86 1b e6 e9 45
+[responder][device_io] TX FC65 260 bytes (SPDM=255)
+[responder][device_io] RX FC65 6-byte SPDM payload
+SpdmReceiveRequest[.] ...
+SpdmReceiveRequest[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
+0000: 12 86 00 01 04 00
+SpdmSendResponse[0] ...
+SpdmSendResponse[0]: msg SPDM_CHUNK_RESPONSE(0x6), size (0xff):
+0000: 12 06 00 01 04 00 00 00 f3 00 00 00 28 eb 8e 26 c6 32 83 25 8c 92 8d 74 d8 e6 07 6e 8c 51 a7 3c
+0020: 27 54 86 27 69 d0 14 6f 7c 7b 68 ab 4f 16 87 f6 36 e2 76 9c ce 7c d9 c6 93 a7 ca 21 c7 1c f0 1c
+0040: bb 79 b8 92 64 ef 3f 49 28 f2 6a c0 b5 a3 63 30 61 30 0f 06 03 55 1d 13 01 01 ff 04 05 30 03 01
+0060: 01 ff 30 0e 06 03 55 1d 0f 01 01 ff 04 04 03 02 01 86 30 1d 06 03 55 1d 0e 04 16 04 14 56 8f ba
+0080: 0d 7b fd 79 40 7d 21 1c 7d c3 f7 07 85 56 18 1e a0 30 1f 06 03 55 1d 23 04 18 30 16 80 14 00 a0
+00a0: 13 76 8a 4e ab 7f 9e d0 9c 35 75 3c 6d 76 31 91 c3 64 30 0a 06 08 2a 86 48 ce 3d 04 03 03 03 68
+00c0: 00 30 65 02 30 31 bb f1 84 46 39 9b 5a 75 10 80 74 da 46 92 5f 46 b0 52 26 a7 59 8d 35 58 2a bc
+00e0: 08 32 9e 81 89 01 56 9f 5e a8 64 49 b4 51 98 8b ce 77 fb 98 ca 02 31 00 96 57 26 60 dd b2 56
+[responder][device_io] TX FC65 260 bytes (SPDM=255)
+[responder][device_io] RX FC65 6-byte SPDM payload
+SpdmReceiveRequest[.] ...
+SpdmReceiveRequest[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
+0000: 12 86 00 01 05 00
+SpdmSendResponse[0] ...
+SpdmSendResponse[0]: msg SPDM_CHUNK_RESPONSE(0x6), size (0xff):
+0000: 12 06 00 01 05 00 00 00 f3 00 00 00 89 a7 12 a7 79 37 5b 3b d1 44 1f e7 cd 80 46 b4 31 11 92 e5
+0020: 25 5b 41 39 52 1c 13 d0 5a 45 3b 38 06 40 99 8b bc 98 02 d5 17 30 82 02 70 30 82 01 f5 a0 03 02
+0040: 01 02 02 01 03 30 0a 06 08 2a 86 48 ce 3d 04 03 03 30 6f 31 26 30 24 06 03 55 04 03 0c 1d 41 45
+0060: 49 5f 54 65 73 74 69 6e 67 5f 49 6e 74 65 72 6d 65 64 69 61 74 65 5f 43 65 72 74 31 28 30 26 06
+0080: 03 55 04 0a 0c 1f 41 64 76 61 6e 63 65 64 20 45 6e 65 72 67 79 20 49 6e 64 75 73 74 72 69 65 73
+00a0: 2c 20 49 6e 63 31 1b 30 19 06 03 55 04 0b 0c 12 41 54 44 43 5f 46 69 72 6d 77 61 72 65 5f 54 65
+00c0: 61 6d 30 1e 17 0d 32 35 30 31 30 31 30 30 30 30 30 30 5a 17 0d 34 35 31 32 33 31 32 33 35 39 35
+00e0: 39 5a 30 71 31 46 30 44 06 03 55 04 03 0c 3d 41 45 49 20 4d 43 52 50 53 20 54 65 73 74 69 6e
+[responder][device_io] TX FC65 260 bytes (SPDM=255)
+[responder][device_io] RX FC65 6-byte SPDM payload
+SpdmReceiveRequest[.] ...
+SpdmReceiveRequest[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
+0000: 12 86 00 01 06 00
+SpdmSendResponse[0] ...
+SpdmSendResponse[0]: msg SPDM_CHUNK_RESPONSE(0x6), size (0xff):
+0000: 12 06 00 01 06 00 00 00 f3 00 00 00 67 20 44 65 76 69 63 65 20 49 44 20 43 65 72 74 2d 53 54 4d
+0020: 2d 31 65 30 30 34 31 30 30 30 65 35 30 33 31 34 33 35 31 33 38 33 33 32 30 31 0c 30 0a 06 03 55
+0040: 04 0a 0c 03 41 45 49 31 19 30 17 06 03 55 04 0b 0c 10 54 57 20 46 69 72 6d 77 61 72 65 20 54 65
+0060: 61 6d 30 76 30 10 06 07 2a 86 48 ce 3d 02 01 06 05 2b 81 04 00 22 03 62 00 04 6b 2e b5 de b1 aa
+0080: 40 2c e4 e0 d2 72 66 e0 00 17 ac 30 6f 08 80 28 88 73 72 22 0a 51 3e f0 29 50 0c 0b 8d e1 7d e4
+00a0: df 43 07 50 e6 ae 0a b9 6c 03 f2 f7 91 6c 62 95 0a 53 5e 1f c1 a4 2f bc e1 2b 2f 86 8d 03 37 a0
+00c0: bb 7b 73 d3 83 16 e5 6b 43 71 a2 67 cb 61 8e 19 8a 1a a4 8d 02 74 b5 5a 66 44 a3 63 30 61 30 0f
+00e0: 06 03 55 1d 13 01 01 ff 04 05 30 03 01 01 ff 30 0e 06 03 55 1d 0f 01 01 ff 04 04 03 02 01 86
+[responder][device_io] TX FC65 260 bytes (SPDM=255)
+[responder][device_io] RX FC65 6-byte SPDM payload
+SpdmReceiveRequest[.] ...
+SpdmReceiveRequest[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
+0000: 12 86 00 01 07 00
+SpdmSendResponse[0] ...
+SpdmSendResponse[0]: msg SPDM_CHUNK_RESPONSE(0x6), size (0xff):
+0000: 12 06 00 01 07 00 00 00 f3 00 00 00 30 1d 06 03 55 1d 0e 04 16 04 14 2f 6b e6 14 8d 18 99 96 71
+0020: 4f c0 23 2e 3e 05 20 2b 57 d4 3d 30 1f 06 03 55 1d 23 04 18 30 16 80 14 56 8f ba 0d 7b fd 79 40
+0040: 7d 21 1c 7d c3 f7 07 85 56 18 1e a0 30 0a 06 08 2a 86 48 ce 3d 04 03 03 03 69 00 30 66 02 31 00
+0060: 91 af 89 ec e1 64 ad c3 52 c3 b2 e9 c9 fb 32 68 f5 fa c3 99 46 74 c6 9b 76 1c 6e c0 9b 3d 41 c5
+0080: e9 ac ef bd 11 ec 0b a6 1e 63 7e 26 01 44 3b d4 02 31 00 95 dc 1e 7b ab 67 2e 31 3e d5 04 9b c0
+00a0: c8 82 72 9c c5 c0 af c2 f1 eb 06 a8 c9 49 87 39 61 81 56 99 10 39 c6 54 d6 4e 04 81 58 4a bd ec
+00c0: 19 93 ff 30 82 03 43 30 82 02 c9 a0 03 02 01 02 02 01 01 30 0a 06 08 2a 86 48 ce 3d 04 03 03 30
+00e0: 71 31 46 30 44 06 03 55 04 03 0c 3d 41 45 49 20 4d 43 52 50 53 20 54 65 73 74 69 6e 67 20 44
+[responder][device_io] TX FC65 260 bytes (SPDM=255)
+[responder][device_io] RX FC65 6-byte SPDM payload
+SpdmReceiveRequest[.] ...
+SpdmReceiveRequest[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
+0000: 12 86 00 01 08 00
+SpdmSendResponse[0] ...
+SpdmSendResponse[0]: msg SPDM_CHUNK_RESPONSE(0x6), size (0xff):
+0000: 12 06 00 01 08 00 00 00 f3 00 00 00 65 76 69 63 65 20 49 44 20 43 65 72 74 2d 53 54 4d 2d 31 65
+0020: 30 30 34 31 30 30 30 65 35 30 33 31 34 33 35 31 33 38 33 33 32 30 31 0c 30 0a 06 03 55 04 0a 0c
+0040: 03 41 45 49 31 19 30 17 06 03 55 04 0b 0c 10 54 57 20 46 69 72 6d 77 61 72 65 20 54 65 61 6d 30
+0060: 1e 17 0d 32 35 30 31 30 31 30 30 30 30 30 30 5a 17 0d 34 35 31 32 33 31 32 33 35 39 35 39 5a 30
+0080: 5a 31 2d 30 2b 06 03 55 04 03 0c 24 41 45 49 20 48 50 52 76 32 20 31 32 6b 57 20 49 54 49 43 20
+00a0: 4d 65 61 73 75 72 65 6d 65 6e 74 20 43 65 72 74 31 0c 30 0a 06 03 55 04 0a 0c 03 41 45 49 31 1b
+00c0: 30 19 06 03 55 04 0b 0c 12 41 54 44 43 20 46 69 72 6d 77 61 72 65 20 54 65 61 6d 30 76 30 10 06
+00e0: 07 2a 86 48 ce 3d 02 01 06 05 2b 81 04 00 22 03 62 00 04 4c c8 b8 5a 89 c1 34 95 33 bc ac 9c
+[responder][device_io] TX FC65 260 bytes (SPDM=255)
+[responder][device_io] RX FC65 6-byte SPDM payload
+SpdmReceiveRequest[.] ...
+SpdmReceiveRequest[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
+0000: 12 86 00 01 09 00
+SpdmSendResponse[0] ...
+SpdmSendResponse[0]: msg SPDM_CHUNK_RESPONSE(0x6), size (0xff):
+0000: 12 06 00 01 09 00 00 00 f3 00 00 00 63 60 08 39 96 37 a2 18 af f5 52 06 67 ec ed a7 87 f7 c7 72
+0020: 7d e8 2a 74 87 e2 d8 fe 93 6c a2 ce 06 11 5b 92 4c 3a ac 78 e3 01 89 88 0d 7e 2b 15 2c 17 d1 a1
+0040: 86 5e ce 86 b7 7e 16 b3 76 05 44 80 11 fc 74 3e 17 86 4f fc 44 30 ef 40 58 6d 4a b3 ca 3c 62 30
+0060: a3 82 01 4a 30 82 01 46 30 0c 06 03 55 1d 13 01 01 ff 04 02 30 00 30 0e 06 03 55 1d 0f 01 01 ff
+0080: 04 04 03 02 07 80 30 1d 06 03 55 1d 0e 04 16 04 14 3a 21 d7 d7 02 c4 d5 a0 dc e3 04 0e 94 01 5f
+00a0: 38 8d 64 d0 00 30 1f 06 03 55 1d 23 04 18 30 16 80 14 2f 6b e6 14 8d 18 99 96 71 4f c0 23 2e 3e
+00c0: 05 20 2b 57 d4 3d 30 38 06 03 2a 03 01 04 31 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+[responder][device_io] TX FC65 260 bytes (SPDM=255)
+[responder][device_io] RX FC65 6-byte SPDM payload
+SpdmReceiveRequest[.] ...
+SpdmReceiveRequest[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
+0000: 12 86 00 01 0a 00
+SpdmSendResponse[0] ...
+SpdmSendResponse[0]: msg SPDM_CHUNK_RESPONSE(0x6), size (0xff):
+0000: 12 06 00 01 0a 00 00 00 f3 00 00 00 00 30 38 06 03 2a 03 02 04 31 00 00 00 00 00 00 00 00 00 00
+0020: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+0040: 00 00 00 00 00 00 00 30 38 06 03 2a 03 03 04 31 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+0060: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+0080: 00 30 38 06 03 2a 03 04 04 31 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 30 0a 06 08 2a
+00c0: 86 48 ce 3d 04 03 03 03 68 00 30 65 02 31 00 92 63 37 a9 ff 34 92 28 7e 4c 02 bb 3c e9 6e 92 be
+00e0: 95 04 8c 32 9a 61 cc c5 fb 3a 18 a4 5f 89 ba cd b8 7d c8 e4 5a a1 ae d4 e4 cf 9e e2 76 a9 b1
+[responder][device_io] TX FC65 260 bytes (SPDM=255)
+[responder][device_io] RX FC65 6-byte SPDM payload
+SpdmReceiveRequest[.] ...
+SpdmReceiveRequest[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
+0000: 12 86 00 01 0b 00
+SpdmSendResponse[0] ...
+SpdmSendResponse[0]: msg SPDM_CHUNK_RESPONSE(0x6), size (0x3e):
+0000: 12 06 01 01 0b 00 00 00 32 00 00 00 02 30 29 73 ce 96 42 6a 98 57 c0 e8 e3 63 c9 5e d1 b6 dc a6
+0020: 37 be af 6d 09 eb ec 37 cd 55 4f 7c 04 36 89 23 54 08 ba 9d ed 3d b2 aa ce d5 00 02 72 84
+[responder][device_io] TX FC65 67 bytes (SPDM=62)
 [responder][device_io] RX FC65 36-byte SPDM payload
 SpdmReceiveRequest[.] ...
 SpdmReceiveRequest[0] msg SPDM_CHALLENGE(0x83), size (0x24):
 0000: 12 83 00 00 30 f6 4c a3 36 5b ff e1 de c6 77 25 4b 7f 07 61 88 59 cd 90 22 e4 8d b3 eb d5 7f f4
 0020: 8d 95 75 e5
 SpdmSendResponse[0] ...
+m1m2 hash - 12 9b 6f 79 2b e4 5e be 5b b7 57 d7 39 ef 03 34 60 fe f7 fa 80 32 db b2 c5 51 0a 0c 93 8f 13 33 03 dd 97 f5 a6 0c 82 be 14 34 d4 eb 8e 06 39 9b
 SpdmSendResponse[0]: msg SPDM_ERROR(0x7f), size (0x4):
-0000: 10 7f 41 00
+0000: 12 7f 05 00
 [responder][device_io] TX FC65 9 bytes (SPDM=4)
 [responder][device_io] RX FC65 37-byte SPDM payload
 SpdmReceiveRequest[.] ...
@@ -194,465 +252,13 @@ SpdmReceiveRequest[0] msg SPDM_GET_MEASUREMENTS(0xe0), size (0x25):
 0000: 12 e0 01 ff 30 f6 4c a3 36 5b ff e1 de c6 77 25 4b 7f 07 61 88 59 cd 90 22 e4 8d b3 eb d5 7f f4
 0020: 8d 95 75 e5 00
 SpdmSendResponse[0] ...
+l1l2 hash - e7 84 f6 00 99 b5 09 22 df 68 31 6a bc f8 79 2c 6a 89 3e 76 66 f3 5a 60 fe c5 df ab aa e4 5f 97 89 25 ab 1c 5b 29 43 54 43 b5 5c 8a 84 81 f7 3f
 SpdmSendResponse[0]: msg SPDM_ERROR(0x7f), size (0x4):
-0000: 10 7f 41 00
+0000: 12 7f 05 00
 [responder][device_io] TX FC65 9 bytes (SPDM=4)
 
-in the challenge and measurement, in the python requester, it says version mismatch
-
-
-
-while the requester? already working?
-    ./build-cmake/spdm-requester all --port /tmp/spdm_uart_requester --root /mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/root.der          
-===== SPDM-over-Modbus REQUESTER =====
-[requester][main      ] command=all uart_path=/tmp/spdm_uart_requester root_cert_path=/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/root.der
-[requester][device_io] FC65 initialized fd=3 address=0x80
-[requester][setup_capabilities_and_algorithms] advertised: ct_exp=12 cap_flags=0x00020006 asym=ECDSA_P384 hash=SHA384
-[requester][read_file_to_buffer] loaded '/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/root.der' (575 bytes)
-[requester][setup_trusted_root] trusted root certificate installed (575 bytes)
-
----- STEP 1-3: libspdm_init_connection() (GET_VERSION -> GET_CAPABILITIES -> NEGOTIATE_ALGORITHMS) ----
-libspdm_send_spdm_request[0] msg SPDM_GET_VERSION(0x84), size (0x4):
-0000: 10 84 00 00
-[requester][device_io] TX FC65 9 bytes (SPDM=4)
-[requester][device_io] RX FC65 14-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_VERSION(0x4), size (0xe):
-0000: 10 04 00 00 00 04 00 10 00 11 00 12 00 13
-libspdm_send_spdm_request[0] msg SPDM_GET_CAPABILITIES(0xe1), size (0x14):
-0000: 12 e1 00 00 00 0c 00 00 06 00 02 00 00 20 00 00 00 20 00 00
-[requester][device_io] TX FC65 25 bytes (SPDM=20)
-[requester][device_io] RX FC65 20-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_CAPABILITIES(0x61), size (0x14):
-0000: 12 61 00 00 00 00 00 00 16 00 02 00 fb 00 00 00 b8 0b 00 00
-libspdm_send_spdm_request[0] msg SPDM_NEGOTIATE_ALGORITHMS(0xe3), size (0x20):
-0000: 12 e3 00 00 20 00 01 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-[requester][device_io] TX FC65 37 bytes (SPDM=32)
-[requester][device_io] RX FC65 36-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_ALGORITHMS(0x63), size (0x24):
-0000: 12 63 00 00 24 00 01 00 04 00 00 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0020: 00 00 00 00
-base_hash - 0x00000002
-base_asym - 0x00000080
-dhe - 0x0000
-aead - 0x0000
-req_asym - 0x0000
-pqc_asym - 0x00000000
-req_pqc_asym - 0x0000
-kem - 0x0000
-[requester][main      ] connection established: version/capabilities/algorithms negotiated OK
-
----- GET_DIGESTS + GET_CERTIFICATE (slot 0) ----
-
----- STEP 4-5: libspdm_get_certificate() (GET_DIGESTS -> GET_CERTIFICATE, slot 0) ----
-request (offset 0x0, size 0x1ff8):
-libspdm_send_spdm_request[0] msg SPDM_GET_CERTIFICATE(0x82), size (0x8):
-0000: 12 82 00 00 00 00 f8 1f
-[requester][device_io] TX FC65 13 bytes (SPDM=8)
-[requester][device_io] RX FC65 5-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_ERROR(0x7f), size (0x5):
-0000: 12 7f 0f 00 01
-CHUNK_GET Handle 1 SeqNo 0
-libspdm_send_spdm_request[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
-0000: 12 86 00 01 00 00
-[requester][device_io] TX FC65 11 bytes (SPDM=6)
-[requester][device_io] RX FC65 251-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_CHUNK_RESPONSE(0x6), size (0xfb):
-0000: 12 06 00 01 00 00 00 00 eb 00 00 00 9f 0a 00 00 12 02 00 00 97 0a 00 00 97 0a 00 00 b9 a2 6e 5d
-0020: 2d be f8 0b 5f 19 58 f4 3b e3 46 21 cf a8 b5 3c 8c a3 31 c7 66 c5 96 6c 3f 3d cd 2c 07 b0 8b 6d
-0040: d3 75 88 5f eb d4 29 ce 20 18 92 97 30 82 02 3b 30 82 01 c2 a0 03 02 01 02 02 01 01 30 0a 06 08
-0060: 2a 86 48 ce 3d 04 03 03 30 67 31 1e 30 1c 06 03 55 04 03 0c 15 41 45 49 5f 54 65 73 74 69 6e 67
-0080: 5f 52 6f 6f 74 5f 43 65 72 74 31 28 30 26 06 03 55 04 0a 0c 1f 41 64 76 61 6e 63 65 64 20 45 6e
-00a0: 65 72 67 79 20 49 6e 64 75 73 74 72 69 65 73 2c 20 49 6e 63 31 1b 30 19 06 03 55 04 0b 0c 12 41
-00c0: 54 44 43 5f 46 69 72 6d 77 61 72 65 5f 54 65 61 6d 30 1e 17 0d 32 35 30 31 30 31 30 30 30 30 30
-00e0: 30 5a 17 0d 34 35 31 32 33 31 32 33 35 39 35 39 5a 30 67 31 1e 30 1c 06 03 55 04
-CHUNK_GET Handle 1 SeqNo 1
-libspdm_send_spdm_request[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
-0000: 12 86 00 01 01 00
-[requester][device_io] TX FC65 11 bytes (SPDM=6)
-[requester][device_io] RX FC65 251-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_CHUNK_RESPONSE(0x6), size (0xfb):
-0000: 12 06 00 01 01 00 00 00 ef 00 00 00 03 0c 15 41 45 49 5f 54 65 73 74 69 6e 67 5f 52 6f 6f 74 5f
-0020: 43 65 72 74 31 28 30 26 06 03 55 04 0a 0c 1f 41 64 76 61 6e 63 65 64 20 45 6e 65 72 67 79 20 49
-0040: 6e 64 75 73 74 72 69 65 73 2c 20 49 6e 63 31 1b 30 19 06 03 55 04 0b 0c 12 41 54 44 43 5f 46 69
-0060: 72 6d 77 61 72 65 5f 54 65 61 6d 30 76 30 10 06 07 2a 86 48 ce 3d 02 01 06 05 2b 81 04 00 22 03
-0080: 62 00 04 03 0f f0 2f c4 50 ba 48 2f da a5 1b e1 be 9e 24 e3 76 fe 0d f5 57 df 81 fb cb b7 87 e4
-00a0: 47 fa 31 a3 fb 72 a0 69 4f 8b 14 23 58 0e b3 48 03 01 65 10 72 f5 b7 45 93 34 86 9c ff b7 71 63
-00c0: 42 4f fa 97 ff 4f b8 69 9e 67 00 3f 72 45 11 7e 66 65 d7 bd c2 96 fe 75 3c 78 a0 a6 19 6c 1d f8
-00e0: 72 f1 d1 a3 42 30 40 30 0f 06 03 55 1d 13 01 01 ff 04 05 30 03 01 01 ff 30 0e 06
-CHUNK_GET Handle 1 SeqNo 2
-libspdm_send_spdm_request[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
-0000: 12 86 00 01 02 00
-[requester][device_io] TX FC65 11 bytes (SPDM=6)
-[requester][device_io] RX FC65 251-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_CHUNK_RESPONSE(0x6), size (0xfb):
-0000: 12 06 00 01 02 00 00 00 ef 00 00 00 03 55 1d 0f 01 01 ff 04 04 03 02 01 86 30 1d 06 03 55 1d 0e
-0020: 04 16 04 14 00 a0 13 76 8a 4e ab 7f 9e d0 9c 35 75 3c 6d 76 31 91 c3 64 30 0a 06 08 2a 86 48 ce
-0040: 3d 04 03 03 03 67 00 30 64 02 30 41 41 50 68 c7 19 55 9c 3c d1 3f 4b 82 f6 86 97 2d 15 3b 06 73
-0060: 9f b7 20 71 df ea 8f ca b3 b9 2f c4 43 f6 a8 81 24 e4 8f 1a c8 a0 45 70 a0 25 bc 02 30 68 a7 6a
-0080: 8e 81 ea fa bd e4 4c d2 20 0d 11 44 f9 0a c9 a1 42 90 d9 bf 5c 8a 74 88 9f f2 e2 26 b3 60 5e 22
-00a0: a8 c8 ab 10 7e d4 f8 60 a1 c5 11 1c 7d 30 82 02 65 30 82 01 eb a0 03 02 01 02 02 01 02 30 0a 06
-00c0: 08 2a 86 48 ce 3d 04 03 03 30 67 31 1e 30 1c 06 03 55 04 03 0c 15 41 45 49 5f 54 65 73 74 69 6e
-00e0: 67 5f 52 6f 6f 74 5f 43 65 72 74 31 28 30 26 06 03 55 04 0a 0c 1f 41 64 76 61 6e
-CHUNK_GET Handle 1 SeqNo 3
-libspdm_send_spdm_request[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
-0000: 12 86 00 01 03 00
-[requester][device_io] TX FC65 11 bytes (SPDM=6)
-[requester][device_io] RX FC65 251-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_CHUNK_RESPONSE(0x6), size (0xfb):
-0000: 12 06 00 01 03 00 00 00 ef 00 00 00 63 65 64 20 45 6e 65 72 67 79 20 49 6e 64 75 73 74 72 69 65
-0020: 73 2c 20 49 6e 63 31 1b 30 19 06 03 55 04 0b 0c 12 41 54 44 43 5f 46 69 72 6d 77 61 72 65 5f 54
-0040: 65 61 6d 30 1e 17 0d 32 35 30 31 30 31 30 30 30 30 30 30 5a 17 0d 34 35 31 32 33 31 32 33 35 39
-0060: 35 39 5a 30 6f 31 26 30 24 06 03 55 04 03 0c 1d 41 45 49 5f 54 65 73 74 69 6e 67 5f 49 6e 74 65
-0080: 72 6d 65 64 69 61 74 65 5f 43 65 72 74 31 28 30 26 06 03 55 04 0a 0c 1f 41 64 76 61 6e 63 65 64
-00a0: 20 45 6e 65 72 67 79 20 49 6e 64 75 73 74 72 69 65 73 2c 20 49 6e 63 31 1b 30 19 06 03 55 04 0b
-00c0: 0c 12 41 54 44 43 5f 46 69 72 6d 77 61 72 65 5f 54 65 61 6d 30 76 30 10 06 07 2a 86 48 ce 3d 02
-00e0: 01 06 05 2b 81 04 00 22 03 62 00 04 bc d0 c1 3b 4b ab 5d 7d a9 40 d9 6d ed 59 46
-CHUNK_GET Handle 1 SeqNo 4
-libspdm_send_spdm_request[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
-0000: 12 86 00 01 04 00
-[requester][device_io] TX FC65 11 bytes (SPDM=6)
-[requester][device_io] RX FC65 251-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_CHUNK_RESPONSE(0x6), size (0xfb):
-0000: 12 06 00 01 04 00 00 00 ef 00 00 00 7f 58 2c 78 fa 00 bd c6 89 77 fa 86 1b e6 e9 45 28 eb 8e 26
-0020: c6 32 83 25 8c 92 8d 74 d8 e6 07 6e 8c 51 a7 3c 27 54 86 27 69 d0 14 6f 7c 7b 68 ab 4f 16 87 f6
-0040: 36 e2 76 9c ce 7c d9 c6 93 a7 ca 21 c7 1c f0 1c bb 79 b8 92 64 ef 3f 49 28 f2 6a c0 b5 a3 63 30
-0060: 61 30 0f 06 03 55 1d 13 01 01 ff 04 05 30 03 01 01 ff 30 0e 06 03 55 1d 0f 01 01 ff 04 04 03 02
-0080: 01 86 30 1d 06 03 55 1d 0e 04 16 04 14 56 8f ba 0d 7b fd 79 40 7d 21 1c 7d c3 f7 07 85 56 18 1e
-00a0: a0 30 1f 06 03 55 1d 23 04 18 30 16 80 14 00 a0 13 76 8a 4e ab 7f 9e d0 9c 35 75 3c 6d 76 31 91
-00c0: c3 64 30 0a 06 08 2a 86 48 ce 3d 04 03 03 03 68 00 30 65 02 30 31 bb f1 84 46 39 9b 5a 75 10 80
-00e0: 74 da 46 92 5f 46 b0 52 26 a7 59 8d 35 58 2a bc 08 32 9e 81 89 01 56 9f 5e a8 64
-CHUNK_GET Handle 1 SeqNo 5
-libspdm_send_spdm_request[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
-0000: 12 86 00 01 05 00
-[requester][device_io] TX FC65 11 bytes (SPDM=6)
-[requester][device_io] RX FC65 251-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_CHUNK_RESPONSE(0x6), size (0xfb):
-0000: 12 06 00 01 05 00 00 00 ef 00 00 00 49 b4 51 98 8b ce 77 fb 98 ca 02 31 00 96 57 26 60 dd b2 56
-0020: 89 a7 12 a7 79 37 5b 3b d1 44 1f e7 cd 80 46 b4 31 11 92 e5 25 5b 41 39 52 1c 13 d0 5a 45 3b 38
-0040: 06 40 99 8b bc 98 02 d5 17 30 82 02 70 30 82 01 f5 a0 03 02 01 02 02 01 03 30 0a 06 08 2a 86 48
-0060: ce 3d 04 03 03 30 6f 31 26 30 24 06 03 55 04 03 0c 1d 41 45 49 5f 54 65 73 74 69 6e 67 5f 49 6e
-0080: 74 65 72 6d 65 64 69 61 74 65 5f 43 65 72 74 31 28 30 26 06 03 55 04 0a 0c 1f 41 64 76 61 6e 63
-00a0: 65 64 20 45 6e 65 72 67 79 20 49 6e 64 75 73 74 72 69 65 73 2c 20 49 6e 63 31 1b 30 19 06 03 55
-00c0: 04 0b 0c 12 41 54 44 43 5f 46 69 72 6d 77 61 72 65 5f 54 65 61 6d 30 1e 17 0d 32 35 30 31 30 31
-00e0: 30 30 30 30 30 30 5a 17 0d 34 35 31 32 33 31 32 33 35 39 35 39 5a 30 71 31 46 30
-CHUNK_GET Handle 1 SeqNo 6
-libspdm_send_spdm_request[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
-0000: 12 86 00 01 06 00
-[requester][device_io] TX FC65 11 bytes (SPDM=6)
-[requester][device_io] RX FC65 251-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_CHUNK_RESPONSE(0x6), size (0xfb):
-0000: 12 06 00 01 06 00 00 00 ef 00 00 00 44 06 03 55 04 03 0c 3d 41 45 49 20 4d 43 52 50 53 20 54 65
-0020: 73 74 69 6e 67 20 44 65 76 69 63 65 20 49 44 20 43 65 72 74 2d 53 54 4d 2d 31 65 30 30 34 31 30
-0040: 30 30 65 35 30 33 31 34 33 35 31 33 38 33 33 32 30 31 0c 30 0a 06 03 55 04 0a 0c 03 41 45 49 31
-0060: 19 30 17 06 03 55 04 0b 0c 10 54 57 20 46 69 72 6d 77 61 72 65 20 54 65 61 6d 30 76 30 10 06 07
-0080: 2a 86 48 ce 3d 02 01 06 05 2b 81 04 00 22 03 62 00 04 6b 2e b5 de b1 aa 40 2c e4 e0 d2 72 66 e0
-00a0: 00 17 ac 30 6f 08 80 28 88 73 72 22 0a 51 3e f0 29 50 0c 0b 8d e1 7d e4 df 43 07 50 e6 ae 0a b9
-00c0: 6c 03 f2 f7 91 6c 62 95 0a 53 5e 1f c1 a4 2f bc e1 2b 2f 86 8d 03 37 a0 bb 7b 73 d3 83 16 e5 6b
-00e0: 43 71 a2 67 cb 61 8e 19 8a 1a a4 8d 02 74 b5 5a 66 44 a3 63 30 61 30 0f 06 03 55
-CHUNK_GET Handle 1 SeqNo 7
-libspdm_send_spdm_request[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
-0000: 12 86 00 01 07 00
-[requester][device_io] TX FC65 11 bytes (SPDM=6)
-[requester][device_io] RX FC65 251-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_CHUNK_RESPONSE(0x6), size (0xfb):
-0000: 12 06 00 01 07 00 00 00 ef 00 00 00 1d 13 01 01 ff 04 05 30 03 01 01 ff 30 0e 06 03 55 1d 0f 01
-0020: 01 ff 04 04 03 02 01 86 30 1d 06 03 55 1d 0e 04 16 04 14 2f 6b e6 14 8d 18 99 96 71 4f c0 23 2e
-0040: 3e 05 20 2b 57 d4 3d 30 1f 06 03 55 1d 23 04 18 30 16 80 14 56 8f ba 0d 7b fd 79 40 7d 21 1c 7d
-0060: c3 f7 07 85 56 18 1e a0 30 0a 06 08 2a 86 48 ce 3d 04 03 03 03 69 00 30 66 02 31 00 91 af 89 ec
-0080: e1 64 ad c3 52 c3 b2 e9 c9 fb 32 68 f5 fa c3 99 46 74 c6 9b 76 1c 6e c0 9b 3d 41 c5 e9 ac ef bd
-00a0: 11 ec 0b a6 1e 63 7e 26 01 44 3b d4 02 31 00 95 dc 1e 7b ab 67 2e 31 3e d5 04 9b c0 c8 82 72 9c
-00c0: c5 c0 af c2 f1 eb 06 a8 c9 49 87 39 61 81 56 99 10 39 c6 54 d6 4e 04 81 58 4a bd ec 19 93 ff 30
-00e0: 82 03 43 30 82 02 c9 a0 03 02 01 02 02 01 01 30 0a 06 08 2a 86 48 ce 3d 04 03 03
-CHUNK_GET Handle 1 SeqNo 8
-libspdm_send_spdm_request[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
-0000: 12 86 00 01 08 00
-[requester][device_io] TX FC65 11 bytes (SPDM=6)
-[requester][device_io] RX FC65 251-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_CHUNK_RESPONSE(0x6), size (0xfb):
-0000: 12 06 00 01 08 00 00 00 ef 00 00 00 30 71 31 46 30 44 06 03 55 04 03 0c 3d 41 45 49 20 4d 43 52
-0020: 50 53 20 54 65 73 74 69 6e 67 20 44 65 76 69 63 65 20 49 44 20 43 65 72 74 2d 53 54 4d 2d 31 65
-0040: 30 30 34 31 30 30 30 65 35 30 33 31 34 33 35 31 33 38 33 33 32 30 31 0c 30 0a 06 03 55 04 0a 0c
-0060: 03 41 45 49 31 19 30 17 06 03 55 04 0b 0c 10 54 57 20 46 69 72 6d 77 61 72 65 20 54 65 61 6d 30
-0080: 1e 17 0d 32 35 30 31 30 31 30 30 30 30 30 30 5a 17 0d 34 35 31 32 33 31 32 33 35 39 35 39 5a 30
-00a0: 5a 31 2d 30 2b 06 03 55 04 03 0c 24 41 45 49 20 48 50 52 76 32 20 31 32 6b 57 20 49 54 49 43 20
-00c0: 4d 65 61 73 75 72 65 6d 65 6e 74 20 43 65 72 74 31 0c 30 0a 06 03 55 04 0a 0c 03 41 45 49 31 1b
-00e0: 30 19 06 03 55 04 0b 0c 12 41 54 44 43 20 46 69 72 6d 77 61 72 65 20 54 65 61 6d
-CHUNK_GET Handle 1 SeqNo 9
-libspdm_send_spdm_request[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
-0000: 12 86 00 01 09 00
-[requester][device_io] TX FC65 11 bytes (SPDM=6)
-[requester][device_io] RX FC65 251-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_CHUNK_RESPONSE(0x6), size (0xfb):
-0000: 12 06 00 01 09 00 00 00 ef 00 00 00 30 76 30 10 06 07 2a 86 48 ce 3d 02 01 06 05 2b 81 04 00 22
-0020: 03 62 00 04 4c c8 b8 5a 89 c1 34 95 33 bc ac 9c 63 60 08 39 96 37 a2 18 af f5 52 06 67 ec ed a7
-0040: 87 f7 c7 72 7d e8 2a 74 87 e2 d8 fe 93 6c a2 ce 06 11 5b 92 4c 3a ac 78 e3 01 89 88 0d 7e 2b 15
-0060: 2c 17 d1 a1 86 5e ce 86 b7 7e 16 b3 76 05 44 80 11 fc 74 3e 17 86 4f fc 44 30 ef 40 58 6d 4a b3
-0080: ca 3c 62 30 a3 82 01 4a 30 82 01 46 30 0c 06 03 55 1d 13 01 01 ff 04 02 30 00 30 0e 06 03 55 1d
-00a0: 0f 01 01 ff 04 04 03 02 07 80 30 1d 06 03 55 1d 0e 04 16 04 14 3a 21 d7 d7 02 c4 d5 a0 dc e3 04
-00c0: 0e 94 01 5f 38 8d 64 d0 00 30 1f 06 03 55 1d 23 04 18 30 16 80 14 2f 6b e6 14 8d 18 99 96 71 4f
-00e0: c0 23 2e 3e 05 20 2b 57 d4 3d 30 38 06 03 2a 03 01 04 31 00 00 00 00 00 00 00 00
-CHUNK_GET Handle 1 SeqNo 10
-libspdm_send_spdm_request[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
-0000: 12 86 00 01 0a 00
-[requester][device_io] TX FC65 11 bytes (SPDM=6)
-[requester][device_io] RX FC65 251-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_CHUNK_RESPONSE(0x6), size (0xfb):
-0000: 12 06 00 01 0a 00 00 00 ef 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0020: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 30 38 06 03 2a 03 02 04 31 00 00
-0040: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0060: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 30 38 06 03 2a 03 03 04 31 00 00 00 00 00 00 00 00
-0080: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00a0: 00 00 00 00 00 00 00 00 00 30 38 06 03 2a 03 04 04 31 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00c0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00e0: 00 00 00 30 0a 06 08 2a 86 48 ce 3d 04 03 03 03 68 00 30 65 02 31 00 92 63 37 a9
-CHUNK_GET Handle 1 SeqNo 11
-libspdm_send_spdm_request[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
-0000: 12 86 00 01 0b 00
-[requester][device_io] TX FC65 11 bytes (SPDM=6)
-[requester][device_io] RX FC65 106-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_CHUNK_RESPONSE(0x6), size (0x6a):
-0000: 12 06 01 01 0b 00 00 00 5e 00 00 00 ff 34 92 28 7e 4c 02 bb 3c e9 6e 92 be 95 04 8c 32 9a 61 cc
-0020: c5 fb 3a 18 a4 5f 89 ba cd b8 7d c8 e4 5a a1 ae d4 e4 cf 9e e2 76 a9 b1 02 30 29 73 ce 96 42 6a
-0040: 98 57 c0 e8 e3 63 c9 5e d1 b6 dc a6 37 be af 6d 09 eb ec 37 cd 55 4f 7c 04 36 89 23 54 08 ba 9d
-0060: ed 3d b2 aa ce d5 00 02 72 84
-0000: 12 02 00 00 97 0a 00 00 97 0a 00 00 b9 a2 6e 5d 2d be f8 0b 5f 19 58 f4 3b e3 46 21 cf a8 b5 3c
-0020: 8c a3 31 c7 66 c5 96 6c 3f 3d cd 2c 07 b0 8b 6d d3 75 88 5f eb d4 29 ce 20 18 92 97 30 82 02 3b
-0040: 30 82 01 c2 a0 03 02 01 02 02 01 01 30 0a 06 08 2a 86 48 ce 3d 04 03 03 30 67 31 1e 30 1c 06 03
-0060: 55 04 03 0c 15 41 45 49 5f 54 65 73 74 69 6e 67 5f 52 6f 6f 74 5f 43 65 72 74 31 28 30 26 06 03
-0080: 55 04 0a 0c 1f 41 64 76 61 6e 63 65 64 20 45 6e 65 72 67 79 20 49 6e 64 75 73 74 72 69 65 73 2c
-00a0: 20 49 6e 63 31 1b 30 19 06 03 55 04 0b 0c 12 41 54 44 43 5f 46 69 72 6d 77 61 72 65 5f 54 65 61
-00c0: 6d 30 1e 17 0d 32 35 30 31 30 31 30 30 30 30 30 30 5a 17 0d 34 35 31 32 33 31 32 33 35 39 35 39
-00e0: 5a 30 67 31 1e 30 1c 06 03 55 04 03 0c 15 41 45 49 5f 54 65 73 74 69 6e 67 5f 52 6f 6f 74 5f 43
-0100: 65 72 74 31 28 30 26 06 03 55 04 0a 0c 1f 41 64 76 61 6e 63 65 64 20 45 6e 65 72 67 79 20 49 6e
-0120: 64 75 73 74 72 69 65 73 2c 20 49 6e 63 31 1b 30 19 06 03 55 04 0b 0c 12 41 54 44 43 5f 46 69 72
-0140: 6d 77 61 72 65 5f 54 65 61 6d 30 76 30 10 06 07 2a 86 48 ce 3d 02 01 06 05 2b 81 04 00 22 03 62
-0160: 00 04 03 0f f0 2f c4 50 ba 48 2f da a5 1b e1 be 9e 24 e3 76 fe 0d f5 57 df 81 fb cb b7 87 e4 47
-0180: fa 31 a3 fb 72 a0 69 4f 8b 14 23 58 0e b3 48 03 01 65 10 72 f5 b7 45 93 34 86 9c ff b7 71 63 42
-01a0: 4f fa 97 ff 4f b8 69 9e 67 00 3f 72 45 11 7e 66 65 d7 bd c2 96 fe 75 3c 78 a0 a6 19 6c 1d f8 72
-01c0: f1 d1 a3 42 30 40 30 0f 06 03 55 1d 13 01 01 ff 04 05 30 03 01 01 ff 30 0e 06 03 55 1d 0f 01 01
-01e0: ff 04 04 03 02 01 86 30 1d 06 03 55 1d 0e 04 16 04 14 00 a0 13 76 8a 4e ab 7f 9e d0 9c 35 75 3c
-0200: 6d 76 31 91 c3 64 30 0a 06 08 2a 86 48 ce 3d 04 03 03 03 67 00 30 64 02 30 41 41 50 68 c7 19 55
-0220: 9c 3c d1 3f 4b 82 f6 86 97 2d 15 3b 06 73 9f b7 20 71 df ea 8f ca b3 b9 2f c4 43 f6 a8 81 24 e4
-0240: 8f 1a c8 a0 45 70 a0 25 bc 02 30 68 a7 6a 8e 81 ea fa bd e4 4c d2 20 0d 11 44 f9 0a c9 a1 42 90
-0260: d9 bf 5c 8a 74 88 9f f2 e2 26 b3 60 5e 22 a8 c8 ab 10 7e d4 f8 60 a1 c5 11 1c 7d 30 82 02 65 30
-0280: 82 01 eb a0 03 02 01 02 02 01 02 30 0a 06 08 2a 86 48 ce 3d 04 03 03 30 67 31 1e 30 1c 06 03 55
-02a0: 04 03 0c 15 41 45 49 5f 54 65 73 74 69 6e 67 5f 52 6f 6f 74 5f 43 65 72 74 31 28 30 26 06 03 55
-02c0: 04 0a 0c 1f 41 64 76 61 6e 63 65 64 20 45 6e 65 72 67 79 20 49 6e 64 75 73 74 72 69 65 73 2c 20
-02e0: 49 6e 63 31 1b 30 19 06 03 55 04 0b 0c 12 41 54 44 43 5f 46 69 72 6d 77 61 72 65 5f 54 65 61 6d
-0300: 30 1e 17 0d 32 35 30 31 30 31 30 30 30 30 30 30 5a 17 0d 34 35 31 32 33 31 32 33 35 39 35 39 5a
-0320: 30 6f 31 26 30 24 06 03 55 04 03 0c 1d 41 45 49 5f 54 65 73 74 69 6e 67 5f 49 6e 74 65 72 6d 65
-0340: 64 69 61 74 65 5f 43 65 72 74 31 28 30 26 06 03 55 04 0a 0c 1f 41 64 76 61 6e 63 65 64 20 45 6e
-0360: 65 72 67 79 20 49 6e 64 75 73 74 72 69 65 73 2c 20 49 6e 63 31 1b 30 19 06 03 55 04 0b 0c 12 41
-0380: 54 44 43 5f 46 69 72 6d 77 61 72 65 5f 54 65 61 6d 30 76 30 10 06 07 2a 86 48 ce 3d 02 01 06 05
-03a0: 2b 81 04 00 22 03 62 00 04 bc d0 c1 3b 4b ab 5d 7d a9 40 d9 6d ed 59 46 7f 58 2c 78 fa 00 bd c6
-03c0: 89 77 fa 86 1b e6 e9 45 28 eb 8e 26 c6 32 83 25 8c 92 8d 74 d8 e6 07 6e 8c 51 a7 3c 27 54 86 27
-03e0: 69 d0 14 6f 7c 7b 68 ab 4f 16 87 f6 36 e2 76 9c ce 7c d9 c6 93 a7 ca 21 c7 1c f0 1c bb 79 b8 92
-0400: 64 ef 3f 49 28 f2 6a c0 b5 a3 63 30 61 30 0f 06 03 55 1d 13 01 01 ff 04 05 30 03 01 01 ff 30 0e
-0420: 06 03 55 1d 0f 01 01 ff 04 04 03 02 01 86 30 1d 06 03 55 1d 0e 04 16 04 14 56 8f ba 0d 7b fd 79
-0440: 40 7d 21 1c 7d c3 f7 07 85 56 18 1e a0 30 1f 06 03 55 1d 23 04 18 30 16 80 14 00 a0 13 76 8a 4e
-0460: ab 7f 9e d0 9c 35 75 3c 6d 76 31 91 c3 64 30 0a 06 08 2a 86 48 ce 3d 04 03 03 03 68 00 30 65 02
-0480: 30 31 bb f1 84 46 39 9b 5a 75 10 80 74 da 46 92 5f 46 b0 52 26 a7 59 8d 35 58 2a bc 08 32 9e 81
-04a0: 89 01 56 9f 5e a8 64 49 b4 51 98 8b ce 77 fb 98 ca 02 31 00 96 57 26 60 dd b2 56 89 a7 12 a7 79
-04c0: 37 5b 3b d1 44 1f e7 cd 80 46 b4 31 11 92 e5 25 5b 41 39 52 1c 13 d0 5a 45 3b 38 06 40 99 8b bc
-04e0: 98 02 d5 17 30 82 02 70 30 82 01 f5 a0 03 02 01 02 02 01 03 30 0a 06 08 2a 86 48 ce 3d 04 03 03
-0500: 30 6f 31 26 30 24 06 03 55 04 03 0c 1d 41 45 49 5f 54 65 73 74 69 6e 67 5f 49 6e 74 65 72 6d 65
-0520: 64 69 61 74 65 5f 43 65 72 74 31 28 30 26 06 03 55 04 0a 0c 1f 41 64 76 61 6e 63 65 64 20 45 6e
-0540: 65 72 67 79 20 49 6e 64 75 73 74 72 69 65 73 2c 20 49 6e 63 31 1b 30 19 06 03 55 04 0b 0c 12 41
-0560: 54 44 43 5f 46 69 72 6d 77 61 72 65 5f 54 65 61 6d 30 1e 17 0d 32 35 30 31 30 31 30 30 30 30 30
-0580: 30 5a 17 0d 34 35 31 32 33 31 32 33 35 39 35 39 5a 30 71 31 46 30 44 06 03 55 04 03 0c 3d 41 45
-05a0: 49 20 4d 43 52 50 53 20 54 65 73 74 69 6e 67 20 44 65 76 69 63 65 20 49 44 20 43 65 72 74 2d 53
-05c0: 54 4d 2d 31 65 30 30 34 31 30 30 30 65 35 30 33 31 34 33 35 31 33 38 33 33 32 30 31 0c 30 0a 06
-05e0: 03 55 04 0a 0c 03 41 45 49 31 19 30 17 06 03 55 04 0b 0c 10 54 57 20 46 69 72 6d 77 61 72 65 20
-0600: 54 65 61 6d 30 76 30 10 06 07 2a 86 48 ce 3d 02 01 06 05 2b 81 04 00 22 03 62 00 04 6b 2e b5 de
-0620: b1 aa 40 2c e4 e0 d2 72 66 e0 00 17 ac 30 6f 08 80 28 88 73 72 22 0a 51 3e f0 29 50 0c 0b 8d e1
-0640: 7d e4 df 43 07 50 e6 ae 0a b9 6c 03 f2 f7 91 6c 62 95 0a 53 5e 1f c1 a4 2f bc e1 2b 2f 86 8d 03
-0660: 37 a0 bb 7b 73 d3 83 16 e5 6b 43 71 a2 67 cb 61 8e 19 8a 1a a4 8d 02 74 b5 5a 66 44 a3 63 30 61
-0680: 30 0f 06 03 55 1d 13 01 01 ff 04 05 30 03 01 01 ff 30 0e 06 03 55 1d 0f 01 01 ff 04 04 03 02 01
-06a0: 86 30 1d 06 03 55 1d 0e 04 16 04 14 2f 6b e6 14 8d 18 99 96 71 4f c0 23 2e 3e 05 20 2b 57 d4 3d
-06c0: 30 1f 06 03 55 1d 23 04 18 30 16 80 14 56 8f ba 0d 7b fd 79 40 7d 21 1c 7d c3 f7 07 85 56 18 1e
-06e0: a0 30 0a 06 08 2a 86 48 ce 3d 04 03 03 03 69 00 30 66 02 31 00 91 af 89 ec e1 64 ad c3 52 c3 b2
-0700: e9 c9 fb 32 68 f5 fa c3 99 46 74 c6 9b 76 1c 6e c0 9b 3d 41 c5 e9 ac ef bd 11 ec 0b a6 1e 63 7e
-0720: 26 01 44 3b d4 02 31 00 95 dc 1e 7b ab 67 2e 31 3e d5 04 9b c0 c8 82 72 9c c5 c0 af c2 f1 eb 06
-0740: a8 c9 49 87 39 61 81 56 99 10 39 c6 54 d6 4e 04 81 58 4a bd ec 19 93 ff 30 82 03 43 30 82 02 c9
-0760: a0 03 02 01 02 02 01 01 30 0a 06 08 2a 86 48 ce 3d 04 03 03 30 71 31 46 30 44 06 03 55 04 03 0c
-0780: 3d 41 45 49 20 4d 43 52 50 53 20 54 65 73 74 69 6e 67 20 44 65 76 69 63 65 20 49 44 20 43 65 72
-07a0: 74 2d 53 54 4d 2d 31 65 30 30 34 31 30 30 30 65 35 30 33 31 34 33 35 31 33 38 33 33 32 30 31 0c
-07c0: 30 0a 06 03 55 04 0a 0c 03 41 45 49 31 19 30 17 06 03 55 04 0b 0c 10 54 57 20 46 69 72 6d 77 61
-07e0: 72 65 20 54 65 61 6d 30 1e 17 0d 32 35 30 31 30 31 30 30 30 30 30 30 5a 17 0d 34 35 31 32 33 31
-0800: 32 33 35 39 35 39 5a 30 5a 31 2d 30 2b 06 03 55 04 03 0c 24 41 45 49 20 48 50 52 76 32 20 31 32
-0820: 6b 57 20 49 54 49 43 20 4d 65 61 73 75 72 65 6d 65 6e 74 20 43 65 72 74 31 0c 30 0a 06 03 55 04
-0840: 0a 0c 03 41 45 49 31 1b 30 19 06 03 55 04 0b 0c 12 41 54 44 43 20 46 69 72 6d 77 61 72 65 20 54
-0860: 65 61 6d 30 76 30 10 06 07 2a 86 48 ce 3d 02 01 06 05 2b 81 04 00 22 03 62 00 04 4c c8 b8 5a 89
-0880: c1 34 95 33 bc ac 9c 63 60 08 39 96 37 a2 18 af f5 52 06 67 ec ed a7 87 f7 c7 72 7d e8 2a 74 87
-08a0: e2 d8 fe 93 6c a2 ce 06 11 5b 92 4c 3a ac 78 e3 01 89 88 0d 7e 2b 15 2c 17 d1 a1 86 5e ce 86 b7
-08c0: 7e 16 b3 76 05 44 80 11 fc 74 3e 17 86 4f fc 44 30 ef 40 58 6d 4a b3 ca 3c 62 30 a3 82 01 4a 30
-08e0: 82 01 46 30 0c 06 03 55 1d 13 01 01 ff 04 02 30 00 30 0e 06 03 55 1d 0f 01 01 ff 04 04 03 02 07
-0900: 80 30 1d 06 03 55 1d 0e 04 16 04 14 3a 21 d7 d7 02 c4 d5 a0 dc e3 04 0e 94 01 5f 38 8d 64 d0 00
-0920: 30 1f 06 03 55 1d 23 04 18 30 16 80 14 2f 6b e6 14 8d 18 99 96 71 4f c0 23 2e 3e 05 20 2b 57 d4
-0940: 3d 30 38 06 03 2a 03 01 04 31 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0960: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 30 38 06 03 2a
-0980: 03 02 04 31 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-09a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 30 38 06 03 2a 03 03 04 31 00 00
-09c0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-09e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 30 38 06 03 2a 03 04 04 31 00 00 00 00 00 00 00 00
-0a00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0a20: 00 00 00 00 00 00 00 00 00 30 0a 06 08 2a 86 48 ce 3d 04 03 03 03 68 00 30 65 02 31 00 92 63 37
-0a40: a9 ff 34 92 28 7e 4c 02 bb 3c e9 6e 92 be 95 04 8c 32 9a 61 cc c5 fb 3a 18 a4 5f 89 ba cd b8 7d
-0a60: c8 e4 5a a1 ae d4 e4 cf 9e e2 76 a9 b1 02 30 29 73 ce 96 42 6a 98 57 c0 e8 e3 63 c9 5e d1 b6 dc
-0a80: a6 37 be af 6d 09 eb ec 37 cd 55 4f 7c 04 36 89 23 54 08 ba 9d ed 3d b2 aa ce d5 00 02 72 84
-Certificate (offset 0x0, size 0xa97):
-0000: 97 0a 00 00 b9 a2 6e 5d 2d be f8 0b 5f 19 58 f4 3b e3 46 21 cf a8 b5 3c 8c a3 31 c7 66 c5 96 6c
-0020: 3f 3d cd 2c 07 b0 8b 6d d3 75 88 5f eb d4 29 ce 20 18 92 97 30 82 02 3b 30 82 01 c2 a0 03 02 01
-0040: 02 02 01 01 30 0a 06 08 2a 86 48 ce 3d 04 03 03 30 67 31 1e 30 1c 06 03 55 04 03 0c 15 41 45 49
-0060: 5f 54 65 73 74 69 6e 67 5f 52 6f 6f 74 5f 43 65 72 74 31 28 30 26 06 03 55 04 0a 0c 1f 41 64 76
-0080: 61 6e 63 65 64 20 45 6e 65 72 67 79 20 49 6e 64 75 73 74 72 69 65 73 2c 20 49 6e 63 31 1b 30 19
-00a0: 06 03 55 04 0b 0c 12 41 54 44 43 5f 46 69 72 6d 77 61 72 65 5f 54 65 61 6d 30 1e 17 0d 32 35 30
-00c0: 31 30 31 30 30 30 30 30 30 5a 17 0d 34 35 31 32 33 31 32 33 35 39 35 39 5a 30 67 31 1e 30 1c 06
-00e0: 03 55 04 03 0c 15 41 45 49 5f 54 65 73 74 69 6e 67 5f 52 6f 6f 74 5f 43 65 72 74 31 28 30 26 06
-0100: 03 55 04 0a 0c 1f 41 64 76 61 6e 63 65 64 20 45 6e 65 72 67 79 20 49 6e 64 75 73 74 72 69 65 73
-0120: 2c 20 49 6e 63 31 1b 30 19 06 03 55 04 0b 0c 12 41 54 44 43 5f 46 69 72 6d 77 61 72 65 5f 54 65
-0140: 61 6d 30 76 30 10 06 07 2a 86 48 ce 3d 02 01 06 05 2b 81 04 00 22 03 62 00 04 03 0f f0 2f c4 50
-0160: ba 48 2f da a5 1b e1 be 9e 24 e3 76 fe 0d f5 57 df 81 fb cb b7 87 e4 47 fa 31 a3 fb 72 a0 69 4f
-0180: 8b 14 23 58 0e b3 48 03 01 65 10 72 f5 b7 45 93 34 86 9c ff b7 71 63 42 4f fa 97 ff 4f b8 69 9e
-01a0: 67 00 3f 72 45 11 7e 66 65 d7 bd c2 96 fe 75 3c 78 a0 a6 19 6c 1d f8 72 f1 d1 a3 42 30 40 30 0f
-01c0: 06 03 55 1d 13 01 01 ff 04 05 30 03 01 01 ff 30 0e 06 03 55 1d 0f 01 01 ff 04 04 03 02 01 86 30
-01e0: 1d 06 03 55 1d 0e 04 16 04 14 00 a0 13 76 8a 4e ab 7f 9e d0 9c 35 75 3c 6d 76 31 91 c3 64 30 0a
-0200: 06 08 2a 86 48 ce 3d 04 03 03 03 67 00 30 64 02 30 41 41 50 68 c7 19 55 9c 3c d1 3f 4b 82 f6 86
-0220: 97 2d 15 3b 06 73 9f b7 20 71 df ea 8f ca b3 b9 2f c4 43 f6 a8 81 24 e4 8f 1a c8 a0 45 70 a0 25
-0240: bc 02 30 68 a7 6a 8e 81 ea fa bd e4 4c d2 20 0d 11 44 f9 0a c9 a1 42 90 d9 bf 5c 8a 74 88 9f f2
-0260: e2 26 b3 60 5e 22 a8 c8 ab 10 7e d4 f8 60 a1 c5 11 1c 7d 30 82 02 65 30 82 01 eb a0 03 02 01 02
-0280: 02 01 02 30 0a 06 08 2a 86 48 ce 3d 04 03 03 30 67 31 1e 30 1c 06 03 55 04 03 0c 15 41 45 49 5f
-02a0: 54 65 73 74 69 6e 67 5f 52 6f 6f 74 5f 43 65 72 74 31 28 30 26 06 03 55 04 0a 0c 1f 41 64 76 61
-02c0: 6e 63 65 64 20 45 6e 65 72 67 79 20 49 6e 64 75 73 74 72 69 65 73 2c 20 49 6e 63 31 1b 30 19 06
-02e0: 03 55 04 0b 0c 12 41 54 44 43 5f 46 69 72 6d 77 61 72 65 5f 54 65 61 6d 30 1e 17 0d 32 35 30 31
-0300: 30 31 30 30 30 30 30 30 5a 17 0d 34 35 31 32 33 31 32 33 35 39 35 39 5a 30 6f 31 26 30 24 06 03
-0320: 55 04 03 0c 1d 41 45 49 5f 54 65 73 74 69 6e 67 5f 49 6e 74 65 72 6d 65 64 69 61 74 65 5f 43 65
-0340: 72 74 31 28 30 26 06 03 55 04 0a 0c 1f 41 64 76 61 6e 63 65 64 20 45 6e 65 72 67 79 20 49 6e 64
-0360: 75 73 74 72 69 65 73 2c 20 49 6e 63 31 1b 30 19 06 03 55 04 0b 0c 12 41 54 44 43 5f 46 69 72 6d
-0380: 77 61 72 65 5f 54 65 61 6d 30 76 30 10 06 07 2a 86 48 ce 3d 02 01 06 05 2b 81 04 00 22 03 62 00
-03a0: 04 bc d0 c1 3b 4b ab 5d 7d a9 40 d9 6d ed 59 46 7f 58 2c 78 fa 00 bd c6 89 77 fa 86 1b e6 e9 45
-03c0: 28 eb 8e 26 c6 32 83 25 8c 92 8d 74 d8 e6 07 6e 8c 51 a7 3c 27 54 86 27 69 d0 14 6f 7c 7b 68 ab
-03e0: 4f 16 87 f6 36 e2 76 9c ce 7c d9 c6 93 a7 ca 21 c7 1c f0 1c bb 79 b8 92 64 ef 3f 49 28 f2 6a c0
-0400: b5 a3 63 30 61 30 0f 06 03 55 1d 13 01 01 ff 04 05 30 03 01 01 ff 30 0e 06 03 55 1d 0f 01 01 ff
-0420: 04 04 03 02 01 86 30 1d 06 03 55 1d 0e 04 16 04 14 56 8f ba 0d 7b fd 79 40 7d 21 1c 7d c3 f7 07
-0440: 85 56 18 1e a0 30 1f 06 03 55 1d 23 04 18 30 16 80 14 00 a0 13 76 8a 4e ab 7f 9e d0 9c 35 75 3c
-0460: 6d 76 31 91 c3 64 30 0a 06 08 2a 86 48 ce 3d 04 03 03 03 68 00 30 65 02 30 31 bb f1 84 46 39 9b
-0480: 5a 75 10 80 74 da 46 92 5f 46 b0 52 26 a7 59 8d 35 58 2a bc 08 32 9e 81 89 01 56 9f 5e a8 64 49
-04a0: b4 51 98 8b ce 77 fb 98 ca 02 31 00 96 57 26 60 dd b2 56 89 a7 12 a7 79 37 5b 3b d1 44 1f e7 cd
-04c0: 80 46 b4 31 11 92 e5 25 5b 41 39 52 1c 13 d0 5a 45 3b 38 06 40 99 8b bc 98 02 d5 17 30 82 02 70
-04e0: 30 82 01 f5 a0 03 02 01 02 02 01 03 30 0a 06 08 2a 86 48 ce 3d 04 03 03 30 6f 31 26 30 24 06 03
-0500: 55 04 03 0c 1d 41 45 49 5f 54 65 73 74 69 6e 67 5f 49 6e 74 65 72 6d 65 64 69 61 74 65 5f 43 65
-0520: 72 74 31 28 30 26 06 03 55 04 0a 0c 1f 41 64 76 61 6e 63 65 64 20 45 6e 65 72 67 79 20 49 6e 64
-0540: 75 73 74 72 69 65 73 2c 20 49 6e 63 31 1b 30 19 06 03 55 04 0b 0c 12 41 54 44 43 5f 46 69 72 6d
-0560: 77 61 72 65 5f 54 65 61 6d 30 1e 17 0d 32 35 30 31 30 31 30 30 30 30 30 30 5a 17 0d 34 35 31 32
-0580: 33 31 32 33 35 39 35 39 5a 30 71 31 46 30 44 06 03 55 04 03 0c 3d 41 45 49 20 4d 43 52 50 53 20
-05a0: 54 65 73 74 69 6e 67 20 44 65 76 69 63 65 20 49 44 20 43 65 72 74 2d 53 54 4d 2d 31 65 30 30 34
-05c0: 31 30 30 30 65 35 30 33 31 34 33 35 31 33 38 33 33 32 30 31 0c 30 0a 06 03 55 04 0a 0c 03 41 45
-05e0: 49 31 19 30 17 06 03 55 04 0b 0c 10 54 57 20 46 69 72 6d 77 61 72 65 20 54 65 61 6d 30 76 30 10
-0600: 06 07 2a 86 48 ce 3d 02 01 06 05 2b 81 04 00 22 03 62 00 04 6b 2e b5 de b1 aa 40 2c e4 e0 d2 72
-0620: 66 e0 00 17 ac 30 6f 08 80 28 88 73 72 22 0a 51 3e f0 29 50 0c 0b 8d e1 7d e4 df 43 07 50 e6 ae
-0640: 0a b9 6c 03 f2 f7 91 6c 62 95 0a 53 5e 1f c1 a4 2f bc e1 2b 2f 86 8d 03 37 a0 bb 7b 73 d3 83 16
-0660: e5 6b 43 71 a2 67 cb 61 8e 19 8a 1a a4 8d 02 74 b5 5a 66 44 a3 63 30 61 30 0f 06 03 55 1d 13 01
-0680: 01 ff 04 05 30 03 01 01 ff 30 0e 06 03 55 1d 0f 01 01 ff 04 04 03 02 01 86 30 1d 06 03 55 1d 0e
-06a0: 04 16 04 14 2f 6b e6 14 8d 18 99 96 71 4f c0 23 2e 3e 05 20 2b 57 d4 3d 30 1f 06 03 55 1d 23 04
-06c0: 18 30 16 80 14 56 8f ba 0d 7b fd 79 40 7d 21 1c 7d c3 f7 07 85 56 18 1e a0 30 0a 06 08 2a 86 48
-06e0: ce 3d 04 03 03 03 69 00 30 66 02 31 00 91 af 89 ec e1 64 ad c3 52 c3 b2 e9 c9 fb 32 68 f5 fa c3
-0700: 99 46 74 c6 9b 76 1c 6e c0 9b 3d 41 c5 e9 ac ef bd 11 ec 0b a6 1e 63 7e 26 01 44 3b d4 02 31 00
-0720: 95 dc 1e 7b ab 67 2e 31 3e d5 04 9b c0 c8 82 72 9c c5 c0 af c2 f1 eb 06 a8 c9 49 87 39 61 81 56
-0740: 99 10 39 c6 54 d6 4e 04 81 58 4a bd ec 19 93 ff 30 82 03 43 30 82 02 c9 a0 03 02 01 02 02 01 01
-0760: 30 0a 06 08 2a 86 48 ce 3d 04 03 03 30 71 31 46 30 44 06 03 55 04 03 0c 3d 41 45 49 20 4d 43 52
-0780: 50 53 20 54 65 73 74 69 6e 67 20 44 65 76 69 63 65 20 49 44 20 43 65 72 74 2d 53 54 4d 2d 31 65
-07a0: 30 30 34 31 30 30 30 65 35 30 33 31 34 33 35 31 33 38 33 33 32 30 31 0c 30 0a 06 03 55 04 0a 0c
-07c0: 03 41 45 49 31 19 30 17 06 03 55 04 0b 0c 10 54 57 20 46 69 72 6d 77 61 72 65 20 54 65 61 6d 30
-07e0: 1e 17 0d 32 35 30 31 30 31 30 30 30 30 30 30 5a 17 0d 34 35 31 32 33 31 32 33 35 39 35 39 5a 30
-0800: 5a 31 2d 30 2b 06 03 55 04 03 0c 24 41 45 49 20 48 50 52 76 32 20 31 32 6b 57 20 49 54 49 43 20
-0820: 4d 65 61 73 75 72 65 6d 65 6e 74 20 43 65 72 74 31 0c 30 0a 06 03 55 04 0a 0c 03 41 45 49 31 1b
-0840: 30 19 06 03 55 04 0b 0c 12 41 54 44 43 20 46 69 72 6d 77 61 72 65 20 54 65 61 6d 30 76 30 10 06
-0860: 07 2a 86 48 ce 3d 02 01 06 05 2b 81 04 00 22 03 62 00 04 4c c8 b8 5a 89 c1 34 95 33 bc ac 9c 63
-0880: 60 08 39 96 37 a2 18 af f5 52 06 67 ec ed a7 87 f7 c7 72 7d e8 2a 74 87 e2 d8 fe 93 6c a2 ce 06
-08a0: 11 5b 92 4c 3a ac 78 e3 01 89 88 0d 7e 2b 15 2c 17 d1 a1 86 5e ce 86 b7 7e 16 b3 76 05 44 80 11
-08c0: fc 74 3e 17 86 4f fc 44 30 ef 40 58 6d 4a b3 ca 3c 62 30 a3 82 01 4a 30 82 01 46 30 0c 06 03 55
-08e0: 1d 13 01 01 ff 04 02 30 00 30 0e 06 03 55 1d 0f 01 01 ff 04 04 03 02 07 80 30 1d 06 03 55 1d 0e
-0900: 04 16 04 14 3a 21 d7 d7 02 c4 d5 a0 dc e3 04 0e 94 01 5f 38 8d 64 d0 00 30 1f 06 03 55 1d 23 04
-0920: 18 30 16 80 14 2f 6b e6 14 8d 18 99 96 71 4f c0 23 2e 3e 05 20 2b 57 d4 3d 30 38 06 03 2a 03 01
-0940: 04 31 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0960: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 30 38 06 03 2a 03 02 04 31 00 00 00 00
-0980: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-09a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 30 38 06 03 2a 03 03 04 31 00 00 00 00 00 00 00 00 00 00
-09c0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-09e0: 00 00 00 00 00 00 00 30 38 06 03 2a 03 04 04 31 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0a00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0a20: 00 30 0a 06 08 2a 86 48 ce 3d 04 03 03 03 68 00 30 65 02 31 00 92 63 37 a9 ff 34 92 28 7e 4c 02
-0a40: bb 3c e9 6e 92 be 95 04 8c 32 9a 61 cc c5 fb 3a 18 a4 5f 89 ba cd b8 7d c8 e4 5a a1 ae d4 e4 cf
-0a60: 9e e2 76 a9 b1 02 30 29 73 ce 96 42 6a 98 57 c0 e8 e3 63 c9 5e d1 b6 dc a6 37 be af 6d 09 eb ec
-0a80: 37 cd 55 4f 7c 04 36 89 23 54 08 ba 9d ed 3d b2 aa ce d5 00 02 72 84
-!!! verify_peer_cert_chain_buffer - PASS !!!
-[requester][main      ] received certificate chain: 2711 bytes
-[requester] first 32 of 2711 bytes: 97 0A 00 00 B9 A2 6E 5D 2D BE F8 0B 5F 19 58 F4 3B E3 46 21 CF A8 B5 3C 8C A3 31 C7 66 C5 96 6C ...
-
----- CHALLENGE (slot 0, no measurement summary hash) ----
-RequesterNonce - 9e 5a ce e2 dc db d0 8e 2d 00 7a dc e1 47 a3 e1 68 0a 36 4a f1 86 d2 85 f2 f2 c5 99 a1 9d 36 e2
-libspdm_send_spdm_request[0] msg SPDM_CHALLENGE(0x83), size (0x24):
-0000: 12 83 00 00 9e 5a ce e2 dc db d0 8e 2d 00 7a dc e1 47 a3 e1 68 0a 36 4a f1 86 d2 85 f2 f2 c5 99
-0020: a1 9d 36 e2
-[requester][device_io] TX FC65 41 bytes (SPDM=36)
-[requester][device_io] RX FC65 8-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_ERROR(0x7f), size (0x8):
-0000: 12 7f 42 00 13 83 01 02
-libspdm_send_spdm_request[0] msg SPDM_RESPOND_IF_READY(0xff), size (0x4):
-0000: 12 ff 83 01
-[requester][device_io] TX FC65 9 bytes (SPDM=4)
-[requester][device_io] RX FC65 182-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_CHALLENGE_AUTH(0x3), size (0xb6):
-0000: 12 03 00 01 00 03 54 43 4a e5 c5 9e 1f 4f 79 9e c4 ea 4e 5b 4e 50 4e d1 0a 56 c6 08 7a 53 da 4a
-0020: 65 4d 59 b1 af fd f0 f1 86 e2 c4 4c 3c b3 cb 95 45 47 ac 7e c5 90 95 da c6 69 be 7d a5 b6 d9 32
-0040: 2a b7 55 3e 85 72 9e 87 e2 81 91 e0 d8 a0 ea be aa 2e a7 92 00 00 ea 60 00 96 c5 32 d3 62 3e 9d
-0060: 4e da 61 c1 38 42 c3 ec 4d 28 34 39 29 b5 58 e7 c6 8d 59 58 9e 94 ed e5 a5 ab ce ff 82 3e f9 6d
-0080: 03 5e 99 32 d0 b1 15 73 da 7f ca db be d2 7c af 20 ff a3 86 aa 7a 72 b9 73 00 15 0f 1f 46 cf 5e
-00a0: 39 65 f4 df e5 89 bb 23 78 32 e1 36 c6 49 d6 b0 5d e2 c6 ea 98 46
-cert_chain_hash (0x30) - 00 03 54 43 4a e5 c5 9e 1f 4f 79 9e c4 ea 4e 5b 4e 50 4e d1 0a 56 c6 08 7a 53 da 4a 65 4d 59 b1 af fd f0 f1 86 e2 c4 4c 3c b3 cb 95 45 47 ac 7e
-!!! verify_certificate_chain_hash - PASS !!!
-nonce (0x20) - c5 90 95 da c6 69 be 7d a5 b6 d9 32 2a b7 55 3e 85 72 9e 87 e2 81 91 e0 d8 a0 ea be aa 2e a7 92
-measurement_summary_hash (0x0) -
-signature (0x60):
-0000: ea 60 00 96 c5 32 d3 62 3e 9d 4e da 61 c1 38 42 c3 ec 4d 28 34 39 29 b5 58 e7 c6 8d 59 58 9e 94
-0020: ed e5 a5 ab ce ff 82 3e f9 6d 03 5e 99 32 d0 b1 15 73 da 7f ca db be d2 7c af 20 ff a3 86 aa 7a
-0040: 72 b9 73 00 15 0f 1f 46 cf 5e 39 65 f4 df e5 89 bb 23 78 32 e1 36 c6 49 d6 b0 5d e2 c6 ea 98 46
-m1m2 hash - 79 01 3b 28 68 01 36 be 31 de c0 31 4d 02 ce ce 46 6d 62 c7 9f cb 04 21 7a c7 b9 75 e6 56 d0 99 0b 90 6f 3f f4 30 a3 6b 5f a6 4b e0 c6 76 33 93
-!!! verify_challenge_signature - PASS !!!
-[requester][main      ] CHALLENGE_AUTH signature verified OK (slot_mask=0x01)
-
----- GET_MEASUREMENTS (all blocks, signature requested) ----
-RequesterNonce - 40 e8 e0 da 17 7d 22 8d ae 43 1f d1 1e 35 5f ac 8d cf b6 49 ba f7 29 5c d8 dd 2d a0 be c5 b3 9c
-libspdm_send_spdm_request[0] msg SPDM_GET_MEASUREMENTS(0xe0), size (0x25):
-0000: 12 e0 01 ff 40 e8 e0 da 17 7d 22 8d ae 43 1f d1 1e 35 5f ac 8d cf b6 49 ba f7 29 5c d8 dd 2d a0
-0020: be c5 b3 9c 00
-[requester][device_io] TX FC65 42 bytes (SPDM=37)
-[requester][device_io] RX FC65 8-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_ERROR(0x7f), size (0x8):
-0000: 12 7f 42 00 13 e0 02 02
-libspdm_send_spdm_request[0] msg SPDM_RESPOND_IF_READY(0xff), size (0x4):
-0000: 12 ff e0 02
-[requester][device_io] TX FC65 9 bytes (SPDM=4)
-[requester][device_io] RX FC65 248-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_MEASUREMENTS(0x60), size (0xf8):
-0000: 12 60 00 00 02 6e 00 00 01 01 33 00 01 30 00 7a 23 6e f7 a1 f7 c7 00 c3 fa ff 47 da cd e2 28 02
-0020: ba 62 db af c8 7b 67 72 76 39 13 c5 9a ab 40 f8 a7 97 fc 48 f2 73 19 cb 0b ae f9 32 c5 a1 a5 02
-0040: 01 33 00 00 30 00 4e 67 e8 a8 e7 21 75 19 3d da 44 5d f5 f5 18 6d 6c 84 34 cf e5 9a 34 2c 6b 0f
-0060: ce ff 7a fa 4a 54 9d 63 94 68 63 7d d6 93 fb 95 8a c9 92 0c fa b3 d1 ca 65 19 b0 b0 88 ca 24 93
-0080: 91 e9 99 e3 c6 e3 f3 a2 5d c2 02 4d 5c 01 ba 00 06 6b b5 19 1a e6 00 00 8f fb 65 57 07 0d 3c 72
-00a0: 2e 3b 75 32 5e 19 e9 19 3e b1 4d 96 68 ea 74 4c c1 ba 31 7f e0 72 f4 87 2e c5 c7 34 71 74 ef 28
-00c0: c8 70 9d 44 b8 49 01 56 35 22 24 2b 62 47 71 1b 64 cb 64 78 ea 62 64 a7 67 b6 9d 4b 88 94 41 91
-00e0: 60 0a ad 13 d9 03 d3 3f c7 b4 00 7f 8c a3 2c 54 b0 6c 87 f5 a4 80 ed 52
-measurement_record_length - 0x00006e
-nonce (0x20) - d1 ca 65 19 b0 b0 88 ca 24 93 91 e9 99 e3 c6 e3 f3 a2 5d c2 02 4d 5c 01 ba 00 06 6b b5 19 1a e6
-signature (0x60):
-0000: 8f fb 65 57 07 0d 3c 72 2e 3b 75 32 5e 19 e9 19 3e b1 4d 96 68 ea 74 4c c1 ba 31 7f e0 72 f4 87
-0020: 2e c5 c7 34 71 74 ef 28 c8 70 9d 44 b8 49 01 56 35 22 24 2b 62 47 71 1b 64 cb 64 78 ea 62 64 a7
-0040: 67 b6 9d 4b 88 94 41 91 60 0a ad 13 d9 03 d3 3f c7 b4 00 7f 8c a3 2c 54 b0 6c 87 f5 a4 80 ed 52
-l1l2 hash - 5f 6c bc df e8 b1 1a ec 33 8c 55 77 33 b7 c0 64 52 56 08 4c a6 90 63 70 8e 12 f4 2d d2 96 9a 98 d0 57 bf f2 58 bd 42 9f de 26 c6 d7 58 99 9a bd
-!!! verify_measurement_signature - PASS !!!
-[requester][main      ] received 2 measurement block(s), 110 bytes total
-[requester] first 32 of 110 bytes: 01 01 33 00 01 30 00 7A 23 6E F7 A1 F7 C7 00 C3 FA FF 47 DA CD E2 28 02 BA 62 DB AF C8 7B 67 72 ...
-
-===== REQUESTER DONE (all) =====
+also, there's a warning during compilation
+/mnt/c/Users/melvin.ornales/Downloads/spdm-c-interop-final3/spdm-modbus/src/device_io.c: In function ‘device_io_receive_message’:
+/mnt/c/Users/melvin.ornales/Downloads/spdm-c-interop-final3/spdm-modbus/src/device_io.c:71:41: warning: comparison is always false due to limited range of data type [-Wtype-limits]
+   71 |             header[2] == 0 || header[2] > FC65_MAX_BYTE_COUNT) {
+      |
