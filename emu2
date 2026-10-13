@@ -1,6 +1,9 @@
-I think get cert now worked? but for challenge and measurement, in the requester python, it says unspecified
+wait look, I didnt use that latest tarball you sent, I just exported the right thing, because a while ago, I am doing
+export SPDM_UMU_KEY instead of SPDM_EMU_KEY
 
-./build-cmake/spdm-responder /tmp/spdm_uart_responder /mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/spdm_certificate_chain.bin
+export SPDM_EMU_KEY=/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/measurement_private_key.pem
+╭─░▒▓    /mnt/c/Users/melvin.ornales/Downloads/spdm-c-interop-final3/spdm-modbus ·················································· ✔  system   09:29:47 AM  ▓▒░
+╰─ ./build-cmake/spdm-responder /tmp/spdm_uart_responder /mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/spdm_certificate_chain.bin
 
 ===== SPDM-over-Modbus RESPONDER =====
 [responder][main      ] uart_path=/tmp/spdm_uart_responder cert_chain_path=/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/spdm_certificate_chain.bin
@@ -12,6 +15,56 @@ I think get cert now worked? but for challenge and measurement, in the requester
 ---- responder ready, waiting for requester on '/tmp/spdm_uart_responder' ----
 ---- (each incoming request is logged as it arrives; Ctrl-C to stop) ----
 
+[responder][device_io] RX FC65 36-byte SPDM payload
+SpdmReceiveRequest[.] ...
+SpdmReceiveRequest[0] msg SPDM_CHALLENGE(0x83), size (0x24):
+0000: 12 83 00 00 30 f6 4c a3 36 5b ff e1 de c6 77 25 4b 7f 07 61 88 59 cd 90 22 e4 8d b3 eb d5 7f f4
+0020: 8d 95 75 e5
+SpdmSendResponse[0] ...
+SpdmSendResponse[0]: msg SPDM_ERROR(0x7f), size (0x4):
+0000: 10 7f 41 00
+[responder][device_io] TX FC65 9 bytes (SPDM=4)
+[responder][device_io] RX FC65 37-byte SPDM payload
+SpdmReceiveRequest[.] ...
+SpdmReceiveRequest[0] msg SPDM_GET_MEASUREMENTS(0xe0), size (0x25):
+0000: 12 e0 01 ff 30 f6 4c a3 36 5b ff e1 de c6 77 25 4b 7f 07 61 88 59 cd 90 22 e4 8d b3 eb d5 7f f4
+0020: 8d 95 75 e5 00
+SpdmSendResponse[0] ...
+SpdmSendResponse[0]: msg SPDM_ERROR(0x7f), size (0x4):
+0000: 10 7f 41 00
+[responder][device_io] TX FC65 9 bytes (SPDM=4)
+[responder][device_io] RX FC65 8-byte SPDM payload
+SpdmReceiveRequest[.] ...
+SpdmReceiveRequest[0] msg SPDM_GET_CERTIFICATE(0x82), size (0x8):
+0000: 12 82 00 00 00 00 ff ff
+SpdmSendResponse[0] ...
+SpdmSendResponse[0]: msg SPDM_ERROR(0x7f), size (0x4):
+0000: 10 7f 41 00
+[responder][device_io] TX FC65 9 bytes (SPDM=4)
+[responder][device_io] RX FC65 4-byte SPDM payload
+SpdmReceiveRequest[.] ...
+SpdmReceiveRequest[0] msg SPDM_GET_DIGESTS(0x81), size (0x4):
+0000: 12 81 00 00
+SpdmSendResponse[0] ...
+SpdmSendResponse[0]: msg SPDM_ERROR(0x7f), size (0x4):
+0000: 10 7f 41 00
+[responder][device_io] TX FC65 9 bytes (SPDM=4)
+[responder][device_io] RX FC65 32-byte SPDM payload
+SpdmReceiveRequest[.] ...
+SpdmReceiveRequest[0] msg SPDM_NEGOTIATE_ALGORITHMS(0xe3), size (0x20):
+0000: 12 e3 00 00 20 00 01 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+SpdmSendResponse[0] ...
+SpdmSendResponse[0]: msg SPDM_ERROR(0x7f), size (0x4):
+0000: 10 7f 04 00
+[responder][device_io] TX FC65 9 bytes (SPDM=4)
+[responder][device_io] RX FC65 20-byte SPDM payload
+SpdmReceiveRequest[.] ...
+SpdmReceiveRequest[0] msg SPDM_GET_CAPABILITIES(0xe1), size (0x14):
+0000: 12 e1 00 00 00 00 00 00 00 00 02 00 ff 00 00 00 ff ff ff ff
+SpdmSendResponse[0] ...
+SpdmSendResponse[0]: msg SPDM_ERROR(0x7f), size (0x4):
+0000: 10 7f 04 00
+[responder][device_io] TX FC65 9 bytes (SPDM=4)
 [responder][device_io] RX FC65 4-byte SPDM payload
 SpdmReceiveRequest[.] ...
 SpdmReceiveRequest[0] msg SPDM_GET_VERSION(0x84), size (0x4):
@@ -20,245 +73,159 @@ SpdmSendResponse[0] ...
 SpdmSendResponse[0]: msg SPDM_VERSION(0x4), size (0x10):
 0000: 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00 14
 [responder][device_io] TX FC65 21 bytes (SPDM=16)
-[responder][device_io] RX FC65 20-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_GET_CAPABILITIES(0xe1), size (0x14):
-0000: 12 e1 00 00 00 00 00 00 00 00 02 00 ff 00 00 00 ff ff ff ff
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_CAPABILITIES(0x61), size (0x14):
-0000: 12 61 00 00 00 0c 00 00 16 00 02 00 00 20 00 00 00 20 00 00
-[responder][device_io] TX FC65 25 bytes (SPDM=20)
-[responder][device_io] RX FC65 32-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_NEGOTIATE_ALGORITHMS(0xe3), size (0x20):
-0000: 12 e3 00 00 20 00 01 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-SpdmSendResponse[0] ...
-base_hash - 0x00000002
-base_asym - 0x00000080
-dhe - 0x0000
-aead - 0x0000
-req_asym - 0x0000
-pqc_asym - 0x00000000
-req_pqc_asym - 0x0000
-kem - 0x0000
-SpdmSendResponse[0]: msg SPDM_ALGORITHMS(0x63), size (0x24):
-0000: 12 63 00 00 24 00 01 00 04 00 00 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0020: 00 00 00 00
-[responder][device_io] TX FC65 41 bytes (SPDM=36)
-[responder][device_io] RX FC65 4-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_GET_DIGESTS(0x81), size (0x4):
-0000: 12 81 00 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_DIGESTS(0x1), size (0x34):
-0000: 12 01 00 01 00 03 54 43 4a e5 c5 9e 1f 4f 79 9e c4 ea 4e 5b 4e 50 4e d1 0a 56 c6 08 7a 53 da 4a
-0020: 65 4d 59 b1 af fd f0 f1 86 e2 c4 4c 3c b3 cb 95 45 47 ac 7e
-[responder][device_io] TX FC65 57 bytes (SPDM=52)
-[responder][device_io] RX FC65 8-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_GET_CERTIFICATE(0x82), size (0x8):
-0000: 12 82 00 00 00 00 ff ff
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_ERROR(0x7f), size (0x5):
-0000: 12 7f 0f 00 01
-[responder][device_io] TX FC65 10 bytes (SPDM=5)
-[responder][device_io] RX FC65 6-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
-0000: 12 86 00 01 00 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_CHUNK_RESPONSE(0x6), size (0xff):
-0000: 12 06 00 01 00 00 00 00 ef 00 00 00 9f 0a 00 00 12 02 00 00 97 0a 00 00 97 0a 00 00 b9 a2 6e 5d
-0020: 2d be f8 0b 5f 19 58 f4 3b e3 46 21 cf a8 b5 3c 8c a3 31 c7 66 c5 96 6c 3f 3d cd 2c 07 b0 8b 6d
-0040: d3 75 88 5f eb d4 29 ce 20 18 92 97 30 82 02 3b 30 82 01 c2 a0 03 02 01 02 02 01 01 30 0a 06 08
-0060: 2a 86 48 ce 3d 04 03 03 30 67 31 1e 30 1c 06 03 55 04 03 0c 15 41 45 49 5f 54 65 73 74 69 6e 67
-0080: 5f 52 6f 6f 74 5f 43 65 72 74 31 28 30 26 06 03 55 04 0a 0c 1f 41 64 76 61 6e 63 65 64 20 45 6e
-00a0: 65 72 67 79 20 49 6e 64 75 73 74 72 69 65 73 2c 20 49 6e 63 31 1b 30 19 06 03 55 04 0b 0c 12 41
-00c0: 54 44 43 5f 46 69 72 6d 77 61 72 65 5f 54 65 61 6d 30 1e 17 0d 32 35 30 31 30 31 30 30 30 30 30
-00e0: 30 5a 17 0d 34 35 31 32 33 31 32 33 35 39 35 39 5a 30 67 31 1e 30 1c 06 03 55 04 03 0c 15 41
-[responder][device_io] TX FC65 260 bytes (SPDM=255)
-[responder][device_io] RX FC65 6-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
-0000: 12 86 00 01 01 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_CHUNK_RESPONSE(0x6), size (0xff):
-0000: 12 06 00 01 01 00 00 00 f3 00 00 00 45 49 5f 54 65 73 74 69 6e 67 5f 52 6f 6f 74 5f 43 65 72 74
-0020: 31 28 30 26 06 03 55 04 0a 0c 1f 41 64 76 61 6e 63 65 64 20 45 6e 65 72 67 79 20 49 6e 64 75 73
-0040: 74 72 69 65 73 2c 20 49 6e 63 31 1b 30 19 06 03 55 04 0b 0c 12 41 54 44 43 5f 46 69 72 6d 77 61
-0060: 72 65 5f 54 65 61 6d 30 76 30 10 06 07 2a 86 48 ce 3d 02 01 06 05 2b 81 04 00 22 03 62 00 04 03
-0080: 0f f0 2f c4 50 ba 48 2f da a5 1b e1 be 9e 24 e3 76 fe 0d f5 57 df 81 fb cb b7 87 e4 47 fa 31 a3
-00a0: fb 72 a0 69 4f 8b 14 23 58 0e b3 48 03 01 65 10 72 f5 b7 45 93 34 86 9c ff b7 71 63 42 4f fa 97
-00c0: ff 4f b8 69 9e 67 00 3f 72 45 11 7e 66 65 d7 bd c2 96 fe 75 3c 78 a0 a6 19 6c 1d f8 72 f1 d1 a3
-00e0: 42 30 40 30 0f 06 03 55 1d 13 01 01 ff 04 05 30 03 01 01 ff 30 0e 06 03 55 1d 0f 01 01 ff 04
-[responder][device_io] TX FC65 260 bytes (SPDM=255)
-[responder][device_io] RX FC65 6-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
-0000: 12 86 00 01 02 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_CHUNK_RESPONSE(0x6), size (0xff):
-0000: 12 06 00 01 02 00 00 00 f3 00 00 00 04 03 02 01 86 30 1d 06 03 55 1d 0e 04 16 04 14 00 a0 13 76
-0020: 8a 4e ab 7f 9e d0 9c 35 75 3c 6d 76 31 91 c3 64 30 0a 06 08 2a 86 48 ce 3d 04 03 03 03 67 00 30
-0040: 64 02 30 41 41 50 68 c7 19 55 9c 3c d1 3f 4b 82 f6 86 97 2d 15 3b 06 73 9f b7 20 71 df ea 8f ca
-0060: b3 b9 2f c4 43 f6 a8 81 24 e4 8f 1a c8 a0 45 70 a0 25 bc 02 30 68 a7 6a 8e 81 ea fa bd e4 4c d2
-0080: 20 0d 11 44 f9 0a c9 a1 42 90 d9 bf 5c 8a 74 88 9f f2 e2 26 b3 60 5e 22 a8 c8 ab 10 7e d4 f8 60
-00a0: a1 c5 11 1c 7d 30 82 02 65 30 82 01 eb a0 03 02 01 02 02 01 02 30 0a 06 08 2a 86 48 ce 3d 04 03
-00c0: 03 30 67 31 1e 30 1c 06 03 55 04 03 0c 15 41 45 49 5f 54 65 73 74 69 6e 67 5f 52 6f 6f 74 5f 43
-00e0: 65 72 74 31 28 30 26 06 03 55 04 0a 0c 1f 41 64 76 61 6e 63 65 64 20 45 6e 65 72 67 79 20 49
-[responder][device_io] TX FC65 260 bytes (SPDM=255)
-[responder][device_io] RX FC65 6-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
-0000: 12 86 00 01 03 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_CHUNK_RESPONSE(0x6), size (0xff):
-0000: 12 06 00 01 03 00 00 00 f3 00 00 00 6e 64 75 73 74 72 69 65 73 2c 20 49 6e 63 31 1b 30 19 06 03
-0020: 55 04 0b 0c 12 41 54 44 43 5f 46 69 72 6d 77 61 72 65 5f 54 65 61 6d 30 1e 17 0d 32 35 30 31 30
-0040: 31 30 30 30 30 30 30 5a 17 0d 34 35 31 32 33 31 32 33 35 39 35 39 5a 30 6f 31 26 30 24 06 03 55
-0060: 04 03 0c 1d 41 45 49 5f 54 65 73 74 69 6e 67 5f 49 6e 74 65 72 6d 65 64 69 61 74 65 5f 43 65 72
-0080: 74 31 28 30 26 06 03 55 04 0a 0c 1f 41 64 76 61 6e 63 65 64 20 45 6e 65 72 67 79 20 49 6e 64 75
-00a0: 73 74 72 69 65 73 2c 20 49 6e 63 31 1b 30 19 06 03 55 04 0b 0c 12 41 54 44 43 5f 46 69 72 6d 77
-00c0: 61 72 65 5f 54 65 61 6d 30 76 30 10 06 07 2a 86 48 ce 3d 02 01 06 05 2b 81 04 00 22 03 62 00 04
-00e0: bc d0 c1 3b 4b ab 5d 7d a9 40 d9 6d ed 59 46 7f 58 2c 78 fa 00 bd c6 89 77 fa 86 1b e6 e9 45
-[responder][device_io] TX FC65 260 bytes (SPDM=255)
-[responder][device_io] RX FC65 6-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
-0000: 12 86 00 01 04 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_CHUNK_RESPONSE(0x6), size (0xff):
-0000: 12 06 00 01 04 00 00 00 f3 00 00 00 28 eb 8e 26 c6 32 83 25 8c 92 8d 74 d8 e6 07 6e 8c 51 a7 3c
-0020: 27 54 86 27 69 d0 14 6f 7c 7b 68 ab 4f 16 87 f6 36 e2 76 9c ce 7c d9 c6 93 a7 ca 21 c7 1c f0 1c
-0040: bb 79 b8 92 64 ef 3f 49 28 f2 6a c0 b5 a3 63 30 61 30 0f 06 03 55 1d 13 01 01 ff 04 05 30 03 01
-0060: 01 ff 30 0e 06 03 55 1d 0f 01 01 ff 04 04 03 02 01 86 30 1d 06 03 55 1d 0e 04 16 04 14 56 8f ba
-0080: 0d 7b fd 79 40 7d 21 1c 7d c3 f7 07 85 56 18 1e a0 30 1f 06 03 55 1d 23 04 18 30 16 80 14 00 a0
-00a0: 13 76 8a 4e ab 7f 9e d0 9c 35 75 3c 6d 76 31 91 c3 64 30 0a 06 08 2a 86 48 ce 3d 04 03 03 03 68
-00c0: 00 30 65 02 30 31 bb f1 84 46 39 9b 5a 75 10 80 74 da 46 92 5f 46 b0 52 26 a7 59 8d 35 58 2a bc
-00e0: 08 32 9e 81 89 01 56 9f 5e a8 64 49 b4 51 98 8b ce 77 fb 98 ca 02 31 00 96 57 26 60 dd b2 56
-[responder][device_io] TX FC65 260 bytes (SPDM=255)
-[responder][device_io] RX FC65 6-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
-0000: 12 86 00 01 05 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_CHUNK_RESPONSE(0x6), size (0xff):
-0000: 12 06 00 01 05 00 00 00 f3 00 00 00 89 a7 12 a7 79 37 5b 3b d1 44 1f e7 cd 80 46 b4 31 11 92 e5
-0020: 25 5b 41 39 52 1c 13 d0 5a 45 3b 38 06 40 99 8b bc 98 02 d5 17 30 82 02 70 30 82 01 f5 a0 03 02
-0040: 01 02 02 01 03 30 0a 06 08 2a 86 48 ce 3d 04 03 03 30 6f 31 26 30 24 06 03 55 04 03 0c 1d 41 45
-0060: 49 5f 54 65 73 74 69 6e 67 5f 49 6e 74 65 72 6d 65 64 69 61 74 65 5f 43 65 72 74 31 28 30 26 06
-0080: 03 55 04 0a 0c 1f 41 64 76 61 6e 63 65 64 20 45 6e 65 72 67 79 20 49 6e 64 75 73 74 72 69 65 73
-00a0: 2c 20 49 6e 63 31 1b 30 19 06 03 55 04 0b 0c 12 41 54 44 43 5f 46 69 72 6d 77 61 72 65 5f 54 65
-00c0: 61 6d 30 1e 17 0d 32 35 30 31 30 31 30 30 30 30 30 30 5a 17 0d 34 35 31 32 33 31 32 33 35 39 35
-00e0: 39 5a 30 71 31 46 30 44 06 03 55 04 03 0c 3d 41 45 49 20 4d 43 52 50 53 20 54 65 73 74 69 6e
-[responder][device_io] TX FC65 260 bytes (SPDM=255)
-[responder][device_io] RX FC65 6-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
-0000: 12 86 00 01 06 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_CHUNK_RESPONSE(0x6), size (0xff):
-0000: 12 06 00 01 06 00 00 00 f3 00 00 00 67 20 44 65 76 69 63 65 20 49 44 20 43 65 72 74 2d 53 54 4d
-0020: 2d 31 65 30 30 34 31 30 30 30 65 35 30 33 31 34 33 35 31 33 38 33 33 32 30 31 0c 30 0a 06 03 55
-0040: 04 0a 0c 03 41 45 49 31 19 30 17 06 03 55 04 0b 0c 10 54 57 20 46 69 72 6d 77 61 72 65 20 54 65
-0060: 61 6d 30 76 30 10 06 07 2a 86 48 ce 3d 02 01 06 05 2b 81 04 00 22 03 62 00 04 6b 2e b5 de b1 aa
-0080: 40 2c e4 e0 d2 72 66 e0 00 17 ac 30 6f 08 80 28 88 73 72 22 0a 51 3e f0 29 50 0c 0b 8d e1 7d e4
-00a0: df 43 07 50 e6 ae 0a b9 6c 03 f2 f7 91 6c 62 95 0a 53 5e 1f c1 a4 2f bc e1 2b 2f 86 8d 03 37 a0
-00c0: bb 7b 73 d3 83 16 e5 6b 43 71 a2 67 cb 61 8e 19 8a 1a a4 8d 02 74 b5 5a 66 44 a3 63 30 61 30 0f
-00e0: 06 03 55 1d 13 01 01 ff 04 05 30 03 01 01 ff 30 0e 06 03 55 1d 0f 01 01 ff 04 04 03 02 01 86
-[responder][device_io] TX FC65 260 bytes (SPDM=255)
-[responder][device_io] RX FC65 6-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
-0000: 12 86 00 01 07 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_CHUNK_RESPONSE(0x6), size (0xff):
-0000: 12 06 00 01 07 00 00 00 f3 00 00 00 30 1d 06 03 55 1d 0e 04 16 04 14 2f 6b e6 14 8d 18 99 96 71
-0020: 4f c0 23 2e 3e 05 20 2b 57 d4 3d 30 1f 06 03 55 1d 23 04 18 30 16 80 14 56 8f ba 0d 7b fd 79 40
-0040: 7d 21 1c 7d c3 f7 07 85 56 18 1e a0 30 0a 06 08 2a 86 48 ce 3d 04 03 03 03 69 00 30 66 02 31 00
-0060: 91 af 89 ec e1 64 ad c3 52 c3 b2 e9 c9 fb 32 68 f5 fa c3 99 46 74 c6 9b 76 1c 6e c0 9b 3d 41 c5
-0080: e9 ac ef bd 11 ec 0b a6 1e 63 7e 26 01 44 3b d4 02 31 00 95 dc 1e 7b ab 67 2e 31 3e d5 04 9b c0
-00a0: c8 82 72 9c c5 c0 af c2 f1 eb 06 a8 c9 49 87 39 61 81 56 99 10 39 c6 54 d6 4e 04 81 58 4a bd ec
-00c0: 19 93 ff 30 82 03 43 30 82 02 c9 a0 03 02 01 02 02 01 01 30 0a 06 08 2a 86 48 ce 3d 04 03 03 30
-00e0: 71 31 46 30 44 06 03 55 04 03 0c 3d 41 45 49 20 4d 43 52 50 53 20 54 65 73 74 69 6e 67 20 44
-[responder][device_io] TX FC65 260 bytes (SPDM=255)
-[responder][device_io] RX FC65 6-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
-0000: 12 86 00 01 08 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_CHUNK_RESPONSE(0x6), size (0xff):
-0000: 12 06 00 01 08 00 00 00 f3 00 00 00 65 76 69 63 65 20 49 44 20 43 65 72 74 2d 53 54 4d 2d 31 65
-0020: 30 30 34 31 30 30 30 65 35 30 33 31 34 33 35 31 33 38 33 33 32 30 31 0c 30 0a 06 03 55 04 0a 0c
-0040: 03 41 45 49 31 19 30 17 06 03 55 04 0b 0c 10 54 57 20 46 69 72 6d 77 61 72 65 20 54 65 61 6d 30
-0060: 1e 17 0d 32 35 30 31 30 31 30 30 30 30 30 30 5a 17 0d 34 35 31 32 33 31 32 33 35 39 35 39 5a 30
-0080: 5a 31 2d 30 2b 06 03 55 04 03 0c 24 41 45 49 20 48 50 52 76 32 20 31 32 6b 57 20 49 54 49 43 20
-00a0: 4d 65 61 73 75 72 65 6d 65 6e 74 20 43 65 72 74 31 0c 30 0a 06 03 55 04 0a 0c 03 41 45 49 31 1b
-00c0: 30 19 06 03 55 04 0b 0c 12 41 54 44 43 20 46 69 72 6d 77 61 72 65 20 54 65 61 6d 30 76 30 10 06
-00e0: 07 2a 86 48 ce 3d 02 01 06 05 2b 81 04 00 22 03 62 00 04 4c c8 b8 5a 89 c1 34 95 33 bc ac 9c
-[responder][device_io] TX FC65 260 bytes (SPDM=255)
-[responder][device_io] RX FC65 6-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
-0000: 12 86 00 01 09 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_CHUNK_RESPONSE(0x6), size (0xff):
-0000: 12 06 00 01 09 00 00 00 f3 00 00 00 63 60 08 39 96 37 a2 18 af f5 52 06 67 ec ed a7 87 f7 c7 72
-0020: 7d e8 2a 74 87 e2 d8 fe 93 6c a2 ce 06 11 5b 92 4c 3a ac 78 e3 01 89 88 0d 7e 2b 15 2c 17 d1 a1
-0040: 86 5e ce 86 b7 7e 16 b3 76 05 44 80 11 fc 74 3e 17 86 4f fc 44 30 ef 40 58 6d 4a b3 ca 3c 62 30
-0060: a3 82 01 4a 30 82 01 46 30 0c 06 03 55 1d 13 01 01 ff 04 02 30 00 30 0e 06 03 55 1d 0f 01 01 ff
-0080: 04 04 03 02 07 80 30 1d 06 03 55 1d 0e 04 16 04 14 3a 21 d7 d7 02 c4 d5 a0 dc e3 04 0e 94 01 5f
-00a0: 38 8d 64 d0 00 30 1f 06 03 55 1d 23 04 18 30 16 80 14 2f 6b e6 14 8d 18 99 96 71 4f c0 23 2e 3e
-00c0: 05 20 2b 57 d4 3d 30 38 06 03 2a 03 01 04 31 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-[responder][device_io] TX FC65 260 bytes (SPDM=255)
-[responder][device_io] RX FC65 6-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
-0000: 12 86 00 01 0a 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_CHUNK_RESPONSE(0x6), size (0xff):
-0000: 12 06 00 01 0a 00 00 00 f3 00 00 00 00 30 38 06 03 2a 03 02 04 31 00 00 00 00 00 00 00 00 00 00
-0020: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0040: 00 00 00 00 00 00 00 30 38 06 03 2a 03 03 04 31 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0060: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0080: 00 30 38 06 03 2a 03 04 04 31 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 30 0a 06 08 2a
-00c0: 86 48 ce 3d 04 03 03 03 68 00 30 65 02 31 00 92 63 37 a9 ff 34 92 28 7e 4c 02 bb 3c e9 6e 92 be
-00e0: 95 04 8c 32 9a 61 cc c5 fb 3a 18 a4 5f 89 ba cd b8 7d c8 e4 5a a1 ae d4 e4 cf 9e e2 76 a9 b1
-[responder][device_io] TX FC65 260 bytes (SPDM=255)
-[responder][device_io] RX FC65 6-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_CHUNK_GET(0x86), size (0x6):
-0000: 12 86 00 01 0b 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_CHUNK_RESPONSE(0x6), size (0x3e):
-0000: 12 06 01 01 0b 00 00 00 32 00 00 00 02 30 29 73 ce 96 42 6a 98 57 c0 e8 e3 63 c9 5e d1 b6 dc a6
-0020: 37 be af 6d 09 eb ec 37 cd 55 4f 7c 04 36 89 23 54 08 ba 9d ed 3d b2 aa ce d5 00 02 72 84
-[responder][device_io] TX FC65 67 bytes (SPDM=62)
-[responder][device_io] RX FC65 36-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_CHALLENGE(0x83), size (0x24):
-0000: 12 83 00 00 30 f6 4c a3 36 5b ff e1 de c6 77 25 4b 7f 07 61 88 59 cd 90 22 e4 8d b3 eb d5 7f f4
-0020: 8d 95 75 e5
-SpdmSendResponse[0] ...
-m1m2 hash - 12 9b 6f 79 2b e4 5e be 5b b7 57 d7 39 ef 03 34 60 fe f7 fa 80 32 db b2 c5 51 0a 0c 93 8f 13 33 03 dd 97 f5 a6 0c 82 be 14 34 d4 eb 8e 06 39 9b
-SpdmSendResponse[0]: msg SPDM_ERROR(0x7f), size (0x4):
-0000: 12 7f 05 00
-[responder][device_io] TX FC65 9 bytes (SPDM=4)
-[responder][device_io] RX FC65 37-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_GET_MEASUREMENTS(0xe0), size (0x25):
-0000: 12 e0 01 ff 30 f6 4c a3 36 5b ff e1 de c6 77 25 4b 7f 07 61 88 59 cd 90 22 e4 8d b3 eb d5 7f f4
-0020: 8d 95 75 e5 00
-SpdmSendResponse[0] ...
-l1l2 hash - e7 84 f6 00 99 b5 09 22 df 68 31 6a bc f8 79 2c 6a 89 3e 76 66 f3 5a 60 fe c5 df ab aa e4 5f 97 89 25 ab 1c 5b 29 43 54 43 b5 5c 8a 84 81 f7 3f
-SpdmSendResponse[0]: msg SPDM_ERROR(0x7f), size (0x4):
-0000: 12 7f 05 00
-[responder][device_io] TX FC65 9 bytes (SPDM=4)
+iotr54^C[1]    915007 terminated  ./build-cmake/spdm-responder /tmp/spdm_uart_responder
 
-also, there's a warning during compilation
-/mnt/c/Users/melvin.ornales/Downloads/spdm-c-interop-final3/spdm-modbus/src/device_io.c: In function ‘device_io_receive_message’:
-/mnt/c/Users/melvin.ornales/Downloads/spdm-c-interop-final3/spdm-modbus/src/device_io.c:71:41: warning: comparison is always false due to limited range of data type [-Wtype-limits]
-   71 |             header[2] == 0 || header[2] > FC65_MAX_BYTE_COUNT) {
-      |
+
+but without exporting, only error in the challenge and measurement
+cd ~/libspdm-native/libspdm/os_stub/spdm_device_secret_lib_sample
+sed -n 150,300p sign.c
+grep -n "libspdm_get_responder_private_key_from_pem\|libspdm_ec_get_private_key_from_pem" -r . | head
+        ((spdm_version >> SPDM_VERSION_NUMBER_SHIFT_BIT) <= SPDM_MESSAGE_VERSION_11)) {
+        if (result) {
+            libspdm_copy_signature_swap_endian(
+                req_base_asym_alg, signature, *sig_size, signature, *sig_size);
+        }
+    }
+#endif
+
+    return result;
+}
+#endif /* (LIBSPDM_ENABLE_CAPABILITY_MUT_AUTH_CAP) || (...) */
+
+bool libspdm_responder_data_sign(
+    void *spdm_context,
+    spdm_version_number_t spdm_version,
+    uint8_t key_pair_id, uint8_t op_code,
+    uint32_t base_asym_algo, uint32_t pqc_asym_algo,
+    uint32_t base_hash_algo, bool is_data_hash,
+    const uint8_t *message, size_t message_size,
+    uint8_t *signature, size_t *sig_size)
+{
+    void *context;
+    bool result;
+
+    const uint8_t version = spdm_version >> SPDM_VERSION_NUMBER_SHIFT_BIT;
+    const bool multi_key_conn_rsp =
+        ((libspdm_context_t *)spdm_context)->connection_info.multi_key_conn_rsp;
+
+    if (version < SPDM_MESSAGE_VERSION_13) {
+        LIBSPDM_ASSERT(key_pair_id == 0);
+    } else if (version >= SPDM_MESSAGE_VERSION_13) {
+        if (multi_key_conn_rsp) {
+            LIBSPDM_ASSERT(key_pair_id > 0);
+        } else {
+            LIBSPDM_ASSERT(key_pair_id == 0);
+        }
+    }
+
+#if !LIBSPDM_PRIVATE_KEY_MODE_RAW_KEY_ONLY
+    if (g_private_key_mode) {
+        void *private_pem;
+        size_t private_pem_size;
+
+        if (pqc_asym_algo != 0) {
+            result = libspdm_read_responder_pqc_private_key_ex(
+                pqc_asym_algo, key_pair_id, &private_pem, &private_pem_size);
+        } else {
+            result = libspdm_read_responder_private_key_ex(
+                base_asym_algo, key_pair_id, &private_pem, &private_pem_size);
+        }
+        if (!result) {
+            return false;
+        }
+
+        if (pqc_asym_algo != 0) {
+            result = libspdm_pqc_asym_get_private_key_from_pem(
+                pqc_asym_algo, private_pem, private_pem_size, NULL, &context);
+        } else {
+            result = libspdm_asym_get_private_key_from_pem(
+                base_asym_algo, private_pem, private_pem_size, NULL, &context);
+        }
+        if (!result) {
+            libspdm_zero_mem(private_pem, private_pem_size);
+            free(private_pem);
+            return false;
+        }
+
+        if (pqc_asym_algo != 0) {
+            if (is_data_hash) {
+                result = libspdm_pqc_asym_sign_hash(spdm_version, op_code, pqc_asym_algo, base_hash_algo,
+                                                    context,
+                                                    message, message_size, signature, sig_size);
+            } else {
+                result = libspdm_pqc_asym_sign(spdm_version, op_code, pqc_asym_algo,
+                                               base_hash_algo, context,
+                                               message, message_size,
+                                               signature, sig_size);
+            }
+            libspdm_pqc_asym_free(pqc_asym_algo, context);
+        } else {
+            if (is_data_hash) {
+                result = libspdm_asym_sign_hash(spdm_version, op_code, base_asym_algo, base_hash_algo,
+                                                context,
+                                                message, message_size, signature, sig_size);
+            } else {
+                result = libspdm_asym_sign(spdm_version, op_code, base_asym_algo,
+                                           base_hash_algo, context,
+                                           message, message_size,
+                                           signature, sig_size);
+            }
+            libspdm_asym_free(base_asym_algo, context);
+        }
+        libspdm_zero_mem(private_pem, private_pem_size);
+        free(private_pem);
+    } else {
+#endif
+    /* RAW key mode does not support multiple keys (no per-slot raw key data); the slot-4
+     * distinct-key example is only exercised in PEM mode (g_private_key_mode = 1). RAW mode
+     * intentionally always uses the default key. */
+    if (pqc_asym_algo != 0) {
+        result = libspdm_get_responder_pqc_private_key_from_raw_data(pqc_asym_algo, &context);
+    } else {
+        result = libspdm_get_responder_private_key_from_raw_data(base_asym_algo, &context);
+    }
+    if (!result) {
+        return false;
+    }
+
+    if (pqc_asym_algo != 0) {
+        if (is_data_hash) {
+            result = libspdm_pqc_asym_sign_hash(spdm_version, op_code, pqc_asym_algo, base_hash_algo,
+                                                context,
+                                                message, message_size, signature, sig_size);
+        } else {
+            result = libspdm_pqc_asym_sign(spdm_version, op_code, pqc_asym_algo,
+                                           base_hash_algo, context,
+                                           message, message_size,
+                                           signature, sig_size);
+        }
+        libspdm_pqc_asym_free(pqc_asym_algo, context);
+    } else {
+        if (is_data_hash) {
+            result = libspdm_asym_sign_hash(spdm_version, op_code, base_asym_algo, base_hash_algo,
+                                            context,
+                                            message, message_size, signature, sig_size);
+        } else {
+            result = libspdm_asym_sign(spdm_version, op_code, base_asym_algo,
+                                       base_hash_algo, context,
+                                       message, message_size,
+                                       signature, sig_size);
+        }
+        libspdm_asym_free(base_asym_algo, context);
+    }
+#if !LIBSPDM_PRIVATE_KEY_MODE_RAW_KEY_ONLY
+}
+#endif
+
+#if LIBSPDM_SECRET_LIB_SIGN_LITTLE_ENDIAN
+    if ((pqc_asym_algo == 0) &&
+        ((spdm_version >> SPDM_VERSION_NUMBER_SHIFT_BIT) <= SPDM_MESSAGE_VERSION_11)) {
+        if (result) {
+            libspdm_copy_signature_swap_endian(
+                base_asym_algo, signature, *sig_size, signature, *sig_size);
+        }
+    }
+#endif
+
+    return result;
+}
