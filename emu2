@@ -1,205 +1,5 @@
-super wait, why when I am using both C emulators, not working?
-./build-cmake/spdm-requester get-version --port /tmp/spdm_uart_requester --root /mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/root.der
+Again, pyhton requester works on the current C responder but the C requester doesnt
 
-===== SPDM-over-Modbus REQUESTER =====
-[requester][main      ] command=get-version uart_path=/tmp/spdm_uart_requester root_cert_path=/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/root.der
-[requester][device_io] FC65 initialized fd=3 address=0x80
-[requester][setup_capabilities_and_algorithms] advertised: ct_exp=12 cap_flags=0x00020006 asym=ECDSA_P384 hash=SHA384
-[requester][read_file_to_buffer] loaded '/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/root.der' (575 bytes)
-[requester][setup_trusted_root] trusted root certificate installed (575 bytes)
-
----- STEP 1-3: libspdm_init_connection() (GET_VERSION -> GET_CAPABILITIES -> NEGOTIATE_ALGORITHMS) ----
-libspdm_send_spdm_request[0] msg SPDM_GET_VERSION(0x84), size (0x4):
-0000: 10 84 00 00
-[requester][device_io] TX FC65 9 bytes (SPDM=4)
-[requester][device_io] RX FC65 16-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_VERSION(0x4), size (0x10):
-0000: 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00 14
-libspdm_send_spdm_request[0] msg SPDM_GET_CAPABILITIES(0xe1), size (0x14):
-0000: 12 e1 00 00 00 0c 00 00 06 00 02 00 00 20 00 00 00 20 00 00
-[requester][device_io] TX FC65 25 bytes (SPDM=20)
-[requester][device_io] RX FC65 20-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_CAPABILITIES(0x61), size (0x14):
-0000: 12 61 00 00 00 0c 00 00 16 00 02 00 00 20 00 00 00 20 00 00
-libspdm_send_spdm_request[0] msg SPDM_NEGOTIATE_ALGORITHMS(0xe3), size (0x20):
-0000: 12 e3 00 00 20 00 01 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-[requester][device_io] TX FC65 37 bytes (SPDM=32)
-[requester][device_io] RX FC65 36-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_ALGORITHMS(0x63), size (0x24):
-0000: 12 63 00 00 24 00 01 00 04 00 00 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0020: 00 00 00 00
-base_hash - 0x00000002
-base_asym - 0x00000080
-dhe - 0x0000
-aead - 0x0000
-req_asym - 0x0000
-pqc_asym - 0x00000000
-req_pqc_asym - 0x0000
-kem - 0x0000
-[requester][main      ] connection established: version/capabilities/algorithms negotiated OK
-
-===== REQUESTER DONE (get-version) =====
-╭─░▒▓    /mnt/c/Users/melvin.ornales/Downloads/spdm-c-interop-final5/spdm-modbus ························ ✔  system   10:49:21 AM  ▓▒░
-╰─ ./build-cmake/spdm-requester get-capabilities --port /tmp/spdm_uart_requester --root /mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/root.der
-
-===== SPDM-over-Modbus REQUESTER =====
-[requester][main      ] command=get-capabilities uart_path=/tmp/spdm_uart_requester root_cert_path=/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/root.der
-[requester][device_io] FC65 initialized fd=3 address=0x80
-[requester][setup_capabilities_and_algorithms] advertised: ct_exp=12 cap_flags=0x00020006 asym=ECDSA_P384 hash=SHA384
-[requester][read_file_to_buffer] loaded '/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/root.der' (575 bytes)
-[requester][setup_trusted_root] trusted root certificate installed (575 bytes)
-
----- STEP 1-3: libspdm_init_connection() (GET_VERSION -> GET_CAPABILITIES -> NEGOTIATE_ALGORITHMS) ----
-libspdm_send_spdm_request[0] msg SPDM_GET_VERSION(0x84), size (0x4):
-0000: 10 84 00 00
-[requester][device_io] TX FC65 9 bytes (SPDM=4)
-[requester][device_io] RX FC65 16-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_VERSION(0x4), size (0x10):
-0000: 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00 14
-libspdm_send_spdm_request[0] msg SPDM_GET_CAPABILITIES(0xe1), size (0x14):
-0000: 12 e1 00 00 00 0c 00 00 06 00 02 00 00 20 00 00 00 20 00 00
-[requester][device_io] TX FC65 25 bytes (SPDM=20)
-[requester][device_io] RX FC65 20-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_CAPABILITIES(0x61), size (0x14):
-0000: 12 61 00 00 00 0c 00 00 16 00 02 00 00 20 00 00 00 20 00 00
-libspdm_send_spdm_request[0] msg SPDM_NEGOTIATE_ALGORITHMS(0xe3), size (0x20):
-0000: 12 e3 00 00 20 00 01 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-[requester][device_io] TX FC65 37 bytes (SPDM=32)
-[requester][device_io] RX FC65 36-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_ALGORITHMS(0x63), size (0x24):
-0000: 12 63 00 00 24 00 01 00 04 00 00 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0020: 00 00 00 00
-base_hash - 0x00000002
-base_asym - 0x00000080
-dhe - 0x0000
-aead - 0x0000
-req_asym - 0x0000
-pqc_asym - 0x00000000
-req_pqc_asym - 0x0000
-kem - 0x0000
-[requester][main      ] connection established: version/capabilities/algorithms negotiated OK
-
-===== REQUESTER DONE (get-capabilities) =====
-╭─░▒▓    /mnt/c/Users/melvin.ornales/Downloads/spdm-c-interop-final5/spdm-modbus ························ ✔  system   10:49:26 AM  ▓▒░
-╰─ ./build-cmake/spdm-requester get-digests --port /tmp/spdm_uart_requester --root /mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/root.der
-
-===== SPDM-over-Modbus REQUESTER =====
-[requester][main      ] command=get-digests uart_path=/tmp/spdm_uart_requester root_cert_path=/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/root.der
-[requester][device_io] FC65 initialized fd=3 address=0x80
-[requester][setup_capabilities_and_algorithms] advertised: ct_exp=12 cap_flags=0x00020006 asym=ECDSA_P384 hash=SHA384
-[requester][read_file_to_buffer] loaded '/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/root.der' (575 bytes)
-[requester][setup_trusted_root] trusted root certificate installed (575 bytes)
-
----- STEP 1-3: libspdm_init_connection() (GET_VERSION -> GET_CAPABILITIES -> NEGOTIATE_ALGORITHMS) ----
-libspdm_send_spdm_request[0] msg SPDM_GET_VERSION(0x84), size (0x4):
-0000: 10 84 00 00
-[requester][device_io] TX FC65 9 bytes (SPDM=4)
-[requester][device_io] RX FC65 16-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_VERSION(0x4), size (0x10):
-0000: 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00 14
-libspdm_send_spdm_request[0] msg SPDM_GET_CAPABILITIES(0xe1), size (0x14):
-0000: 12 e1 00 00 00 0c 00 00 06 00 02 00 00 20 00 00 00 20 00 00
-[requester][device_io] TX FC65 25 bytes (SPDM=20)
-[requester][device_io] RX FC65 20-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_CAPABILITIES(0x61), size (0x14):
-0000: 12 61 00 00 00 0c 00 00 16 00 02 00 00 20 00 00 00 20 00 00
-libspdm_send_spdm_request[0] msg SPDM_NEGOTIATE_ALGORITHMS(0xe3), size (0x20):
-0000: 12 e3 00 00 20 00 01 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-[requester][device_io] TX FC65 37 bytes (SPDM=32)
-[requester][device_io] RX FC65 36-byte SPDM payload
-libspdm_receive_spdm_response[0] msg SPDM_ALGORITHMS(0x63), size (0x24):
-0000: 12 63 00 00 24 00 01 00 04 00 00 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0020: 00 00 00 00
-base_hash - 0x00000002
-base_asym - 0x00000080
-dhe - 0x0000
-aead - 0x0000
-req_asym - 0x0000
-pqc_asym - 0x00000000
-req_pqc_asym - 0x0000
-kem - 0x0000
-[requester][main      ] connection established: version/capabilities/algorithms negotiated OK
-
----- GET_DIGESTS + GET_CERTIFICATE (slot 0) ----
-
----- STEP 4-5: libspdm_get_certificate() (GET_DIGESTS -> GET_CERTIFICATE, slot 0) ----
-request (offset 0x0, size 0x1ff8):
-libspdm_send_spdm_request[0] msg SPDM_GET_CERTIFICATE(0x82), size (0x8):
-0000: 12 82 00 00 00 00 f8 1f
-[requester][device_io] TX FC65 13 bytes (SPDM=8)
-
-
-################# C responder
-0a60: c8 e4 5a a1 ae d4 e4 cf 9e e2 76 a9 b1 02 30 29 73 ce 96 42 6a 98 57 c0 e8 e3 63 c9 5e d1 b6 dc
-0a80: a6 37 be af 6d 09 eb ec 37 cd 55 4f 7c 04 36 89 23 54 08 ba 9d ed 3d b2 aa ce d5 00 02 72 84
-transport_encode_message : 80010006u
-[responder][main      ] dispatch returned error 0x80010006 -- waiting for next request
-[responder][device_io] RX FC65 4-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_GET_VERSION(0x84), size (0x4):
-0000: 10 84 00 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_VERSION(0x4), size (0x10):
-0000: 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00 14
-[responder][device_io] TX FC65 21 bytes (SPDM=16)
-[responder][device_io] RX FC65 20-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_GET_CAPABILITIES(0xe1), size (0x14):
-0000: 12 e1 00 00 00 0c 00 00 06 00 02 00 00 20 00 00 00 20 00 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_CAPABILITIES(0x61), size (0x14):
-0000: 12 61 00 00 00 0c 00 00 16 00 02 00 00 20 00 00 00 20 00 00
-[responder][device_io] TX FC65 25 bytes (SPDM=20)
-[responder][device_io] RX FC65 32-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_NEGOTIATE_ALGORITHMS(0xe3), size (0x20):
-0000: 12 e3 00 00 20 00 01 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-SpdmSendResponse[0] ...
-base_hash - 0x00000002
-base_asym - 0x00000080
-dhe - 0x0000
-aead - 0x0000
-req_asym - 0x0000
-pqc_asym - 0x00000000
-req_pqc_asym - 0x0000
-kem - 0x0000
-SpdmSendResponse[0]: msg SPDM_ALGORITHMS(0x63), size (0x24):
-0000: 12 63 00 00 24 00 01 00 04 00 00 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0020: 00 00 00 00
-[responder][device_io] TX FC65 41 bytes (SPDM=36)
-[responder][device_io] RX FC65 4-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_GET_VERSION(0x84), size (0x4):
-0000: 10 84 00 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_VERSION(0x4), size (0x10):
-0000: 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00 14
-[responder][device_io] TX FC65 21 bytes (SPDM=16)
-[responder][device_io] RX FC65 20-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_GET_CAPABILITIES(0xe1), size (0x14):
-0000: 12 e1 00 00 00 0c 00 00 06 00 02 00 00 20 00 00 00 20 00 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_CAPABILITIES(0x61), size (0x14):
-0000: 12 61 00 00 00 0c 00 00 16 00 02 00 00 20 00 00 00 20 00 00
-[responder][device_io] TX FC65 25 bytes (SPDM=20)
-[responder][device_io] RX FC65 32-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_NEGOTIATE_ALGORITHMS(0xe3), size (0x20):
-0000: 12 e3 00 00 20 00 01 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-SpdmSendResponse[0] ...
-base_hash - 0x00000002
-base_asym - 0x00000080
-dhe - 0x0000
-aead - 0x0000
-req_asym - 0x0000
-pqc_asym - 0x00000000
-req_pqc_asym - 0x0000
-kem - 0x0000
-SpdmSendResponse[0]: msg SPDM_ALGORITHMS(0x63), size (0x24):
-0000: 12 63 00 00 24 00 01 00 04 00 00 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0020: 00 00 00 00
-[responder][device_io] TX FC65 41 bytes (SPDM=36)
 [responder][device_io] RX FC65 4-byte SPDM payload
 SpdmReceiveRequest[.] ...
 SpdmReceiveRequest[0] msg SPDM_GET_VERSION(0x84), size (0x4):
@@ -326,3 +126,58 @@ SpdmSendResponse[0]: msg SPDM_CERTIFICATE(0x2), size (0xa9f):
 0a80: a6 37 be af 6d 09 eb ec 37 cd 55 4f 7c 04 36 89 23 54 08 ba 9d ed 3d b2 aa ce d5 00 02 72 84
 transport_encode_message : 80010006u
 [responder][main      ] dispatch returned error 0x80010006 -- waiting for next request
+
+
+
+./build-cmake/spdm-requester get-digests --port /tmp/spdm_uart_requester --root /mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/root.der
+
+===== SPDM-over-Modbus REQUESTER =====
+[requester][main      ] command=get-digests uart_path=/tmp/spdm_uart_requester root_cert_path=/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/root.der
+[requester][device_io] FC65 initialized fd=3 address=0x80
+[requester][setup_capabilities_and_algorithms] FATAL-ish: set_data(MAX_SPDM_MSG_SIZE=4096) failed: 0x80010001
+[requester][setup_capabilities_and_algorithms] MAX_SPDM_MSG_SIZE requested=4096 effective=8192
+[requester][setup_capabilities_and_algorithms] WARNING: MAX_SPDM_MSG_SIZE was NOT applied; peer will assume 8192 and send frames > 255 bytes
+[requester][setup_capabilities_and_algorithms] FATAL-ish: set_data(DATA_TRANSFER_SIZE=251) failed: 0x80010002
+[requester][setup_capabilities_and_algorithms] DATA_TRANSFER_SIZE requested=251 effective=8192
+[requester][setup_capabilities_and_algorithms] WARNING: DATA_TRANSFER_SIZE was NOT applied; peer will assume 8192 and send frames > 255 bytes
+[requester][setup_capabilities_and_algorithms] advertised: ct_exp=12 cap_flags=0x00020006 asym=ECDSA_P384 hash=SHA384
+[requester][read_file_to_buffer] loaded '/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/root.der' (575 bytes)
+[requester][setup_trusted_root] trusted root certificate installed (575 bytes)
+
+---- STEP 1-3: libspdm_init_connection() (GET_VERSION -> GET_CAPABILITIES -> NEGOTIATE_ALGORITHMS) ----
+libspdm_send_spdm_request[0] msg SPDM_GET_VERSION(0x84), size (0x4):
+0000: 10 84 00 00
+[requester][device_io] TX FC65 9 bytes (SPDM=4)
+[requester][device_io] RX FC65 16-byte SPDM payload
+libspdm_receive_spdm_response[0] msg SPDM_VERSION(0x4), size (0x10):
+0000: 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00 14
+libspdm_send_spdm_request[0] msg SPDM_GET_CAPABILITIES(0xe1), size (0x14):
+0000: 12 e1 00 00 00 0c 00 00 06 00 02 00 00 20 00 00 00 20 00 00
+[requester][device_io] TX FC65 25 bytes (SPDM=20)
+[requester][device_io] RX FC65 20-byte SPDM payload
+libspdm_receive_spdm_response[0] msg SPDM_CAPABILITIES(0x61), size (0x14):
+0000: 12 61 00 00 00 0c 00 00 16 00 02 00 00 20 00 00 00 20 00 00
+libspdm_send_spdm_request[0] msg SPDM_NEGOTIATE_ALGORITHMS(0xe3), size (0x20):
+0000: 12 e3 00 00 20 00 01 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+[requester][device_io] TX FC65 37 bytes (SPDM=32)
+[requester][device_io] RX FC65 36-byte SPDM payload
+libspdm_receive_spdm_response[0] msg SPDM_ALGORITHMS(0x63), size (0x24):
+0000: 12 63 00 00 24 00 01 00 04 00 00 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+0020: 00 00 00 00
+base_hash - 0x00000002
+base_asym - 0x00000080
+dhe - 0x0000
+aead - 0x0000
+req_asym - 0x0000
+pqc_asym - 0x00000000
+req_pqc_asym - 0x0000
+kem - 0x0000
+[requester][main      ] connection established: version/capabilities/algorithms negotiated OK
+
+---- GET_DIGESTS + GET_CERTIFICATE (slot 0) ----
+
+---- STEP 4-5: libspdm_get_certificate() (GET_DIGESTS -> GET_CERTIFICATE, slot 0) ----
+request (offset 0x0, size 0x1ff8):
+libspdm_send_spdm_request[0] msg SPDM_GET_CERTIFICATE(0x82), size (0x8):
+0000: 12 82 00 00 00 00 f8 1f
+[requester][device_io] TX FC65 13 bytes (SPDM=8)
