@@ -1,10 +1,12 @@
-./spdm-modbus-project/spdm-responder /tmp/spdm_uart_responder spdm_emulator_artifacts/spdm_certificate_chain.bin
+look this is the latest progress, because what I want is for this c implementation, to be compatible/behave like the python emulators(already working)
+
+ ./build-cmake/spdm-responder /tmp/spdm_uart_responder ../spdm_emulator_artifacts/spdm_certificate_chain.bin
 
 ===== SPDM-over-Modbus RESPONDER =====
-[responder][main      ] uart_path=/tmp/spdm_uart_responder cert_chain_path=spdm_emulator_artifacts/spdm_certificate_chain.bin
+[responder][main      ] uart_path=/tmp/spdm_uart_responder cert_chain_path=../spdm_emulator_artifacts/spdm_certificate_chain.bin
 [responder][device_io] FC65 initialized fd=3 address=0x80
-[responder][setup_capabilities_and_algorithms] advertised: ct_exp=12 cap_flags=0x00000032 asym=ECDSA_P384 hash=SHA384
-[responder][read_file_to_buffer] loaded 'spdm_emulator_artifacts/spdm_certificate_chain.bin' (2712 bytes)
+[responder][setup_capabilities_and_algorithms] advertised: ct_exp=12 cap_flags=0x00000036 asym=ECDSA_P384 hash=SHA384
+[responder][read_file_to_buffer] loaded '../spdm_emulator_artifacts/spdm_certificate_chain.bin' (2712 bytes)
 [responder][setup_local_cert_chain] local certificate chain (slot 0) installed (2712 bytes)
 
 ---- responder ready, waiting for requester on '/tmp/spdm_uart_responder' ----
@@ -24,7 +26,7 @@ SpdmReceiveRequest[0] msg SPDM_GET_CAPABILITIES(0xe1), size (0x14):
 0000: 12 e1 00 00 00 00 00 00 00 00 02 00 ff 00 00 00 ff ff ff ff
 SpdmSendResponse[0] ...
 SpdmSendResponse[0]: msg SPDM_CAPABILITIES(0x61), size (0x14):
-0000: 12 61 00 00 00 0c 00 00 32 00 00 00 fb 00 00 00 fb 00 00 00
+0000: 12 61 00 00 00 0c 00 00 36 00 00 00 fb 00 00 00 fb 00 00 00
 [responder][device_io] TX FC65 25 bytes (SPDM=20)
 [responder][device_io] RX FC65 32-byte SPDM payload
 SpdmReceiveRequest[.] ...
@@ -49,8 +51,8 @@ SpdmReceiveRequest[0] msg SPDM_GET_DIGESTS(0x81), size (0x4):
 0000: 12 81 00 00
 SpdmSendResponse[0] ...
 SpdmSendResponse[0]: msg SPDM_DIGESTS(0x1), size (0x34):
-0000: 12 01 00 01 f7 54 a3 1d 35 68 21 ee 8e ef 4f 0c 54 ca ef 3a 2a 4e c3 ee 41 51 81 0e cd d5 96 90
-0020: 69 2a a4 17 c0 87 d0 54 bb 67 81 6b fd b1 c6 80 10 68 75 37
+0000: 12 01 00 01 21 85 c6 b7 43 54 16 58 bb 94 98 34 ac f0 d9 6b a2 e3 bb 8d 99 f9 6c 39 15 2b 8b 60
+0020: b2 8d b6 ac 59 8e 4d 06 78 3f 6f bc 86 56 59 68 6a 48 d9 9e
 [responder][device_io] TX FC65 57 bytes (SPDM=52)
 [responder][device_io] RX FC65 8-byte SPDM payload
 SpdmReceiveRequest[.] ...
@@ -58,12 +60,12 @@ SpdmReceiveRequest[0] msg SPDM_GET_CERTIFICATE(0x82), size (0x8):
 0000: 12 82 00 00 00 00 f0 00
 SpdmSendResponse[0] ...
 SpdmSendResponse[0]: msg SPDM_CERTIFICATE(0x2), size (0xf8):
-0000: 12 02 00 00 f0 00 a8 09 00 00 00 00 7b f3 11 48 e0 e6 01 d6 86 7b 00 00 c0 e4 01 d6 86 7b 00 00
+0000: 12 02 00 00 f0 00 a8 09 00 00 00 00 7b f3 11 48 e0 e6 41 1e 4d 7c 00 00 c0 e4 41 1e 4d 7c 00 00
 0020: 00 00 00 00 00 00 00 00 27 5c ec 26 83 1b 34 27 31 00 00 00 00 00 00 00 01 00 00 00 00 00 00 00
-0040: 60 0a cf 82 74 55 00 00 a0 0a cf 82 74 55 00 00 75 00 00 00 00 00 00 00 30 67 31 1e 30 1c 06 03
+0040: 60 0a 68 3e 30 5d 00 00 a0 0a 68 3e 30 5d 00 00 75 00 00 00 00 00 00 00 30 67 31 1e 30 1c 06 03
 0060: 41 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 0080: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00a0: 51 00 00 00 00 00 00 00 10 d8 d0 82 74 55 00 00 a0 f8 01 d6 86 7b 00 00 b0 f8 01 d6 86 7b 00 00
+00a0: 51 00 00 00 00 00 00 00 10 d8 69 3e 30 5d 00 00 a0 f8 41 1e 4d 7c 00 00 b0 f8 41 1e 4d 7c 00 00
 00c0: 8d 00 00 00 00 01 00 00 0d 00 00 00 80 00 00 00 00 02 00 00 00 00 00 00 00 01 00 00 00 00 00 00
 00e0: 19 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 91 00 00 00 00 00 00 00
 [responder][device_io] TX FC65 253 bytes (SPDM=248)
@@ -73,11 +75,11 @@ SpdmReceiveRequest[0] msg SPDM_GET_CERTIFICATE(0x82), size (0x8):
 0000: 12 82 00 00 f0 00 f0 00
 SpdmSendResponse[0] ...
 SpdmSendResponse[0]: msg SPDM_CERTIFICATE(0x2), size (0xf8):
-0000: 12 02 00 00 f0 00 b8 08 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 a0 c5 d0 82 74 55 00 00
+0000: 12 02 00 00 f0 00 b8 08 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 a0 c5 69 3e 30 5d 00 00
 0020: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 0040: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 0060: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0080: 00 00 00 00 00 00 00 00 50 94 d0 82 74 55 00 00 41 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+0080: 00 00 00 00 00 00 00 00 50 94 69 3e 30 5d 00 00 41 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 00a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 00c0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 41 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 00e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
@@ -91,7 +93,7 @@ SpdmSendResponse[0]: msg SPDM_CERTIFICATE(0x2), size (0xf8):
 0000: 12 02 00 00 f0 00 c8 07 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 0020: 41 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 0040: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0060: 51 00 00 00 00 00 00 00 e0 2f cf 82 74 55 00 00 e0 60 0e d6 86 7b 00 00 60 5f 0e d6 86 7b 00 00
+0060: 51 00 00 00 00 00 00 00 e0 2f 68 3e 30 5d 00 00 e0 60 4e 1e 4d 7c 00 00 60 5f 4e 1e 4d 7c 00 00
 0080: 72 00 00 00 80 00 00 00 32 00 00 00 40 00 00 00 00 02 00 00 00 00 00 00 00 01 00 00 00 00 00 00
 00a0: e2 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 91 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 00c0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
@@ -106,11 +108,11 @@ SpdmSendResponse[0]: msg SPDM_CERTIFICATE(0x2), size (0xf8):
 0000: 12 02 00 00 f0 00 d8 06 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 0020: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 0040: 00 00 00 00 00 00 00 00 32 33 31 32 33 35 39 35 21 00 00 00 00 00 00 00 02 00 00 00 00 80 00 00
-0060: 07 e3 1e d6 86 7b 00 00 b3 b5 1e d6 86 7b 00 00 21 00 00 00 00 00 00 00 60 0d cf 82 74 55 00 00
+0060: 07 e3 5e 1e 4d 7c 00 00 b3 b5 5e 1e 4d 7c 00 00 21 00 00 00 00 00 00 00 60 0d 68 3e 30 5d 00 00
 0080: 00 00 00 00 00 00 00 00 20 35 49 ad 00 00 00 00 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00
-00a0: 94 0a 1f d6 86 7b 00 00 40 8f 2f d6 86 7b 00 00 21 00 00 00 00 00 00 00 a0 0d cf 82 74 55 00 00
-00c0: a0 2c cf 82 74 55 00 00 84 5f 4e 33 00 00 00 00 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00
-00e0: 7f 37 1f d6 86 7b 00 00 40 8c 2f d6 86 7b 00 00 21 00 00 00 00 00 00 00
+00a0: 94 0a 5f 1e 4d 7c 00 00 40 8f 6f 1e 4d 7c 00 00 21 00 00 00 00 00 00 00 a0 0d 68 3e 30 5d 00 00
+00c0: a0 2c 68 3e 30 5d 00 00 84 5f 4e 33 00 00 00 00 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00
+00e0: 7f 37 5f 1e 4d 7c 00 00 40 8c 6f 1e 4d 7c 00 00 21 00 00 00 00 00 00 00
 [responder][device_io] TX FC65 253 bytes (SPDM=248)
 [responder][device_io] RX FC65 8-byte SPDM payload
 SpdmReceiveRequest[.] ...
@@ -118,14 +120,14 @@ SpdmReceiveRequest[0] msg SPDM_GET_CERTIFICATE(0x82), size (0x8):
 0000: 12 82 00 00 c0 03 f0 00
 SpdmSendResponse[0] ...
 SpdmSendResponse[0]: msg SPDM_CERTIFICATE(0x2), size (0xf8):
-0000: 12 02 00 00 f0 00 e8 05 e0 0d cf 82 74 55 00 00 20 2a cf 82 74 55 00 00 8c c4 25 52 00 00 00 00
-0020: 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 91 37 1f d6 86 7b 00 00 40 8b 2f d6 86 7b 00 00
-0040: 21 00 00 00 00 00 00 00 20 0e cf 82 74 55 00 00 10 17 cf 82 74 55 00 00 d9 86 ee d5 00 00 00 00
-0060: 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 79 0c 1f d6 86 7b 00 00 80 3e 2c d6 86 7b 00 00
-0080: 21 00 00 00 00 00 00 00 60 0e cf 82 74 55 00 00 b0 3c cf 82 74 55 00 00 bd 03 8c d2 00 00 00 00
-00a0: 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 92 0c 1f d6 86 7b 00 00 80 3a 2c d6 86 7b 00 00
-00c0: 21 00 00 00 00 00 00 00 a0 0e cf 82 74 55 00 00 00 00 00 00 00 00 00 00 ba e3 88 9a 00 00 00 00
-00e0: 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 a8 37 1f d6 86 7b 00 00
+0000: 12 02 00 00 f0 00 e8 05 e0 0d 68 3e 30 5d 00 00 20 2a 68 3e 30 5d 00 00 8c c4 25 52 00 00 00 00
+0020: 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 91 37 5f 1e 4d 7c 00 00 40 8b 6f 1e 4d 7c 00 00
+0040: 21 00 00 00 00 00 00 00 20 0e 68 3e 30 5d 00 00 10 17 68 3e 30 5d 00 00 d9 86 ee d5 00 00 00 00
+0060: 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 79 0c 5f 1e 4d 7c 00 00 80 3e 6c 1e 4d 7c 00 00
+0080: 21 00 00 00 00 00 00 00 60 0e 68 3e 30 5d 00 00 b0 3c 68 3e 30 5d 00 00 bd 03 8c d2 00 00 00 00
+00a0: 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 92 0c 5f 1e 4d 7c 00 00 80 3a 6c 1e 4d 7c 00 00
+00c0: 21 00 00 00 00 00 00 00 a0 0e 68 3e 30 5d 00 00 00 00 00 00 00 00 00 00 ba e3 88 9a 00 00 00 00
+00e0: 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 a8 37 5f 1e 4d 7c 00 00
 [responder][device_io] TX FC65 253 bytes (SPDM=248)
 [responder][device_io] RX FC65 8-byte SPDM payload
 SpdmReceiveRequest[.] ...
@@ -133,13 +135,13 @@ SpdmReceiveRequest[0] msg SPDM_GET_CERTIFICATE(0x82), size (0x8):
 0000: 12 82 00 00 b0 04 f0 00
 SpdmSendResponse[0] ...
 SpdmSendResponse[0]: msg SPDM_CERTIFICATE(0x2), size (0xf8):
-0000: 12 02 00 00 f0 00 f8 04 80 37 2c d6 86 7b 00 00 21 00 00 00 00 00 00 00 e0 0e cf 82 74 55 00 00
-0020: a0 26 cf 82 74 55 00 00 2c 53 9a a3 00 00 00 00 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00
-0040: c4 37 1f d6 86 7b 00 00 80 36 2c d6 86 7b 00 00 21 00 00 00 00 00 00 00 20 0f cf 82 74 55 00 00
-0060: 40 0d cf 82 74 55 00 00 20 7f cd 2e 00 00 00 00 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00
-0080: 71 0b 1f d6 86 7b 00 00 40 8e 2f d6 86 7b 00 00 21 00 00 00 00 00 00 00 60 0f cf 82 74 55 00 00
+0000: 12 02 00 00 f0 00 f8 04 80 37 6c 1e 4d 7c 00 00 21 00 00 00 00 00 00 00 e0 0e 68 3e 30 5d 00 00
+0020: a0 26 68 3e 30 5d 00 00 2c 53 9a a3 00 00 00 00 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00
+0040: c4 37 5f 1e 4d 7c 00 00 80 36 6c 1e 4d 7c 00 00 21 00 00 00 00 00 00 00 20 0f 68 3e 30 5d 00 00
+0060: 40 0d 68 3e 30 5d 00 00 20 7f cd 2e 00 00 00 00 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00
+0080: 71 0b 5f 1e 4d 7c 00 00 40 8e 6f 1e 4d 7c 00 00 21 00 00 00 00 00 00 00 60 0f 68 3e 30 5d 00 00
 00a0: 00 00 00 00 00 00 00 00 52 88 ec e3 00 00 00 00 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00
-00c0: ab 0c 1f d6 86 7b 00 00 80 3d 2c d6 86 7b 00 00 21 00 00 00 00 00 00 00 a0 0f cf 82 74 55 00 00
+00c0: ab 0c 5f 1e 4d 7c 00 00 80 3d 6c 1e 4d 7c 00 00 21 00 00 00 00 00 00 00 a0 0f 68 3e 30 5d 00 00
 00e0: 00 00 00 00 00 00 00 00 1e f4 a4 a7 00 00 00 00 21 00 00 00 00 00 00 00
 [responder][device_io] TX FC65 253 bytes (SPDM=248)
 [responder][device_io] RX FC65 8-byte SPDM payload
@@ -148,14 +150,14 @@ SpdmReceiveRequest[0] msg SPDM_GET_CERTIFICATE(0x82), size (0x8):
 0000: 12 82 00 00 a0 05 f0 00
 SpdmSendResponse[0] ...
 SpdmSendResponse[0]: msg SPDM_CERTIFICATE(0x2), size (0xf8):
-0000: 12 02 00 00 f0 00 08 04 02 00 00 00 00 00 00 00 c4 0c 1f d6 86 7b 00 00 80 39 2c d6 86 7b 00 00
-0020: 21 00 00 00 00 00 00 00 e0 0f cf 82 74 55 00 00 b0 49 cf 82 74 55 00 00 47 10 23 8f 00 00 00 00
-0040: 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 9e 0e 1f d6 86 7b 00 00 40 91 2f d6 86 7b 00 00
-0060: 21 00 00 00 00 00 00 00 20 10 cf 82 74 55 00 00 70 45 cf 82 74 55 00 00 5c 35 c9 79 00 00 00 00
-0080: 21 00 00 00 00 00 00 00 02 00 00 00 00 80 00 00 ad e2 1e d6 86 7b 00 00 9f e2 1e d6 86 7b 00 00
-00a0: 21 00 00 00 00 00 00 00 60 10 cf 82 74 55 00 00 40 12 cf 82 74 55 00 00 e5 dd 31 b5 00 00 00 00
-00c0: 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 9c 0a 1f d6 86 7b 00 00 40 90 2f d6 86 7b 00 00
-00e0: 21 00 00 00 00 00 00 00 a0 10 cf 82 74 55 00 00 30 35 cf 82 74 55 00 00
+0000: 12 02 00 00 f0 00 08 04 02 00 00 00 00 00 00 00 c4 0c 5f 1e 4d 7c 00 00 80 39 6c 1e 4d 7c 00 00
+0020: 21 00 00 00 00 00 00 00 e0 0f 68 3e 30 5d 00 00 b0 49 68 3e 30 5d 00 00 47 10 23 8f 00 00 00 00
+0040: 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 9e 0e 5f 1e 4d 7c 00 00 40 91 6f 1e 4d 7c 00 00
+0060: 21 00 00 00 00 00 00 00 20 10 68 3e 30 5d 00 00 70 45 68 3e 30 5d 00 00 5c 35 c9 79 00 00 00 00
+0080: 21 00 00 00 00 00 00 00 02 00 00 00 00 80 00 00 ad e2 5e 1e 4d 7c 00 00 9f e2 5e 1e 4d 7c 00 00
+00a0: 21 00 00 00 00 00 00 00 60 10 68 3e 30 5d 00 00 40 12 68 3e 30 5d 00 00 e5 dd 31 b5 00 00 00 00
+00c0: 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 9c 0a 5f 1e 4d 7c 00 00 40 90 6f 1e 4d 7c 00 00
+00e0: 21 00 00 00 00 00 00 00 a0 10 68 3e 30 5d 00 00 30 35 68 3e 30 5d 00 00
 [responder][device_io] TX FC65 253 bytes (SPDM=248)
 [responder][device_io] RX FC65 8-byte SPDM payload
 SpdmReceiveRequest[.] ...
@@ -164,13 +166,13 @@ SpdmReceiveRequest[0] msg SPDM_GET_CERTIFICATE(0x82), size (0x8):
 SpdmSendResponse[0] ...
 SpdmSendResponse[0]: msg SPDM_CERTIFICATE(0x2), size (0xf8):
 0000: 12 02 00 00 f0 00 18 03 36 37 e7 5d 00 00 00 00 21 00 00 00 00 00 00 00 02 00 00 00 00 80 00 00
-0020: b2 e2 1e d6 86 7b 00 00 93 15 1f d6 86 7b 00 00 21 00 00 00 00 00 00 00 e0 10 cf 82 74 55 00 00
+0020: b2 e2 5e 1e 4d 7c 00 00 93 15 5f 1e 4d 7c 00 00 21 00 00 00 00 00 00 00 e0 10 68 3e 30 5d 00 00
 0040: 00 00 00 00 00 00 00 00 d0 05 b3 58 00 00 00 00 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00
-0060: 50 0b 1f d6 86 7b 00 00 80 3f 2c d6 86 7b 00 00 21 00 00 00 00 00 00 00 20 11 cf 82 74 55 00 00
+0060: 50 0b 5f 1e 4d 7c 00 00 80 3f 6c 1e 4d 7c 00 00 21 00 00 00 00 00 00 00 20 11 68 3e 30 5d 00 00
 0080: 00 00 00 00 00 00 00 00 4b 6e 4f 51 00 00 00 00 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00
-00a0: 5c 0b 1f d6 86 7b 00 00 80 3b 2c d6 86 7b 00 00 21 00 00 00 00 00 00 00 60 11 cf 82 74 55 00 00
-00c0: 00 0f cf 82 74 55 00 00 a0 b9 78 b5 00 00 00 00 21 00 00 00 00 00 00 00 02 00 00 00 00 80 00 00
-00e0: c8 e2 1e d6 86 7b 00 00 b6 e2 1e d6 86 7b 00 00 21 00 00 00 00 00 00 00
+00a0: 5c 0b 5f 1e 4d 7c 00 00 80 3b 6c 1e 4d 7c 00 00 21 00 00 00 00 00 00 00 60 11 68 3e 30 5d 00 00
+00c0: 00 0f 68 3e 30 5d 00 00 a0 b9 78 b5 00 00 00 00 21 00 00 00 00 00 00 00 02 00 00 00 00 80 00 00
+00e0: c8 e2 5e 1e 4d 7c 00 00 b6 e2 5e 1e 4d 7c 00 00 21 00 00 00 00 00 00 00
 [responder][device_io] TX FC65 253 bytes (SPDM=248)
 [responder][device_io] RX FC65 8-byte SPDM payload
 SpdmReceiveRequest[.] ...
@@ -178,14 +180,14 @@ SpdmReceiveRequest[0] msg SPDM_GET_CERTIFICATE(0x82), size (0x8):
 0000: 12 82 00 00 80 07 f0 00
 SpdmSendResponse[0] ...
 SpdmSendResponse[0]: msg SPDM_CERTIFICATE(0x2), size (0xf8):
-0000: 12 02 00 00 f0 00 28 02 a0 11 cf 82 74 55 00 00 00 00 00 00 00 00 00 00 f1 7b a8 6b 00 00 00 00
-0020: 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 84 0a 1f d6 86 7b 00 00 40 8d 2f d6 86 7b 00 00
-0040: 21 00 00 00 00 00 00 00 e0 11 cf 82 74 55 00 00 e0 24 cf 82 74 55 00 00 19 f6 3c 06 00 00 00 00
-0060: 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 a4 0a 1f d6 86 7b 00 00 80 3c 2c d6 86 7b 00 00
-0080: 21 00 00 00 00 00 00 00 20 12 cf 82 74 55 00 00 00 00 00 00 00 00 00 00 0b 88 d5 8a 00 00 00 00
-00a0: 21 00 00 00 00 00 00 00 02 00 00 00 00 80 00 00 e1 e2 1e d6 86 7b 00 00 cd e2 1e d6 86 7b 00 00
-00c0: 21 00 00 00 00 00 00 00 60 12 cf 82 74 55 00 00 00 00 00 00 00 00 00 00 65 c1 50 78 00 00 00 00
-00e0: 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 ac 0a 1f d6 86 7b 00 00
+0000: 12 02 00 00 f0 00 28 02 a0 11 68 3e 30 5d 00 00 00 00 00 00 00 00 00 00 f1 7b a8 6b 00 00 00 00
+0020: 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 84 0a 5f 1e 4d 7c 00 00 40 8d 6f 1e 4d 7c 00 00
+0040: 21 00 00 00 00 00 00 00 e0 11 68 3e 30 5d 00 00 e0 24 68 3e 30 5d 00 00 19 f6 3c 06 00 00 00 00
+0060: 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 a4 0a 5f 1e 4d 7c 00 00 80 3c 6c 1e 4d 7c 00 00
+0080: 21 00 00 00 00 00 00 00 20 12 68 3e 30 5d 00 00 00 00 00 00 00 00 00 00 0b 88 d5 8a 00 00 00 00
+00a0: 21 00 00 00 00 00 00 00 02 00 00 00 00 80 00 00 e1 e2 5e 1e 4d 7c 00 00 cd e2 5e 1e 4d 7c 00 00
+00c0: 21 00 00 00 00 00 00 00 60 12 68 3e 30 5d 00 00 00 00 00 00 00 00 00 00 65 c1 50 78 00 00 00 00
+00e0: 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 ac 0a 5f 1e 4d 7c 00 00
 [responder][device_io] TX FC65 253 bytes (SPDM=248)
 [responder][device_io] RX FC65 8-byte SPDM payload
 SpdmReceiveRequest[.] ...
@@ -193,14 +195,14 @@ SpdmReceiveRequest[0] msg SPDM_GET_CERTIFICATE(0x82), size (0x8):
 0000: 12 82 00 00 70 08 f0 00
 SpdmSendResponse[0] ...
 SpdmSendResponse[0]: msg SPDM_CERTIFICATE(0x2), size (0xf8):
-0000: 12 02 00 00 f0 00 38 01 80 38 2c d6 86 7b 00 00 21 00 00 00 00 00 00 00 a0 12 cf 82 74 55 00 00
-0020: b0 4b cf 82 74 55 00 00 87 d1 ec 55 00 00 00 00 21 00 00 00 00 00 00 00 02 00 00 00 00 80 00 00
-0040: fa e2 1e d6 86 7b 00 00 85 b5 1f d6 86 7b 00 00 21 00 00 00 00 00 00 00 e0 12 cf 82 74 55 00 00
-0060: 00 10 cf 82 74 55 00 00 dc 94 9b 0f 00 00 00 00 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00
-0080: b3 b5 1e d6 86 7b 00 00 80 35 2c d6 86 7b 00 00 21 00 00 00 00 00 00 00 20 0d cf 82 74 55 00 00
+0000: 12 02 00 00 f0 00 38 01 80 38 6c 1e 4d 7c 00 00 21 00 00 00 00 00 00 00 a0 12 68 3e 30 5d 00 00
+0020: b0 4b 68 3e 30 5d 00 00 87 d1 ec 55 00 00 00 00 21 00 00 00 00 00 00 00 02 00 00 00 00 80 00 00
+0040: fa e2 5e 1e 4d 7c 00 00 85 b5 5f 1e 4d 7c 00 00 21 00 00 00 00 00 00 00 e0 12 68 3e 30 5d 00 00
+0060: 00 10 68 3e 30 5d 00 00 dc 94 9b 0f 00 00 00 00 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00
+0080: b3 b5 5e 1e 4d 7c 00 00 80 35 6c 1e 4d 7c 00 00 21 00 00 00 00 00 00 00 20 0d 68 3e 30 5d 00 00
 00a0: 00 00 00 00 00 00 00 00 93 53 33 85 00 00 00 00 21 00 00 00 00 00 00 00 02 00 00 00 00 80 00 00
-00c0: 33 e3 1e d6 86 7b 00 00 32 0d 1f d6 86 7b 00 00 21 00 00 00 00 00 00 00 60 13 cf 82 74 55 00 00
-00e0: b0 39 cf 82 74 55 00 00 9d b7 2e 67 00 00 00 00 21 00 00 00 00 00 00 00
+00c0: 33 e3 5e 1e 4d 7c 00 00 32 0d 5f 1e 4d 7c 00 00 21 00 00 00 00 00 00 00 60 13 68 3e 30 5d 00 00
+00e0: b0 39 68 3e 30 5d 00 00 9d b7 2e 67 00 00 00 00 21 00 00 00 00 00 00 00
 [responder][device_io] TX FC65 253 bytes (SPDM=248)
 [responder][device_io] RX FC65 8-byte SPDM payload
 SpdmReceiveRequest[.] ...
@@ -208,14 +210,14 @@ SpdmReceiveRequest[0] msg SPDM_GET_CERTIFICATE(0x82), size (0x8):
 0000: 12 82 00 00 60 09 f0 00
 SpdmSendResponse[0] ...
 SpdmSendResponse[0]: msg SPDM_CERTIFICATE(0x2), size (0xf8):
-0000: 12 02 00 00 f0 00 48 00 02 00 00 00 00 00 00 00 d9 08 1f d6 86 7b 00 00 80 48 2c d6 86 7b 00 00
-0020: 21 00 00 00 00 00 00 00 a0 13 cf 82 74 55 00 00 40 0e cf 82 74 55 00 00 bd fa 16 c7 00 00 00 00
-0040: 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 f0 0f 1f d6 86 7b 00 00 80 47 2c d6 86 7b 00 00
-0060: 21 00 00 00 00 00 00 00 e0 13 cf 82 74 55 00 00 20 2d cf 82 74 55 00 00 02 f1 fc b7 00 00 00 00
-0080: 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 af 45 1f d6 86 7b 00 00 40 f0 30 d6 86 7b 00 00
-00a0: 21 00 00 00 00 00 00 00 20 14 cf 82 74 55 00 00 60 24 cf 82 74 55 00 00 97 80 be d4 00 00 00 00
-00c0: 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 e1 3c 1f d6 86 7b 00 00 80 49 2c d6 86 7b 00 00
-00e0: 21 00 00 00 00 00 00 00 60 14 cf 82 74 55 00 00 b0 41 cf 82 74 55 00 00
+0000: 12 02 00 00 f0 00 48 00 02 00 00 00 00 00 00 00 d9 08 5f 1e 4d 7c 00 00 80 48 6c 1e 4d 7c 00 00
+0020: 21 00 00 00 00 00 00 00 a0 13 68 3e 30 5d 00 00 40 0e 68 3e 30 5d 00 00 bd fa 16 c7 00 00 00 00
+0040: 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 f0 0f 5f 1e 4d 7c 00 00 80 47 6c 1e 4d 7c 00 00
+0060: 21 00 00 00 00 00 00 00 e0 13 68 3e 30 5d 00 00 20 2d 68 3e 30 5d 00 00 02 f1 fc b7 00 00 00 00
+0080: 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 af 45 5f 1e 4d 7c 00 00 40 f0 70 1e 4d 7c 00 00
+00a0: 21 00 00 00 00 00 00 00 20 14 68 3e 30 5d 00 00 60 24 68 3e 30 5d 00 00 97 80 be d4 00 00 00 00
+00c0: 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 e1 3c 5f 1e 4d 7c 00 00 80 49 6c 1e 4d 7c 00 00
+00e0: 21 00 00 00 00 00 00 00 60 14 68 3e 30 5d 00 00 b0 41 68 3e 30 5d 00 00
 [responder][device_io] TX FC65 253 bytes (SPDM=248)
 [responder][device_io] RX FC65 8-byte SPDM payload
 SpdmReceiveRequest[.] ...
@@ -224,8 +226,8 @@ SpdmReceiveRequest[0] msg SPDM_GET_CERTIFICATE(0x82), size (0x8):
 SpdmSendResponse[0] ...
 SpdmSendResponse[0]: msg SPDM_CERTIFICATE(0x2), size (0x50):
 0000: 12 02 00 00 48 00 00 00 f4 e5 7d e4 00 00 00 00 21 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00
-0020: 0e 3d 1f d6 86 7b 00 00 80 4b 2c d6 86 7b 00 00 21 00 00 00 00 00 00 00 a0 14 cf 82 74 55 00 00
-0040: a0 2d cf 82 74 55 00 00 a8 bb ed af 00 00 00 00
+0020: 0e 3d 5f 1e 4d 7c 00 00 80 4b 6c 1e 4d 7c 00 00 21 00 00 00 00 00 00 00 a0 14 68 3e 30 5d 00 00
+0040: a0 2d 68 3e 30 5d 00 00 a8 bb ed af 00 00 00 00
 [responder][device_io] TX FC65 85 bytes (SPDM=80)
 [responder][device_io] RX FC65 36-byte SPDM payload
 SpdmReceiveRequest[.] ...
@@ -233,8 +235,9 @@ SpdmReceiveRequest[0] msg SPDM_CHALLENGE(0x83), size (0x24):
 0000: 12 83 00 00 30 f6 4c a3 36 5b ff e1 de c6 77 25 4b 7f 07 61 88 59 cd 90 22 e4 8d b3 eb d5 7f f4
 0020: 8d 95 75 e5
 SpdmSendResponse[0] ...
+m1m2 hash - fe 95 19 7a 82 44 25 c5 80 4e 26 94 4b 05 03 50 3f 08 ef be 4e ee 19 da 81 86 8b e4 c8 9f 4a 83 be 83 1b 21 59 7e 9b 52 34 85 e6 cc 13 9f f9 51
 SpdmSendResponse[0]: msg SPDM_ERROR(0x7f), size (0x4):
-0000: 12 7f 07 83
+0000: 12 7f 05 00
 [responder][device_io] TX FC65 9 bytes (SPDM=4)
 [responder][device_io] RX FC65 37-byte SPDM payload
 SpdmReceiveRequest[.] ...
@@ -242,81 +245,20 @@ SpdmReceiveRequest[0] msg SPDM_GET_MEASUREMENTS(0xe0), size (0x25):
 0000: 12 e0 01 ff 30 f6 4c a3 36 5b ff e1 de c6 77 25 4b 7f 07 61 88 59 cd 90 22 e4 8d b3 eb d5 7f f4
 0020: 8d 95 75 e5 00
 SpdmSendResponse[0] ...
-l1l2 hash - ce d6 93 de 32 ed c5 e9 3e 9b 22 c1 b8 15 3c 6d f9 b3 ab 33 4f 6f 59 58 22 61 c8 3f ac 3d 93 18 e3 3f 1a c7 17 05 86 64 4b 66 bb 05 75 2d 6d 25
-SpdmSendResponse[0]: msg SPDM_MEASUREMENTS(0x60), size (0xf8):
-0000: 12 60 00 20 02 6e 00 00 01 01 33 00 01 30 00 7a 23 6e f7 a1 f7 c7 00 c3 fa ff 47 da cd e2 28 02
-0020: ba 62 db af c8 7b 67 72 76 39 13 c5 9a ab 40 f8 a7 97 fc 48 f2 73 19 cb 0b ae f9 32 c5 a1 a5 02
-0040: 01 33 00 00 30 00 4e 67 e8 a8 e7 21 75 19 3d da 44 5d f5 f5 18 6d 6c 84 34 cf e5 9a 34 2c 6b 0f
-0060: ce ff 7a fa 4a 54 9d 63 94 68 63 7d d6 93 fb 95 8a c9 92 0c fa b3 c9 17 f0 10 40 10 39 53 9e c7
-0080: 74 5a d0 5e c1 a3 c5 6a a7 a1 c4 8e c5 af d9 8b 8b 90 eb 63 e0 a3 00 00 2e c3 c5 ea 21 1f 61 d2
-00a0: 72 c2 94 7c 2c 64 24 ea 05 10 dc 12 d9 28 50 e0 fc 06 57 a1 a5 a9 b9 de 86 ac 6e 4b 66 53 1e 00
-00c0: 62 6e fa 5e a0 54 b2 9d 94 56 f4 44 08 99 df 30 af 17 58 06 d2 9d fc a5 38 ed aa a2 b3 7a cc 86
-00e0: 01 19 19 8d db cf 1b 14 b2 ce fb e5 d5 ef 40 ab fc c7 de 26 f9 c1 c2 83
-[responder][device_io] TX FC65 253 bytes (SPDM=248)
-
-
-[responder][device_io] RX FC65 4-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_GET_VERSION(0x84), size (0x4):
-0000: 10 84 00 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_VERSION(0x4), size (0x10):
-0000: 10 04 00 00 00 05 00 10 00 11 00 12 00 13 00 14
-[responder][device_io] TX FC65 21 bytes (SPDM=16)
-[responder][device_io] RX FC65 20-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_GET_CAPABILITIES(0xe1), size (0x14):
-0000: 12 e1 00 00 00 00 00 00 00 00 02 00 ff 00 00 00 ff ff ff ff
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_CAPABILITIES(0x61), size (0x14):
-0000: 12 61 00 00 00 0c 00 00 32 00 00 00 fb 00 00 00 fb 00 00 00
-[responder][device_io] TX FC65 25 bytes (SPDM=20)
-[responder][device_io] RX FC65 32-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_NEGOTIATE_ALGORITHMS(0xe3), size (0x20):
-0000: 12 e3 00 00 20 00 01 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-SpdmSendResponse[0] ...
-base_hash - 0x00000002
-base_asym - 0x00000080
-dhe - 0x0000
-aead - 0x0000
-req_asym - 0x0000
-pqc_asym - 0x00000000
-req_pqc_asym - 0x0000
-kem - 0x0000
-SpdmSendResponse[0]: msg SPDM_ALGORITHMS(0x63), size (0x24):
-0000: 12 63 00 00 24 00 01 00 04 00 00 00 80 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0020: 00 00 00 00
-[responder][device_io] TX FC65 41 bytes (SPDM=36)
-[responder][device_io] RX FC65 4-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_GET_DIGESTS(0x81), size (0x4):
-0000: 12 81 00 00
-SpdmSendResponse[0] ...
-SpdmSendResponse[0]: msg SPDM_DIGESTS(0x1), size (0x34):
-0000: 12 01 00 01 c9 08 83 51 b3 65 a0 db 49 b9 c5 02 41 7a 69 89 91 8d 23 16 44 5f de ad b9 67 6c 99
-0020: 90 13 04 cb 5a 58 23 55 87 a2 21 89 69 94 a7 0f 1b 9a 4f 93
-[responder][device_io] TX FC65 57 bytes (SPDM=52)
-[responder][device_io] RX FC65 36-byte SPDM payload
-SpdmReceiveRequest[.] ...
-SpdmReceiveRequest[0] msg SPDM_CHALLENGE(0x83), size (0x24):
-0000: 12 83 00 00 30 f6 4c a3 36 5b ff e1 de c6 77 25 4b 7f 07 61 88 59 cd 90 22 e4 8d b3 eb d5 7f f4
-0020: 8d 95 75 e5
-SpdmSendResponse[0] ...
+l1l2 hash - ef 6b df 6c b2 5a e7 f9 96 38 db 5b be 60 75 e1 8f 80 c5 b6 b7 4f 14 db b9 8b 89 eb 80 eb 6f 60 21 4a d0 16 bd 68 0a 48 cd b8 e6 f9 e6 95 19 80
 SpdmSendResponse[0]: msg SPDM_ERROR(0x7f), size (0x4):
-0000: 12 7f 07 83
+0000: 12 7f 05 00
 [responder][device_io] TX FC65 9 bytes (SPDM=4)
-
-
-################### requester
-./spdm-modbus-project/spdm-requester all --port /tmp/spdm_uart_requester --root /mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/root.der
+[1]    908080 terminated  ./build-cmake/spdm-responder /tmp/spdm_uart_responder
+╭─░▒▓    /mnt/c/U/me/Downloads/spdm-python-c-interop-patch/spdmfix/spdm-modbus-project ······························· TERM ✘  55s   system   08:50:40 AM  ▓▒░
+╰─ ./build-cmake/spdm-requester all --port /tmp/spdm_uart_requester --root ../spdm_emulator_artifacts/root.der
 
 ===== SPDM-over-Modbus REQUESTER =====
-[requester][main      ] command=all uart_path=/tmp/spdm_uart_requester root_cert_path=/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/root.der
+[requester][main      ] command=all uart_path=/tmp/spdm_uart_requester root_cert_path=../spdm_emulator_artifacts/root.der
 [requester][device_io] FC65 initialized fd=3 address=0x80
 [requester][setup_capabilities_and_algorithms] advertised: ct_exp=12 cap_flags=0x00020002 asym=ECDSA_P384 hash=SHA384
-[requester][read_file_to_buffer] loaded '/mnt/c/Users/melvin.ornales/Downloads/china-spdm-emu/spdm_emulator_artifacts/root.der' (575 bytes)
-[requester][setup_trusted_root] trusted root certificate installed (575 bytes)
+[requester][read_file_to_buffer] loaded '../spdm_emulator_artifacts/root.der' (577 bytes)
+[requester][setup_trusted_root] trusted root certificate installed (577 bytes)
 
 ---- STEP 1-3: libspdm_init_connection() (GET_VERSION -> GET_CAPABILITIES -> NEGOTIATE_ALGORITHMS) ----
 libspdm_send_spdm_request[0] msg SPDM_GET_VERSION(0x84), size (0x4):
@@ -627,16 +569,16 @@ cert_info - 0x00
 Certificate (offset 0xa71, size 0x26):
 0000: e3 63 c9 5e d1 b6 dc a6 37 be af 6d 09 eb ec 37 cd 55 4f 7c 04 36 89 23 54 08 ba 9d ed 3d b2 aa
 0020: ce d5 00 02 72 84
-!!! verify_peer_cert_chain_buffer - PASS !!!
+!!! verify_peer_cert_chain_buffer - FAIL (all root cert hash mismatch) !!!
 [requester][main      ] received certificate chain: 2711 bytes
 [requester] first 32 of 2711 bytes: 97 0A 00 00 B9 A2 6E 5D 2D BE F8 0B 5F 19 58 F4 3B E3 46 21 CF A8 B5 3C 8C A3 31 C7 66 C5 96 6C ...
 
 ---- GET_MEASUREMENTS (all blocks, signature requested) ----
-RequesterNonce - ed ec 89 f2 55 ec fb cc ad 21 b9 97 d0 6a 6b 8b b4 ee 8d 73 b1 83 ad b2 ab 6a 14 5c 42 5e db a7
+RequesterNonce - 93 7d 98 ed a7 dc 7a ce 72 1b bf 56 45 a2 fe 2c 33 cb 92 66 9c c7 0d 83 14 a0 cd 24 eb 9d c7 19
 RequesterContext - 00 00 00 00 00 00 00 00
 libspdm_send_spdm_request[0] msg SPDM_GET_MEASUREMENTS(0xe0), size (0x2d):
-0000: 13 e0 01 ff ed ec 89 f2 55 ec fb cc ad 21 b9 97 d0 6a 6b 8b b4 ee 8d 73 b1 83 ad b2 ab 6a 14 5c
-0020: 42 5e db a7 00 00 00 00 00 00 00 00 00
+0000: 13 e0 01 ff 93 7d 98 ed a7 dc 7a ce 72 1b bf 56 45 a2 fe 2c 33 cb 92 66 9c c7 0d 83 14 a0 cd 24
+0020: eb 9d c7 19 00 00 00 00 00 00 00 00 00
 [requester][device_io] TX FC65 50 bytes (SPDM=45)
 [requester][device_io] RX FC65 8-byte SPDM payload
 libspdm_receive_spdm_response[0] msg SPDM_ERROR(0x7f), size (0x8):
@@ -649,16 +591,15 @@ libspdm_receive_spdm_response[0] msg SPDM_MEASUREMENTS(0x60), size (0xf8):
 0000: 13 60 00 00 02 6e 00 00 01 01 33 00 01 30 00 7a 23 6e f7 a1 f7 c7 00 c3 fa ff 47 da cd e2 28 02
 0020: ba 62 db af c8 7b 67 72 76 39 13 c5 9a ab 40 f8 a7 97 fc 48 f2 73 19 cb 0b ae f9 32 c5 a1 a5 02
 0040: 01 33 00 00 30 00 4e 67 e8 a8 e7 21 75 19 3d da 44 5d f5 f5 18 6d 6c 84 34 cf e5 9a 34 2c 6b 0f
-0060: ce ff 7a fa 4a 54 9d 63 94 68 63 7d d6 93 fb 95 8a c9 92 0c fa b3 97 66 5c 58 51 56 d4 58 4f 4a
-0080: 81 bc 6a 61 8a 68 af db 33 05 93 18 7a c4 bc be b0 a1 32 25 ec d9 00 00 75 cc 51 9c 58 a3 37 36
-00a0: 98 1c c8 0f 2b b2 ce f2 2b a5 a1 76 7f f2 aa 0d 9e 2e e6 b5 99 21 e6 06 f8 a5 47 93 e2 e4 ff 4c
-00c0: e5 fd 67 b8 a9 9a bb bc d8 78 d5 f4 2c 96 5c 33 c8 79 17 63 33 e2 09 66 16 39 22 4f 1a fd 7b ce
-00e0: ef db 43 2a 5d 8e 5d 56 e4 48 e9 72 51 26 bd 95 c6 f7 d8 a2 50 e4 82 63
+0060: ce ff 7a fa 4a 54 9d 63 94 68 63 7d d6 93 fb 95 8a c9 92 0c fa b3 cd 84 76 21 c2 fc 63 ce 0f 82
+0080: 40 c5 0f c3 6d 77 0e 07 7a 25 75 f3 80 35 66 70 f6 d2 42 9b f6 fd 00 00 c1 c7 67 69 42 a5 e7 20
+00a0: b0 6d d8 26 7d dc 59 b0 da 84 5a f4 4c b4 0a 8e 92 19 87 9e 01 fc 20 70 7a f4 d9 42 78 3c a6 fc
+00c0: 25 63 ff f1 7f fc 27 47 cf da 94 87 3f 98 64 7a 22 c7 06 70 dc 97 38 41 cb 30 43 65 0e 7f 19 d8
+00e0: a6 b2 a1 2a 35 3f 6a f7 f6 44 18 1a 14 b8 ce 46 28 d2 69 a6 bd cb 0b fe
 measurement_record_length - 0x00006e
-nonce (0x20) - 97 66 5c 58 51 56 d4 58 4f 4a 81 bc 6a 61 8a 68 af db 33 05 93 18 7a c4 bc be b0 a1 32 25 ec d9
+nonce (0x20) - cd 84 76 21 c2 fc 63 ce 0f 82 40 c5 0f c3 6d 77 0e 07 7a 25 75 f3 80 35 66 70 f6 d2 42 9b f6 fd
 [requester][main      ] GET_MEASUREMENTS failed: 0x80010006 (expected until you implement a real measurement-collection callback on the responder side -- see spdm_responder.c)
 
 ===== REQUESTER DONE (all) =====
 
-
-hmmm, can you both give me steps on how to run things too
+Please help me fix, and is the patch for meas.c and the other really necessary? Please help me fix it
