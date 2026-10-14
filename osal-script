@@ -1,376 +1,44 @@
-image with osal lib/cli (pmc-certificate-svc not starting) but can be started manually
-[    4.567399] systemd[1]: Reached target Remote File Systems.
-[  OK  ] Reached target Remote File Systems.
-[    4.607337] systemd[1]: Reached target Slices.
-[  OK  ] Reached target Slices.
-[    4.637396] systemd[1]: Reached target Swap.
-[  OK  ] Reached target Swap.
-[    4.669804] systemd[1]: Listening on Syslog Socket.
-[  OK  ] Listening on Syslog Socket.
-[    4.707834] systemd[1]: Listening on initctl Compatibility Named Pipe.
-[  OK  ] Listening on initctl Compatibility Named Pipe.
-[    4.756132] systemd[1]: Condition check resulted in Journal Audit Socket being skipped.
-[    4.766101] systemd[1]: Listening on Journal Socket (/dev/log).
-[  OK  ] Listening on Journal Socket (/dev/log).
-[    4.808136] systemd[1]: Listening on Journal Socket.
-[  OK  ] Listening on Journal Socket.
-[    4.848349] systemd[1]: Listening on Network Service Netlink Socket.
-[  OK  ] Listening on Network Service Netlink Socket.
-[    4.888128] systemd[1]: Listening on udev Control Socket.
-[  OK  ] Listening on udev Control Socket.
-[    4.927825] systemd[1]: Listening on udev Kernel Socket.
-[  OK  ] Listening on udev Kernel Socket.
-[    4.968095] systemd[1]: Condition check resulted in Huge Pages File System being skipped.
-[    4.977873] systemd[1]: Condition check resulted in POSIX Message Queue File System being skipped.
-[    4.991291] systemd[1]: Mounting Kernel Debug File System...
-         Mounting Kernel Debug File System...
-[    5.028518] systemd[1]: Condition check resulted in Create list of static device nodes for the current kernel being skipped.
-[    5.044531] systemd[1]: Starting Sync system clock from M41T82 RTC...
-         Starting Sync system clock from M41T82 RTC...
-[    5.091055] systemd[1]: Started Boot Process Profiler.
-[    5.097168] rtc-m41t80 10-0068: registered as rtc0
-[  OK  ] Started Boot Process Profiler.
-[    5.137628] systemd[1]: Condition check resulted in File System Check on Root Device being skipped.
-[    5.153840] systemd[1]: Starting Journal Service...
-         Starting Journal Service...
-[    5.206510] systemd[1]: Starting Load Kernel Modules...
-         Starting Load Kernel Modules...
-[    5.250329] systemd[1]: Starting Remount Root and Kernel File Systems...
-         Starting Remount Root and Kernel File Systems...
-[    5.291146] systemd[1]: Starting udev Coldplug all Devices...
-[    5.295143] EXT4-fs (mmcblk0p6): re-mounted. Opts: (null)
-[    5.300708] at24 10-0052: 8192 byte 24c64 EEPROM, writable, 16 bytes/write
-         Starting udev Coldplug all Devices...
-[    5.332609] systemd[1]: Started Journal Service.
-[  OK  ] Started Journal Service.
-[  OK  ] Mounted Kernel Debug File System.
-[  OK  ] Started Load Kernel Modules.
-[  OK  ] Started Remount Root and Kernel File Systems.
-         Mounting Kernel Configuration File System...
-         Starting Flush Journal to Persistent Storage...
-[    5.542303] systemd-journald[99]: Received client request to flush runtime journal.
-         Starting Apply Kernel Variables...
-         Starting Create System Users...
-[  OK  ] Mounted Kernel Configuration File System.
-[  OK  ] Started Flush Journal to Persistent Storage.
-[  OK  ] Started Apply Kernel Variables.
-[  OK  ] Started Create System Users.
-[  OK  ] Started udev Coldplug all Devices.
-         Starting Create Static Device Nodes in /dev...
-         Starting udev Wait for Complete Device Initialization...
-[  OK  ] Started Create Static Device Nodes in /dev.
-[  OK  ] Reached target Local File Systems (Pre).
-         Mounting /tmp...
-         Mounting /var/volatile...
-         Starting udev Kernel Device Manager...
-[  OK  ] Mounted /tmp.
-[  OK  ] Mounted /var/volatile.
-[  OK  ] Started udev Kernel Device Manager.
-         Starting Load/Save Random Seed...
-[  OK  ] Found device /dev/mmcblk0p2.
-[  OK  ] Started udev Wait for Complete Device Initialization.
-[  OK  ] Found device /dev/mmcblk0p3.
-[  OK  ] Found device /dev/mmcblk0p1.
-[  OK  ] Found device /dev/mmcblk0p7.
-[  OK  ] Started Hardware RNG Entropy Gatherer Daemon.
-         Starting File System Check on /dev/mmcblk0p1...
-         Starting File System Check on /dev/mmcblk0p2...
-         Starting File System Check on /dev/mmcblk0p3...
-         Starting File System Check on /dev/mmcblk0p7...
-[  OK  ] Started File System Check on /dev/mmcblk0p7.
-         Mounting /staging...
-[  OK  ] Started File System Check on /dev/mmcblk0p2.
-         Mounting /config...
-[  OK  ] Started File System Check on /dev/mmcblk0p1.
-[    8.093694] EXT4-fs (mmcblk0p7): mounted filesystem with ordered data mode. Opts: (null)
-         Mounting /boot/uboot...
-[  OK      8.130078] EXT4-fs (mmcblk0p2): mounted filesystem with ordered data mode. Opts: commit=1
-m] Started Sync system clock from M41T82 RTC.
-[  OK  ] Mounted /staging.
-         Starting Generate networkd 80-wired.conf from nwk.cfg...
-[  OK  ] Mounted /config.
-[  OK  ] Mounted /boot/uboot.
-[  OK  ] Started File System Check on /dev/mmcblk0p3.
-[  OK  ] Started Generate networkd 80-wired.conf from nwk.cfg.
-         Mounting /recovery...
-[  OK  ] Mounted /recovery.
-[  OK  ] Reached target Local File Systems.
-         Starting Rebuild Dynamic Linker Cache...
-         Starting Create Volatile Files and Directories...
-[  OK  ] Started Create Volatile Files and Directories.
-         Starting Run pending postinsts...
-         Starting Rebuild Journal Catalog...
-         Starting Network Time Synchronization...
-         Starting Update UTMP about System Boot/Shutdown...
-[    8.907166] random: crng init done
-[    8.911004] random: 7 urandom warning(s) missed due to ratelimiting
-[  OK  ] Started Update UTMP about System Boot/Shutdown.
-[  OK  ] Started Load/Save Random Seed.
-[  OK  ] Started Rebuild Journal Catalog.
-[  OK  ] Started Rebuild Dynamic Linker Cache.
-         Starting Update is Completed...
-[  OK  ] Started Network Time Synchronization.
-[  OK  ] Started Update is Completed.
-[  OK  ] Reached target System Time Set.
-[  OK  ] Reached target System Time Synchronized.
-[  OK  ] Started Run pending postinsts.
-[  OK  ] Reached target System Initialization.
-[  OK  ] Started Daily Cleanup of Temporary Directories.
-[  OK  ] Reached target Timers.
-[  OK  ] Listening on D-Bus System Message Bus Socket.
-         Starting sshd.socket.
-[  OK  ] Listening on sshd.socket.
-[  OK  ] Reached target Sockets.
-[  OK  ] Reached target Basic System.
-         Starting ADC Temp Sensor Service...
-         Starting Artesyn Bootflag service...
-         Starting Artesyn AlternateFS mount service...
-         Starting Boot Manager Module Service...
-[  OK  ] Started Kernel Logging Service.
-[  OK  ] Started System Logging Service.
-         Starting Fru Config Manager Service...
-         Starting PMC Config Manager Service...
-         Starting PSU Config Manager Service...
-         Starting Shelf Config Manager Service...
-[  OK  ] Started D-Bus System Message Bus.
-[  OK  ] Started FRU Data Manager Service.
-         Starting Logs DB Service...
-[   10.327790] EXT4-fs (mmcblk0p5): mounted filesystem with ordered data mode. Opts: (null)
-[  OK  ] Started PMC DB Service.
-[  OK  ] Started Shelf Data Manager Service.
-         Starting GPIO Patch Service...
-         Starting GPIO Service...
-         Starting GPIO Service...
-[  OK  ] Started Management Controller Housekeeping Service.
-         Starting IPv6 Packet Filtering Framework...
-         Starting IPv4 Packet Filtering Framework...
-[  OK  ] Started Lan Reset Monitor Service.
-         Starting Led Module Service...
-         Starting Led Module Service...
-[  OK  ] Started Device Detect Service.
-         Starting Shelf Housekeeping Service...
-[  OK  ] Started FRU Poll Manager Service.
-[  OK  ] Started PMC Poll Manager Service.
-[  OK  ] Started Shelf Poll Manager Service.
-[  OK  ] Started Serial Getty on ttyS2.
-[  OK  ] Started Serial Getty on ttyS4.
-[  OK  ] Reached target Login Prompts.
-         Starting Login Service...
-         Starting Update Module Service...
-[  OK  ] Started Artesyn Bootflag service.
-[  OK  ] Started Artesyn AlternateFS mount service.
-[  OK  ] Started IPv6 Packet Filtering Framework.
-[  OK  ] Started IPv4 Packet Filtering Framework.
-[  OK  ] Started GPIO Patch Service.
+because these are the one I replaced with the osal lib, so I am not really convinced on modifying the pmc-certificate-svc
+because with these, all is working fine
+pmc-nwk.path
+pmc-nwk.service
+pmc-svc.service
 
-artesyn-poky (Yocto Project Reference Distro) 3.1.8 artesyn-shelf ttyS2
+and the bassh scripts of those
+thjis is our osal-network-boot.service
 
-artesyn-shelf login: ro[FAILED] Failed to start Shelf Housekeeping Service.
-See 'systemctl status hkshelf.service' for details.
-ot
-Password: [  OK  ] Started Login Service.
+[Unit]
+Description=Generate networkd 80-wired.conf from nwk.cfg
+DefaultDependencies=no
 
-[  OK  ] Started Led Module Service.
-[  OK  ] Started GPIO Service.
-[  OK  ] Started GPIO Service.
-admin@artesyn-shelf:~# ls
-admin@artesyn-shelf:~# test
-test                               test_enable_ntp.sh                 test_get_static_ip.sh
-test.coreutils                     test_enable_ssh.sh                 test_get_static_ipv6.sh
-test_disable_dhcp.sh               test_enable_static_network.sh      test_get_static_network_status.sh
-test_disable_dhcp_dns.sh           test_get_dhcp_dns_status.sh        test_patch_dns_servers.sh
-test_disable_dhcp_ntp.sh           test_get_dhcp_ntp_status.sh        test_patch_ntp_servers.sh
-test_disable_dns.sh                test_get_dhcp_status.sh            test_read_dns_servers.sh
-test_disable_ntp.sh                test_get_dns_status.sh             test_read_ntp_servers.sh
-test_disable_ssh.sh                test_get_dynamic_ip.sh             test_replace_dns_servers.sh
-test_disable_static_network.sh     test_get_dynamic_ipv6.sh           test_replace_ntp_servers.sh
-test_enable_dhcp.sh                test_get_hostname.sh               test_set_hostname.sh
-test_enable_dhcp_dns.sh            test_get_mac_address.sh            test_set_mac_address.sh
-test_enable_dhcp_ntp.sh            test_get_ntp_status.sh             test_set_static_ip.sh
-test_enable_dns.sh                 test_get_ssh_status.sh             test_set_static_ipv6.sh
-admin@artesyn-shelf:~# test[  OK  ] Started Logs DB Service.
-[  OK  ] Started Shelf Config Manager Service.
-[  OK  ] Started PMC Config Manager Service.
-[  OK  ] Started Fru Config Manager Service.
-[  OK  ] Started Boot Manager Module Service.
-[  OK  ] Started ADC Temp Sensor Service.
-[  OK  ] Started PSU Config Manager Service.
-[  OK  ] Reached target Network (Pre).
-[  OK  ] Stopped Shelf Housekeeping Service.
-         Starting Shelf Housekeeping Service...
-         Starting Network Service...
-^C
-admin@artesyn-shelf:~# [  OK  ] Started Network Service.
-         Starting OSAL Network D-Bus service...
-         Starting Network Name Resolution...
-[  OK  ] Started OSAL Network D-Bus service.
+# Wait for storage and network directories to be mounted
+RequiresMountsFor=/staging /etc/systemd/network
 
-admin@artesyn-shelf:~# [  OK  ] Started Network Name Resolution.
-[  OK  ] Reached target Network.
-[  OK  ] Reached target Host and Network Name Lookups.
-[  OK  ] Started Respond to IPv6 Node Information Queries.
-         Starting Run Caddy supervisory...
-[  OK  ] Started Network Router Discovery Daemon.
-[  OK  ] Started Advanced Energy PowerShelf Redfish.
-         Starting Setting Ethernet Speed...
-[  OK  ] Started Xinetd A Powerful Replacement For Inetd.
-[  OK  ] Started Setting Ethernet Speed.
-         Stopping PSU Config Manager Service...
-[  OK  ] Stopped PSU Config Manager Service.
-[FAILED] Failed to start Run Caddy supervisory.
-See 'systemctl status pmc-certificate-svc.service' for details.
-[   45.208975] ftgmac100 1e690000.ftgmac eth0: Link is Up - 1Gbps/Full - flow control rx/tx
-[   45.237205] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
-[   45.926621] IPv4: martian source 255.255.255.255 from 10.152.12.69, on dev eth0
-[   45.934884] ll header: 00000000: ff ff ff ff ff ff a4 bb 6d b3 10 85 08 00
-[FAILED] Failed to start Shelf Housekeeping Service.
-See 'systemctl status hkshelf.service' for details.
+# Block the network from coming online until this script finishes
+Before=network.target
+Wants=network.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/osal_network_boot
+
+[Install]
+WantedBy=network.target
 
 
-using the old image
-[  OK  ] Started Kernel Logging Service.
-[  OK  ] Started System Logging Service.
-         Starting Fru Config Manager Service...
-         Starting PMC Config Manager Service...
-         Starting PSU Config Manager Service...
-         Starting Shelf Config Manager Service...
-[  OK  ] Started D-Bus System Message Bus.
-[  OK  ] Started FRU Data Manager Service.
-         Starting Logs DB Service...
-[  OK  ] Started PMC DB Service.
-[  OK  ] Started Shelf Data Manager Service.
-         Starting GPIO Patch Service...
-         Starting GPIO Service...
-         Starting GPIO Service...
-[  OK  ] Started Management Controller Housekeeping Service.
-[  OK  ] Started Lan Reset Monitor Service.
-[   10.738722] EXT4-fs (mmcblk0p6): mounted filesystem with ordered data mode. Opts: (null)
-         Starting Led Module Service...
-         Starting Led Module Service...
-[  OK  ] Started Device Detect Service.
-         Starting Shelf Housekeeping Service...
-[  OK  ] Started FRU Poll Manager Service.
-[  OK  ] Started PMC Poll Manager Service.
-[  OK  ] Started Shelf Poll Manager Service.
-[  OK  ] Started Serial Getty on ttyS2.
-[  OK  ] Started Serial Getty on ttyS4.
-[  OK  ] Reached target Login Prompts.
-         Starting Login Service...
-         Starting Update Module Service...
-[  OK  ] Started Artesyn Bootflag service.
-[  OK  ] Started Artesyn AlternateFS mount service.
-[  OK  ] Started ADC Temp Sensor Service.
-[  OK  ] Started Led Module Service.
-[  OK  ] Started GPIO Service.
-[  OK  ] Started Boot Manager Module Service.
-[  OK  ] Started Fru Config Manager Service.
-[  OK  ] Started PSU Config Manager Service.
-[  OK  ] Started Shelf Config Manager Service.
-[  OK  ] Started Logs DB Service.
-[  OK  ] Started PMC Config Manager Service.
-[  OK  ] Started Led Module Service.
-[  OK  ] Started GPIO Service.
-[  OK  ] Started Update Module Service.
-[   12.968226] ftgmac100 1e690000.ftgmac eth0: Link is Up - 100Mbps/Full - flow control rx/tx
-[   13.005825] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+osal-network.serfice
+[Unit]
+Description=OSAL Network D-Bus service
+After=dbus.service systemd-networkd.service
+Requires=dbus.service
 
-artesyn-poky (Yocto Project Reference Distro) 3.1.8 artesyn-shelf ttyS2
+[Service]
+Type=dbus
+BusName=aei.osal.network1
+ExecStart=/usr/bin/osal_network_service
+Restart=on-failure
 
-artesyn-shelf login: [  OK  ] Started GPIO Patch Service.
-[FAILED] Failed to start Shelf Housekeeping Service.
-See 'systemctl status hkshelf.service' for details.
-[  OK  ] Started Login Service.
-
-artesyn-shelf login: root
-Password: [  OK  ] Stopped Shelf Housekeeping Service.
-         Starting Shelf Housekeeping Service...
-         Stopping Network Service...
-[  OK  ] Stopped Network Service.
-         Starting Network Service...
-[  OK  ] Started Network Service.
-         Stopping PSU Config Manager Service...
-         Stopping Network Service...
-[  OK  ] Stopped PSU Config Manager Service.
-[  OK  ] Stopped Network Service.
-         Starting Network Service...
-[  OK  ] Started Network Service.
-
-admin@artesyn-shelf:~# ls
-admin@artesyn-shelf:~# grep VERSION /etc/os[FAILED] Failed to start Shelf Housekeeping Service.
-See 'systemctl status hkshelf.service' for details.
--release
-VERSION="v06.05.01-ib7"
-VERSION_ID=v06.05.01-ib7
-admin@artesyn-shelf:~# [  OK  ] Stopped Shelf Housekeeping Service.
-         Starting Shelf Housekeeping Service...
-         Stopping Network Service...
-[  OK  ] Stopped Network Service.
-         Starting Network Service...
-[  OK  ] Started Network Service.
-         Stopping Network Service...
-[  OK  ] Stopped Network Service.
-         Starting Network Service...
-[  OK  ] Started Network Service.
-[  OK  ] Started Shelf Housekeeping Service.
-
-admin@artesyn-shelf:~#
-admin@artesyn-shelf:~#
-admin@artesyn-shelf:~#
-admin@artesyn-shelf:~#
-admin@artesyn-shelf:~# test
-test            test.coreutils
-admin@artesyn-shelf:~# test
-test            test.coreutils
-admin@artesyn-shelf:~# cat /etc/systemd/network/80-wired.network.d/80-wired.conf
-[Match]
-Name=eth0
-
-[Network]
-DNS=
-# Enable Both IPv4 and IPv6
-DHCP=yes
-
-# --- IPv4 Static ---
-Address=192.168.0.120/24
-Gateway=192.168.0.2
-
-# --- IPv6 Static ---
-Address=fd12:3456:789a::121/64
-Gateway=fd12:3456:789a::1
-
-LinkLocalAddressing=ipv6
-IPv6AcceptRA=yes
-
-[DHCP]
-RouteMetric=200
-UseMTU=true
-VendorClassIdentifier=Artesyn_700_015496_0000
-admin@artesyn-shelf:~#          Stopping Network Time Synchronization...
-[  OK  ] Started Modbus Service.
-[  OK  ] Started PSU DB Service.
-         Starting PSU Poll Manager...
-[  OK  ] Started PSU Poll Manager.
-         Starting Blackbox Manager Service...
-[  OK  ] Started Blackbox Manager Service.
-         Starting PSU Config Manager Service...
-[  OK  ] Started PSU Config Manager Service.
-[  OK  ] Stopped Network Time Synchronization.
-         Starting Network Time Synchronization...
-[  OK  ] Started Network Time Synchronization.
-
-admin@artesyn-shelf:~#
-admin@artesyn-shelf:~#
-admin@artesyn-shelf:~# clear
-admin@artesyn-shelf:~# cat /etc/systemd/network/80-wired.network.d/80-wired.conf [  OK  ] Started PMC Network Supervisory Path Unit.
-[  OK  ] Started PMC Supervisory Service.
-[  OK  ] Reached target Network.
-[  OK  ] Started Respond to IPv6 Node Information Queries.
-         Starting Run Caddy supervisory...
-[  OK  ] Started PMC Network Supervisory Service.
-[  OK  ] Started Network Router Discovery Daemon.
-[  OK  ] Started Advanced Energy PowerShelf Redfish.
-         Starting Setting Ethernet Speed...
-[  OK  ] Started Xinetd A Powerful Replacement For Inetd.
-[  OK  ] Started Setting Ethernet Speed.
-
+[Install]
+WantedBy=multi-user.target
 
