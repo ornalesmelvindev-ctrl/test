@@ -332,3 +332,5 @@ admin@artesyn-shelf:~# systemctl status caddy
      Active: inactive (dead)
        Docs: https://caddyserver.com/docs/
 
+in the unreachable part, so maybe its just my device because I can ping the dynamic ip outside but cant ssh yet
+then tried on the previous image, same thing so maybe device only
