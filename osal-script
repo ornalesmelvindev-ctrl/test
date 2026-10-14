@@ -8,3 +8,9 @@ is always called, but in our case, for example in osal_set_dns(), it is not call
 
 so now, notify() must be called for both cli and library interface, not just in cli
 so give me back to fix tarball
+
+I mean for now, we will follow the legacy scripts like for exmaple in the disable_dhcp.sh, callPollResource is not called
+I mean just put comments for the place to put when we should call that function in the functions llike disavle_dhcp and the others
+
+Dont overcomplicate things, this one is already working, just really need to modify that one at which callPollResource and dmlogs
+must be called via cli and function call
