@@ -1,219 +1,378 @@
-SUMMARY = "OSAL network library, CLI, and D-Bus service"
-LICENSE = "CLOSED"
-
-SRC_URI = " \
-    git://git@bitbucket.org/advenergy/network-osal.git;protocol=ssh;branch=develop \
-"
-
-PV = "1.0+git${SRCPV}"
-SRCREV = "${AUTOREV}"
-
-S = "${WORKDIR}/git"
-OECMAKE_SOURCEPATH = "${S}/src"
-
-DEPENDS = "json-c systemd"
-
-# Keep Bash completion available for users who explicitly start Bash.
-# The default admin login shell remains unchanged.
-RDEPENDS_${PN} += "bash-completion"
-
-FILES_${PN} += " \
-    ${sysconfdir}/bash_completion.d/osal_network \
-    ${datadir}/dbus-1/system-services \
-    ${datadir}/dbus-1/system.d \
-    ${datadir}/dbus-1/system-services/${DBUS_SERVICE_FILE} \
-    ${datadir}/dbus-1/system.d/${DBUS_CONF_FILE} \
-"
-
-inherit cmake pkgconfig systemd features_check
-
-REQUIRED_DISTRO_FEATURES = "systemd"
-
-SYSTEMD_SERVICE_${PN} = "osal-network-boot.service osal-network.service"
-SYSTEMD_AUTO_ENABLE = "enable"
-
-EXTRA_OECMAKE = " \
-    -DOSAL_BUILD_TESTS=OFF \
-"
-
-do_install_append() {
-    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
-        install -d ${D}${systemd_unitdir}/system
-
-        for service in ${SYSTEMD_SERVICE_${PN}}; do
-            install -m 0644 \
-                ${S}/systemd/${service} \
-                ${D}${systemd_unitdir}/system/
-        done
-
-        install -d ${D}${datadir}/dbus-1/system.d
-        install -m 0644 ${S}/dbus/aei.osal.network1.conf \
-            ${D}${datadir}/dbus-1/system.d/
-        install -d ${D}${datadir}/dbus-1/system-services
-        install -m 0644 ${S}/dbus/aei.osal.network1.service \
-            ${D}${datadir}/dbus-1/system-services/
-    fi
-
-    # Bash-only programmable completion; do not source this from POSIX sh.
-    install -d ${D}${sysconfdir}/bash_completion.d
-    install -m 0644 ${S}/src/osal_cli_completion \
-        ${D}${sysconfdir}/bash_completion.d/osal_network
-}
-
-### old image
-admin@artesyn-shelf:~# systemd-analyze critical-chain systemd-networkd.service; echo ---; systemctl list-dependencies --reverse network-pre.target; echo ---; systemctl cat systemd-networkd.service | grep -E '^(After|Before|Wants|Requires|ExecStart)'; echo ---; systemctl status osal-network-boot.service --no-pager; echo ---; journalctl -b -o short-monotonic -u systemd-networkd -u osal-network-boot -u osal-network | head -40
-The time when unit became active or started is printed after the "@" character.
-The time the unit took to start is printed after the "+" character.
-
-systemd-networkd.service +388ms
-`-systemd-udevd.service @2.502s +96ms
-  `-systemd-tmpfiles-setup-dev.service @2.303s +77ms
-    `-systemd-sysusers.service @2.111s +129ms
-      `-systemd-remount-fs.service @1.741s +228ms
-        `-systemd-journald.socket @1.319s
-          `-system.slice @760ms
-            `--.slice @760ms
+Old image
+admin@artesyn-shelf:~# systemctl status iptables ip6tables
+Unit iptables.service could not be found.
+Unit ip6tables.service could not be found.
+admin@artesyn-shelf:~# systemctl show network-pre.target -p After -p Before -p Wants -p WantedBy; echo ---; systemctl cat iptables.service ip6tables.service; echo ---; journalctl -b -o short-monotonic _PID=1 | grep -iE "network-pre|ordering cycle|iptables|ip6tables|Reached target Network" ; echo ---; systemd-analyze blame | head -15; echo ---; iptables -S; ip6tables -S
+Wants=
+WantedBy=
+Before=network.target shutdown.target systemd-networkd.service
+After=
 ---
-network-pre.target
+No files found for iptables.service.
+No files found for ip6tables.service.
 ---
-After=systemd-udevd.service network-pre.target systemd-sysusers.service systemd-sysctl.service
-Before=network.target multi-user.target shutdown.target
-Wants=network.target
-ExecStart=!!/lib/systemd/systemd-networkd
+[  106.760319] artesyn-shelf systemd[1]: Reached target Network.
+[  231.779752] artesyn-shelf systemd[1]: Reached target Network is Online.
 ---
-Unit osal-network-boot.service could not be found.
+
+ 4min 3.238s sshdgenkeys.service
+ 2min 4.995s pmc-certificate-svc.service
+  2min 163ms systemd-networkd-wait-online.service
+1min 38.276s pmc-svc.service
+     31.418s adctempmodule.service
+     31.273s bootmanager.service
+     31.140s cmfru.service
+     31.106s cmpmc.service
+     31.022s cmshelf.service
+     30.839s dmlogs.service
+     30.671s gpioinputmodule.service
+     30.629s gpiomodule.service
+     30.510s ledmanager.service
+     24.784s ledmodule.service
+     24.413s systemd-logind.service
 ---
--- Logs begin at Sun 2020-09-20 10:43:59 UTC, end at Thu 2026-10-15 08:50:38 UTC. --
-[    6.185938] artesyn-shelf systemd[1]: Starting Network Service...
-[    6.388369] artesyn-shelf systemd-networkd[134]: /lib/systemd/network/80-wired.network.d/80-wired.conf:7: Invalid Gateway='', ignoring assignment: Invalid argument
-[    6.411479] artesyn-shelf systemd-networkd[134]: Enumeration completed
-[    6.415510] artesyn-shelf systemd[1]: Started Network Service.
-[    6.687058] artesyn-shelf systemd-networkd[134]: eth0: IPv6 successfully enabled
-[    6.692378] artesyn-shelf systemd-networkd[134]: eth0: Link UP
-[   12.988395] artesyn-shelf systemd-networkd[134]: eth0: Gained carrier
-[   14.562220] artesyn-shelf systemd-networkd[134]: eth0: Gained IPv6LL
-[   41.657678] artesyn-shelf systemd[1]: Stopping Network Service...
-[   41.759112] artesyn-shelf systemd[1]: systemd-networkd.service: Succeeded.
-[   41.790356] artesyn-shelf systemd[1]: Stopped Network Service.
-[   41.834897] artesyn-shelf systemd[1]: Starting Network Service...
-[   42.206822] artesyn-shelf systemd-networkd[680]: eth0: Gained IPv6LL
-[   42.252171] artesyn-shelf systemd-networkd[680]: Enumeration completed
-[   42.257948] artesyn-shelf systemd[1]: Started Network Service.
-[   42.274779] artesyn-shelf systemd-networkd[680]: eth0: IPv6 successfully enabled
-[   43.498480] artesyn-shelf systemd[1]: Stopping Network Service...
-[   43.573168] artesyn-shelf systemd[1]: systemd-networkd.service: Succeeded.
-[   43.574156] artesyn-shelf systemd[1]: Stopped Network Service.
-[   43.633161] artesyn-shelf systemd[1]: Starting Network Service...
-[   44.037018] artesyn-shelf systemd-networkd[721]: eth0: Gained IPv6LL
-[   44.071560] artesyn-shelf systemd-networkd[721]: Enumeration completed
-[   44.071941] artesyn-shelf systemd[1]: Started Network Service.
-[   44.098619] artesyn-shelf systemd-networkd[721]: eth0: IPv6 successfully enabled
-[   63.703118] artesyn-shelf systemd[1]: Stopping Network Service...
-[   63.768454] artesyn-shelf systemd[1]: systemd-networkd.service: Succeeded.
-[   63.784836] artesyn-shelf systemd[1]: Stopped Network Service.
-[   63.827069] artesyn-shelf systemd[1]: Starting Network Service...
-[   64.195087] artesyn-shelf systemd-networkd[902]: eth0: Gained IPv6LL
-[   64.213238] artesyn-shelf systemd-networkd[902]: Enumeration completed
-[   64.213746] artesyn-shelf systemd[1]: Started Network Service.
-[   64.246654] artesyn-shelf systemd-networkd[902]: eth0: IPv6 successfully enabled
-[   67.124862] artesyn-shelf systemd[1]: Stopping Network Service...
-[   67.197258] artesyn-shelf systemd[1]: systemd-networkd.service: Succeeded.
-[   67.198472] artesyn-shelf systemd[1]: Stopped Network Service.
-[   67.242618] artesyn-shelf systemd[1]: Starting Network Service...
-[   67.585275] artesyn-shelf systemd-networkd[971]: eth0: Gained IPv6LL
-[   67.619925] artesyn-shelf systemd-networkd[971]: Enumeration completed
-[   67.630100] artesyn-shelf systemd[1]: Started Network Service.
+-sh: iptables: command not found
+-sh: ip6tables: command not found
 
 
-## new image
-admin@artesyn-shelf:~# systemd-analyze critical-chain systemd-networkd.service; echo ---; systemctl list-dependencies --reverse network-pre.target; echo ---; systemctl cat systemd-networkd.service | grep -E '^(After|Before|Wants|Requires|ExecStart)'; echo ---; systemctl status osal-network-boot.service --no-pager; echo ---; journalctl -b -o short-monotonic -u systemd-networkd -u osal-network-boot -u osal-network | head -40
-The time when unit became active or started is printed after the "@" character.
-The time the unit took to start is printed after the "+" character.
 
-systemd-networkd.service +444ms
-`-network-pre.target @36.072s
-  `-iptables.service @6.995s +739ms
-    `-basic.target @6.232s
-      `-sockets.target @6.203s
-        `-sshd.socket @6.114s +60ms
-          `-sysinit.target @5.949s
-            `-run-postinsts.service @5.216s +694ms
-              `-systemd-tmpfiles-setup.service @5.026s +149ms
-                `-local-fs.target @4.963s
-                  `-altfs.mount @7.574s
-                    `-dev-mmcblk0p5.device @3.639s
+Current Image
+admin@artesyn-shelf:~# systemctl show network-pre.target -p After -p Before -p Wants -p WantedBy; echo ---; systemctl cat iptables.service ip6tables.service; echo ---; journalctl -b -o short-monotonic _PID=1 | grep -iE "network-pre|ordering cycle|iptables|ip6tables|Reached target Network" ; echo ---; systemd-analyze blame | head -15; echo ---; iptables -S; ip6tables -S
+Wants=
+WantedBy=iptables.service ip6tables.service
+Before=shutdown.target systemd-networkd.service network.target
+After=iptables.service ip6tables.service
 ---
-network-pre.target
-* |-ip6tables.service
-* `-iptables.service
----
-After=systemd-udevd.service network-pre.target systemd-sysusers.service systemd-sysctl.service
-Before=network.target multi-user.target shutdown.target
-Wants=network.target
-ExecStart=!!/lib/systemd/systemd-networkd
----
-* osal-network-boot.service - Generate networkd 80-wired.conf from nwk.cfg
-     Loaded: loaded (/lib/systemd/system/osal-network-boot.service; enabled; vendor preset: enabled)
-     Active: active (exited) since Thu 2026-10-15 07:56:33 UTC; 2min 20s ago
-   Main PID: 172 (code=exited, status=0/SUCCESS)
-     CGroup: /system.slice/osal-network-boot.service
+# /lib/systemd/system/iptables.service
+[Unit]
+Description=IPv4 Packet Filtering Framework
+Before=network-pre.target
+Wants=network-pre.target
 
-Oct 15 07:56:33 artesyn-shelf systemd[1]: Starting Generate networkd 80-wired.conf from nwk.cfg...
-Oct 15 07:56:33 artesyn-shelf osal_network[172]: boot sync
-Oct 15 07:56:33 artesyn-shelf osal_network[172]: wrote /etc/systemd/network/80-wired.network.d/80-wired.conf (402 bytes)
-Oct 15 07:56:33 artesyn-shelf systemd[1]: Started Generate networkd 80-wired.conf from nwk.cfg.
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/iptables-restore -w -- /etc/iptables/iptables.rules
+ExecReload=/usr/sbin/iptables-restore -w -- /etc/iptables/iptables.rules
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+
+# /lib/systemd/system/ip6tables.service
+[Unit]
+Description=IPv6 Packet Filtering Framework
+Before=network-pre.target
+Wants=network-pre.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/ip6tables-restore -w -- /etc/iptables/ip6tables.rules
+ExecReload=/usr/sbin/ip6tables-restore -w -- /etc/iptables/ip6tables.rules
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
 ---
--- Logs begin at Sun 2020-09-20 10:43:59 UTC, end at Thu 2026-10-15 07:58:53 UTC. --
-[    8.302484] artesyn-shelf systemd[1]: Starting Generate networkd 80-wired.conf from nwk.cfg...
-[    8.322786] artesyn-shelf osal_network[172]: boot sync
-[    8.360440] artesyn-shelf osal_network[172]: wrote /etc/systemd/network/80-wired.network.d/80-wired.conf (402 bytes)
-[    8.363888] artesyn-shelf systemd[1]: Started Generate networkd 80-wired.conf from nwk.cfg.
-[   39.690362] artesyn-shelf systemd[1]: Starting Network Service...
-[   40.132802] artesyn-shelf systemd-networkd[594]: Enumeration completed
-[   40.144510] artesyn-shelf systemd[1]: Started Network Service.
-[   40.145319] artesyn-shelf systemd-networkd[594]: eth0: IPv6 successfully enabled
-[   40.166840] artesyn-shelf systemd-networkd[594]: eth0: Link UP
-[   40.187502] artesyn-shelf systemd[1]: Starting OSAL Network D-Bus service...
-[   40.251729] artesyn-shelf systemd[1]: Started OSAL Network D-Bus service.
-[   46.451139] artesyn-shelf systemd-networkd[594]: eth0: Gained carrier
-[   48.241287] artesyn-shelf systemd-networkd[594]: eth0: Gained IPv6LL
+[   39.348346] artesyn-shelf systemd[1]: Reached target Network (Pre).
+[   40.871869] artesyn-shelf systemd[1]: Reached target Network.
+---
+
+29.580s adctempmodule.service
+29.487s bootmanager.service
+29.343s cmfru.service
+29.276s cmpmc.service
+17.784s dmlogs.service
+17.606s gpioinputmodule.service
+12.011s gpiomodule.service
+11.843s ledmanager.service
+11.811s ledmodule.service
+11.481s systemd-logind.service
+11.443s updatemodule.service
+ 6.433s gpio-patch.service
+ 4.234s hkshelf.service
+ 3.194s rtcmanager1.service
+ 2.852s pmc-certificate-svc.service
+---
+-P INPUT ACCEPT
+-P FORWARD ACCEPT
+-P OUTPUT ACCEPT
+-P INPUT ACCEPT
+-P FORWARD ACCEPT
+-P OUTPUT ACCEPT
+
+where tf did this iptables came from?
 
 
-also, do you think patching systemd is involved in here?
-diff --git a/src/libsystemd/libsystemd.sym b/src/libsystemd/libsystemd.sym
-index 5ec42e0f1f..b229d3b35a 100644
---- a/src/libsystemd/libsystemd.sym
-+++ b/src/libsystemd/libsystemd.sym
-@@ -681,4 +681,10 @@ LIBSYSTEMD_243 {
- global:
-         sd_bus_object_vtable_format;
-         sd_event_source_disable_unref;
-+
-+        sd_network_link_get_dns;
-+        sd_network_link_get_ntp;
-+        sd_network_link_get_dhcp4_address;
-+        sd_network_link_get_setup_state;
-+        sd_network_link_get_operational_state;
- } LIBSYSTEMD_241;
-diff --git a/src/systemd/meson.build b/src/systemd/meson.build
-index 05196554ac..6a4904af15 100644
---- a/src/systemd/meson.build
-+++ b/src/systemd/meson.build
-@@ -12,6 +12,7 @@ _systemd_headers = '''
-         sd-journal.h
-         sd-login.h
-         sd-messages.h
-+        sd-network.h
- '''.split()
+
+Am I missing something? Based on our current osal lib implemenation, I will resend to you the supoervisory and the osal scrsipts
+
+take note that on the current image, pmc-svc, pmc-nwk* services is not present, as well as the osal scripts
+
+then, in the services like pmpmc and cmpmc, I just remove the osal scripts calls and changed it using the osal lib interfaces
+
+
+Please help, because as you already know the issue about ssh and the pmc-certificate-svc
+also why those iptables and sshd were in the chain of the networkd??? while theyre not in the old image? confusing? maybe the way I build the image?
+
+
+but as I told you, these are the only thing I changed
+ gst                                                   
+HEAD detached at 6e712ed
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   meta-artesyn-bsp/recipes-bsp/artesyn-boot/artesyn-update/artesyn-update-prescript.sh
+        modified:   meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb
+        modified:   meta-orv3/recipes-artesyn/orv3-redfish/orv3-redfish_git.bb
+        modified:   meta-orv3/recipes-artesyn/osal-scripts/osal-scripts_git.bb
+        modified:   meta-orv3/recipes-artesyn/pmc-config-manager/pmc-config-manager_git.bb
+        modified:   meta-orv3/recipes-artesyn/pmc-poll-manager/pmc-poll-manager_git.bb
+        modified:   meta-orv3/recipes-artesyn/pmc-supervisory/pmc-supervisory_git.bb
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        meta-orv3/recipes-artesyn/osal-network/
+        meta-orv3/recipes-extended/systemd/
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+for example
+    cat tmp                                                                                                                    
+diff --git a/meta-orv3/recipes-artesyn/pmc-supervisory/pmc-supervisory_git.bb b/meta-orv3/recipes-artesyn/pmc-supervisory/pmc-supervisory_git.bb
+index d85ea8b..c5a1215 100644
+--- a/meta-orv3/recipes-artesyn/pmc-supervisory/pmc-supervisory_git.bb
++++ b/meta-orv3/recipes-artesyn/pmc-supervisory/pmc-supervisory_git.bb
+@@ -22,7 +22,6 @@ PV = "1.0+git${SRCPV}"
+ # ${AUTOREV} can work if you want latest commit
+ SRCREV = "${AUTOREV}"
  
- # https://github.com/mesonbuild/meson/issues/1633
-@@ -29,7 +30,6 @@ _not_installed_headers = '''
-         sd-lldp.h
-         sd-ndisc.h
-         sd-netlink.h
--        sd-network.h
-         sd-path.h
-         sd-radv.h
-         sd-resolve.h
+-
+ S = "${WORKDIR}/git"
+ 
+ inherit systemd features_check
+@@ -34,66 +33,40 @@ RDEPENDS_${PN} = "bash"
+ # This is enabled by default in class
+ # SYSTEMD_AUTO_ENABLE = "disable"
+ SYSTEMD_SERVICE_${PN} += " \
+-                                               pmc-svc.service \
+-                                               gpio-patch.service \
+-                                               pmc-nwk.service \
+-                                               setethspeed.service \
++                        gpio-patch.service \
++                        setethspeed.service \
+                         pmc-certificate-svc.service \
+-                        pmc-dhcp-dns-svc.service \
+-                        pmc-dhcp-hostname-svc.service \
+-                        pmc-dhcp-ntp-svc.service \
+-                        pmc-dhcp-dns-svc.path \
+-                        pmc-dhcp-hostname-svc.path \
+-                        pmc-dhcp-ntp-svc.path \
+-                                       "
++                    "
+ 
+-SYSTEMD_PATH_${PN} += " \
+-                                               pmc-nwk.path \
+-                                       "
++SYSTEMD_PATH_${PN} = ""
+ 
+ SVC_FILES_${PN} += " \
+-                                       pmc-svc.sh \
+-                                       gpio-patch-svc.py \
+-                                       pmc-nwk-process.sh \
+-                                       get_ethernet_speed.sh \
+-                                       set_ethernet_speed.sh \
++                    gpio-patch-svc.py \
++                    get_ethernet_speed.sh \
++                    set_ethernet_speed.sh \
+                     pmc-certificate-svc.sh \
+-                    pmc-dhcp-dns-svc.sh \
+-                    pmc-dhcp-hostname-svc.sh \
+-                    pmc-dhcp-ntp-svc.sh \
+-                               "
++                "
+ 
+ FILES_${PN} += " \
+-                       ${systemd_unitdir}/system \
+-                       ${systemd_unitdir}/system/pmc-nwk.path \
+-            ${systemd_unitdir}/system/pmc-dhcp-dns-svc.path \
+-            ${systemd_unitdir}/system/pmc-dhcp-hostname-svc.path \
+-            ${systemd_unitdir}/system/pmc-dhcp-ntp-svc.path \
+-                               "
++            ${systemd_unitdir}/system \
++                "
+ 
+ do_install_append() {
+-       if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
+-               install -d ${D}${systemd_unitdir}/system
++    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
++        install -d ${D}${systemd_unitdir}/system
+ 
+-               # path unit
+-               for path in ${SYSTEMD_PATH_${PN}}; do
+-                       install -m 0644 ${S}/service_config_files/etc/systemd/system/${path} ${D}${systemd_unitdir}/system/
+-                       sed -i -e 's,@BINDIR@,${bindir},g' ${D}${systemd_unitdir}/system/${path}
+-               done
++        # service unit
++        for service in ${SYSTEMD_SERVICE_${PN}}; do
++            install -m 0644 ${S}/service_config_files/etc/systemd/system/${service} ${D}${systemd_unitdir}/system/
++            sed -i -e 's,@BINDIR@,${bindir},g' ${D}${systemd_unitdir}/system/${service}
++        done
++    fi
+ 
+-               # service unit
+-               for service in ${SYSTEMD_SERVICE_${PN}}; do
+-                       install -m 0644 ${S}/service_config_files/etc/systemd/system/${service} ${D}${systemd_unitdir}/system/
+-                       sed -i -e 's,@BINDIR@,${bindir},g' ${D}${systemd_unitdir}/system/${service}
+-               done
+-       fi
+-
+-       install -d ${D}${bindir} 
++    install -d ${D}${bindir}
+     for file in ${SVC_FILES_${PN}}; do
+         install -m 0755 ${S}/${file} ${D}${bindir}/
+     done
+ }
+ 
+-
+ # Specify any options you want to pass to cmake using EXTRA_OECMAKE:
+-EXTRA_OECMAKE = ""
++EXTRA_OECMAKE = ""
+\ No newline at end of file
 
-why I am seeing iptables and ssh in the current? Do you think this is also the cause why I cant ssh immediately in the current image?
+ cat tmp
+diff --git a/meta-orv3/recipes-artesyn/osal-scripts/osal-scripts_git.bb b/meta-orv3/recipes-artesyn/osal-scripts/osal-scripts_git.bb
+index 3b418c4..ee56ffd 100644
+--- a/meta-orv3/recipes-artesyn/osal-scripts/osal-scripts_git.bb
++++ b/meta-orv3/recipes-artesyn/osal-scripts/osal-scripts_git.bb
+@@ -25,60 +25,82 @@ AE_TOOLS_FILES_${PN} += "\
+             json2cbor.py \
+             "
+ 
++# OSAL_SCRIPTS_FILES_${PN} += " \
++#             apply_htps_cert.sh \
++#             cancel_psc_reset.sh \
++#             delete_redfish_users.sh \
++#             disable_dhcp_dns.sh \
++#             disable_dhcp_ntp.sh \
++#             disable_dhcp.sh \
++#             disable_dns.sh \
++#             disable_http.sh \
++#             disable_http_caddy.sh \
++#             disable_ntp.sh \
++#             disable_ssh.sh \
++#             disable_static_network.sh \
++#             enable_dhcp_dns.sh \
++#             enable_dhcp_ntp.sh \
++#             enable_dhcp.sh \
++#             enable_dns.sh \
++#             enable_http.sh \
++#             enable_http_caddy.sh \
++#             enable_ntp.sh \
++#             enable_ssh.sh \
++#             enable_static_network.sh \
++#             get_dhcp_dns_status.sh \
++#             get_dhcp_ntp_status.sh \
++#             get_dhcp_status.sh \
++#             get_dns_status.sh \
++#             get_dynamic_ip.sh \
++#             get_dynamic_ipv6.sh \
++#             get_hostname.sh \
++#             get_http_status.sh \
++#             get_mac_address.sh \
++#             get_ntp_status.sh \
++#             get_ssh_status.sh \
++#             get_static_ip.sh \
++#             get_static_ipv6.sh \
++#             get_time.sh \
++#             get_versions.sh \
++#             get_psc_temperature.sh \
++#             get_busbar_temp.sh \
++#             patch_dns_servers.sh \
++#             patch_ntp_servers.sh \
++#             psc_reset.sh \
++#             read_dns_servers.sh \
++#             read_https_cert_info.sh \
++#             read_ntp_servers.sh \
++#             replace_dns_servers.sh \
++#             replace_network_config.sh \
++#             replace_ntp_servers.sh \
++#             set_hostname.sh \
++#             set_mac_address.sh \
++#             set_persistent_config.sh \
++#             set_ssh_credential.sh \
++#             set_static_ip.sh \
++#             set_static_ipv6.sh \
++#             set_time.sh \
++#             use_default_https_cert.sh \
++#         "
++
+ OSAL_SCRIPTS_FILES_${PN} += " \
+             apply_htps_cert.sh \
+             cancel_psc_reset.sh \
+             delete_redfish_users.sh \
+-            disable_dhcp_dns.sh \
+-            disable_dhcp_ntp.sh \
+-            disable_dhcp.sh \
+-            disable_dns.sh \
+             disable_http.sh \
+             disable_http_caddy.sh \
+-            disable_ntp.sh \
+-            disable_ssh.sh \
+-            disable_static_network.sh \
+-            enable_dhcp_dns.sh \
+-            enable_dhcp_ntp.sh \
+-            enable_dhcp.sh \
+-            enable_dns.sh \
+             enable_http.sh \
+             enable_http_caddy.sh \
+-            enable_ntp.sh \
+-            enable_ssh.sh \
+-            enable_static_network.sh \
+-            get_dhcp_dns_status.sh \
+-            get_dhcp_ntp_status.sh \
+-            get_dhcp_status.sh \
+-            get_dns_status.sh \
+-            get_dynamic_ip.sh \
+-            get_dynamic_ipv6.sh \
+-            get_hostname.sh \
+             get_http_status.sh \
+             get_mac_address.sh \
+-            get_ntp_status.sh \
+-            get_ssh_status.sh \
+-            get_static_ip.sh \
+-            get_static_ipv6.sh \
+             get_time.sh \
+             get_versions.sh \
+             get_psc_temperature.sh \
+             get_busbar_temp.sh \
+-            patch_dns_servers.sh \
+-            patch_ntp_servers.sh \
+             psc_reset.sh \
+-            read_dns_servers.sh \
+             read_https_cert_info.sh \
+-            read_ntp_servers.sh \
+-            replace_dns_servers.sh \
+-            replace_network_config.sh \
+-            replace_ntp_servers.sh \
+-            set_hostname.sh \
+             set_mac_address.sh \
+-            set_persistent_config.sh \
+             set_ssh_credential.sh \
+-            set_static_ip.sh \
+-            set_static_ipv6.sh \
+             set_time.sh \
+           
+this sciprt is just run every software upgrade to save current network config in the nwk.cfg, so I just exit 0
+diff --git a/meta-artesyn-bsp/recipes-bsp/artesyn-boot/artesyn-update/artesyn-update-prescript.sh b/meta-artesyn-bsp/recipes-bsp/artesyn-boot/artesyn-update/artesyn-update-prescript.sh
+index 15f2741..3174766 100644
+--- a/meta-artesyn-bsp/recipes-bsp/artesyn-boot/artesyn-update/artesyn-update-prescript.sh
++++ b/meta-artesyn-bsp/recipes-bsp/artesyn-boot/artesyn-update/artesyn-update-prescript.sh
+@@ -7,6 +7,8 @@
+ 
+ # TODO: make this a generic script to read an extenal file for list of files to be executed
+ 
++exit 0
++
+ function fatal() {
+     echo "FATAL: $@"
+     exit 1
