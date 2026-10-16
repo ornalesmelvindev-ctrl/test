@@ -1,378 +1,450 @@
-Old image
-admin@artesyn-shelf:~# systemctl status iptables ip6tables
-Unit iptables.service could not be found.
-Unit ip6tables.service could not be found.
-admin@artesyn-shelf:~# systemctl show network-pre.target -p After -p Before -p Wants -p WantedBy; echo ---; systemctl cat iptables.service ip6tables.service; echo ---; journalctl -b -o short-monotonic _PID=1 | grep -iE "network-pre|ordering cycle|iptables|ip6tables|Reached target Network" ; echo ---; systemd-analyze blame | head -15; echo ---; iptables -S; ip6tables -S
-Wants=
-WantedBy=
-Before=network.target shutdown.target systemd-networkd.service
-After=
+this is our latest release image(not our image with osal lib)
+    4.467995] systemd[1]: Created slice User and Session Slice.
+[  OK  ] Created slice User and Session Slice.
+[    4.507730] systemd[1]: Started Dispatch Password Requests to Console Directory Watch.
+[  OK  ] Started Dispatch Password …ts to Console Directory Watch.
+[    4.547657] systemd[1]: Started Forward Password Requests to Wall Directory Watch.
+[  OK  ] Started Forward Password R…uests to Wall Directory Watch.
+[    4.587828] systemd[1]: Reached target Paths.
+[  OK  ] Reached target Paths.
+[    4.627423] systemd[1]: Reached target Remote File Systems.
+[  OK  ] Reached target Remote File Systems.
+[    4.667385] systemd[1]: Reached target Slices.
+[  OK  ] Reached target Slices.
+[    4.697402] systemd[1]: Reached target Swap.
+[  OK  ] Reached target Swap.
+[    4.729864] systemd[1]: Listening on Syslog Socket.
+[  OK  ] Listening on Syslog Socket.
+[    4.767889] systemd[1]: Listening on initctl Compatibility Named Pipe.
+[  OK  ] Listening on initctl Compatibility Named Pipe.
+[    4.816183] systemd[1]: Condition check resulted in Journal Audit Socket being skipped.
+[    4.826167] systemd[1]: Listening on Journal Socket (/dev/log).
+[  OK  ] Listening on Journal Socket (/dev/log).
+[    4.868152] systemd[1]: Listening on Journal Socket.
+[  OK  ] Listening on Journal Socket.
+[    4.908349] systemd[1]: Listening on Network Service Netlink Socket.
+[  OK  ] Listening on Network Service Netlink Socket.
+[    4.948194] systemd[1]: Listening on udev Control Socket.
+[  OK  ] Listening on udev Control Socket.
+[    4.987851] systemd[1]: Listening on udev Kernel Socket.
+[  OK  ] Listening on udev Kernel Socket.
+[    5.028170] systemd[1]: Condition check resulted in Huge Pages File System being skipped.
+[    5.037938] systemd[1]: Condition check resulted in POSIX Message Queue File System being skipped.
+[    5.051571] systemd[1]: Mounting Kernel Debug File System...
+         Mounting Kernel Debug File System...
+[    5.088595] systemd[1]: Condition check resulted in Create list of static device nodes for the current kernel being skipped.
+[    5.104682] systemd[1]: Starting Sync system clock from M41T82 RTC...
+         Starting Sync system clock from M41T82 RTC...
+[    5.150618] systemd[1]: Started Boot Process Profiler.
+[  OK      5.157861] rtc-m41t80 10-0068: registered as rtc0
+m] Started Boot Process Profiler.
+[    5.197620] systemd[1]: Condition check resulted in File System Check on Root Device being skipped.
+[    5.213629] systemd[1]: Starting Journal Service...
+         Starting Journal Service...
+[    5.252371] systemd[1]: Starting Load Kernel Modules...
+         Starting Load Kernel Modules...
+[    5.290395] systemd[1]: Starting Remount Root and Kernel File Systems...
+         Starting Remount Root and Kernel File Systems...
+[    5.341029] systemd[1]: Starting udev Coldplug all Devices...
+[    5.342475] EXT4-fs (mmcblk0p6): re-mounted. Opts: (null)
+         Starting udev [    5.356771] at24 10-0052: 8192 byte 24c64 EEPROM, writable, 16 bytes/write
+Coldplug all Devices...
+[    5.394034] systemd[1]: Started Journal Service.
+[  OK  ] Started Journal Service.
+[  OK  ] Mounted Kernel Debug File System.
+[  OK  ] Started Load Kernel Modules.
+[  OK  ] Started Remount Root and Kernel File Systems.
+         Mounting Kernel Configuration File System...
+         Starting Flush Journal to Persistent Storage...
+[    5.606541] systemd-journald[100]: Received client request to flush runtime journal.
+         Starting Apply Kernel Variables...
+         Starting Create System Users...
+[  OK  ] Mounted Kernel Configuration File System.
+[  OK  ] Started Flush Journal to Persistent Storage.
+[  OK  ] Started Apply Kernel Variables.
+[  OK  ] Started Create System Users.
+[  OK  ] Started udev Coldplug all Devices.
+         Starting Create Static Device Nodes in /dev...
+         Starting udev Wait for Complete Device Initialization...
+[  OK  ] Started Create Static Device Nodes in /dev.
+[  OK  ] Reached target Local File Systems (Pre).
+         Mounting /tmp...
+         Mounting /var/volatile...
+         Starting udev Kernel Device Manager...
+[  OK  ] Mounted /tmp.
+[  OK  ] Mounted /var/volatile.
+[  OK  ] Started udev Kernel Device Manager.
+         Starting Network Service...
+         Starting Load/Save Random Seed...
+[  OK  ] Started Network Service.
+[  OK  ] Found device /dev/mmcblk0p3.
+[  OK  ] Started udev Wait for Complete Device Initialization.
+[  OK  ] Found device /dev/mmcblk0p1.
+[  OK  ] Found device /dev/mmcblk0p7.
+[  OK  ] Found device /dev/mmcblk0p2.
+[  OK  ] Started Sync system clock from M41T82 RTC.
+[  OK  ] Started Hardware RNG Entropy Gatherer Daemon.
+         Starting File System Check on /dev/mmcblk0p1...
+         Starting File System Check on /dev/mmcblk0p2...
+         Starting File System Check on /dev/mmcblk0p3...
+         Starting File System Check on /dev/mmcblk0p7...
+[  OK  ] Started File System Check on /dev/mmcblk0p2.
+         Mounting /config...
+[  OK  ] Started File System Check on /dev/mmcblk0p7.
+         Mounting /staging...
+[  OK  ] Started File System Check on /dev/mmcblk0p1.
+         [    8.228386] EXT4-fs (mmcblk0p7): mounted filesystem with ordered data mode. Opts: (null)
+Mounting     8.229062] EXT4-fs (mmcblk0p2): mounted filesystem with ordered data mode. Opts: commit=1
+9m/boot/uboot...
+[  OK  ] Started File System Check on /dev/mmcblk0p3.
+[  OK  ] Mounted /config.
+[  OK  ] Mounted /staging.
+[  OK  ] Mounted /boot/uboot.
+         Mounting /recovery...
+         Starting PMC Supervisory Service...
+[  OK  ] Mounted /recovery.
+[  OK  ] Reached target Local File Systems.
+         Starting Rebuild Dynamic Linker Cache...
+         Starting Create Volatile Files and Directories...
+[  OK  ] Started Create Volatile Files and Directories.
+         Starting Run pending postinsts...
+         Starting Rebuild Journal Catalog...
+         Starting Network Name Resolution...
+         Starting Network Time Synchronization...
+         Starting Update UTMP about System Boot/Shutdown...
+[  OK      9.247216] random: crng init done
+m] Started     9.251368] random: 7 urandom warning(s) missed due to ratelimiting
+;39mRebuild Journal Catalog.
+[  OK  ] Started Update UTMP about System Boot/Shutdown.
+[  OK  ] Started Load/Save Random Seed.
+[  OK  ] Started Rebuild Dynamic Linker Cache.
+         Starting Update is Completed...
+[  OK  ] Started Update is Completed.
+[  OK  ] Started Network Name Resolution.
+[  OK  ] Reached target Host and Network Name Lookups.
+[  OK  ] Started Network Time Synchronization.
+[  OK  ] Reached target System Time Set.
+[  OK  ] Reached target System Time Synchronized.
+[  OK  ] Started Run pending postinsts.
+[  OK  ] Reached target System Initialization.
+[  OK  ] Started Daily Cleanup of Temporary Directories.
+[  OK  ] Reached target Timers.
+[  OK  ] Listening on D-Bus System Message Bus Socket.
+         Starting sshd.socket.
+[  OK  ] Listening on sshd.socket.
+[  OK  ] Reached target Sockets.
+[  OK  ] Reached target Basic System.
+         Starting ADC Temp Sensor Service...
+         Starting Artesyn Bootflag service...
+         Starting Artesyn AlternateFS mount service...
+         Starting Boot Manager Module Service...
+[  OK  ] Started Kernel Logging Service.
+[  OK  ] Started System Logging Service.
+         Starting Fru Config Manager Service...
+         Starting PMC Config Manager Service...
+         Starting PSU Config Manager Service...
+         Starting Shelf Config Manager Service...
+[  OK  ] Started D-Bus System Message Bus.
+[  OK  ] Started FRU Data Manager Service.
+         Starting Logs DB Service...
+[   10.588384] EXT4-fs (mmcblk0p5): mounted filesystem with ordered data mode. Opts: (null)
+[  OK  ] Started PMC DB Service.
+[  OK  ] Started Shelf Data Manager Service.
+         Starting GPIO Patch Service...
+         Starting GPIO Service...
+         Starting GPIO Service...
+[  OK  ] Started Management Controller Housekeeping Service.
+[  OK  ] Started Lan Reset Monitor Service.
+         Starting Led Module Service...
+         Starting Led Module Service...
+[  OK  ] Started Device Detect Service.
+         Starting Shelf Housekeeping Service...
+[  OK  ] Started FRU Poll Manager Service.
+[  OK  ] Started PMC Poll Manager Service.
+[  OK  ] Started Shelf Poll Manager Service.
+[  OK  ] Started Serial Getty on ttyS2.
+[  OK  ] Started Serial Getty on ttyS4.
+[  OK  ] Reached target Login Prompts.
+         Starting Login Service...
+         Starting Update Module Service...
+[  OK  ] Started Artesyn Bootflag service.
+[  OK  ] Started Artesyn AlternateFS mount service.
+[   12.968049] ftgmac100 1e690000.ftgmac eth0: Link is Up - 100Mbps/Full - flow control rx/tx
+[   12.997243] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+
+artesyn-poky (Yocto Project Reference Distro) 3.1.8 artesyn-shelf ttyS2
+
+artesyn-shelf login: [  OK  ] Started GPIO Patch Service.
+[FAILED] Failed to start Shelf Housekeeping Service.
+See 'systemctl status hkshelf.service' for details.
+[  OK  ] Started Update Module Service.
+[  OK  ] Started Login Service.
+[  OK  ] Started Led Module Service.
+[  OK  ] Started Led Module Service.
+[  OK  ] Started GPIO Service.
+[  OK  ] Started GPIO Service.
+[  OK  ] Started Logs DB Service.
+[  OK  ] Started Shelf Config Manager Service.
+[  OK  ] Started PMC Config Manager Service.
+[  OK  ] Started Fru Config Manager Service.
+[  OK  ] Started Boot Manager Module Service.
+[  OK  ] Started ADC Temp Sensor Service.
+[  OK  ] Started PSU Config Manager Service.
+[  OK  ] Stopped Shelf Housekeeping Service.
+         Starting Shelf Housekeeping Service...
+         Stopping Network Service...
+[  OK  ] Stopped Network Service.
+         Starting Network Service...
+[  OK  ] Started Network Service.
+         Stopping PSU Config Manager Service...
+[  OK  ] Stopped PSU Config Manager Service.
+         Stopping Network Service...
+[  OK  ] Stopped Network Service.
+         Starting Network Service...
+[  OK  ] Started Network Service.
+[FAILED] Failed to start Shelf Housekeeping Service.
+See 'systemctl status hkshelf.service' for details.
+[  OK  ] Stopped Shelf Housekeeping Service.
+         Starting Shelf Housekeeping Service...
+         Stopping Network Service...
+[  OK  ] Stopped Network Service.
+         Starting Network Service...
+[  OK  ] Started Network Service.
+         Stopping Network Service...
+[  OK  ] Stopped Network Service.
+         Starting Network Service...
+[  OK  ] Started Network Service.
+[  OK  ] Started Shelf Housekeeping Service.
+         Stopping Network Time Synchronization...
+[  OK  ] Started Modbus Service.
+[  OK  ] Started PSU DB Service.
+         Starting PSU Poll Manager...
+[  OK  ] Started PSU Poll Manager.
+         Starting Blackbox Manager Service...
+[  OK  ] Started Blackbox Manager Service.
+         Starting PSU Config Manager Service...
+[  OK  ] Started PSU Config Manager Service.
+[  OK  ] Stopped Network Time Synchronization.
+         Starting Network Time Synchronization...
+[  OK  ] Started Network Time Synchronization.
+
+artesyn-shelf login: root
+Password: [  OK  ] Started PMC Network Supervisory Path Unit.
+[  OK  ] Started PMC Supervisory Service.
+[  OK  ] Reached target Network.
+[  OK  ] Started Respond to IPv6 Node Information Queries.
+         Starting Run Caddy supervisory...
+[  OK  ] Started PMC Network Supervisory Service.
+[  OK  ] Started Network Router Discovery Daemon.
+[  OK  ] Started Advanced Energy PowerShelf Redfish.
+         Starting Setting Ethernet Speed...
+[  OK  ] Started Xinetd A Powerful Replacement For Inetd.
+[  OK  ] Started Setting Ethernet Speed.
+
+admin@artesyn-shelf:~#          Starting Wait for Network to be Configured...
+
+admin@artesyn-shelf:~# systemctl show iptables.service ip6tables.service network-pre.target -p Id -p ActiveEnterTimestampMonotonic -p InactiveExitTimestampMonotonic; echo ---; journalctl -b -o short-monotonic -u iptables -u ip6tables --no-pager; echo ---; ls -l /etc/iptables/; echo ---; systemd-analyze critical-chain network-pre.target
+Id=iptables.service
+InactiveExitTimestampMonotonic=0
+ActiveEnterTimestampMonotonic=0
+
+Id=ip6tables.service
+InactiveExitTimestampMonotonic=0
+ActiveEnterTimestampMonotonic=0
+
+Id=network-pre.target
+InactiveExitTimestampMonotonic=0
+ActiveEnterTimestampMonotonic=0
 ---
-No files found for iptables.service.
-No files found for ip6tables.service.
+-- Logs begin at Sun 2020-09-20 10:43:59 UTC, end at Fri 2026-10-16 00:33:36 UTC. --
+-- No entries --
 ---
-[  106.760319] artesyn-shelf systemd[1]: Reached target Network.
-[  231.779752] artesyn-shelf systemd[1]: Reached target Network is Online.
+ls: cannot access '/etc/iptables/': No such file or directory
 ---
+Bootup is not yet finished (org.freedesktop.systemd1.Manager.FinishTimestampMonotonic=0).
+Please try again later.
+Hint: Use 'systemctl list-jobs' to see active jobs
+admin@artesyn-shelf:~# systemctl list-jobs
+ JOB UNIT                                 TYPE  STATE
+1318 systemd-networkd-wait-online.service start running
+ 118 systemd-update-utmp-runlevel.service start waiting
+1222 caddy.service                        start waiting
+   1 multi-user.target                    start waiting
+ 126 pmc-certificate-svc.service          start running
+1317 network-online.target                start waiting
 
- 4min 3.238s sshdgenkeys.service
- 2min 4.995s pmc-certificate-svc.service
-  2min 163ms systemd-networkd-wait-online.service
-1min 38.276s pmc-svc.service
-     31.418s adctempmodule.service
-     31.273s bootmanager.service
-     31.140s cmfru.service
-     31.106s cmpmc.service
-     31.022s cmshelf.service
-     30.839s dmlogs.service
-     30.671s gpioinputmodule.service
-     30.629s gpiomodule.service
-     30.510s ledmanager.service
-     24.784s ledmodule.service
-     24.413s systemd-logind.service
+6 jobs listed.
+admin@artesyn-shelf:~# systemctl list-jobs
+ JOB UNIT                                 TYPE  STATE
+1318 systemd-networkd-wait-online.service start running
+ 118 systemd-update-utmp-runlevel.service start waiting
+1222 caddy.service                        start waiting
+   1 multi-user.target                    start waiting
+ 126 pmc-certificate-svc.service          start running
+1317 network-online.target                start waiting
+
+6 jobs listed.
+admin@artesyn-shelf:~# systemctl list-jobs
+ JOB UNIT                                 TYPE  STATE
+1318 systemd-networkd-wait-online.service start running
+ 118 systemd-update-utmp-runlevel.service start waiting
+1222 caddy.service                        start waiting
+   1 multi-user.target                    start waiting
+ 126 pmc-certificate-svc.service          start running
+1317 network-online.target                start waiting
+
+6 jobs listed.
+admin@artesyn-shelf:~# systemctl list-jobs
+ JOB UNIT                                 TYPE  STATE
+1318 systemd-networkd-wait-online.service start running
+ 118 systemd-update-utmp-runlevel.service start waiting
+1222 caddy.service                        start waiting
+   1 multi-user.target                    start waiting
+ 126 pmc-certificate-svc.service          start running
+1317 network-online.target                start waiting
+
+6 jobs listed.
+admin@artesyn-shelf:~# systemctl list-jobs
+ JOB UNIT                                 TYPE  STATE
+1318 systemd-networkd-wait-online.service start running
+ 118 systemd-update-utmp-runlevel.service start waiting
+1222 caddy.service                        start waiting
+   1 multi-user.target                    start waiting
+ 126 pmc-certificate-svc.service          start running
+1317 network-online.target                start waiting
+
+6 jobs listed.
+admin@artesyn-shelf:~# systemctl list-jobs
+ JOB UNIT                                 TYPE  STATE
+1318 systemd-networkd-wait-online.service start running
+ 118 systemd-update-utmp-runlevel.service start waiting
+1222 caddy.service                        start waiting
+   1 multi-user.target                    start waiting
+ 126 pmc-certificate-svc.service          start running
+1317 network-online.target                start waiting
+
+6 jobs listed.
+admin@artesyn-shelf:~# clear
+admin@artesyn-shelf:~# systemctl show iptables.service ip6tables.service network-pre.target -p Id -p ActiveEnterTimestampMonotonic -p InactiveExitTimestampMonotonic; echo ---; journalctl -b -o short-monotonic -u iptables -u ip6tables --no-pager; echo ---; ls -l /etc/iptables/; echo ---; systemd-analyze critical-chain network-pre.target
+Id=iptables.service
+InactiveExitTimestampMonotonic=0
+ActiveEnterTimestampMonotonic=0
+
+Id=ip6tables.service
+InactiveExitTimestampMonotonic=0
+ActiveEnterTimestampMonotonic=0
+
+Id=network-pre.target
+InactiveExitTimestampMonotonic=0
+ActiveEnterTimestampMonotonic=0
 ---
--sh: iptables: command not found
--sh: ip6tables: command not found
-
-
-
-Current Image
-admin@artesyn-shelf:~# systemctl show network-pre.target -p After -p Before -p Wants -p WantedBy; echo ---; systemctl cat iptables.service ip6tables.service; echo ---; journalctl -b -o short-monotonic _PID=1 | grep -iE "network-pre|ordering cycle|iptables|ip6tables|Reached target Network" ; echo ---; systemd-analyze blame | head -15; echo ---; iptables -S; ip6tables -S
-Wants=
-WantedBy=iptables.service ip6tables.service
-Before=shutdown.target systemd-networkd.service network.target
-After=iptables.service ip6tables.service
+-- Logs begin at Sun 2020-09-20 10:43:59 UTC, end at Fri 2026-10-16 00:34:32 UTC. --
+-- No entries --
 ---
-# /lib/systemd/system/iptables.service
-[Unit]
-Description=IPv4 Packet Filtering Framework
-Before=network-pre.target
-Wants=network-pre.target
-
-[Service]
-Type=oneshot
-ExecStart=/usr/sbin/iptables-restore -w -- /etc/iptables/iptables.rules
-ExecReload=/usr/sbin/iptables-restore -w -- /etc/iptables/iptables.rules
-RemainAfterExit=yes
-
-[Install]
-WantedBy=multi-user.target
-
-# /lib/systemd/system/ip6tables.service
-[Unit]
-Description=IPv6 Packet Filtering Framework
-Before=network-pre.target
-Wants=network-pre.target
-
-[Service]
-Type=oneshot
-ExecStart=/usr/sbin/ip6tables-restore -w -- /etc/iptables/ip6tables.rules
-ExecReload=/usr/sbin/ip6tables-restore -w -- /etc/iptables/ip6tables.rules
-RemainAfterExit=yes
-
-[Install]
-WantedBy=multi-user.target
+ls: cannot access '/etc/iptables/': No such file or directory
 ---
-[   39.348346] artesyn-shelf systemd[1]: Reached target Network (Pre).
-[   40.871869] artesyn-shelf systemd[1]: Reached target Network.
+Bootup is not yet finished (org.freedesktop.systemd1.Manager.FinishTimestampMonotonic=0).
+Please try again later.
+Hint: Use 'systemctl list-jobs' to see active jobs
+admin@artesyn-shelf:~# systemctl list-jobs
+ JOB UNIT                                 TYPE  STATE
+1318 systemd-networkd-wait-online.service start running
+ 118 systemd-update-utmp-runlevel.service start waiting
+1222 caddy.service                        start waiting
+   1 multi-user.target                    start waiting
+ 126 pmc-certificate-svc.service          start running
+1317 network-online.target                start waiting
+
+6 jobs listed.
+admin@artesyn-shelf:~# systemctl list-jobs
+ JOB UNIT                                 TYPE  STATE
+1318 systemd-networkd-wait-online.service start running
+ 118 systemd-update-utmp-runlevel.service start waiting
+1222 caddy.service                        start waiting
+   1 multi-user.target                    start waiting
+ 126 pmc-certificate-svc.service          start running
+1317 network-online.target                start waiting
+
+6 jobs listed.
+admin@artesyn-shelf:~# systemctl list-jobs
+ JOB UNIT                                 TYPE  STATE
+1318 systemd-networkd-wait-online.service start running
+ 118 systemd-update-utmp-runlevel.service start waiting
+1222 caddy.service                        start waiting
+   1 multi-user.target                    start waiting
+ 126 pmc-certificate-svc.service          start running
+1317 network-online.target                start waiting
+
+6 jobs listed.
+admin@artesyn-shelf:~# [FAILED] Failed to start Wait for Network to be Configured.
+See 'systemctl status systemd-networkd-wait-online.service' for details.
+[  OK  ] Reached target Network is Online.
+[  OK  ] Started Caddy.
+[  OK  ] Started Run Caddy supervisory.
+[  OK  ] Reached target Multi-User System.
+         Starting Update UTMP about System Runlevel Changes...
+[  OK  ] Started Update UTMP about System Runlevel Changes.
+
+admin@artesyn-shelf:~# systemctl list-jobs
+ JOB UNIT                      TYPE  STATE
+1322 systemd-timedated.service start running
+
+1 jobs listed.
+admin@artesyn-shelf:~# systemctl show iptables.service ip6tables.service network-pre.target -p Id -p ActiveEnterTimestampMonotonic -p InactiveExitTimestampMonotonic; echo ---; journalctl -b -o short-monotonic -u iptables -u ip6tables --no-pager; echo ---; ls -l /etc/iptables/; echo ---; systemd-analyze critical-chain network-pre.target
+Id=iptables.service
+InactiveExitTimestampMonotonic=0
+ActiveEnterTimestampMonotonic=0
+
+Id=ip6tables.service
+InactiveExitTimestampMonotonic=0
+ActiveEnterTimestampMonotonic=0
+
+Id=network-pre.target
+InactiveExitTimestampMonotonic=0
+ActiveEnterTimestampMonotonic=0
 ---
-
-29.580s adctempmodule.service
-29.487s bootmanager.service
-29.343s cmfru.service
-29.276s cmpmc.service
-17.784s dmlogs.service
-17.606s gpioinputmodule.service
-12.011s gpiomodule.service
-11.843s ledmanager.service
-11.811s ledmodule.service
-11.481s systemd-logind.service
-11.443s updatemodule.service
- 6.433s gpio-patch.service
- 4.234s hkshelf.service
- 3.194s rtcmanager1.service
- 2.852s pmc-certificate-svc.service
+-- Logs begin at Sun 2020-09-20 10:43:59 UTC, end at Fri 2026-10-16 00:36:11 UTC. --
+-- No entries --
 ---
--P INPUT ACCEPT
--P FORWARD ACCEPT
--P OUTPUT ACCEPT
--P INPUT ACCEPT
--P FORWARD ACCEPT
--P OUTPUT ACCEPT
-
-where tf did this iptables came from?
+ls: cannot access '/etc/iptables/': No such file or directory
+---
+The time when unit became active or started is printed after the "@" character.
+The time the unit took to start is printed after the "+" character.
 
 
+oe-pkgdata-util find-path /lib/systemd/system/iptables.service
+bitbake -g artesyn-shelf-orv3-image && grep -- '-> "iptables"' pn-depends.dot | head
+grep -rn "iptables" meta-*/ --include=*.bb --include=*.bbappend --include=*.inc --include=*.conf | head -20
+iptables: /lib/systemd/system/iptables.service
+Loading cache: 100% |########################################################################################################################| Time: 0:00:00
+Loaded 3239 entries from dependency cache.
+Parsing recipes: 100% |######################################################################################################################| Time: 0:00:17
+Parsing of 2175 .bb files complete (2134 cached, 41 parsed). 3280 targets, 347 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+NOTE: PN build list saved to 'pn-buildlist'
+NOTE: Task dependencies saved to 'task-depends.dot'
+grep: pn-depends.dot: No such file or directory
+zsh: no matches found: --include=*.bb
+╭─░▒▓ ~/dev/project/super_latest_pmc/ewd-orv3-pmc/artesyn-shelf  master !1 ?2 ···························· ✔  25s  melvin@ewdsabuild  08:21:44 AM ▓▒░
+╰─ rg iptables build/pn-buildlist
+348:iptables
 
-Am I missing something? Based on our current osal lib implemenation, I will resend to you the supoervisory and the osal scrsipts
 
-take note that on the current image, pmc-svc, pmc-nwk* services is not present, as well as the osal scripts
+oe-pkgdata-util find-path /lib/systemd/system/iptables.service
+bitbake -g artesyn-shelf-orv3-image && grep -- '-> "iptables"' pn-depends.dot | head
+grep -rn "iptables" meta-*/ --include=*.bb --include=*.bbappend --include=*.inc --include=*.conf | head -20
+iptables: /lib/systemd/system/iptables.service
+Loading cache: 100% |########################################################################################################################| Time: 0:00:00
+Loaded 3239 entries from dependency cache.
+Parsing recipes: 100% |######################################################################################################################| Time: 0:00:17
+Parsing of 2175 .bb files complete (2134 cached, 41 parsed). 3280 targets, 347 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+NOTE: PN build list saved to 'pn-buildlist'
+NOTE: Task dependencies saved to 'task-depends.dot'
+grep: pn-depends.dot: No such file or directory
+zsh: no matches found: --include=*.bb
+╭─░▒▓ ~/dev/project/super_latest_pmc/ewd-orv3-pmc/artesyn-shelf  master !1 ?2 ···························· ✔  25s  melvin@ewdsabuild  08:21:44 AM ▓▒░
+╰─ rg iptables build/pn-buildlist
+348:iptables
 
-then, in the services like pmpmc and cmpmc, I just remove the osal scripts calls and changed it using the osal lib interfaces
 
-
-Please help, because as you already know the issue about ssh and the pmc-certificate-svc
-also why those iptables and sshd were in the chain of the networkd??? while theyre not in the old image? confusing? maybe the way I build the image?
-
-
-but as I told you, these are the only thing I changed
- gst                                                   
-HEAD detached at 6e712ed
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git restore <file>..." to discard changes in working directory)
-        modified:   meta-artesyn-bsp/recipes-bsp/artesyn-boot/artesyn-update/artesyn-update-prescript.sh
-        modified:   meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb
-        modified:   meta-orv3/recipes-artesyn/orv3-redfish/orv3-redfish_git.bb
-        modified:   meta-orv3/recipes-artesyn/osal-scripts/osal-scripts_git.bb
-        modified:   meta-orv3/recipes-artesyn/pmc-config-manager/pmc-config-manager_git.bb
-        modified:   meta-orv3/recipes-artesyn/pmc-poll-manager/pmc-poll-manager_git.bb
-        modified:   meta-orv3/recipes-artesyn/pmc-supervisory/pmc-supervisory_git.bb
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-        meta-orv3/recipes-artesyn/osal-network/
-        meta-orv3/recipes-extended/systemd/
-
-no changes added to commit (use "git add" and/or "git commit -a")
-
-for example
-    cat tmp                                                                                                                    
-diff --git a/meta-orv3/recipes-artesyn/pmc-supervisory/pmc-supervisory_git.bb b/meta-orv3/recipes-artesyn/pmc-supervisory/pmc-supervisory_git.bb
-index d85ea8b..c5a1215 100644
---- a/meta-orv3/recipes-artesyn/pmc-supervisory/pmc-supervisory_git.bb
-+++ b/meta-orv3/recipes-artesyn/pmc-supervisory/pmc-supervisory_git.bb
-@@ -22,7 +22,6 @@ PV = "1.0+git${SRCPV}"
- # ${AUTOREV} can work if you want latest commit
- SRCREV = "${AUTOREV}"
- 
--
- S = "${WORKDIR}/git"
- 
- inherit systemd features_check
-@@ -34,66 +33,40 @@ RDEPENDS_${PN} = "bash"
- # This is enabled by default in class
- # SYSTEMD_AUTO_ENABLE = "disable"
- SYSTEMD_SERVICE_${PN} += " \
--                                               pmc-svc.service \
--                                               gpio-patch.service \
--                                               pmc-nwk.service \
--                                               setethspeed.service \
-+                        gpio-patch.service \
-+                        setethspeed.service \
-                         pmc-certificate-svc.service \
--                        pmc-dhcp-dns-svc.service \
--                        pmc-dhcp-hostname-svc.service \
--                        pmc-dhcp-ntp-svc.service \
--                        pmc-dhcp-dns-svc.path \
--                        pmc-dhcp-hostname-svc.path \
--                        pmc-dhcp-ntp-svc.path \
--                                       "
-+                    "
- 
--SYSTEMD_PATH_${PN} += " \
--                                               pmc-nwk.path \
--                                       "
-+SYSTEMD_PATH_${PN} = ""
- 
- SVC_FILES_${PN} += " \
--                                       pmc-svc.sh \
--                                       gpio-patch-svc.py \
--                                       pmc-nwk-process.sh \
--                                       get_ethernet_speed.sh \
--                                       set_ethernet_speed.sh \
-+                    gpio-patch-svc.py \
-+                    get_ethernet_speed.sh \
-+                    set_ethernet_speed.sh \
-                     pmc-certificate-svc.sh \
--                    pmc-dhcp-dns-svc.sh \
--                    pmc-dhcp-hostname-svc.sh \
--                    pmc-dhcp-ntp-svc.sh \
--                               "
-+                "
- 
- FILES_${PN} += " \
--                       ${systemd_unitdir}/system \
--                       ${systemd_unitdir}/system/pmc-nwk.path \
--            ${systemd_unitdir}/system/pmc-dhcp-dns-svc.path \
--            ${systemd_unitdir}/system/pmc-dhcp-hostname-svc.path \
--            ${systemd_unitdir}/system/pmc-dhcp-ntp-svc.path \
--                               "
-+            ${systemd_unitdir}/system \
-+                "
- 
- do_install_append() {
--       if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
--               install -d ${D}${systemd_unitdir}/system
-+    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
-+        install -d ${D}${systemd_unitdir}/system
- 
--               # path unit
--               for path in ${SYSTEMD_PATH_${PN}}; do
--                       install -m 0644 ${S}/service_config_files/etc/systemd/system/${path} ${D}${systemd_unitdir}/system/
--                       sed -i -e 's,@BINDIR@,${bindir},g' ${D}${systemd_unitdir}/system/${path}
--               done
-+        # service unit
-+        for service in ${SYSTEMD_SERVICE_${PN}}; do
-+            install -m 0644 ${S}/service_config_files/etc/systemd/system/${service} ${D}${systemd_unitdir}/system/
-+            sed -i -e 's,@BINDIR@,${bindir},g' ${D}${systemd_unitdir}/system/${service}
-+        done
-+    fi
- 
--               # service unit
--               for service in ${SYSTEMD_SERVICE_${PN}}; do
--                       install -m 0644 ${S}/service_config_files/etc/systemd/system/${service} ${D}${systemd_unitdir}/system/
--                       sed -i -e 's,@BINDIR@,${bindir},g' ${D}${systemd_unitdir}/system/${service}
--               done
--       fi
--
--       install -d ${D}${bindir} 
-+    install -d ${D}${bindir}
-     for file in ${SVC_FILES_${PN}}; do
-         install -m 0755 ${S}/${file} ${D}${bindir}/
-     done
- }
- 
--
- # Specify any options you want to pass to cmake using EXTRA_OECMAKE:
--EXTRA_OECMAKE = ""
-+EXTRA_OECMAKE = ""
-\ No newline at end of file
-
- cat tmp
-diff --git a/meta-orv3/recipes-artesyn/osal-scripts/osal-scripts_git.bb b/meta-orv3/recipes-artesyn/osal-scripts/osal-scripts_git.bb
-index 3b418c4..ee56ffd 100644
---- a/meta-orv3/recipes-artesyn/osal-scripts/osal-scripts_git.bb
-+++ b/meta-orv3/recipes-artesyn/osal-scripts/osal-scripts_git.bb
-@@ -25,60 +25,82 @@ AE_TOOLS_FILES_${PN} += "\
-             json2cbor.py \
-             "
- 
-+# OSAL_SCRIPTS_FILES_${PN} += " \
-+#             apply_htps_cert.sh \
-+#             cancel_psc_reset.sh \
-+#             delete_redfish_users.sh \
-+#             disable_dhcp_dns.sh \
-+#             disable_dhcp_ntp.sh \
-+#             disable_dhcp.sh \
-+#             disable_dns.sh \
-+#             disable_http.sh \
-+#             disable_http_caddy.sh \
-+#             disable_ntp.sh \
-+#             disable_ssh.sh \
-+#             disable_static_network.sh \
-+#             enable_dhcp_dns.sh \
-+#             enable_dhcp_ntp.sh \
-+#             enable_dhcp.sh \
-+#             enable_dns.sh \
-+#             enable_http.sh \
-+#             enable_http_caddy.sh \
-+#             enable_ntp.sh \
-+#             enable_ssh.sh \
-+#             enable_static_network.sh \
-+#             get_dhcp_dns_status.sh \
-+#             get_dhcp_ntp_status.sh \
-+#             get_dhcp_status.sh \
-+#             get_dns_status.sh \
-+#             get_dynamic_ip.sh \
-+#             get_dynamic_ipv6.sh \
-+#             get_hostname.sh \
-+#             get_http_status.sh \
-+#             get_mac_address.sh \
-+#             get_ntp_status.sh \
-+#             get_ssh_status.sh \
-+#             get_static_ip.sh \
-+#             get_static_ipv6.sh \
-+#             get_time.sh \
-+#             get_versions.sh \
-+#             get_psc_temperature.sh \
-+#             get_busbar_temp.sh \
-+#             patch_dns_servers.sh \
-+#             patch_ntp_servers.sh \
-+#             psc_reset.sh \
-+#             read_dns_servers.sh \
-+#             read_https_cert_info.sh \
-+#             read_ntp_servers.sh \
-+#             replace_dns_servers.sh \
-+#             replace_network_config.sh \
-+#             replace_ntp_servers.sh \
-+#             set_hostname.sh \
-+#             set_mac_address.sh \
-+#             set_persistent_config.sh \
-+#             set_ssh_credential.sh \
-+#             set_static_ip.sh \
-+#             set_static_ipv6.sh \
-+#             set_time.sh \
-+#             use_default_https_cert.sh \
-+#         "
-+
- OSAL_SCRIPTS_FILES_${PN} += " \
-             apply_htps_cert.sh \
-             cancel_psc_reset.sh \
-             delete_redfish_users.sh \
--            disable_dhcp_dns.sh \
--            disable_dhcp_ntp.sh \
--            disable_dhcp.sh \
--            disable_dns.sh \
-             disable_http.sh \
-             disable_http_caddy.sh \
--            disable_ntp.sh \
--            disable_ssh.sh \
--            disable_static_network.sh \
--            enable_dhcp_dns.sh \
--            enable_dhcp_ntp.sh \
--            enable_dhcp.sh \
--            enable_dns.sh \
-             enable_http.sh \
-             enable_http_caddy.sh \
--            enable_ntp.sh \
--            enable_ssh.sh \
--            enable_static_network.sh \
--            get_dhcp_dns_status.sh \
--            get_dhcp_ntp_status.sh \
--            get_dhcp_status.sh \
--            get_dns_status.sh \
--            get_dynamic_ip.sh \
--            get_dynamic_ipv6.sh \
--            get_hostname.sh \
-             get_http_status.sh \
-             get_mac_address.sh \
--            get_ntp_status.sh \
--            get_ssh_status.sh \
--            get_static_ip.sh \
--            get_static_ipv6.sh \
-             get_time.sh \
-             get_versions.sh \
-             get_psc_temperature.sh \
-             get_busbar_temp.sh \
--            patch_dns_servers.sh \
--            patch_ntp_servers.sh \
-             psc_reset.sh \
--            read_dns_servers.sh \
-             read_https_cert_info.sh \
--            read_ntp_servers.sh \
--            replace_dns_servers.sh \
--            replace_network_config.sh \
--            replace_ntp_servers.sh \
--            set_hostname.sh \
-             set_mac_address.sh \
--            set_persistent_config.sh \
-             set_ssh_credential.sh \
--            set_static_ip.sh \
--            set_static_ipv6.sh \
-             set_time.sh \
-           
-this sciprt is just run every software upgrade to save current network config in the nwk.cfg, so I just exit 0
-diff --git a/meta-artesyn-bsp/recipes-bsp/artesyn-boot/artesyn-update/artesyn-update-prescript.sh b/meta-artesyn-bsp/recipes-bsp/artesyn-boot/artesyn-update/artesyn-update-prescript.sh
-index 15f2741..3174766 100644
---- a/meta-artesyn-bsp/recipes-bsp/artesyn-boot/artesyn-update/artesyn-update-prescript.sh
-+++ b/meta-artesyn-bsp/recipes-bsp/artesyn-boot/artesyn-update/artesyn-update-prescript.sh
-@@ -7,6 +7,8 @@
- 
- # TODO: make this a generic script to read an extenal file for list of files to be executed
- 
-+exit 0
-+
- function fatal() {
-     echo "FATAL: $@"
-     exit 1
