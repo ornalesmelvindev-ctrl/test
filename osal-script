@@ -1,78 +1,90 @@
-our image
-admin@artesyn-shelf:~# systemd-analyze critical-chain systemd-networkd.service; echo ---; systemctl list-dependencies --reverse network-pre.target; echo ---; systemctl cat systemd-networkd.service | grep -E '^(After|Before|Wants|Requires|ExecStart)'; echo ---; systemctl status osal-network-boot.service --no-pager; echo ---; journalctl -b -o short-monotonic -u systemd-networkd -u osal-network-boot -u osal-network | head -40
-The time when unit became active or started is printed after the "@" character.
-The time the unit took to start is printed after the "+" character.
+admin@artesyn-shelf:~# systemctl list-units --all | grep -i bootflag; systemctl cat artesyn-bootflag* 2>/dev/null | head -n30
+  artesyn-bootflag.service                                                                                               loaded    active   exited    Artesyn Bootflag service                                
+# /lib/systemd/system/artesyn-bootflag.service
+[Unit]
+Description=Artesyn Bootflag service
+Requires=local-fs.target
+After=local-fs.target
 
-systemd-networkd.service +423ms
-`-network-pre.target @35.980s
-  `-iptables.service @7.067s +776ms
-    `-basic.target @6.321s
-      `-sockets.target @6.292s
-        `-sshd.socket @6.203s +60ms
-          `-sysinit.target @6.078s
-            `-run-postinsts.service @5.246s +787ms
-              `-systemd-tmpfiles-setup.service @5.066s +139ms
-                `-local-fs.target @5.002s
-                  `-altfs.mount @7.652s
-                    `-dev-mmcblk0p6.device @4.023s
----
-network-pre.target
-* |-ip6tables.service
-* `-iptables.service
----
-After=systemd-udevd.service network-pre.target systemd-sysusers.service systemd-sysctl.service
-Before=network.target multi-user.target shutdown.target
-Wants=network.target
-ExecStart=!!/lib/systemd/systemd-networkd
----
-* osal-network-boot.service - Generate networkd 80-wired.conf from nwk.cfg
-     Loaded: loaded (/lib/systemd/system/osal-network-boot.service; enabled; vendor preset: enabled)
-     Active: active (exited) since Fri 2026-10-16 00:53:35 UTC; 2min 12s ago
-   Main PID: 173 (code=exited, status=0/SUCCESS)
-     CGroup: /system.slice/osal-network-boot.service
+[Service]
+User=root
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/usr/sbin/artesyn-bootflag scan
 
-Oct 16 00:53:35 artesyn-shelf systemd[1]: Starting Generate networkd 80-wired.conf from nwk.cfg...
-Oct 16 00:53:35 artesyn-shelf osal_network[173]: boot sync
-Oct 16 00:53:35 artesyn-shelf osal_network[173]: wrote /etc/systemd/network/80-wired.network.d/80-wired.conf (414 bytes)
-Oct 16 00:53:35 artesyn-shelf systemd[1]: Started Generate networkd 80-wired.conf from nwk.cfg.
----
--- Logs begin at Sun 2020-09-20 10:43:59 UTC, end at Fri 2026-10-16 00:55:48 UTC. --
-[    8.416433] artesyn-shelf systemd[1]: Starting Generate networkd 80-wired.conf from nwk.cfg...
-[    8.449868] artesyn-shelf osal_network[173]: boot sync
-[    8.486925] artesyn-shelf osal_network[173]: wrote /etc/systemd/network/80-wired.network.d/80-wired.conf (414 bytes)
-[    8.512246] artesyn-shelf systemd[1]: Started Generate networkd 80-wired.conf from nwk.cfg.
-[   39.602575] artesyn-shelf systemd[1]: Starting Network Service...
-[   40.022207] artesyn-shelf systemd-networkd[590]: Enumeration completed
-[   40.026419] artesyn-shelf systemd[1]: Started Network Service.
-[   40.029502] artesyn-shelf systemd-networkd[590]: eth0: IPv6 successfully enabled
-[   40.057619] artesyn-shelf systemd[1]: Starting OSAL Network D-Bus service...
-[   40.063897] artesyn-shelf systemd-networkd[590]: eth0: Link UP
-[   40.130989] artesyn-shelf systemd[1]: Started OSAL Network D-Bus service.
-[   46.360368] artesyn-shelf systemd-networkd[590]: eth0: Gained carrier
-[   48.323110] artesyn-shelf systemd-networkd[590]: eth0: Gained IPv6LL
+[Install]
+WantedBy=multi-user.target
 
 
-grep -E '^(RDEPENDS|RRECOMMENDS)_' tmp/pkgdata/artesyn-shelf/runtime/osal-network-dev
-for p in $(cut -d' ' -f1 tmp/deploy/images/artesyn-shelf/artesyn-shelf-orv3-image-artesyn-shelf.manifest); do grep -qE '^R(DEPENDS|RRECOMMENDS)_[^:]+:.*[[:space:]]iptables-dev([[:space:]]|$)' tmp/pkgdata/artesyn-shelf/runtime/$p 2>/dev/null && echo "$p"; done
-RDEPENDS_osal-network-dev: osal-network (= 1.0+git0+43e3f888be-r0)
-RRECOMMENDS_osal-network-dev: json-c-dev systemd-dev bash-completion-dev glibc-dev libsystemd-dev
+
+rg iptable
+TODO
+918:  - optionally automatically add FORWARD rules to iptables whenever nspawn is
+
+test/mkosi.default.networkd-test
+37:        iptables-devel
+
+man/systemd.network.xml
+1111:            <para>Specifies the iptables firewall mark value to match (a number between 1 and 4294967295).</para>
+
+man/systemd.socket.xml
+600:        <citerefentry project='die-net'><refentrytitle>iptables</refentrytitle><manvolnum>8</manvolnum></citerefentry>
+
+man/sysctl.d.xml
+119:net.bridge.bridge-nf-call-iptables = 0
+141:net.bridge.bridge-nf-call-iptables = 0
+
+src/test/test-unit-name.c
+699:        test_unit_name_from_dbus_path_one("/org/freedesktop/systemd1/unit/iptables_2eservice", 0, "iptables.service");
+
+src/basic/linux/netlink.h
+14:#define NETLINK_NFLOG                5       /* netfilter/iptables ULOG */
+╭─░▒▓    ~/libsystemd/systemd   #v244.5 ························································································· ✔  system   09:08:50 AM  ▓▒░
+╰─
+╭─░▒▓    ~/libsystemd/systemd   #v244.5 ························································································· ✔  system   09:09:40 AM  ▓▒░
+╰─ pwd
+/home/melvin/libsystemd/systemd
+╭─░▒▓    ~/libsystemd/systemd   #v244.5 ························································································· ✔  system   09:09:43 AM  ▓▒░
+╰─ git branch
+╭─░▒▓    ~/libsystemd/systemd   #v244.5 
 
 
-and wtf
-after
-systemctl mask iptables ip6tables && reboot
-the system used the other bootflag and not our image
-ooadmin@artesyn-shelf:~# test
-test            test.coreutils
-admin@artesyn-shelf:~# test_^C
-admin@artesyn-shelf:~# cat /etc/os-release
-ID=artesyn-poky
-NAME="artesyn-poky (Yocto Project Reference Distro)"
-VERSION="v06.06.00"
-VERSION_ID=v06.06.00
-PRETTY_NAME="artesyn-poky (Yocto Project Reference Distro) v06.06.00"
-BUILD_ID="20260929080934"
-ARTESYN_BUILD_ID="v06.06.00-1-gb67b571"
-ARTESYN_TARGET_MACHINE="artesyn-shelf"
-admin@artesyn-shelf:~# systemctl status osal-network-boot
-Unit osal-network-boot.service could not be found.
+no output
+rg iptable
+TODO
+918:  - optionally automatically add FORWARD rules to iptables whenever nspawn is
+
+test/mkosi.default.networkd-test
+37:        iptables-devel
+
+man/systemd.network.xml
+1111:            <para>Specifies the iptables firewall mark value to match (a number between 1 and 4294967295).</para>
+
+man/systemd.socket.xml
+600:        <citerefentry project='die-net'><refentrytitle>iptables</refentrytitle><manvolnum>8</manvolnum></citerefentry>
+
+man/sysctl.d.xml
+119:net.bridge.bridge-nf-call-iptables = 0
+141:net.bridge.bridge-nf-call-iptables = 0
+
+src/test/test-unit-name.c
+699:        test_unit_name_from_dbus_path_one("/org/freedesktop/systemd1/unit/iptables_2eservice", 0, "iptables.service");
+
+src/basic/linux/netlink.h
+14:#define NETLINK_NFLOG                5       /* netfilter/iptables ULOG */
+╭─░▒▓    ~/libsystemd/systemd   #v244.5 ························································································· ✔  system   09:08:50 AM  ▓▒░
+╰─
+╭─░▒▓    ~/libsystemd/systemd   #v244.5 ························································································· ✔  system   09:09:40 AM  ▓▒░
+╰─ pwd
+/home/melvin/libsystemd/systemd
+╭─░▒▓    ~/libsystemd/systemd   #v244.5 ························································································· ✔  system   09:09:43 AM  ▓▒░
+╰─ git branch
+╭─░▒▓    ~/libsystemd/systemd   #v244.5 
+
+
+fd 'opkg$' tmp/work/artesyn_shelf-poky-linux-gnueabi/artesyn-shelf-orv3-image/1.0-r0/rootfs/
+tmp/work/artesyn_shelf-poky-linux-gnueabi/artesyn-shelf-orv3-image/1.0-r0/rootfs/usr/lib/opkg
+╭─░▒▓ ~/dev/project/ewd-orv3-pmc/artesyn-shelf/build  develop *1 ?2 ············································ ✔  melvin@ewdsabuild  09:07:40 AM ▓▒░
+╰─ ls tmp/work/artesyn_shelf-poky-linux-gnueabi/artesyn-shelf-orv3-image/1.0-r0/rootfs/usr/lib/opkg/altern
+╭─░▒▓ ~/dev/project/ewd-orv3-pmc/artesyn-shelf/build  develop *1 ?2 ········································ INT ✘  melvin@ewdsabuild  09:10:32 AM ▓▒░
+╰─ ls tmp/work/artesyn_shelf-poky-linux-gnueabi/artesyn-shelf-orv3-image/1.0-r0/rootfs/usr/lib/opkg/status                                                  ls: cannot access 'tmp/work/artesyn_shelf-poky-linux-gnueabi/artesyn-shelf-orv3-image/1.0-r0/rootfs/usr/lib/opkg/status': No such file or directory
