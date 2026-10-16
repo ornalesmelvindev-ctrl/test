@@ -1,53 +1,78 @@
-for p in $(cut -d' ' -f1 tmp/deploy/images/artesyn-shelf/artesyn-shelf-orv3-image-artesyn-shelf.manifest); do grep -qE '^R(DEPENDS|RRECOMMENDS)_[^:]+:.*[[:space:]]iptables([[:space:]]|$)' tmp/pkgdata/artesyn-shelf/runtime/$p 2>/dev/null && echo "$p"; done | grep -v '^iptables'
-grep -cE ' -dev |-dev ' tmp/deploy/images/artesyn-shelf/artesyn-shelf-orv3-image-artesyn-shelf.manifest
-grep -E '^(iproute2|nftables|libxtables|libip4tc)' tmp/deploy/images/artesyn-shelf/artesyn-shelf-orv3-image-artesyn-shelf.manifest
-cd ../ewd-meta-orv3-artesyn ; rg -n 'iptables|iproute2|dev-pkgs|tools-sdk|IMAGE_INSTALL' meta-orv3/recipes-artesyn/images/ | head -30
-rg -n 'iptables' meta-orv3 meta-artesyn-bsp -g '*.bb*' -g '*.inc' -g '*.conf' | head
-git diff -- meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb | head -80
+our image
+admin@artesyn-shelf:~# systemd-analyze critical-chain systemd-networkd.service; echo ---; systemctl list-dependencies --reverse network-pre.target; echo ---; systemctl cat systemd-networkd.service | grep -E '^(After|Before|Wants|Requires|ExecStart)'; echo ---; systemctl status osal-network-boot.service --no-pager; echo ---; journalctl -b -o short-monotonic -u systemd-networkd -u osal-network-boot -u osal-network | head -40
+The time when unit became active or started is printed after the "@" character.
+The time the unit took to start is printed after the "+" character.
 
-66
-iproute2 armv7ahf_vfpv4d16 5.5.0
-iproute2-dev armv7ahf_vfpv4d16 5.5.0
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:7:IMAGE_INSTALL += " boot-manager-module"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:8:IMAGE_INSTALL += " gpioinputmodule"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:9:IMAGE_INSTALL += " gpiooutputmodule"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:10:IMAGE_INSTALL += " kernel-module-at24"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:11:IMAGE_INSTALL += " lanresetmodule"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:12:IMAGE_INSTALL += " ledmodule"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:13:IMAGE_INSTALL += " led-manager"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:14:IMAGE_INSTALL += " network-utilities"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:15:IMAGE_INSTALL += " orv3-network-config"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:16:IMAGE_INSTALL += " pmc-supervisory"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:17:IMAGE_INSTALL += " osal-scripts"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:18:IMAGE_INSTALL += " osal-network"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:19:IMAGE_INSTALL += " osal-network-dev"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:20:IMAGE_INSTALL += " updatemodule"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:22:IMAGE_INSTALL += " pmc-testscripts"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:24:IMAGE_INSTALL += " orv3-redfish"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:25:IMAGE_INSTALL += " orv3-webui"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:27:IMAGE_INSTALL += " modbus-service"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:29:IMAGE_INSTALL += " adctempmodule"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:30:IMAGE_INSTALL += " bbu-datamanager"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:31:IMAGE_INSTALL += " bbu-pollmanager"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:32:IMAGE_INSTALL += " blackbox-manager"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:33:IMAGE_INSTALL += " device-pollmanager"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:34:IMAGE_INSTALL += " fru-configmanager"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:35:IMAGE_INSTALL += " fru-datamanager"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:36:IMAGE_INSTALL += " fru-pollmanager"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:37:IMAGE_INSTALL += " logs-datamanager"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:38:IMAGE_INSTALL += " psu-datamanager"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:39:IMAGE_INSTALL += " psu-poll-manager"
-meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb:40:IMAGE_INSTALL += " psu-config-manager"
-diff --git a/meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb b/meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb
-index 908af9d..f2552d1 100644
---- a/meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb
-+++ b/meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb
-@@ -15,6 +15,8 @@ IMAGE_INSTALL += " network-utilities"
- IMAGE_INSTALL += " orv3-network-config"
- IMAGE_INSTALL += " pmc-supervisory"
- IMAGE_INSTALL += " osal-scripts"
-+IMAGE_INSTALL += " osal-network"
-+IMAGE_INSTALL += " osal-network-dev"
- IMAGE_INSTALL += " updatemodule"
+systemd-networkd.service +423ms
+`-network-pre.target @35.980s
+  `-iptables.service @7.067s +776ms
+    `-basic.target @6.321s
+      `-sockets.target @6.292s
+        `-sshd.socket @6.203s +60ms
+          `-sysinit.target @6.078s
+            `-run-postinsts.service @5.246s +787ms
+              `-systemd-tmpfiles-setup.service @5.066s +139ms
+                `-local-fs.target @5.002s
+                  `-altfs.mount @7.652s
+                    `-dev-mmcblk0p6.device @4.023s
+---
+network-pre.target
+* |-ip6tables.service
+* `-iptables.service
+---
+After=systemd-udevd.service network-pre.target systemd-sysusers.service systemd-sysctl.service
+Before=network.target multi-user.target shutdown.target
+Wants=network.target
+ExecStart=!!/lib/systemd/systemd-networkd
+---
+* osal-network-boot.service - Generate networkd 80-wired.conf from nwk.cfg
+     Loaded: loaded (/lib/systemd/system/osal-network-boot.service; enabled; vendor preset: enabled)
+     Active: active (exited) since Fri 2026-10-16 00:53:35 UTC; 2min 12s ago
+   Main PID: 173 (code=exited, status=0/SUCCESS)
+     CGroup: /system.slice/osal-network-boot.service
 
- IMAGE_INSTALL += " pmc-testscripts"
+Oct 16 00:53:35 artesyn-shelf systemd[1]: Starting Generate networkd 80-wired.conf from nwk.cfg...
+Oct 16 00:53:35 artesyn-shelf osal_network[173]: boot sync
+Oct 16 00:53:35 artesyn-shelf osal_network[173]: wrote /etc/systemd/network/80-wired.network.d/80-wired.conf (414 bytes)
+Oct 16 00:53:35 artesyn-shelf systemd[1]: Started Generate networkd 80-wired.conf from nwk.cfg.
+---
+-- Logs begin at Sun 2020-09-20 10:43:59 UTC, end at Fri 2026-10-16 00:55:48 UTC. --
+[    8.416433] artesyn-shelf systemd[1]: Starting Generate networkd 80-wired.conf from nwk.cfg...
+[    8.449868] artesyn-shelf osal_network[173]: boot sync
+[    8.486925] artesyn-shelf osal_network[173]: wrote /etc/systemd/network/80-wired.network.d/80-wired.conf (414 bytes)
+[    8.512246] artesyn-shelf systemd[1]: Started Generate networkd 80-wired.conf from nwk.cfg.
+[   39.602575] artesyn-shelf systemd[1]: Starting Network Service...
+[   40.022207] artesyn-shelf systemd-networkd[590]: Enumeration completed
+[   40.026419] artesyn-shelf systemd[1]: Started Network Service.
+[   40.029502] artesyn-shelf systemd-networkd[590]: eth0: IPv6 successfully enabled
+[   40.057619] artesyn-shelf systemd[1]: Starting OSAL Network D-Bus service...
+[   40.063897] artesyn-shelf systemd-networkd[590]: eth0: Link UP
+[   40.130989] artesyn-shelf systemd[1]: Started OSAL Network D-Bus service.
+[   46.360368] artesyn-shelf systemd-networkd[590]: eth0: Gained carrier
+[   48.323110] artesyn-shelf systemd-networkd[590]: eth0: Gained IPv6LL
+
+
+grep -E '^(RDEPENDS|RRECOMMENDS)_' tmp/pkgdata/artesyn-shelf/runtime/osal-network-dev
+for p in $(cut -d' ' -f1 tmp/deploy/images/artesyn-shelf/artesyn-shelf-orv3-image-artesyn-shelf.manifest); do grep -qE '^R(DEPENDS|RRECOMMENDS)_[^:]+:.*[[:space:]]iptables-dev([[:space:]]|$)' tmp/pkgdata/artesyn-shelf/runtime/$p 2>/dev/null && echo "$p"; done
+RDEPENDS_osal-network-dev: osal-network (= 1.0+git0+43e3f888be-r0)
+RRECOMMENDS_osal-network-dev: json-c-dev systemd-dev bash-completion-dev glibc-dev libsystemd-dev
+
+
+and wtf
+after
+systemctl mask iptables ip6tables && reboot
+the system used the other bootflag and not our image
+ooadmin@artesyn-shelf:~# test
+test            test.coreutils
+admin@artesyn-shelf:~# test_^C
+admin@artesyn-shelf:~# cat /etc/os-release
+ID=artesyn-poky
+NAME="artesyn-poky (Yocto Project Reference Distro)"
+VERSION="v06.06.00"
+VERSION_ID=v06.06.00
+PRETTY_NAME="artesyn-poky (Yocto Project Reference Distro) v06.06.00"
+BUILD_ID="20260929080934"
+ARTESYN_BUILD_ID="v06.06.00-1-gb67b571"
+ARTESYN_TARGET_MACHINE="artesyn-shelf"
+admin@artesyn-shelf:~# systemctl status osal-network-boot
+Unit osal-network-boot.service could not be found.
