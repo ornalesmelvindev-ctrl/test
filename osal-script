@@ -1,450 +1,261 @@
-this is our latest release image(not our image with osal lib)
-    4.467995] systemd[1]: Created slice User and Session Slice.
-[  OK  ] Created slice User and Session Slice.
-[    4.507730] systemd[1]: Started Dispatch Password Requests to Console Directory Watch.
-[  OK  ] Started Dispatch Password …ts to Console Directory Watch.
-[    4.547657] systemd[1]: Started Forward Password Requests to Wall Directory Watch.
-[  OK  ] Started Forward Password R…uests to Wall Directory Watch.
-[    4.587828] systemd[1]: Reached target Paths.
-[  OK  ] Reached target Paths.
-[    4.627423] systemd[1]: Reached target Remote File Systems.
-[  OK  ] Reached target Remote File Systems.
-[    4.667385] systemd[1]: Reached target Slices.
-[  OK  ] Reached target Slices.
-[    4.697402] systemd[1]: Reached target Swap.
-[  OK  ] Reached target Swap.
-[    4.729864] systemd[1]: Listening on Syslog Socket.
-[  OK  ] Listening on Syslog Socket.
-[    4.767889] systemd[1]: Listening on initctl Compatibility Named Pipe.
-[  OK  ] Listening on initctl Compatibility Named Pipe.
-[    4.816183] systemd[1]: Condition check resulted in Journal Audit Socket being skipped.
-[    4.826167] systemd[1]: Listening on Journal Socket (/dev/log).
-[  OK  ] Listening on Journal Socket (/dev/log).
-[    4.868152] systemd[1]: Listening on Journal Socket.
-[  OK  ] Listening on Journal Socket.
-[    4.908349] systemd[1]: Listening on Network Service Netlink Socket.
-[  OK  ] Listening on Network Service Netlink Socket.
-[    4.948194] systemd[1]: Listening on udev Control Socket.
-[  OK  ] Listening on udev Control Socket.
-[    4.987851] systemd[1]: Listening on udev Kernel Socket.
-[  OK  ] Listening on udev Kernel Socket.
-[    5.028170] systemd[1]: Condition check resulted in Huge Pages File System being skipped.
-[    5.037938] systemd[1]: Condition check resulted in POSIX Message Queue File System being skipped.
-[    5.051571] systemd[1]: Mounting Kernel Debug File System...
-         Mounting Kernel Debug File System...
-[    5.088595] systemd[1]: Condition check resulted in Create list of static device nodes for the current kernel being skipped.
-[    5.104682] systemd[1]: Starting Sync system clock from M41T82 RTC...
-         Starting Sync system clock from M41T82 RTC...
-[    5.150618] systemd[1]: Started Boot Process Profiler.
-[  OK      5.157861] rtc-m41t80 10-0068: registered as rtc0
-m] Started Boot Process Profiler.
-[    5.197620] systemd[1]: Condition check resulted in File System Check on Root Device being skipped.
-[    5.213629] systemd[1]: Starting Journal Service...
-         Starting Journal Service...
-[    5.252371] systemd[1]: Starting Load Kernel Modules...
-         Starting Load Kernel Modules...
-[    5.290395] systemd[1]: Starting Remount Root and Kernel File Systems...
-         Starting Remount Root and Kernel File Systems...
-[    5.341029] systemd[1]: Starting udev Coldplug all Devices...
-[    5.342475] EXT4-fs (mmcblk0p6): re-mounted. Opts: (null)
-         Starting udev [    5.356771] at24 10-0052: 8192 byte 24c64 EEPROM, writable, 16 bytes/write
-Coldplug all Devices...
-[    5.394034] systemd[1]: Started Journal Service.
-[  OK  ] Started Journal Service.
-[  OK  ] Mounted Kernel Debug File System.
-[  OK  ] Started Load Kernel Modules.
-[  OK  ] Started Remount Root and Kernel File Systems.
-         Mounting Kernel Configuration File System...
-         Starting Flush Journal to Persistent Storage...
-[    5.606541] systemd-journald[100]: Received client request to flush runtime journal.
-         Starting Apply Kernel Variables...
-         Starting Create System Users...
-[  OK  ] Mounted Kernel Configuration File System.
-[  OK  ] Started Flush Journal to Persistent Storage.
-[  OK  ] Started Apply Kernel Variables.
-[  OK  ] Started Create System Users.
-[  OK  ] Started udev Coldplug all Devices.
-         Starting Create Static Device Nodes in /dev...
-         Starting udev Wait for Complete Device Initialization...
-[  OK  ] Started Create Static Device Nodes in /dev.
-[  OK  ] Reached target Local File Systems (Pre).
-         Mounting /tmp...
-         Mounting /var/volatile...
-         Starting udev Kernel Device Manager...
-[  OK  ] Mounted /tmp.
-[  OK  ] Mounted /var/volatile.
-[  OK  ] Started udev Kernel Device Manager.
-         Starting Network Service...
-         Starting Load/Save Random Seed...
-[  OK  ] Started Network Service.
-[  OK  ] Found device /dev/mmcblk0p3.
-[  OK  ] Started udev Wait for Complete Device Initialization.
-[  OK  ] Found device /dev/mmcblk0p1.
-[  OK  ] Found device /dev/mmcblk0p7.
-[  OK  ] Found device /dev/mmcblk0p2.
-[  OK  ] Started Sync system clock from M41T82 RTC.
-[  OK  ] Started Hardware RNG Entropy Gatherer Daemon.
-         Starting File System Check on /dev/mmcblk0p1...
-         Starting File System Check on /dev/mmcblk0p2...
-         Starting File System Check on /dev/mmcblk0p3...
-         Starting File System Check on /dev/mmcblk0p7...
-[  OK  ] Started File System Check on /dev/mmcblk0p2.
-         Mounting /config...
-[  OK  ] Started File System Check on /dev/mmcblk0p7.
-         Mounting /staging...
-[  OK  ] Started File System Check on /dev/mmcblk0p1.
-         [    8.228386] EXT4-fs (mmcblk0p7): mounted filesystem with ordered data mode. Opts: (null)
-Mounting     8.229062] EXT4-fs (mmcblk0p2): mounted filesystem with ordered data mode. Opts: commit=1
-9m/boot/uboot...
-[  OK  ] Started File System Check on /dev/mmcblk0p3.
-[  OK  ] Mounted /config.
-[  OK  ] Mounted /staging.
-[  OK  ] Mounted /boot/uboot.
-         Mounting /recovery...
-         Starting PMC Supervisory Service...
-[  OK  ] Mounted /recovery.
-[  OK  ] Reached target Local File Systems.
-         Starting Rebuild Dynamic Linker Cache...
-         Starting Create Volatile Files and Directories...
-[  OK  ] Started Create Volatile Files and Directories.
-         Starting Run pending postinsts...
-         Starting Rebuild Journal Catalog...
-         Starting Network Name Resolution...
-         Starting Network Time Synchronization...
-         Starting Update UTMP about System Boot/Shutdown...
-[  OK      9.247216] random: crng init done
-m] Started     9.251368] random: 7 urandom warning(s) missed due to ratelimiting
-;39mRebuild Journal Catalog.
-[  OK  ] Started Update UTMP about System Boot/Shutdown.
-[  OK  ] Started Load/Save Random Seed.
-[  OK  ] Started Rebuild Dynamic Linker Cache.
-         Starting Update is Completed...
-[  OK  ] Started Update is Completed.
-[  OK  ] Started Network Name Resolution.
-[  OK  ] Reached target Host and Network Name Lookups.
-[  OK  ] Started Network Time Synchronization.
-[  OK  ] Reached target System Time Set.
-[  OK  ] Reached target System Time Synchronized.
-[  OK  ] Started Run pending postinsts.
-[  OK  ] Reached target System Initialization.
-[  OK  ] Started Daily Cleanup of Temporary Directories.
-[  OK  ] Reached target Timers.
-[  OK  ] Listening on D-Bus System Message Bus Socket.
-         Starting sshd.socket.
-[  OK  ] Listening on sshd.socket.
-[  OK  ] Reached target Sockets.
-[  OK  ] Reached target Basic System.
-         Starting ADC Temp Sensor Service...
-         Starting Artesyn Bootflag service...
-         Starting Artesyn AlternateFS mount service...
-         Starting Boot Manager Module Service...
-[  OK  ] Started Kernel Logging Service.
-[  OK  ] Started System Logging Service.
-         Starting Fru Config Manager Service...
-         Starting PMC Config Manager Service...
-         Starting PSU Config Manager Service...
-         Starting Shelf Config Manager Service...
-[  OK  ] Started D-Bus System Message Bus.
-[  OK  ] Started FRU Data Manager Service.
-         Starting Logs DB Service...
-[   10.588384] EXT4-fs (mmcblk0p5): mounted filesystem with ordered data mode. Opts: (null)
-[  OK  ] Started PMC DB Service.
-[  OK  ] Started Shelf Data Manager Service.
-         Starting GPIO Patch Service...
-         Starting GPIO Service...
-         Starting GPIO Service...
-[  OK  ] Started Management Controller Housekeeping Service.
-[  OK  ] Started Lan Reset Monitor Service.
-         Starting Led Module Service...
-         Starting Led Module Service...
-[  OK  ] Started Device Detect Service.
-         Starting Shelf Housekeeping Service...
-[  OK  ] Started FRU Poll Manager Service.
-[  OK  ] Started PMC Poll Manager Service.
-[  OK  ] Started Shelf Poll Manager Service.
-[  OK  ] Started Serial Getty on ttyS2.
-[  OK  ] Started Serial Getty on ttyS4.
-[  OK  ] Reached target Login Prompts.
-         Starting Login Service...
-         Starting Update Module Service...
-[  OK  ] Started Artesyn Bootflag service.
-[  OK  ] Started Artesyn AlternateFS mount service.
-[   12.968049] ftgmac100 1e690000.ftgmac eth0: Link is Up - 100Mbps/Full - flow control rx/tx
-[   12.997243] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
-
-artesyn-poky (Yocto Project Reference Distro) 3.1.8 artesyn-shelf ttyS2
-
-artesyn-shelf login: [  OK  ] Started GPIO Patch Service.
-[FAILED] Failed to start Shelf Housekeeping Service.
-See 'systemctl status hkshelf.service' for details.
-[  OK  ] Started Update Module Service.
-[  OK  ] Started Login Service.
-[  OK  ] Started Led Module Service.
-[  OK  ] Started Led Module Service.
-[  OK  ] Started GPIO Service.
-[  OK  ] Started GPIO Service.
-[  OK  ] Started Logs DB Service.
-[  OK  ] Started Shelf Config Manager Service.
-[  OK  ] Started PMC Config Manager Service.
-[  OK  ] Started Fru Config Manager Service.
-[  OK  ] Started Boot Manager Module Service.
-[  OK  ] Started ADC Temp Sensor Service.
-[  OK  ] Started PSU Config Manager Service.
-[  OK  ] Stopped Shelf Housekeeping Service.
-         Starting Shelf Housekeeping Service...
-         Stopping Network Service...
-[  OK  ] Stopped Network Service.
-         Starting Network Service...
-[  OK  ] Started Network Service.
-         Stopping PSU Config Manager Service...
-[  OK  ] Stopped PSU Config Manager Service.
-         Stopping Network Service...
-[  OK  ] Stopped Network Service.
-         Starting Network Service...
-[  OK  ] Started Network Service.
-[FAILED] Failed to start Shelf Housekeeping Service.
-See 'systemctl status hkshelf.service' for details.
-[  OK  ] Stopped Shelf Housekeeping Service.
-         Starting Shelf Housekeeping Service...
-         Stopping Network Service...
-[  OK  ] Stopped Network Service.
-         Starting Network Service...
-[  OK  ] Started Network Service.
-         Stopping Network Service...
-[  OK  ] Stopped Network Service.
-         Starting Network Service...
-[  OK  ] Started Network Service.
-[  OK  ] Started Shelf Housekeeping Service.
-         Stopping Network Time Synchronization...
-[  OK  ] Started Modbus Service.
-[  OK  ] Started PSU DB Service.
-         Starting PSU Poll Manager...
-[  OK  ] Started PSU Poll Manager.
-         Starting Blackbox Manager Service...
-[  OK  ] Started Blackbox Manager Service.
-         Starting PSU Config Manager Service...
-[  OK  ] Started PSU Config Manager Service.
-[  OK  ] Stopped Network Time Synchronization.
-         Starting Network Time Synchronization...
-[  OK  ] Started Network Time Synchronization.
-
-artesyn-shelf login: root
-Password: [  OK  ] Started PMC Network Supervisory Path Unit.
-[  OK  ] Started PMC Supervisory Service.
-[  OK  ] Reached target Network.
-[  OK  ] Started Respond to IPv6 Node Information Queries.
-         Starting Run Caddy supervisory...
-[  OK  ] Started PMC Network Supervisory Service.
-[  OK  ] Started Network Router Discovery Daemon.
-[  OK  ] Started Advanced Energy PowerShelf Redfish.
-         Starting Setting Ethernet Speed...
-[  OK  ] Started Xinetd A Powerful Replacement For Inetd.
-[  OK  ] Started Setting Ethernet Speed.
-
-admin@artesyn-shelf:~#          Starting Wait for Network to be Configured...
-
-admin@artesyn-shelf:~# systemctl show iptables.service ip6tables.service network-pre.target -p Id -p ActiveEnterTimestampMonotonic -p InactiveExitTimestampMonotonic; echo ---; journalctl -b -o short-monotonic -u iptables -u ip6tables --no-pager; echo ---; ls -l /etc/iptables/; echo ---; systemd-analyze critical-chain network-pre.target
-Id=iptables.service
-InactiveExitTimestampMonotonic=0
-ActiveEnterTimestampMonotonic=0
-
-Id=ip6tables.service
-InactiveExitTimestampMonotonic=0
-ActiveEnterTimestampMonotonic=0
-
-Id=network-pre.target
-InactiveExitTimestampMonotonic=0
-ActiveEnterTimestampMonotonic=0
----
--- Logs begin at Sun 2020-09-20 10:43:59 UTC, end at Fri 2026-10-16 00:33:36 UTC. --
--- No entries --
----
-ls: cannot access '/etc/iptables/': No such file or directory
----
-Bootup is not yet finished (org.freedesktop.systemd1.Manager.FinishTimestampMonotonic=0).
-Please try again later.
-Hint: Use 'systemctl list-jobs' to see active jobs
-admin@artesyn-shelf:~# systemctl list-jobs
- JOB UNIT                                 TYPE  STATE
-1318 systemd-networkd-wait-online.service start running
- 118 systemd-update-utmp-runlevel.service start waiting
-1222 caddy.service                        start waiting
-   1 multi-user.target                    start waiting
- 126 pmc-certificate-svc.service          start running
-1317 network-online.target                start waiting
-
-6 jobs listed.
-admin@artesyn-shelf:~# systemctl list-jobs
- JOB UNIT                                 TYPE  STATE
-1318 systemd-networkd-wait-online.service start running
- 118 systemd-update-utmp-runlevel.service start waiting
-1222 caddy.service                        start waiting
-   1 multi-user.target                    start waiting
- 126 pmc-certificate-svc.service          start running
-1317 network-online.target                start waiting
-
-6 jobs listed.
-admin@artesyn-shelf:~# systemctl list-jobs
- JOB UNIT                                 TYPE  STATE
-1318 systemd-networkd-wait-online.service start running
- 118 systemd-update-utmp-runlevel.service start waiting
-1222 caddy.service                        start waiting
-   1 multi-user.target                    start waiting
- 126 pmc-certificate-svc.service          start running
-1317 network-online.target                start waiting
-
-6 jobs listed.
-admin@artesyn-shelf:~# systemctl list-jobs
- JOB UNIT                                 TYPE  STATE
-1318 systemd-networkd-wait-online.service start running
- 118 systemd-update-utmp-runlevel.service start waiting
-1222 caddy.service                        start waiting
-   1 multi-user.target                    start waiting
- 126 pmc-certificate-svc.service          start running
-1317 network-online.target                start waiting
-
-6 jobs listed.
-admin@artesyn-shelf:~# systemctl list-jobs
- JOB UNIT                                 TYPE  STATE
-1318 systemd-networkd-wait-online.service start running
- 118 systemd-update-utmp-runlevel.service start waiting
-1222 caddy.service                        start waiting
-   1 multi-user.target                    start waiting
- 126 pmc-certificate-svc.service          start running
-1317 network-online.target                start waiting
-
-6 jobs listed.
-admin@artesyn-shelf:~# systemctl list-jobs
- JOB UNIT                                 TYPE  STATE
-1318 systemd-networkd-wait-online.service start running
- 118 systemd-update-utmp-runlevel.service start waiting
-1222 caddy.service                        start waiting
-   1 multi-user.target                    start waiting
- 126 pmc-certificate-svc.service          start running
-1317 network-online.target                start waiting
-
-6 jobs listed.
-admin@artesyn-shelf:~# clear
-admin@artesyn-shelf:~# systemctl show iptables.service ip6tables.service network-pre.target -p Id -p ActiveEnterTimestampMonotonic -p InactiveExitTimestampMonotonic; echo ---; journalctl -b -o short-monotonic -u iptables -u ip6tables --no-pager; echo ---; ls -l /etc/iptables/; echo ---; systemd-analyze critical-chain network-pre.target
-Id=iptables.service
-InactiveExitTimestampMonotonic=0
-ActiveEnterTimestampMonotonic=0
-
-Id=ip6tables.service
-InactiveExitTimestampMonotonic=0
-ActiveEnterTimestampMonotonic=0
-
-Id=network-pre.target
-InactiveExitTimestampMonotonic=0
-ActiveEnterTimestampMonotonic=0
----
--- Logs begin at Sun 2020-09-20 10:43:59 UTC, end at Fri 2026-10-16 00:34:32 UTC. --
--- No entries --
----
-ls: cannot access '/etc/iptables/': No such file or directory
----
-Bootup is not yet finished (org.freedesktop.systemd1.Manager.FinishTimestampMonotonic=0).
-Please try again later.
-Hint: Use 'systemctl list-jobs' to see active jobs
-admin@artesyn-shelf:~# systemctl list-jobs
- JOB UNIT                                 TYPE  STATE
-1318 systemd-networkd-wait-online.service start running
- 118 systemd-update-utmp-runlevel.service start waiting
-1222 caddy.service                        start waiting
-   1 multi-user.target                    start waiting
- 126 pmc-certificate-svc.service          start running
-1317 network-online.target                start waiting
-
-6 jobs listed.
-admin@artesyn-shelf:~# systemctl list-jobs
- JOB UNIT                                 TYPE  STATE
-1318 systemd-networkd-wait-online.service start running
- 118 systemd-update-utmp-runlevel.service start waiting
-1222 caddy.service                        start waiting
-   1 multi-user.target                    start waiting
- 126 pmc-certificate-svc.service          start running
-1317 network-online.target                start waiting
-
-6 jobs listed.
-admin@artesyn-shelf:~# systemctl list-jobs
- JOB UNIT                                 TYPE  STATE
-1318 systemd-networkd-wait-online.service start running
- 118 systemd-update-utmp-runlevel.service start waiting
-1222 caddy.service                        start waiting
-   1 multi-user.target                    start waiting
- 126 pmc-certificate-svc.service          start running
-1317 network-online.target                start waiting
-
-6 jobs listed.
-admin@artesyn-shelf:~# [FAILED] Failed to start Wait for Network to be Configured.
-See 'systemctl status systemd-networkd-wait-online.service' for details.
-[  OK  ] Reached target Network is Online.
-[  OK  ] Started Caddy.
-[  OK  ] Started Run Caddy supervisory.
-[  OK  ] Reached target Multi-User System.
-         Starting Update UTMP about System Runlevel Changes...
-[  OK  ] Started Update UTMP about System Runlevel Changes.
-
-admin@artesyn-shelf:~# systemctl list-jobs
- JOB UNIT                      TYPE  STATE
-1322 systemd-timedated.service start running
-
-1 jobs listed.
-admin@artesyn-shelf:~# systemctl show iptables.service ip6tables.service network-pre.target -p Id -p ActiveEnterTimestampMonotonic -p InactiveExitTimestampMonotonic; echo ---; journalctl -b -o short-monotonic -u iptables -u ip6tables --no-pager; echo ---; ls -l /etc/iptables/; echo ---; systemd-analyze critical-chain network-pre.target
-Id=iptables.service
-InactiveExitTimestampMonotonic=0
-ActiveEnterTimestampMonotonic=0
-
-Id=ip6tables.service
-InactiveExitTimestampMonotonic=0
-ActiveEnterTimestampMonotonic=0
-
-Id=network-pre.target
-InactiveExitTimestampMonotonic=0
-ActiveEnterTimestampMonotonic=0
----
--- Logs begin at Sun 2020-09-20 10:43:59 UTC, end at Fri 2026-10-16 00:36:11 UTC. --
--- No entries --
----
-ls: cannot access '/etc/iptables/': No such file or directory
----
+latest release image(but our image has iptables and sshd.socket in the chain tright?)
+admin@artesyn-shelf:~# systemd-analyze critical-chain systemd-networkd.service; echo ---; systemctl list-dependencies --reverse network-pre.target; echo ---; systemctl cat systemd-networkd.service | grep -E '^(After|Before|Wants|Requires|ExecStart)'; echo ---; systemctl status osal-network-boot.service --no-pager; echo ---; journalctl -b -o short-monotonic -u systemd-networkd -u osal-network-boot -u osal-network | head -40
 The time when unit became active or started is printed after the "@" character.
 The time the unit took to start is printed after the "+" character.
 
+systemd-networkd.service +423ms
+`-systemd-udevd.service @2.482s +97ms
+  `-systemd-tmpfiles-setup-dev.service @2.283s +77ms
+    `-systemd-sysusers.service @2.092s +127ms
+      `-systemd-remount-fs.service @1.731s +218ms
+        `-systemd-journald.socket @1.309s
+          `-system.slice @758ms
+            `--.slice @758ms
+---
+network-pre.target
+---
+After=systemd-udevd.service network-pre.target systemd-sysusers.service systemd-sysctl.service
+Before=network.target multi-user.target shutdown.target
+Wants=network.target
+ExecStart=!!/lib/systemd/systemd-networkd
+---
+Unit osal-network-boot.service could not be found.
 
-oe-pkgdata-util find-path /lib/systemd/system/iptables.service
-bitbake -g artesyn-shelf-orv3-image && grep -- '-> "iptables"' pn-depends.dot | head
-grep -rn "iptables" meta-*/ --include=*.bb --include=*.bbappend --include=*.inc --include=*.conf | head -20
-iptables: /lib/systemd/system/iptables.service
-Loading cache: 100% |########################################################################################################################| Time: 0:00:00
-Loaded 3239 entries from dependency cache.
-Parsing recipes: 100% |######################################################################################################################| Time: 0:00:17
-Parsing of 2175 .bb files complete (2134 cached, 41 parsed). 3280 targets, 347 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-NOTE: PN build list saved to 'pn-buildlist'
-NOTE: Task dependencies saved to 'task-depends.dot'
-grep: pn-depends.dot: No such file or directory
-zsh: no matches found: --include=*.bb
-╭─░▒▓ ~/dev/project/super_latest_pmc/ewd-orv3-pmc/artesyn-shelf  master !1 ?2 ···························· ✔  25s  melvin@ewdsabuild  08:21:44 AM ▓▒░
-╰─ rg iptables build/pn-buildlist
-348:iptables
-
-
-oe-pkgdata-util find-path /lib/systemd/system/iptables.service
-bitbake -g artesyn-shelf-orv3-image && grep -- '-> "iptables"' pn-depends.dot | head
-grep -rn "iptables" meta-*/ --include=*.bb --include=*.bbappend --include=*.inc --include=*.conf | head -20
-iptables: /lib/systemd/system/iptables.service
-Loading cache: 100% |########################################################################################################################| Time: 0:00:00
-Loaded 3239 entries from dependency cache.
-Parsing recipes: 100% |######################################################################################################################| Time: 0:00:17
-Parsing of 2175 .bb files complete (2134 cached, 41 parsed). 3280 targets, 347 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-NOTE: PN build list saved to 'pn-buildlist'
-NOTE: Task dependencies saved to 'task-depends.dot'
-grep: pn-depends.dot: No such file or directory
-zsh: no matches found: --include=*.bb
-╭─░▒▓ ~/dev/project/super_latest_pmc/ewd-orv3-pmc/artesyn-shelf  master !1 ?2 ···························· ✔  25s  melvin@ewdsabuild  08:21:44 AM ▓▒░
-╰─ rg iptables build/pn-buildlist
-348:iptables
-
+ls -t tmp/deploy/images/*/artesyn-shelf-orv3-image-*.manifest | head
+grep -h '^iptables' tmp/deploy/images/*/artesyn-shelf-orv3-image-*.manifest
+grep -lE '^R(DEPENDS|RECOMMENDS)_[^:]+:.* iptables( |$)' tmp/pkgdata/*/runtime/* | head
+cd .. ; rg -n 'iptables' meta-*/ -g '*.bb*' -g '*.inc' -g '*.conf' | head -20
+git diff -- meta-orv3/recipes-artesyn/images/artesyn-shelf-orv3-image.bb
+tmp/deploy/images/artesyn-shelf/artesyn-shelf-orv3-image-artesyn-shelf.manifest
+tmp/deploy/images/artesyn-shelf/artesyn-shelf-orv3-image-artesyn-shelf-20261015060801.rootfs.manifest
+iptables armv7ahf_vfpv4d16 1.8.4
+iptables-dev armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-ah armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-dnat armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-dnpt armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-dst armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-eui64 armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-frag armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-hbh armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-hl armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-icmp6 armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-ipv6header armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-log armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-masquerade armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-mh armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-netmap armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-redirect armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-reject armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-rt armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-snat armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-snpt armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-srh armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-ah armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-clusterip armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-dnat armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-ecn armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-icmp armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-log armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-masquerade armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-netmap armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-realm armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-redirect armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-reject armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-snat armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-ttl armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-ulog armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-addrtype armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-audit armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-bpf armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-cgroup armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-checksum armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-classify armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-cluster armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-comment armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-connbytes armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-connlimit armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-connmark armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-connsecmark armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-conntrack armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-cpu armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-ct armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-dccp armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-devgroup armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-dscp armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-ecn armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-esp armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-hashlimit armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-helper armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-hmark armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-idletimer armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-ipcomp armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-iprange armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-ipvs armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-led armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-length armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-limit armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-mac armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-mark armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-multiport armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-nfacct armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-nflog armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-nfqueue armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-osf armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-owner armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-physdev armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-pkttype armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-policy armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-quota armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-rateest armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-recent armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-rpfilter armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-sctp armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-secmark armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-set armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-socket armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-standard armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-statistic armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-string armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-synproxy armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-tcp armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-tcpmss armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-tcpoptstrip armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-tee armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-time armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-tos armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-tproxy armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-trace armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-u32 armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-udp armv7ahf_vfpv4d16 1.8.4
+iptables-modules armv7ahf_vfpv4d16 1.8.4
+iptables armv7ahf_vfpv4d16 1.8.4
+iptables-dev armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-ah armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-dnat armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-dnpt armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-dst armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-eui64 armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-frag armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-hbh armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-hl armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-icmp6 armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-ipv6header armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-log armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-masquerade armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-mh armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-netmap armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-redirect armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-reject armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-rt armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-snat armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-snpt armv7ahf_vfpv4d16 1.8.4
+iptables-module-ip6t-srh armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-ah armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-clusterip armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-dnat armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-ecn armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-icmp armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-log armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-masquerade armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-netmap armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-realm armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-redirect armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-reject armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-snat armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-ttl armv7ahf_vfpv4d16 1.8.4
+iptables-module-ipt-ulog armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-addrtype armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-audit armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-bpf armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-cgroup armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-checksum armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-classify armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-cluster armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-comment armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-connbytes armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-connlimit armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-connmark armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-connsecmark armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-conntrack armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-cpu armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-ct armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-dccp armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-devgroup armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-dscp armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-ecn armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-esp armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-hashlimit armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-helper armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-hmark armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-idletimer armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-ipcomp armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-iprange armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-ipvs armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-led armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-length armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-limit armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-mac armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-mark armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-multiport armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-nfacct armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-nflog armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-nfqueue armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-osf armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-owner armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-physdev armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-pkttype armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-policy armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-quota armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-rateest armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-recent armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-rpfilter armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-sctp armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-secmark armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-set armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-socket armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-standard armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-statistic armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-string armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-synproxy armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-tcp armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-tcpmss armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-tcpoptstrip armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-tee armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-time armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-tos armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-tproxy armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-trace armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-u32 armv7ahf_vfpv4d16 1.8.4
+iptables-module-xt-udp armv7ahf_vfpv4d16 1.8.4
+iptables-modules armv7ahf_vfpv4d16 1.8.4
+tmp/pkgdata/artesyn-shelf/runtime/iproute2-tc
+tmp/pkgdata/artesyn-shelf/runtime/iptables-dev
+tmp/pkgdata/artesyn-shelf/runtime/iptables-module-ip6t-ah
+tmp/pkgdata/artesyn-shelf/runtime/iptables-module-ip6t-dnat
+tmp/pkgdata/artesyn-shelf/runtime/iptables-module-ip6t-dnpt
+tmp/pkgdata/artesyn-shelf/runtime/iptables-module-ip6t-dst
+tmp/pkgdata/artesyn-shelf/runtime/iptables-module-ip6t-eui64
+tmp/pkgdata/artesyn-shelf/runtime/iptables-module-ip6t-frag
+tmp/pkgdata/artesyn-shelf/runtime/iptables-module-ip6t-hbh
+tmp/pkgdata/artesyn-shelf/runtime/iptables-module-ip6t-hl
+meta-openembedded/meta-oe/recipes-extended/collectd/collectd_5.11.0.bb:33:PACKAGECONFIG[iptables] = "--enable-iptables,--disable-iptables,iptables"
+meta-openembedded/meta-networking/recipes-filter/arno-iptables-firewall/arno-iptables-firewall_2.1.0.bb:8:SRC_URI = "git://github.com/arno-iptables-firewall/aif"
+meta-openembedded/meta-networking/recipes-filter/arno-iptables-firewall/arno-iptables-firewall_2.1.0.bb:16:     install -d ${D}${datadir}/arno-iptables-firewall ${D}${sysconfdir}/arno-iptables-firewall
+meta-openembedded/meta-networking/recipes-filter/arno-iptables-firewall/arno-iptables-firewall_2.1.0.bb:17:     cp -r ${S}${sysconfdir}/arno-iptables-firewall ${D}${sysconfdir}/
+meta-openembedded/meta-networking/recipes-filter/arno-iptables-firewall/arno-iptables-firewall_2.1.0.bb:18:     install -m 0755 ${S}${sysconfdir}/init.d/arno-iptables-firewall ${D}${bindir}
+meta-openembedded/meta-networking/recipes-filter/arno-iptables-firewall/arno-iptables-firewall_2.1.0.bb:19:     install -m 0755 ${S}/bin/arno-iptables-firewall ${D}${sbindir}
+meta-openembedded/meta-networking/recipes-filter/arno-iptables-firewall/arno-iptables-firewall_2.1.0.bb:21:     cp -r ${S}/share/arno-iptables-firewall/* ${D}${datadir}/arno-iptables-firewall
+meta-openembedded/meta-networking/recipes-filter/arno-iptables-firewall/arno-iptables-firewall_2.1.0.bb:22:     cp -r ${S}/etc/arno-iptables-firewall/* ${D}${sysconfdir}/arno-iptables-firewall
+meta-openembedded/meta-networking/recipes-filter/arno-iptables-firewall/arno-iptables-firewall_2.1.0.bb:23:     install -m 0644 ${S}/${systemd_unitdir}/system/arno-iptables-firewall.service ${D}${systemd_unitdir}/system
+meta-openembedded/meta-networking/recipes-filter/arno-iptables-firewall/arno-iptables-firewall_2.1.0.bb:24:     sed -i -e 's%/usr/local/sbin%${bindir}%g' ${D}${systemd_unitdir}/system/arno-iptables-firewall.service
+meta-openembedded/meta-networking/recipes-filter/arno-iptables-firewall/arno-iptables-firewall_2.1.0.bb:25:     sed -i -e 's%/usr/local/sbin%${sbindir}%g' ${D}${bindir}/arno-iptables-firewall
+meta-openembedded/meta-networking/recipes-filter/arno-iptables-firewall/arno-iptables-firewall_2.1.0.bb:26:     sed -i -e 's%/usr/local%${exec_prefix}%g' ${D}${sysconfdir}/arno-iptables-firewall/firewall.conf
+meta-openembedded/meta-networking/recipes-filter/arno-iptables-firewall/arno-iptables-firewall_2.1.0.bb:28:     sed -i -e 's%#!/bin/bash%#!/bin/sh%g' ${D}${datadir}/arno-iptables-firewall/plugins/traffic-accounting-helper
+meta-openembedded/meta-networking/recipes-filter/arno-iptables-firewall/arno-iptables-firewall_2.1.0.bb:29:     sed -i -e 's%#!/bin/bash%#!/bin/sh%g' ${D}${datadir}/arno-iptables-firewall/plugins/dyndns-host-open-helper
+meta-openembedded/meta-networking/recipes-filter/arno-iptables-firewall/arno-iptables-firewall_2.1.0.bb:32:SYSTEMD_SERVICE_${PN} = "arno-iptables-firewall.service"
+meta-openembedded/meta-networking/recipes-filter/arno-iptables-firewall/arno-iptables-firewall_2.1.0.bb:33:FILES_${PN} += "${systemd_unitdir}/system/arno-iptables-firewall.service"
+meta-openembedded/meta-networking/recipes-filter/nftables/nftables_0.9.6.bb:23:PACKAGECONFIG[xtables] = "--with-xtables, --without-xtables, iptables"
+meta-openembedded/meta-networking/recipes-connectivity/miniupnpd/miniupnpd_2.1.20191006.bb:12:DEPENDS += "iptables net-tools util-linux libmnl libnetfilter-conntrack"
+meta-openembedded/meta-networking/recipes-connectivity/miniupnpd/miniupnpd_2.1.20191006.bb:37:    install ${S}/netfilter/iptables_init.sh ${D}/${sysconfdir}/${BPN}
+meta-openembedded/meta-networking/recipes-connectivity/miniupnpd/miniupnpd_2.1.20191006.bb:38:    install ${S}/netfilter/iptables_removeall.sh ${D}/${sysconfdir}/${BPN}
 
