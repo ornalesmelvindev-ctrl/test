@@ -1,8 +1,10 @@
-| /work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/pmc-poll-manager/src/monitor-config.c: In function 'performGetDhcp':
-| /work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/pmc-poll-manager/src/monitor-config.c:481:86: error: subscripted value is neither array nor pointer nor vector
-|   481 |                 &s_configData.s_physical.s_network.s_config.ipv4_dynamic.s_subnetMask[0], sizeof(s_configData.s_physical.s_network.s_config.ipv4_dynamic.s_subnetMask));
-|       |                                                                                      ^
-| /work/ewd-orv3-pmc/artesyn-shelf/build/workspace/sources/pmc-poll-manager/src/monitor-config.c:486:85: error: subscripted value is neither array nor pointer nor vector
-|   486 |                 &s_configData.s_physical.s_network.s_config.ipv4_static.s_subnetMask[0], sizeof(s_configData.s_physical.s_network.s_config.ipv4_static.s_subnetMask));
+tree config
+config
+├── dbus-config
+│   ├── aei.mc.pollmanager.service
+│   └── aei.mc.pollmanager1.conf
+└── systemd-config
+    └── pmpmc.service
 
-cmpmc compiled without error but I didnt test it yet
+3 directories, 3 files
+
