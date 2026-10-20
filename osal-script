@@ -1,8 +1,5 @@
-admin@artesyn-shelf:~# ls -l /etc/localtime /etc/timezone; timedatectl | grep -i "time zone"; busctl get-property org.freedesktop.timedate1 /org/freedesktop/timedate1 org.freedesktop.timedate1 Timezone; grep -rn -i "timezone\|zone" /usr/bin/set_time.sh /usr/bin/get_time.sh
-ls: cannot access '/etc/localtime': No such file or directory
-ls: cannot access '/etc/timezone': No such file or directory
-                Time zone: UTC (UTC, +0000)
-s "UTC"
-/usr/bin/set_time.sh:92:            sudo timedatectl set-timezone "UTC"
-/usr/bin/set_time.sh:95:                error "Failed to set timezone."
-admin@artesyn-shelf:~#
+can you create me a brief summary? take note this is for the test engineers whom will
+perform the testing since we removed legacy scripts with our library
+
+Dont include techincal terms that test eng may not understand okay? just the list of affected scripts, etc
+I mean for the test engineers to know which part or test procedures
