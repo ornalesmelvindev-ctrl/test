@@ -1,5 +1,16 @@
-can you create me a brief summary? take note this is for the test engineers whom will
-perform the testing since we removed legacy scripts with our library
+here's the thing, the tester disabled the dhcp, then later on disabled the static as well, so ofcourse he cant
+access now the device
 
-Dont include techincal terms that test eng may not understand okay? just the list of affected scripts, etc
-I mean for the test engineers to know which part or test procedures
+now
+which do you prefer
+scenario 1:
+disable dhcp -> auto enable static (vice versa)
+disable static -> auto enable dhcp (vice versa)
+
+scenario 2:
+static is disabled -> dont allow disable dhcp
+dhcp is disabled -> dont allow disable static
+
+or do you have any better suggestion?
+
+if you already chose, give me back the affected file for that
