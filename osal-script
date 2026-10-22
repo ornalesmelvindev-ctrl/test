@@ -1,16 +1,16 @@
-here's the thing, the tester disabled the dhcp, then later on disabled the static as well, so ofcourse he cant
-access now the device
+ this is our current lib, as you notice, I removed the unnecessary comments and clean the readme
+ also may audit.md is not needed, readme is all that matters on how it works
 
-now
-which do you prefer
-scenario 1:
-disable dhcp -> auto enable static (vice versa)
-disable static -> auto enable dhcp (vice versa)
+ what I want you to do is to again, removed the unnecessary comments, then put this on the top of file/s that fits it
 
-scenario 2:
-static is disabled -> dont allow disable dhcp
-dhcp is disabled -> dont allow disable static
+like
+/**
+ *  Copyright (c) 202, ADVANCED ENERGY INDUSTRIES, INC.          
+ *  All Rights Reserved. Please see the license.txt file for full details 
+ *
+ *  @file           file_name.(c|h)
+ *  @brief          modbus master header file.
+ *  @author         melvin.ornales@aei.com
+ */
 
-or do you have any better suggestion?
-
-if you already chose, give me back the affected file for that
+or what standard format, like ofcourse brief description or whatsoever
