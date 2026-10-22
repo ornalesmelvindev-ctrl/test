@@ -1,23 +1,3 @@
-For the PSU detection, I tried replicating the issue but after several trials, I failed to replicate it, PSU absence can be detected for about 10-15 sec and presence for about 30 sec(since present is being reported if all configs were ready), so I just closed it for retest
-
-for the SPDM Emulators, I am able to run those from china team using virtual port and it seems to be working fine, with address of 0x80 and spdm_cmd of 0x65
-also managed to create emulators in C, using the same modbus rtu, and behaves well just like those given emulators to us
-
-for the osal optimizations phase 1, since the task is just to identify, I only identified one script, specifically the get_versions.sh to be refactored since it causes the delay of pmpmc starting for about 2 mins, and after the fix, this script now runs for only about 1-2sec
-for the other scripts, just improvement but not that critical like the way we get if service is active
-
-for the Optimize Dbus calls called via system calls, task also is to identify, so I checked all of our services with system busctl calls
-cmpmc, cmpsu. pmdev, pmpmc, pmpsu and pmshelf were the services the do dbus systemcalls, I already prepared the equivalent of those calls using sd bus library
-
-For the DLC unsupported features, I am done disabling those features in pmpsu, cmpsu and hkshelf but didnt test it yet
-
-Fot  the osal cli/library, I am now on the testing stage, I already created image with the systemd patch, without the pmc network related supervisory services and the osal scripts, I didnt iclude yet the http and caddy related osal scripts
-I noticed that in our current implementation, network restarts a lot, and since pmc-certificate-svc (which runs the caddy service) runs after network,target, I think it runs by luck for now
-But now with my built image, network just starts once, but pmc-certificate-svc fails because it  inside it the pmc variant, which is in the device-profile.cfg, but device-profile.cfg is created my pmdev(device poll manager), so I think we can consider depending pmc-certificate-svc as well after device poll manager is done
-
-Also created osal-network-boot oneshot service to start before the systemd-networkd since there is log with regards to Invalid Gateway in /lib/systemd/network/80-wired.network.d/80-wired.conf, but we're not touching that file
-whats the super best move in here? because as you can see in the current, there are some json that is only supported in specific variant, but I think it's a little bit messy because as you can see, we do the checking runtime and not in the compilation.
-
 can you give me options on how to improve it? like create different file for different vaiant? different function? I mean dont implement it yet, I need best idea
 
 
