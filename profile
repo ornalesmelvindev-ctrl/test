@@ -1,4 +1,127 @@
-because I have another problem, the way structs were populated, some still schecking foe the variant
+this is in the main file
+while(1)
+    .
+    .
+    .
+        case POLL_STATE_LIST:
+        {
+            ERROR_PRINT("list: %02X\n", p_data->u8_address);
+            if (0 == monitor_list(u8_index, p_data->u8_address, &p_data->s_list))
+            {
+                printf("Device with %02X address has been detected\n", p_data->u8_address);
+                p_data->e_deviceStatus = DEVICE_STATUS_DETECTED;
+
+                r = RESULT_CODE_OK;
+                *p_state = POLL_STATE_STATIC;
+            }
+            break;
+        }
+
+because our goal here is, the variant checking should only be in the main file, right now
+
+monitor-list.c
+/** public definitions */
+result_code_et monitor_list(uint8_t u8_index, uint8_t u8_address, list_data_st *ps_data)
+{
+    result_code_et e_presence       = RESULT_CODE_ERROR;
+    result_code_et e_comms_status   = RESULT_CODE_ERROR;
+
+#ifdef DEBUG_LOAD_DUMMY_DATA
+    e_presence      = RESULT_CODE_OK;
+    e_comms_status  = RESULT_CODE_OK;
+#else
+    const device_profile_st *s_device_profile = get_device_profile();
+
+    if ( (MODULE_VARIANT_HPR == s_device_profile->variant)
+            || (MODULE_VARIANT_HPR_V2 == s_device_profile->variant)
+        )
+    {
+        e_presence = check_unit_presence(u8_index);
+    }
+    else /** ORV Standard */
+    {
+        e_presence = RESULT_CODE_OK;
+    }
+    
+    if (RESULT_CODE_OK == e_presence)
+    {
+        e_comms_status = check_unit_comms(u8_address);
+    }
+#endif
+
+    /** presence status */
+    if (RESULT_CODE_OK == e_presence)
+    {   
+        ps_data->b_present  = true;       
+    }
+    else
+    {
+        ps_data->b_present  = false;
+    }
+
+    /** comms status */
+    if (RESULT_CODE_OK == e_comms_status)
+    {   
+        ps_data->e_status   = GENERAL_STATUS_OK;        
+    }
+    else
+    {
+        ps_data->e_status   = GENERAL_STATUS_ERROR;
+    }
+
+    return (((RESULT_CODE_OK == e_presence) && (RESULT_CODE_OK == e_comms_status)) ? RESULT_CODE_OK : RESULT_CODE_ERROR);
+}
+
+then next state 
+        case POLL_STATE_DYNAMIC:
+        {
+            ERROR_PRINT("dynamic: %02X\n", p_data->u8_address);
+            if (0 != monitor_dynamic(u8_index,
+                                    p_data->u8_address,
+                                    &p_data->s_dynamic_readouts,
+                                    &p_data->s_dynamic_status))
+            {
+                break;
+            }
+
+            if (DEVICE_STATUS_READY != p_data->e_deviceStatus)
+            {
+                if (0 == publish_list_update((u8_index + 1), p_data, now))
+                {
+                    p_data->e_deviceStatus = DEVICE_STATUS_READY;
+                }
+            }
+            else
+            {
+                ProcessPSUFaultLogs(&p_data->s_dynamic_status, &prev_dynamic_status[u8_index], u8_index);
+            }
+
+            r = RESULT_CODE_OK;
+            break;
+        }
+monitor-dynamic.c
+result_code_et monitor_dynamic(uint8_t u8_index, uint8_t u8_address,
+                               dynamic_readings_st *ps_readings,
+                               dynamic_status_st *ps_status)
+{
+    result_code_et r = RESULT_CODE_ERROR;
+
+    r = monitor_dynamic_params(u8_index, u8_address, ps_readings, ps_status);
+
+    return r;
+}
+
+static result_code_et monitor_dynamic_params(uint8_t u8_index, uint8_t u8_address,
+                                             dynamic_readings_st *ps_readings,
+                                             dynamic_status_st *ps_status)
+{
+    result_code_et r1 = RESULT_CODE_ERROR;
+    result_code_et r2 = RESULT_CODE_ERROR;
+      r1 = read_readouts_data(u8_index, u8_address, ps_readings);
+    r2 = read_status_data(u8_index, u8_address, ps_status);
+
+}
+
 static result_code_et read_readouts_data(uint8_t u8_index, uint8_t u8_address, dynamic_readings_st *ps_data)
 {
     result_code_et r = RESULT_CODE_ERROR;
@@ -120,30 +243,85 @@ static result_code_et read_readouts_data(uint8_t u8_index, uint8_t u8_address, d
     return r;
 }
 
-static result_code_et process_readouts_data_hpr(uint8_t u8_index, uint8_t u8_address, dynamic_readings_st *ps_data)
+like our initial plan is to first, set the common for all variants for example, then check in the main file like for example
+if variant == MODULE_VARIANT_HPR_V2
+    call a function that populate what needs to be populated
+
+    like the variant specific features
+
+
+as I told you, same goes in writing the json to be emitted
+json_object *buildDynamicParamsSchema(device_data_st *ps_data, uint8_t u8_id)
 {
-    result_code_et r = RESULT_CODE_ERROR;
-    uint16_t u16_buffer[MODBUS_MAX_REGISTER_READ_COUNT] = {0};
-    uint16_t u16_data = 0x0000;
-    uint16_t u16_startRegister = 0x0000;
-    uint8_t u8_registerCount = 0;
-    uint16_t u16_registerOffset = 0;
-    uint8_t u8_arrayOffset      = 0;
+    struct json_object *jsonBuffer;
 
     const device_profile_st *s_device_profile = get_device_profile();
 
-    if ( MODULE_VARIANT_HPR_V2 == s_device_profile->variant )
+    jsonBuffer = json_object_new_object();
+
+    json_object_object_add(jsonBuffer, "psu_id",
+                           json_object_new_int((int32_t)u8_id));
+
+    json_object_object_add(jsonBuffer, "vin_volts",
+                           json_object_new_double(ps_data->s_dynamic_readouts.d_inputVoltage));
+    json_object_object_add(jsonBuffer, "iin_amps",
+                           json_object_new_double(ps_data->s_dynamic_readouts.d_inputCurrent));
+    json_object_object_add(jsonBuffer, "pin_watts",
+                           json_object_new_double(ps_data->s_dynamic_readouts.d_inputPower));
+    json_object_object_add(jsonBuffer, "input_ac_freq_hz",
+                           json_object_new_double(ps_data->s_dynamic_readouts.d_inputAcFrequency));
+    json_object_object_add(jsonBuffer, "ithd_percent",
+                           json_object_new_double(ps_data->s_dynamic_readouts.d_currentThd));
+    json_object_object_add(jsonBuffer, "power_factor",
+                           json_object_new_double(ps_data->s_dynamic_readouts.d_powerFactor));
+
+    json_object_object_add(jsonBuffer, "vout_volts",
+                           json_object_new_double(ps_data->s_dynamic_readouts.d_outputVoltage));
+    json_object_object_add(jsonBuffer, "iout_amps",
+                           json_object_new_double(ps_data->s_dynamic_readouts.d_outputCurrent));
+    json_object_object_add(jsonBuffer, "pout_watts",
+                           json_object_new_double(ps_data->s_dynamic_readouts.d_outputPower));
+
+    json_object_object_add(jsonBuffer, "inlet_temp_celsius",
+                           json_object_new_double(ps_data->s_dynamic_readouts.d_inletTemperature));
+    json_object_object_add(jsonBuffer, "outlet_temp_celsius",
+                           json_object_new_double(ps_data->s_dynamic_readouts.d_outletTemperature));
+
+    if (MODULE_VARIANT_DLC != s_device_profile->variant)
     {
-        u16_startRegister   = MODBUS_REGISTER_OFFSET_RPM_FAN_1; // 0x44
-        u16_registerOffset  = MODBUS_REGISTER_OFFSET_RPM_FAN_1; // 0x44
-        u8_registerCount    = ((MODBUS_REGISTER_OFFSET_HPR_V2_INPUT_POWER_AVERAGE - MODBUS_REGISTER_OFFSET_RPM_FAN_1) //(0x92 - 0x44) + 1
-                                + MODBUS_REGISTER_OFFSET_HPR_V2_INPUT_POWER_AVERAGE_WORD_SIZE);                       //(End register - Start register) + End Register Size. Sum is 0x4F
-    }
-    else
-    {
-        u16_startRegister   = MODBUS_REGISTER_OFFSET_OUTPUT_POWER; // 0x52
-        u16_registerOffset  = MODBUS_REGISTER_OFFSET_OUTPUT_POWER; // 0x52
-        u8_registerCount    = ((MODBUS_REGISTER_OFFSET_NEG_BUS_BAR_TEMPERATURE - MODBUS_REGISTER_OFFSET_OUTPUT_POWER) //(0x70 - 0x52) + 1
-                                + MODBUS_REGISTER_OFFSET_NEG_BUS_BAR_TEMPERATURE_WORD_SIZE);                          //(End register - Start register) + End Register Size. Sum is 0x26
+        json_object_object_add(jsonBuffer, "fan1_rpm",
+                            json_object_new_double(ps_data->s_dynamic_readouts.d_fan1Rpm));
     }
 
+    json_object_object_add(jsonBuffer, "ishare",
+                           json_object_new_double(ps_data->s_dynamic_readouts.d_currentShare));
+    
+    if (MODULE_VARIANT_HPR == s_device_profile->variant)
+    {
+        json_object_object_add(jsonBuffer, "pos_busbar_temp_celsius",
+                           json_object_new_double(ps_data->s_dynamic_readouts.d_posBusBarTemperature));
+        json_object_object_add(jsonBuffer, "neg_busbar_temp_celsius",
+                            json_object_new_double(ps_data->s_dynamic_readouts.d_negBusBarTemperature));
+    }
+    else if (MODULE_VARIANT_HPR_V2 == s_device_profile->variant)
+    {
+        json_object_object_add(jsonBuffer, "pos_busbar_temp_celsius",
+                           json_object_new_double(ps_data->s_dynamic_readouts.d_posBusBarTemperature));
+        json_object_object_add(jsonBuffer, "neg_busbar_temp_celsius",
+                            json_object_new_double(ps_data->s_dynamic_readouts.d_negBusBarTemperature));
+
+        json_object_object_add(jsonBuffer, "fan2_rpm",
+                           json_object_new_double(ps_data->s_dynamic_readouts.d_fan2Rpm));
+        json_object_object_add(jsonBuffer, "fan3_rpm",
+                           json_object_new_double(ps_data->s_dynamic_readouts.d_fan3Rpm));
+        json_object_object_add(jsonBuffer, "fan4_rpm",
+                           json_object_new_double(ps_data->s_dynamic_readouts.d_fan4Rpm));
+        
+    }
+
+    return jsonBuffer;
+}
+
+
+whts the best move in here? because our problem in here is when we add variant specific features in the future, then we will
+again add if(variant ...) ....
