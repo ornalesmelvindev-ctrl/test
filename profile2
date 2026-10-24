@@ -1,0 +1,133 @@
+wait, how about completely removal of for example data-schema.c or monitor-dynamic.c
+
+what I mean is maybe we can do for example
+
+src/variants/hpr/{dynamic/,static/,config/,list/}
+then ofcourse inside dynamic/{data-schema*.c,monitor*.c}
+and this will be also applied to the other variants, and of course, we have the common for all
+
+is it a bit overkill or not? What do you think?
+
+or the current is already good? like we will just add for example src/variants/hpr/monitor-list-hpr.c for list, or src/variants/std/monitor-config.c in config I just dont like the thing like data-schema-dynamic.c separate file
+because later on, we will add also data-schema-list.c for list, then data-schema-config.c for config?
+
+I mean up to you
+
+also, I want you to as well add the dynamic readouts status
+this is the current
+static result_code_et read_status_data(uint8_t u8_index, uint8_t u8_address, dynamic_status_st *ps_data)
+{
+    result_code_et r = RESULT_CODE_ERROR;
+    uint16_t u16_buffer[MODBUS_MAX_REGISTER_READ_COUNT] = {0};
+    uint16_t u16_data = 0x0000;
+    uint16_t u16_ledData = 0x0000;
+    uint16_t u16_startRegister = 0x0000;
+    uint8_t u8_registerCount = 0;
+    uint16_t u16_registerOffset = 0;
+
+    uint16_t u16_generalAlarmBuffer = 0;
+    uint16_t u16_pfcAlarmBuffer = 0;
+    uint16_t u16_dcdcAlarmBuffer = 0;
+    uint16_t u16_tempAlarmBuffer = 0;
+    uint16_t u16_commsAlarmBuffer = 0;
+    uint16_t u16_ledOverrideBuffer = 0;
+
+    u16_startRegister = MODBUS_REGISTER_OFFSET_GENERAL_ALARM_STATUS;                                                                                          // 0x3C
+    u16_registerOffset = MODBUS_REGISTER_OFFSET_GENERAL_ALARM_STATUS;                                                                                         // 0x3C
+    u8_registerCount = ((MODBUS_REGISTER_OFFSET_LED_OVERRIDE - MODBUS_REGISTER_OFFSET_GENERAL_ALARM_STATUS) + MODBUS_REGISTER_OFFSET_LED_OVERRIDE_WORD_SIZE); //(End register - Start register) + End Register Size. Sum is 26
+
+    if (0 != readModbusRegisters(u8_address,
+                                 u16_startRegister,
+                                 u8_registerCount,
+                                 &u16_buffer[0]))
+    {
+        return r;
+    }
+    /** copy modbus data into register map */
+    for (uint8_t i = 0; i < u8_registerCount; i++) // 0x26
+    {
+        (void)set_modbus_register(u8_index, (u16_registerOffset + i), u16_buffer[i]);
+    }
+    if (MODULE_VARIANT_DLC != get_device_profile()->variant)
+    {
+        if (0 == get_modbus_register(u8_index, MODBUS_REGISTER_OFFSET_LED_OVERRIDE, &u16_ledOverrideBuffer))
+        {
+            setPowerStatusLed(u16_ledOverrideBuffer, ps_data);
+        }
+    }
+
+    if (0 == get_modbus_register(u8_index, MODBUS_REGISTER_OFFSET_GENERAL_ALARM_STATUS, &u16_generalAlarmBuffer))
+    {
+        setGeneralAlarm(u16_generalAlarmBuffer, ps_data);
+    }
+
+    if (0 == get_modbus_register(u8_index, MODBUS_REGISTER_OFFSET_PFC_ALARM_STATUS, &u16_pfcAlarmBuffer))
+    {
+        setPfcAlarm(u16_pfcAlarmBuffer, ps_data);
+    }
+
+    if (0 == get_modbus_register(u8_index, MODBUS_REGISTER_OFFSET_DCDC_ALARM_STATUS, &u16_dcdcAlarmBuffer))
+    {
+        setDcdcAlarm(u16_dcdcAlarmBuffer, ps_data);
+    }
+
+    if (0 == get_modbus_register(u8_index, MODBUS_REGISTER_OFFSET_TEMPERATURE_ALARM_STATUS, &u16_tempAlarmBuffer))
+    {
+        setTempAlarm(u16_tempAlarmBuffer, ps_data);
+    }
+
+    if (0 == get_modbus_register(u8_index, MODBUS_REGISTER_OFFSET_COMMUNICATION_ALARM_STATUS, &u16_commsAlarmBuffer))
+    {
+        setCommsAlarm(u16_commsAlarmBuffer, ps_data);
+    }
+
+    if (!(u16_generalAlarmBuffer & MODBUS_GENERAL_ALARM_BIT_COMMUNICATION))
+    {
+        if (u16_commsAlarmBuffer & (MODBUS_COMMS_ALARM_BIT_PRIMARY_MCU_FAULT | MODBUS_COMMS_ALARM_BIT_SECONDARY_LOGIC_FAULT))
+        {
+            ps_data->s_system.e_communicationStatus = GENERAL_STATUS_FAULT;
+        }
+        else
+        {
+            ps_data->s_system.e_communicationStatus = GENERAL_STATUS_NORMAL;
+        }
+    }
+    else
+    {
+        ps_data->s_system.e_communicationStatus = GENERAL_STATUS_NORMAL;
+    }
+
+    r = RESULT_CODE_OK;
+
+    return r;
+}
+
+json_object *buildDynamicStatusSchema(device_data_st *ps_data, uint8_t u8_id)
+{
+    struct json_object *jsonBuffer;
+
+    jsonBuffer = json_object_new_object();
+
+    json_object_object_add(jsonBuffer, "psu_id",
+                           json_object_new_int((int32_t)u8_id));
+
+    json_object_object_add(jsonBuffer, "other", buildDynamicStatusOtherSchema(&ps_data->s_dynamic_status));
+    json_object_object_add(jsonBuffer, "system", buildDynamicStatusSystemSchema(&ps_data->s_dynamic_status));
+    json_object_object_add(jsonBuffer, "input", buildDynamicStatusInputSchema(&ps_data->s_dynamic_status));
+    json_object_object_add(jsonBuffer, "output", buildDynamicStatusOutputSchema(&ps_data->s_dynamic_status));
+    json_object_object_add(jsonBuffer, "temperature", buildDynamicStatusTemperatureSchema(&ps_data->s_dynamic_status));
+    if (MODULE_VARIANT_DLC != get_device_profile()->variant)
+    {
+        json_object_object_add(jsonBuffer, "fan", buildDynamicStatusFanSchema(&ps_data->s_dynamic_status));
+    }
+
+    return jsonBuffer;
+}
+
+
+this is the current tree
+ls src        
+CMakeLists.txt  data-schema.c   device-profile.c  modbus-master.c         monitor-list.c
+README.md       dbus-actions.c  helpers.c         modbus-registers-map.c  monitor-static.c
+ae-json.c       dbus-pub.c      include           monitor-config.c        poll-manager.c
+common.c        dbus-service.c  logs-client.c     monitor-dynamic.c       psu-detection.c
