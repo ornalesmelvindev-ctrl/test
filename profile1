@@ -1,0 +1,20 @@
+Will it be a good move? What if create separate files for each variant, containing the variant specific features only
+then ofcourse there the common for every variant?
+
+like
+data-schema-std.c(for standard)
+data-schema-hpr.c(for hpr)
+and so on...
+
+then monitor-dynamic-std.c
+and so on
+
+Like the methods/flow to be used will be done in the main,
+
+or do you have any better tree or improvement?, just dont lose the functionality, and the existing comments, the macros used
+the modbus offset, since the original is working fine already
+
+also, why the monitor dynamic.c you sent were all just comments?
+
+
+again, dont hold back on naming varialbes, functions, structs, etc, we need readbility
