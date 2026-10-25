@@ -1,0 +1,47 @@
+well I think yes, b is better, but I thought you will get rid of separate file like variant-hpr.c, or variant-std.c
+I mean I thought you will just put all in one header or C file, like
+
+const module_variant_handlers_st g_variantHandlersHpr =
+{
+    .dynamic =
+    {
+        .ps_monitor = &g_dynamicMonitorHandlersHpr,
+        .ps_schema  = &g_dynamicSchemaHandlersHpr,
+    },
+    /* TODO: .list, .staticInfo and .config when those domains are migrated */
+};
+
+const super table blahblah1 [] = 
+MODULE_VARIANT_STANDARD, g_variantHandlersStd
+MODULE_VARIANT_HPR, g_variantHandlerHpr
+MODULE_VARIANT_HPR_V2, g_variantHandlerHprV2
+MODULE_VARIANT_DLC, g_variantHandlerDlc
+
+or maybe (well I dont know which is better)
+const super table blahblah1 [] = 
+
+/*variant,listHandlers, configHandlers, dyanmicHandleers, etc*/
+MODULE_VARIANT_STANDARD, g_variantListHandlersStd, config, dynamic, ....
+MODULE_VARIANT_HPR, g_variantListHandlerHpr, config, dynamic, ....
+MODULE_VARIANT_HPR_V2, g_variantListHandlerHprV2, config, dynamic, ....
+MODULE_VARIANT_DLC, g_variantListHandlerDlc, config, dynamic, ....
+
+then in the main
+
+variant_index =get_device_profile
+then the table for presence check if necessary
+
+like
+
+ static const super tableMain[]
+    presenceTable, blahblah1
+
+
+then access using
+tableMain.blahblah1[variant_index]
+
+tableMain.presenceTable[variant_index]
+
+I mean do you think this is better, if not dont do it
+what I want is the best so I am still giving you options, but if you think the current versios is already the best
+well I will stick to it as well
