@@ -1,0 +1,22 @@
+what I want you to do now is also read this src
+this is the refactored one of that(improved version)
+
+but it is not ye at its latest because as you notice in the develop, this funcntion is created
+read_unit_config_thresholds
+
+I mean please look the changes in develop that is not yet present in here, and please if you can
+what I did is refactored right, so functionailitt of the original must be preserved
+like the way it monitor, sends json(emit) or logs(fault, etc) and more
+
+dont mind the DLC part since its added feature, we will focus on the standard, hpr and hprv2
+for your info
+
+example:
+standard - fan1 only
+hpr - fan1 only
+hprv2 - fan1 - fan4
+
+well you can notice the variant specific feature and the common for them
+
+what I want you to do is please check this refactored one, modify something and add
+I mean it must work same as the original ofcourse
