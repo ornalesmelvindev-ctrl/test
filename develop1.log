@@ -1,0 +1,1441 @@
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]:           "hotspot_ot_warning": 110.0
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]:         },
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]:         "fan": {
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]:           "fan1_under_rpm_warning": 0.0,
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]:           "fan2_under_rpm_warning": 0.0
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]:         }
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]:       },
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]:       "writeable": [
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]:         "baudrate",
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]:         "fan_override",
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]:         "power_led_override",
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]:         "status_led_override",
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]:         "vout_select",
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]:         "vout_low_setpoint",
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]:         "vout_high_setpoint",
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]:         "vout_change_delay",
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]:         "inlet_ot_fault",
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]:         "inlet_ut_fault",
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]:         "outlet_ot_fault",
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]:         "outlet_ut_fault"
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]:       ]
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]:     }
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]:   ]
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]: }
+Nov 13 05:59:42 artesyn-shelf pmpsu[17552]: [!!!] config: 85
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 05:59:32",
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:   "shelf_id": 1,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:   "config": [
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:     {
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:       "psu_id": 6,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:       "type": {
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         "other": {
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "baudrate": 115200.0
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         },
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         "override_control": {
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "write_enable": 1.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "led_override_enable": 0.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "vout_override_enable": 0.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "reset_override_enable": 0.0
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         },
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         "override_values": {
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "fan_override": 0.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "led_override_enable": 0.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "power_led_override": 0.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "status_led_override": 0.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "reset_pin_override": 0.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "vout_override": 0.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "vout_select": 0.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "vout_low_setpoint": 0.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "vout_high_setpoint": 0.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "vout_change_delay": 0.0
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         },
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         "input": {
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "vin_ov_fault": 0.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "vin_uv_fault": 0.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "iin_oc_fault": 0.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "freq_of_warning": 0.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "freq_uf_warning": 0.0
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         },
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         "output": {
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "vout_ov_fault": 0.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "vout_uv_fault": 0.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "iout_oc_fault": 0.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "capacity_watts": 0.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "pout_op_fault": 0.0
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         },
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         "temperature": {
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "inlet_ot_fault": 0.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "inlet_ot_warning": 60.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "inlet_ut_fault": 21.7734375,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "outlet_ot_fault": 0.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "outlet_ot_warning": 85.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "outlet_ut_fault": 21.7734375,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "hotspot_ot_warning": 110.0
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         },
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         "fan": {
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "fan1_under_rpm_warning": 0.0,
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:           "fan2_under_rpm_warning": 0.0
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         }
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:       },
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:       "writeable": [
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         "baudrate",
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         "fan_override",
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         "power_led_override",
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         "status_led_override",
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         "vout_select",
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         "vout_low_setpoint",
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         "vout_high_setpoint",
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         "vout_change_delay",
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         "inlet_ot_fault",
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         "inlet_ut_fault",
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         "outlet_ot_fault",
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:         "outlet_ut_fault"
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:       ]
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:     }
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]:   ]
+Nov 13 05:59:44 artesyn-shelf pmpsu[17552]: }
+Nov 13 05:59:46 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 80
+Nov 13 05:59:49 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 05:59:49 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 05:59:46",
+Nov 13 05:59:49 artesyn-shelf pmpsu[17552]:   "shelf_id": 1,
+Nov 13 05:59:49 artesyn-shelf pmpsu[17552]:   "list": [
+Nov 13 05:59:49 artesyn-shelf pmpsu[17552]:     {
+Nov 13 05:59:49 artesyn-shelf pmpsu[17552]:       "psu_id": 1,
+Nov 13 05:59:49 artesyn-shelf pmpsu[17552]:       "device_address": 128,
+Nov 13 05:59:49 artesyn-shelf pmpsu[17552]:       "present": true,
+Nov 13 05:59:49 artesyn-shelf pmpsu[17552]:       "status": "OK"
+Nov 13 05:59:49 artesyn-shelf pmpsu[17552]:     }
+Nov 13 05:59:49 artesyn-shelf pmpsu[17552]:   ]
+Nov 13 05:59:49 artesyn-shelf pmpsu[17552]: }
+Nov 13 05:59:49 artesyn-shelf pmpsu[17552]: [!!!] config: 81
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 05:59:46",
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:   "shelf_id": 1,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:   "config": [
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:     {
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:       "psu_id": 2,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:       "type": {
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         "other": {
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "baudrate": 115200.0
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         },
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         "override_control": {
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "write_enable": 1.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "led_override_enable": 0.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "vout_override_enable": 0.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "reset_override_enable": 0.0
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         },
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         "override_values": {
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "fan_override": 0.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "led_override_enable": 0.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "power_led_override": 0.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "status_led_override": 0.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "reset_pin_override": 0.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "vout_override": 0.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "vout_select": 0.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "vout_low_setpoint": 0.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "vout_high_setpoint": 0.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "vout_change_delay": 0.0
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         },
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         "input": {
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "vin_ov_fault": 0.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "vin_uv_fault": 0.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "iin_oc_fault": 0.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "freq_of_warning": 0.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "freq_uf_warning": 0.0
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         },
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         "output": {
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "vout_ov_fault": 0.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "vout_uv_fault": 0.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "iout_oc_fault": 0.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "capacity_watts": 0.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "pout_op_fault": 0.0
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         },
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         "temperature": {
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "inlet_ot_fault": 0.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "inlet_ot_warning": 60.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "inlet_ut_fault": 22.09375,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "outlet_ot_fault": 0.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "outlet_ot_warning": 85.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "outlet_ut_fault": 22.09375,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "hotspot_ot_warning": 110.0
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         },
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         "fan": {
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "fan1_under_rpm_warning": 0.0,
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:           "fan2_under_rpm_warning": 0.0
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         }
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:       },
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:       "writeable": [
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         "baudrate",
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         "fan_override",
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         "power_led_override",
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         "status_led_override",
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         "vout_select",
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         "vout_low_setpoint",
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         "vout_high_setpoint",
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         "vout_change_delay",
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         "inlet_ot_fault",
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         "inlet_ut_fault",
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         "outlet_ot_fault",
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:         "outlet_ut_fault"
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:       ]
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:     }
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]:   ]
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]: }
+Nov 13 05:59:51 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 82
+
+Nov 13 05:59:54 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 05:59:54 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 05:59:46",
+Nov 13 05:59:54 artesyn-shelf pmpsu[17552]:   "shelf_id": 1,
+Nov 13 05:59:54 artesyn-shelf pmpsu[17552]:   "list": [
+Nov 13 05:59:54 artesyn-shelf pmpsu[17552]:     {
+Nov 13 05:59:54 artesyn-shelf pmpsu[17552]:       "psu_id": 3,
+Nov 13 05:59:54 artesyn-shelf pmpsu[17552]:       "device_address": 130,
+Nov 13 05:59:54 artesyn-shelf pmpsu[17552]:       "present": true,
+Nov 13 05:59:54 artesyn-shelf pmpsu[17552]:       "status": "OK"
+Nov 13 05:59:54 artesyn-shelf pmpsu[17552]:     }
+Nov 13 05:59:54 artesyn-shelf pmpsu[17552]:   ]
+Nov 13 05:59:54 artesyn-shelf pmpsu[17552]: }
+Nov 13 05:59:54 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 83
+Nov 13 05:59:57 artesyn-shelf pmpsu[17552]: [!!!] Device with 83 retry count: 1.
+Nov 13 05:59:57 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 84
+Nov 13 06:00:00 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 06:00:00 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 05:59:46",
+Nov 13 06:00:00 artesyn-shelf pmpsu[17552]:   "shelf_id": 1,
+Nov 13 06:00:00 artesyn-shelf pmpsu[17552]:   "list": [
+Nov 13 06:00:00 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:00 artesyn-shelf pmpsu[17552]:       "psu_id": 5,
+Nov 13 06:00:00 artesyn-shelf pmpsu[17552]:       "device_address": 132,
+Nov 13 06:00:00 artesyn-shelf pmpsu[17552]:       "present": true,
+Nov 13 06:00:00 artesyn-shelf pmpsu[17552]:       "status": "OK"
+Nov 13 06:00:00 artesyn-shelf pmpsu[17552]:     }
+Nov 13 06:00:00 artesyn-shelf pmpsu[17552]:   ]
+Nov 13 06:00:00 artesyn-shelf pmpsu[17552]: }
+Nov 13 06:00:00 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 85
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 05:59:46",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:   "shelf_id": 1,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:   "list": [
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "psu_id": 6,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "device_address": 133,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "present": true,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "status": "OK"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:     }
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:   ]
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]: }
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 05:59:46",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:   "shelf_id": 1,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:   "dynamic_reading": [
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "psu_id": 1,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "vin_volts": 279.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "iin_amps": 0.95999999999999996,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "pin_watts": 18.5,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "input_ac_freq_hz": 60.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "ithd_percent": 23.5,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "power_factor": 0.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "vout_volts": 50.039999999999999,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "iout_amps": 0.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "pout_watts": 0.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "inlet_temp_celsius": 24.02,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "outlet_temp_celsius": 37.450000000000003,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "fan1_rpm": 4080.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "ishare": 0.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "pos_busbar_temp_celsius": 40.450000000000003,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "neg_busbar_temp_celsius": 41.340000000000003,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "fan2_rpm": 4080.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "fan3_rpm": 3780.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "fan4_rpm": 3780.0
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "psu_id": 3,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "vin_volts": 277.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "iin_amps": 0.97999999999999998,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "pin_watts": 20.5,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "input_ac_freq_hz": 60.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "ithd_percent": 26.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "power_factor": 0.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "vout_volts": 50.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "iout_amps": 0.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "pout_watts": 0.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "inlet_temp_celsius": 22.289999999999999,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "outlet_temp_celsius": 37.280000000000001,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "fan1_rpm": 4080.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "ishare": 0.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "pos_busbar_temp_celsius": 40.189999999999998,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "neg_busbar_temp_celsius": 41.299999999999997,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "fan2_rpm": 4050.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "fan3_rpm": 3780.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "fan4_rpm": 3780.0
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "psu_id": 5,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "vin_volts": 278.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "iin_amps": 0.94999999999999996,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "pin_watts": 15.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "input_ac_freq_hz": 60.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "ithd_percent": 22.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "power_factor": 0.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "vout_volts": 50.049999999999997,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "iout_amps": 0.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "pout_watts": 0.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "inlet_temp_celsius": 22.120000000000001,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "outlet_temp_celsius": 37.18,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "fan1_rpm": 4080.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "ishare": 0.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "pos_busbar_temp_celsius": 40.310000000000002,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "neg_busbar_temp_celsius": 41.289999999999999,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "fan2_rpm": 4080.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "fan3_rpm": 3780.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "fan4_rpm": 3780.0
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "psu_id": 6,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "vin_volts": 277.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "iin_amps": 0.96999999999999997,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "pin_watts": 15.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "input_ac_freq_hz": 60.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "ithd_percent": 26.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "power_factor": 0.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "vout_volts": 50.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "iout_amps": 0.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "pout_watts": 0.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "inlet_temp_celsius": 21.77,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "outlet_temp_celsius": 36.979999999999997,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "fan1_rpm": 4080.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "ishare": 0.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "pos_busbar_temp_celsius": 40.329999999999998,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "neg_busbar_temp_celsius": 41.299999999999997,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "fan2_rpm": 4080.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "fan3_rpm": 3780.0,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "fan4_rpm": 3780.0
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:     }
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:   ]
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]: }
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 05:59:46",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:   "shelf_id": 1,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:   "dynamic_status": [
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "psu_id": 1,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "other": {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "power_led": "ON",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "status_led": "OFF"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "system": {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "system_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "pfc_converter_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "main_converter_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "communication_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "dcdc_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "pfc_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "logic_mcu_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "secondary_mcu_status": "NORMAL"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "input": {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "vin_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "input_freq_status": "NORMAL"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "output": {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "vout_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "iout_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "pout_status": "NORMAL"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "temperature": {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "inlet_temp_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "outlet_temp_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "hotspot_temp_status": "NORMAL"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "fan": {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "fan1_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "fan2_status": "NORMAL"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       }
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "psu_id": 3,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "other": {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "power_led": "ON",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "status_led": "OFF"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "system": {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "system_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "pfc_converter_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "main_converter_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "communication_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "dcdc_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "pfc_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "logic_mcu_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "secondary_mcu_status": "NORMAL"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "input": {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "vin_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "input_freq_status": "NORMAL"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "output": {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "vout_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "iout_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "pout_status": "NORMAL"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "temperature": {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "inlet_temp_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "outlet_temp_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "hotspot_temp_status": "NORMAL"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "fan": {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "fan1_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "fan2_status": "NORMAL"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       }
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "psu_id": 5,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "other": {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "power_led": "ON",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "status_led": "OFF"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "system": {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "system_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "pfc_converter_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "main_converter_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "communication_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "dcdc_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "pfc_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "logic_mcu_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "secondary_mcu_status": "NORMAL"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "input": {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "vin_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "input_freq_status": "NORMAL"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "output": {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "vout_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "iout_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "pout_status": "NORMAL"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "temperature": {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "inlet_temp_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "outlet_temp_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "hotspot_temp_status": "NORMAL"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "fan": {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "fan1_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "fan2_status": "NORMAL"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       }
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "psu_id": 6,
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "other": {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "power_led": "ON",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "status_led": "OFF"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "system": {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "system_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "pfc_converter_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "main_converter_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "communication_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "dcdc_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "pfc_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "logic_mcu_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "secondary_mcu_status": "NORMAL"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "input": {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "vin_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "input_freq_status": "NORMAL"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "output": {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "vout_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "iout_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "pout_status": "NORMAL"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "temperature": {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "inlet_temp_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "outlet_temp_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "hotspot_temp_status": "NORMAL"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       "fan": {
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "fan1_status": "NORMAL",
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:         "fan2_status": "NORMAL"
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:       }
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:     }
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]:   ]
+Nov 13 06:00:03 artesyn-shelf pmpsu[17552]: }
+Nov 13 06:00:05 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 80
+Nov 13 06:00:08 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 81
+Nov 13 06:00:10 artesyn-shelf pmpsu[17552]: [!!!] Device with 81 retry count: 1.
+Nov 13 06:00:10 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 82
+Nov 13 06:00:12 artesyn-shelf pmpsu[17552]: [!!!] Device with 82 retry count: 1.
+Nov 13 06:00:12 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 83
+Nov 13 06:00:15 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 06:00:15 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 06:00:05",
+Nov 13 06:00:15 artesyn-shelf pmpsu[17552]:   "shelf_id": 1,
+Nov 13 06:00:15 artesyn-shelf pmpsu[17552]:   "list": [
+Nov 13 06:00:15 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:15 artesyn-shelf pmpsu[17552]:       "psu_id": 4,
+Nov 13 06:00:15 artesyn-shelf pmpsu[17552]:       "device_address": 131,
+Nov 13 06:00:15 artesyn-shelf pmpsu[17552]:       "present": true,
+Nov 13 06:00:15 artesyn-shelf pmpsu[17552]:       "status": "OK"
+Nov 13 06:00:15 artesyn-shelf pmpsu[17552]:     }
+Nov 13 06:00:15 artesyn-shelf pmpsu[17552]:   ]
+Nov 13 06:00:15 artesyn-shelf pmpsu[17552]: }
+Nov 13 06:00:15 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 84
+Nov 13 06:00:18 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 85
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:   "logtable": "psu",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 06:00:21",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:   "name": "Psu2FwInventory",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:   "description": "PSU2 Resource Removed Event",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:   "message": "PSU2 Removed",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:   "entrytype": "Event",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:   "eventtype": "ResourceRemoved",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:   "severity": "Warning"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]: }
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:   "logtable": "psu",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 06:00:21",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:   "name": "Psu3FwInventory",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:   "description": "PSU3 Resource Removed Event",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:   "message": "PSU3 Removed",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:   "entrytype": "Event",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:   "eventtype": "ResourceRemoved",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:   "severity": "Warning"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]: }
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 06:00:05",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:   "shelf_id": 1,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:   "dynamic_reading": [
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "psu_id": 1,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "vin_volts": 279.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "iin_amps": 0.95999999999999996,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "pin_watts": 16.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "input_ac_freq_hz": 60.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "ithd_percent": 23.5,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "power_factor": 0.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "vout_volts": 50.009999999999998,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "iout_amps": 0.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "pout_watts": 0.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "inlet_temp_celsius": 24.050000000000001,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "outlet_temp_celsius": 37.409999999999997,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan1_rpm": 4080.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "ishare": 0.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "pos_busbar_temp_celsius": 40.310000000000002,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "neg_busbar_temp_celsius": 41.479999999999997,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan2_rpm": 4080.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan3_rpm": 3780.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan4_rpm": 3780.0
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "psu_id": 3,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "vin_volts": 277.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "iin_amps": 0.97999999999999998,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "pin_watts": 20.5,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "input_ac_freq_hz": 60.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "ithd_percent": 26.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "power_factor": 0.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "vout_volts": 50.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "iout_amps": 0.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "pout_watts": 0.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "inlet_temp_celsius": 22.289999999999999,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "outlet_temp_celsius": 37.280000000000001,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan1_rpm": 4080.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "ishare": 0.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "pos_busbar_temp_celsius": 40.189999999999998,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "neg_busbar_temp_celsius": 41.299999999999997,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan2_rpm": 4050.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan3_rpm": 3780.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan4_rpm": 3780.0
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "psu_id": 4,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "vin_volts": 279.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "iin_amps": 0.93999999999999995,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "pin_watts": 19.5,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "input_ac_freq_hz": 60.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "ithd_percent": 19.5,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "power_factor": 0.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "vout_volts": 50.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "iout_amps": 0.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "pout_watts": 0.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "inlet_temp_celsius": 22.120000000000001,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "outlet_temp_celsius": 37.450000000000003,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan1_rpm": 4080.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "ishare": 0.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "pos_busbar_temp_celsius": 40.310000000000002,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "neg_busbar_temp_celsius": 40.700000000000003,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan2_rpm": 4080.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan3_rpm": 3750.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan4_rpm": 3750.0
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "psu_id": 5,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "vin_volts": 278.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "iin_amps": 0.94999999999999996,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "pin_watts": 15.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "input_ac_freq_hz": 60.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "ithd_percent": 22.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "power_factor": 0.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "vout_volts": 50.039999999999999,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "iout_amps": 0.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "pout_watts": 0.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "inlet_temp_celsius": 22.120000000000001,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "outlet_temp_celsius": 37.189999999999998,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan1_rpm": 4080.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "ishare": 0.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "pos_busbar_temp_celsius": 40.049999999999997,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "neg_busbar_temp_celsius": 40.840000000000003,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan2_rpm": 4080.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan3_rpm": 3780.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan4_rpm": 3780.0
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "psu_id": 6,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "vin_volts": 277.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "iin_amps": 0.97999999999999998,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "pin_watts": 13.5,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "input_ac_freq_hz": 60.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "ithd_percent": 26.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "power_factor": 0.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "vout_volts": 50.009999999999998,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "iout_amps": 0.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "pout_watts": 0.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "inlet_temp_celsius": 21.77,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "outlet_temp_celsius": 36.939999999999998,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan1_rpm": 4080.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "ishare": 0.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "pos_busbar_temp_celsius": 39.950000000000003,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "neg_busbar_temp_celsius": 40.840000000000003,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan2_rpm": 4080.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan3_rpm": 3780.0,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan4_rpm": 3780.0
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:     }
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:   ]
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]: }
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 06:00:05",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:   "shelf_id": 1,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:   "dynamic_status": [
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "psu_id": 1,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "other": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "power_led": "ON",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "status_led": "OFF"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "system": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "system_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "pfc_converter_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "main_converter_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "communication_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "dcdc_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "pfc_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "logic_mcu_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "secondary_mcu_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "input": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "vin_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "input_freq_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "output": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "vout_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "iout_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "pout_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "temperature": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "inlet_temp_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "outlet_temp_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "hotspot_temp_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "fan1_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "fan2_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       }
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "psu_id": 3,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "other": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "power_led": "ON",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "status_led": "OFF"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "system": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "system_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "pfc_converter_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "main_converter_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "communication_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "dcdc_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "pfc_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "logic_mcu_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "secondary_mcu_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "input": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "vin_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "input_freq_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "output": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "vout_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "iout_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "pout_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "temperature": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "inlet_temp_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "outlet_temp_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "hotspot_temp_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "fan1_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "fan2_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       }
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "psu_id": 4,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "other": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "power_led": "ON",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "status_led": "OFF"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "system": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "system_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "pfc_converter_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "main_converter_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "communication_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "dcdc_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "pfc_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "logic_mcu_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "secondary_mcu_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "input": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "vin_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "input_freq_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "output": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "vout_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "iout_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "pout_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "temperature": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "inlet_temp_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "outlet_temp_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "hotspot_temp_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "fan1_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "fan2_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       }
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "psu_id": 5,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "other": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "power_led": "ON",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "status_led": "OFF"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "system": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "system_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "pfc_converter_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "main_converter_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "communication_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "dcdc_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "pfc_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "logic_mcu_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "secondary_mcu_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "input": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "vin_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "input_freq_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "output": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "vout_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "iout_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "pout_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "temperature": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "inlet_temp_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "outlet_temp_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "hotspot_temp_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "fan1_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "fan2_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       }
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "psu_id": 6,
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "other": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "power_led": "ON",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "status_led": "OFF"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "system": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "system_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "pfc_converter_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "main_converter_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "communication_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "dcdc_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "pfc_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "logic_mcu_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "secondary_mcu_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "input": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "vin_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "input_freq_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "output": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "vout_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "iout_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "pout_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "temperature": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "inlet_temp_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "outlet_temp_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "hotspot_temp_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       "fan": {
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "fan1_status": "NORMAL",
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:         "fan2_status": "NORMAL"
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:       }
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:     }
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]:   ]
+Nov 13 06:00:21 artesyn-shelf pmpsu[17552]: }
+Nov 13 06:00:23 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 80
+Nov 13 06:00:28 artesyn-shelf pmpsu[17552]: [!!!] Device with 80 retry count: 1.
+Nov 13 06:00:28 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 81
+
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]: [!!!] Device with 81 address has been disconnected.
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 06:00:23",
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:   "shelf_id": 1,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:   "list": [
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "psu_id": 2,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "device_address": 129,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "present": false,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "status": "ERROR"
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:     }
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:   ]
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]: }
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 06:00:23",
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:   "shelf_id": 1,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:   "dynamic_status": [
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "psu_id": 2,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "other": {
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:         "power_led": "UNKNOWN",
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:         "status_led": "UNKNOWN"
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "system": {
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:         "system_status": "NORMAL",
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:         "pfc_converter_status": "NORMAL",
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:         "main_converter_status": "NORMAL",
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:         "communication_status": "NORMAL",
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:         "dcdc_status": "NORMAL",
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:         "pfc_status": "NORMAL",
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:         "logic_mcu_status": "NORMAL",
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:         "secondary_mcu_status": "NORMAL"
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "input": {
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:         "vin_status": "NORMAL",
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:         "input_freq_status": "NORMAL"
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "output": {
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:         "vout_status": "NORMAL",
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:         "iout_status": "NORMAL",
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:         "pout_status": "NORMAL"
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "temperature": {
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:         "inlet_temp_status": "NORMAL",
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:         "outlet_temp_status": "NORMAL",
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:         "hotspot_temp_status": "NORMAL"
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "fan": {
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:         "fan1_status": "NORMAL",
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:         "fan2_status": "NORMAL"
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       }
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:     }
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:   ]
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]: }
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 06:00:23",
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:   "shelf_id": 1,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:   "dynamic_reading": [
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "psu_id": 2,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "vin_volts": 0.0,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "iin_amps": 0.0,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "pin_watts": 0.0,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "input_ac_freq_hz": 0.0,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "ithd_percent": 0.0,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "power_factor": 0.0,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "vout_volts": 0.0,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "iout_amps": 0.0,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "pout_watts": 0.0,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "inlet_temp_celsius": 0.0,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "outlet_temp_celsius": 0.0,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "fan1_rpm": 0.0,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "ishare": 0.0,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "pos_busbar_temp_celsius": 0.0,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "neg_busbar_temp_celsius": 0.0,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "fan2_rpm": 0.0,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "fan3_rpm": 0.0,
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:       "fan4_rpm": 0.0
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:     }
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]:   ]
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]: }
+Nov 13 06:00:32 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 82
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]: [!!!] Device with 82 address has been disconnected.
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 06:00:23",
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:   "shelf_id": 1,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:   "list": [
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "psu_id": 3,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "device_address": 130,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "present": false,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "status": "ERROR"
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:     }
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:   ]
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]: }
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 06:00:23",
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:   "shelf_id": 1,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:   "dynamic_status": [
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "psu_id": 3,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "other": {
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:         "power_led": "UNKNOWN",
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:         "status_led": "UNKNOWN"
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "system": {
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:         "system_status": "NORMAL",
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:         "pfc_converter_status": "NORMAL",
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:         "main_converter_status": "NORMAL",
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:         "communication_status": "NORMAL",
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:         "dcdc_status": "NORMAL",
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:         "pfc_status": "NORMAL",
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:         "logic_mcu_status": "NORMAL",
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:         "secondary_mcu_status": "NORMAL"
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "input": {
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:         "vin_status": "NORMAL",
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:         "input_freq_status": "NORMAL"
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "output": {
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:         "vout_status": "NORMAL",
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:         "iout_status": "NORMAL",
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:         "pout_status": "NORMAL"
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "temperature": {
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:         "inlet_temp_status": "NORMAL",
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:         "outlet_temp_status": "NORMAL",
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:         "hotspot_temp_status": "NORMAL"
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "fan": {
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:         "fan1_status": "NORMAL",
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:         "fan2_status": "NORMAL"
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       }
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:     }
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:   ]
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]: }
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 06:00:23",
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:   "shelf_id": 1,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:   "dynamic_reading": [
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "psu_id": 3,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "vin_volts": 0.0,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "iin_amps": 0.0,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "pin_watts": 0.0,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "input_ac_freq_hz": 0.0,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "ithd_percent": 0.0,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "power_factor": 0.0,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "vout_volts": 0.0,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "iout_amps": 0.0,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "pout_watts": 0.0,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "inlet_temp_celsius": 0.0,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "outlet_temp_celsius": 0.0,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "fan1_rpm": 0.0,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "ishare": 0.0,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "pos_busbar_temp_celsius": 0.0,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "neg_busbar_temp_celsius": 0.0,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "fan2_rpm": 0.0,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "fan3_rpm": 0.0,
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:       "fan4_rpm": 0.0
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:     }
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]:   ]
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]: }
+Nov 13 06:00:35 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 83
+Nov 13 06:00:38 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 84
+Nov 13 06:00:41 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 85
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]: [!!!] Device with 85 retry count: 1.
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:   "logtable": "psu",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 06:00:43",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:   "name": "Psu2FwInventory",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:   "description": "PSU2 Resource Added Event",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:   "message": "PSU2 Added",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:   "entrytype": "Event",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:   "eventtype": "ResourceAdded",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:   "severity": "OK"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]: }
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:   "logtable": "psu",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 06:00:43",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:   "name": "Psu3FwInventory",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:   "description": "PSU3 Resource Added Event",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:   "message": "PSU3 Added",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:   "entrytype": "Event",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:   "eventtype": "ResourceAdded",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:   "severity": "OK"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]: }
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 06:00:23",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:   "shelf_id": 1,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:   "dynamic_reading": [
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "psu_id": 1,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "vin_volts": 279.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "iin_amps": 0.94999999999999996,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "pin_watts": 16.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "input_ac_freq_hz": 60.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "ithd_percent": 23.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "power_factor": 0.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "vout_volts": 50.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "iout_amps": 0.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "pout_watts": 0.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "inlet_temp_celsius": 24.02,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "outlet_temp_celsius": 37.409999999999997,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "fan1_rpm": 4080.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "ishare": 0.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "pos_busbar_temp_celsius": 40.310000000000002,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "neg_busbar_temp_celsius": 41.479999999999997,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "fan2_rpm": 4080.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "fan3_rpm": 3780.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "fan4_rpm": 3780.0
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "psu_id": 4,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "vin_volts": 279.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "iin_amps": 0.93000000000000005,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "pin_watts": 17.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "input_ac_freq_hz": 60.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "ithd_percent": 20.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "power_factor": 0.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "vout_volts": 50.020000000000003,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "iout_amps": 0.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "pout_watts": 0.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "inlet_temp_celsius": 22.199999999999999,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "outlet_temp_celsius": 37.32,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "fan1_rpm": 4080.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "ishare": 0.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "pos_busbar_temp_celsius": 40.450000000000003,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "neg_busbar_temp_celsius": 41.289999999999999,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "fan2_rpm": 4080.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "fan3_rpm": 3750.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "fan4_rpm": 3750.0
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "psu_id": 5,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "vin_volts": 278.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "iin_amps": 0.93999999999999995,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "pin_watts": 14.5,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "input_ac_freq_hz": 60.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "ithd_percent": 22.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "power_factor": 0.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "vout_volts": 50.039999999999999,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "iout_amps": 0.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "pout_watts": 0.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "inlet_temp_celsius": 22.120000000000001,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "outlet_temp_celsius": 37.119999999999997,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "fan1_rpm": 4080.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "ishare": 0.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "pos_busbar_temp_celsius": 40.359999999999999,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "neg_busbar_temp_celsius": 41.259999999999998,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "fan2_rpm": 4080.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "fan3_rpm": 3780.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "fan4_rpm": 3780.0
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "psu_id": 6,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "vin_volts": 277.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "iin_amps": 0.97999999999999998,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "pin_watts": 13.5,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "input_ac_freq_hz": 60.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "ithd_percent": 26.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "power_factor": 0.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "vout_volts": 50.009999999999998,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "iout_amps": 0.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "pout_watts": 0.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "inlet_temp_celsius": 21.77,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "outlet_temp_celsius": 36.939999999999998,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "fan1_rpm": 4080.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "ishare": 0.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "pos_busbar_temp_celsius": 39.950000000000003,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "neg_busbar_temp_celsius": 40.840000000000003,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "fan2_rpm": 4080.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "fan3_rpm": 3780.0,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "fan4_rpm": 3780.0
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:     }
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:   ]
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]: }
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 06:00:23",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:   "shelf_id": 1,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:   "dynamic_status": [
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "psu_id": 1,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "other": {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "power_led": "ON",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "status_led": "OFF"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "system": {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "system_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "pfc_converter_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "main_converter_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "communication_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "dcdc_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "pfc_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "logic_mcu_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "secondary_mcu_status": "NORMAL"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "input": {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "vin_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "input_freq_status": "NORMAL"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "output": {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "vout_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "iout_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "pout_status": "NORMAL"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "temperature": {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "inlet_temp_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "outlet_temp_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "hotspot_temp_status": "NORMAL"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "fan": {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "fan1_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "fan2_status": "NORMAL"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       }
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "psu_id": 4,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "other": {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "power_led": "ON",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "status_led": "OFF"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "system": {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "system_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "pfc_converter_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "main_converter_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "communication_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "dcdc_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "pfc_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "logic_mcu_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "secondary_mcu_status": "NORMAL"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "input": {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "vin_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "input_freq_status": "NORMAL"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "output": {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "vout_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "iout_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "pout_status": "NORMAL"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "temperature": {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "inlet_temp_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "outlet_temp_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "hotspot_temp_status": "NORMAL"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "fan": {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "fan1_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "fan2_status": "NORMAL"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       }
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "psu_id": 5,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "other": {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "power_led": "ON",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "status_led": "OFF"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "system": {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "system_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "pfc_converter_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "main_converter_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "communication_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "dcdc_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "pfc_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "logic_mcu_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "secondary_mcu_status": "NORMAL"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "input": {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "vin_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "input_freq_status": "NORMAL"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "output": {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "vout_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "iout_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "pout_status": "NORMAL"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "temperature": {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "inlet_temp_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "outlet_temp_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "hotspot_temp_status": "NORMAL"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "fan": {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "fan1_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "fan2_status": "NORMAL"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       }
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "psu_id": 6,
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "other": {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "power_led": "ON",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "status_led": "OFF"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "system": {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "system_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "pfc_converter_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "main_converter_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "communication_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "dcdc_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "pfc_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "logic_mcu_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "secondary_mcu_status": "NORMAL"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "input": {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "vin_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "input_freq_status": "NORMAL"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "output": {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "vout_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "iout_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "pout_status": "NORMAL"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "temperature": {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "inlet_temp_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "outlet_temp_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "hotspot_temp_status": "NORMAL"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       },
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       "fan": {
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "fan1_status": "NORMAL",
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:         "fan2_status": "NORMAL"
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:       }
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:     }
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]:   ]
+Nov 13 06:00:43 artesyn-shelf pmpsu[17552]: }
+Nov 13 06:00:45 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 80
+Nov 13 06:00:48 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 83
+Nov 13 06:00:51 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 84
+Nov 13 06:00:55 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 85
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 06:00:45",
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:   "shelf_id": 1,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:   "dynamic_reading": [
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "psu_id": 1,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "vin_volts": 279.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "iin_amps": 0.95999999999999996,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "pin_watts": 15.5,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "input_ac_freq_hz": 60.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "ithd_percent": 23.5,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "power_factor": 0.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "vout_volts": 50.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "iout_amps": 0.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "pout_watts": 0.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "inlet_temp_celsius": 23.98,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "outlet_temp_celsius": 37.399999999999999,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "fan1_rpm": 4080.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "ishare": 0.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "pos_busbar_temp_celsius": 40.5,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "neg_busbar_temp_celsius": 41.289999999999999,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "fan2_rpm": 4080.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "fan3_rpm": 3780.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "fan4_rpm": 3780.0
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "psu_id": 4,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "vin_volts": 279.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "iin_amps": 0.93999999999999995,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "pin_watts": 17.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "input_ac_freq_hz": 60.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "ithd_percent": 20.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "power_factor": 0.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "vout_volts": 50.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "iout_amps": 0.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "pout_watts": 0.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "inlet_temp_celsius": 22.149999999999999,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "outlet_temp_celsius": 37.380000000000003,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "fan1_rpm": 4080.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "ishare": 0.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "pos_busbar_temp_celsius": 40.229999999999997,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "neg_busbar_temp_celsius": 41.259999999999998,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "fan2_rpm": 4080.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "fan3_rpm": 3750.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "fan4_rpm": 3750.0
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "psu_id": 5,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "vin_volts": 278.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "iin_amps": 0.94999999999999996,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "pin_watts": 15.5,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "input_ac_freq_hz": 60.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "ithd_percent": 22.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "power_factor": 0.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "vout_volts": 50.07,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "iout_amps": 0.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "pout_watts": 0.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "inlet_temp_celsius": 22.09,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "outlet_temp_celsius": 37.170000000000002,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "fan1_rpm": 4080.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "ishare": 0.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "pos_busbar_temp_celsius": 40.310000000000002,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "neg_busbar_temp_celsius": 41.469999999999999,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "fan2_rpm": 4080.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "fan3_rpm": 3780.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "fan4_rpm": 3780.0
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "psu_id": 6,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "vin_volts": 277.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "iin_amps": 0.97999999999999998,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "pin_watts": 9.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "input_ac_freq_hz": 60.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "ithd_percent": 26.5,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "power_factor": 0.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "vout_volts": 50.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "iout_amps": 0.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "pout_watts": 0.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "inlet_temp_celsius": 21.800000000000001,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "outlet_temp_celsius": 36.979999999999997,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "fan1_rpm": 4080.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "ishare": 0.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "pos_busbar_temp_celsius": 40.329999999999998,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "neg_busbar_temp_celsius": 41.149999999999999,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "fan2_rpm": 4080.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "fan3_rpm": 3780.0,
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:       "fan4_rpm": 3780.0
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:     }
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]:   ]
+Nov 13 06:00:58 artesyn-shelf pmpsu[17552]: }
+Nov 13 06:01:00 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 80
+Nov 13 06:01:03 artesyn-shelf pmpsu[17552]: [!!!] list: 81
+Nov 13 06:01:04 artesyn-shelf pmpsu[17552]: [!!!] list: 82
+Nov 13 06:01:05 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 83
+Nov 13 06:01:08 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 84
+Nov 13 06:01:11 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 85
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 06:01:00",
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:   "shelf_id": 1,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:   "dynamic_reading": [
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "psu_id": 1,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "vin_volts": 279.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "iin_amps": 0.95999999999999996,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "pin_watts": 12.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "input_ac_freq_hz": 60.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "ithd_percent": 23.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "power_factor": 0.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "vout_volts": 50.049999999999997,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "iout_amps": 0.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "pout_watts": 0.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "inlet_temp_celsius": 23.98,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "outlet_temp_celsius": 37.399999999999999,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "fan1_rpm": 4080.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "ishare": 0.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "pos_busbar_temp_celsius": 40.450000000000003,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "neg_busbar_temp_celsius": 41.259999999999998,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "fan2_rpm": 4080.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "fan3_rpm": 3780.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "fan4_rpm": 3780.0
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "psu_id": 4,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "vin_volts": 279.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "iin_amps": 0.93999999999999995,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "pin_watts": 20.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "input_ac_freq_hz": 60.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "ithd_percent": 20.5,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "power_factor": 0.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "vout_volts": 49.990000000000002,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "iout_amps": 0.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "pout_watts": 0.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "inlet_temp_celsius": 22.149999999999999,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "outlet_temp_celsius": 37.450000000000003,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "fan1_rpm": 4080.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "ishare": 0.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "pos_busbar_temp_celsius": 40.359999999999999,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "neg_busbar_temp_celsius": 41.299999999999997,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "fan2_rpm": 4080.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "fan3_rpm": 3750.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "fan4_rpm": 3750.0
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "psu_id": 5,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "vin_volts": 278.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "iin_amps": 0.93999999999999995,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "pin_watts": 13.5,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "input_ac_freq_hz": 60.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "ithd_percent": 22.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "power_factor": 0.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "vout_volts": 50.039999999999999,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "iout_amps": 0.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "pout_watts": 0.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "inlet_temp_celsius": 22.149999999999999,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "outlet_temp_celsius": 37.159999999999997,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "fan1_rpm": 4080.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "ishare": 0.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "pos_busbar_temp_celsius": 40.329999999999998,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "neg_busbar_temp_celsius": 41.299999999999997,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "fan2_rpm": 4080.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "fan3_rpm": 3780.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "fan4_rpm": 3780.0
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:     },
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "psu_id": 6,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "vin_volts": 277.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "iin_amps": 0.97999999999999998,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "pin_watts": 14.5,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "input_ac_freq_hz": 60.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "ithd_percent": 26.5,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "power_factor": 0.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "vout_volts": 50.009999999999998,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "iout_amps": 0.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "pout_watts": 0.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "inlet_temp_celsius": 21.84,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "outlet_temp_celsius": 37.009999999999998,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "fan1_rpm": 4080.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "ishare": 0.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "pos_busbar_temp_celsius": 40.200000000000003,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "neg_busbar_temp_celsius": 41.289999999999999,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "fan2_rpm": 4080.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "fan3_rpm": 3780.0,
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:       "fan4_rpm": 3780.0
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:     }
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]:   ]
+Nov 13 06:01:14 artesyn-shelf pmpsu[17552]: }
+Nov 13 06:01:16 artesyn-shelf pmpsu[17552]: [!!!] dynamic: 80
+Nov 13 06:01:19 artesyn-shelf pmpsu[17552]: [!!!] static: 81
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]: [!!!] userdata: {
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]:   "timestamp": "2026-11-13 06:01:16",
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]:   "shelf_id": 1,
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]:   "static": [
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]:     {
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]:       "psu_id": 2,
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]:       "manufacturer": "Advanced Energy Industries, Inc",
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]:       "part_number": "700-055248-0000",
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]:       "serial_number": "2726PSU4AEL00440",
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]:       "manufacture_date": "2026-06-29",
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]:       "manufacture_location": "Philippines",
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]:       "hw_version": "X02",
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]:       "fw_version": "008F",
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]:       "min_vin": 192.8125,
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]:       "max_vin": 208.75,
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]:       "max_iin": 0.0,
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]:       "max_pin": 0.0,
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]:       "min_vout": 44.0,
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]:       "max_vout": 52.5,
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]:       "max_iout": 30.0,
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]:       "max_pout": 3300.0,
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]:       "min_ambient_temp": 90.3828125,
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]:       "max_ambient_temp": 96.3984375
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]:     }
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]:   ]
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]: }
+Nov 13 06:01:21 artesyn-shelf pmpsu[17552]: [!!!] static: 82
