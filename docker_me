@@ -1,0 +1,193 @@
+now, what I want is for the building of modules/repo can be ran locally or remote(build server - our current setup)
+this is for the 
+
+like for example, I can chooses whether to choose local or remote, if locally, I mean just the same with build server, need to provide ip(password if will be using wsl)
+
+then 
+since we migrated from dunfell to wrynose, there's a selection as well, of course for both local and remote, whether to use docker or not
+
+when docker,
+docker image name must be filled, (to check if available)
+feature like to upload sscript(like run.sh) or just like for example there's already script in the /usr/bin or /usr/local/bin, can be without uploading
+or maybe like pmc-scan.sh, we can already have that then put and use that?
+example of run.sh
+cat /usr/local/bin/run.sh
+#!/usr/bin/env bash
+#
+# Starts a container from the image built by ./build.sh.
+#
+# Usage:
+#   ./run.sh                    open a shell (PROJECT_DIR defaults to the current directory)
+#   ./run.sh /path/to/project   open a shell with that folder mounted at /work
+#   ./run.sh exec "cmd"         run one command and exit, e.g.
+#                               ./run.sh exec "kas build orv3.yml"
+#
+# Config (env vars, all optional):
+#   PROJECT_DIR     Host folder mounted to /work. Default: current directory.
+#   DL_DIR          Host download cache, mounted at /home/build/downloads.
+#                   Default: /mnt/downloads-wrynose if it exists and is
+#                   writable, else ~/.cache/yocto-pmc/downloads-wrynose.
+#   SSTATE_DIR      Host sstate cache, mounted at /home/build/sstate-cache.
+#                   Default: /mnt/sstate-cache-wrynose if it exists and is
+#                   writable, else ~/.cache/yocto-pmc/sstate-wrynose.
+#                   Never share a cache between Yocto releases.
+#   SSH_DIR         Host ~/.ssh, mounted read-only and copied inside.
+#   FORWARD_SSH_AGENT=1   Also forward your ssh agent into the container.
+#   CERTS_DIR       Folder of extra *.crt root CAs to trust at runtime.
+#   GITCONFIG       Host gitconfig to reuse. Default: ~/.gitconfig.
+#   GIT_USER_NAME / GIT_USER_EMAIL     Git identity inside the container.
+#   GIT_SSH_KNOWN_HOSTS_EXTRA          Extra ssh hosts to trust, space separated.
+#   SKIP_NET_CHECK=1                   Skip the startup TLS check.
+#   PORTS           Ports to publish, e.g. "2323:2323 8080:8080".
+#   CPUS / MEMORY   Optional limits, e.g. CPUS=8 MEMORY=24g.
+#   HTTP_PROXY / HTTPS_PROXY / NO_PROXY (and lowercase) are forwarded.
+#   IMAGE_NAME      Default: yocto-builder-pmc:wrynose
+#   CONTAINER_NAME  Default: yocto-builder-pmc-<your username>
+#
+set -euo pipefail
+
+IMAGE_NAME="${IMAGE_NAME:-yocto-builder-pmc:wrynose}"
+CONTAINER_BASE="${CONTAINER_NAME:-yocto-builder-pmc-$(id -un)}"
+
+PROJECT_DIR="${PROJECT_DIR:-$(pwd)}"
+SSH_DIR="${SSH_DIR:-$HOME/.ssh}"
+CERTS_DIR="${CERTS_DIR:-}"
+GITCONFIG="${GITCONFIG:-$HOME/.gitconfig}"
+CONTAINER_HOME="/home/build"
+
+pick_dir() {  # shared dir if usable, else per-user fallback
+    if [ -d "$1" ] && [ -w "$1" ]; then echo "$1"; else echo "$2"; fi
+}
+DL_DIR="${DL_DIR:-$(pick_dir /mnt/downloads-wrynose "$HOME/.cache/yocto-pmc/downloads-wrynose")}"
+SSTATE_DIR="${SSTATE_DIR:-$(pick_dir /mnt/sstate-cache-wrynose "$HOME/.cache/yocto-pmc/sstate-wrynose")}"
+
+usage() { sed -n '2,32p' "$0"; }
+
+ACTION="${1:-shell}"
+case "$ACTION" in
+    -h|--help|help) usage; exit 0 ;;
+    shell) CMD=(/bin/bash) ;;
+    exec)
+        shift
+        [ $# -ge 1 ] || { echo "Usage: $0 exec \"command\"" >&2; exit 1; }
+        CMD=(/bin/bash -lc "$*")
+        ;;
+    *)
+        if [ -d "$ACTION" ]; then
+            PROJECT_DIR="$(cd -- "$ACTION" && pwd)"
+            CMD=(/bin/bash)
+        else
+            echo "'$ACTION' is not a subcommand or an existing folder." >&2
+            usage >&2
+            exit 1
+        fi
+        ;;
+esac
+
+if ! docker info >/dev/null 2>&1; then
+    echo "ERROR: cannot talk to Docker. Is your user in the 'docker' group?" >&2
+    exit 1
+fi
+if ! docker image inspect "$IMAGE_NAME" >/dev/null 2>&1; then
+    echo "ERROR: image $IMAGE_NAME not found. Build it first with ./build.sh" >&2
+    exit 1
+fi
+if [ ! -d "$SSH_DIR" ]; then
+    echo "ERROR: SSH_DIR ($SSH_DIR) not found. Set SSH_DIR or create it." >&2
+    exit 1
+fi
+
+mkdir -p "$DL_DIR" "$SSTATE_DIR"
+
+# Several people can use the server at once: never reuse a running name.
+CONTAINER_NAME="$CONTAINER_BASE"
+if [ -n "$(docker ps -q -f "name=^${CONTAINER_NAME}$")" ]; then
+    CONTAINER_NAME="${CONTAINER_BASE}-$(date +%H%M%S)"
+fi
+
+# ---------------------------------------------------------------------------
+# passwd file for the container.
+# ssh (and some other tools) ignore $HOME and use the home directory from the
+# passwd entry. The host entry says e.g. /home/melvin, which does not exist in
+# the container, so ssh could not find keys or write known_hosts. Build a copy
+# of the host passwd where THIS user's home is /home/build and the shell is
+# bash. getent is used so LDAP/sssd users (not in /etc/passwd) work too.
+# ---------------------------------------------------------------------------
+STATE_DIR="$HOME/.cache/yocto-pmc"
+mkdir -p "$STATE_DIR"
+PASSWD_FILE="$STATE_DIR/passwd.$(id -u)"
+MY_UID="$(id -u)"
+{
+    awk -F: -v uid="$MY_UID" '$3 != uid' /etc/passwd
+    getent passwd "$MY_UID" | awk -F: -v OFS=: -v home="$CONTAINER_HOME" \
+        '{ $6 = home; $7 = "/bin/bash"; print }'
+} > "$PASSWD_FILE"
+chmod 644 "$PASSWD_FILE"
+if ! grep -q "^[^:]*:[^:]*:${MY_UID}:" "$PASSWD_FILE"; then
+    echo "ERROR: could not build a passwd entry for uid ${MY_UID}." >&2
+    exit 1
+fi
+
+MOUNTS=(
+    -v "${PROJECT_DIR}:/work"
+    -v "${DL_DIR}:${CONTAINER_HOME}/downloads"
+    -v "${SSTATE_DIR}:${CONTAINER_HOME}/sstate-cache"
+    -v "${SSH_DIR}:${CONTAINER_HOME}/.ssh-host:ro"
+    -v "${PASSWD_FILE}:/etc/passwd:ro"
+    -v /etc/group:/etc/group:ro
+)
+[ -f "$GITCONFIG" ] && MOUNTS+=(-v "${GITCONFIG}:${CONTAINER_HOME}/.gitconfig-host:ro")
+if [ -n "$CERTS_DIR" ] && [ -d "$CERTS_DIR" ]; then
+    MOUNTS+=(-v "${CERTS_DIR}:${CONTAINER_HOME}/.certs-host:ro")
+fi
+if [ "${FORWARD_SSH_AGENT:-0}" = "1" ] && [ -n "${SSH_AUTH_SOCK:-}" ] && [ -S "$SSH_AUTH_SOCK" ]; then
+    MOUNTS+=(-v "${SSH_AUTH_SOCK}:/ssh-agent" -e SSH_AUTH_SOCK=/ssh-agent)
+fi
+
+ENV_ARGS=(
+    -e "GIT_USER_NAME=${GIT_USER_NAME:-$(git config --global user.name 2>/dev/null || true)}"
+    -e "GIT_USER_EMAIL=${GIT_USER_EMAIL:-$(git config --global user.email 2>/dev/null || true)}"
+)
+for var in HTTP_PROXY HTTPS_PROXY NO_PROXY http_proxy https_proxy no_proxy \
+           GIT_SSH_KNOWN_HOSTS_EXTRA SKIP_NET_CHECK; do
+    if [ -n "${!var:-}" ]; then
+        ENV_ARGS+=(-e "${var}=${!var}")
+    fi
+done
+
+# Keep your supplementary groups, so shared group-writable caches work.
+GROUP_ARGS=()
+for g in $(id -G); do GROUP_ARGS+=(--group-add "$g"); done
+
+PORT_ARGS=()
+for p in ${PORTS:-}; do PORT_ARGS+=(-p "$p"); done
+
+LIMIT_ARGS=()
+[ -n "${CPUS:-}" ] && LIMIT_ARGS+=(--cpus "$CPUS")
+[ -n "${MEMORY:-}" ] && LIMIT_ARGS+=(--memory "$MEMORY")
+
+TTY_ARGS=(-i)
+[ -t 0 ] && [ -t 1 ] && TTY_ARGS=(-it)
+
+echo ">> project : ${PROJECT_DIR} -> /work"
+echo ">> downloads: ${DL_DIR} -> ${CONTAINER_HOME}/downloads"
+echo ">> sstate   : ${SSTATE_DIR} -> ${CONTAINER_HOME}/sstate-cache"
+
+exec docker run --rm --init "${TTY_ARGS[@]}" \
+    --name "$CONTAINER_NAME" \
+    --hostname yocto-builder \
+    --user "$(id -u):$(id -g)" \
+    "${GROUP_ARGS[@]}" \
+    "${MOUNTS[@]}" \
+    "${ENV_ARGS[@]}" \
+    "${PORT_ARGS[@]}" \
+    "${LIMIT_ARGS[@]}" \
+    -w /work \
+    "$IMAGE_NAME" \
+    "${CMD[@]}"
+	
+then if course, if failed or what, we need the logs of failure, like the lOgs FOr devtool that we have
+
+then maybe if there's already 1 running docker image, we can use that as well if we will to build other repo instead of creating other docker with the same image or what? up to you in that case
+
+I mean that's the feature I really want to add, local/remote and docker or not
